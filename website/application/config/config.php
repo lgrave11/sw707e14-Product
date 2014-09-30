@@ -24,7 +24,7 @@ define('URL', 'http://127.0.0.1/');
  * Configuration for: Database
  * This is the place where you define your database credentials, database type etc.
  */
-define('DB_HOST', '127.0.0.1');
+define('DB_HOST', 'localhost');
 define('DB_NAME', 'bicycle-db');
 define('DB_USER', 'sw707e14');
 define('DB_PASS', 'saledes');
