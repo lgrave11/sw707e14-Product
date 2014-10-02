@@ -1,0 +1,33 @@
+Best practices:
+(http://www.yiiframework.com/doc/guide/1.1/en/basics.best-practices)
+
+Model:
+Entity models (as in database entities)
+ - only implement CRUD or similar
+
+Interface model (between controller and entities)
+ - Business logic e. g. validation rules (fulfills design requirements)
+ - may contain code for manipulating data (e.g. search)
+ - may not contain: HTML, $_GET, $_POST
+ 
+View:
+ - HTML, simple PHP to traverse, format and render data
+ - No DB quieries
+ - Display and layout, not dealing with $_GET and $_POST either
+ - Use a View Helper class to help do formatting of data or generate HTML tags (possibly an autoloaded class)
+ - Reuse views when necessary (one page can consist of several views)
+ 
+Controller:
+ - contains code for dealing directly with end users
+ - may contain $_GET, $_POST
+ - maintain the model such that it is up to date:
+    updating an existing model
+    creating a new model
+    deleting a model
+    choose which view to show to the end user
+ - No SQL statements! (use the model)
+ - No HTML (use the views)
+
+In general:
+Controllers are very thin, only few dozen lines of code
+Models are very fat containing code for representation and manipulation of data
