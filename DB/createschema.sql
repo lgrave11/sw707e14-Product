@@ -9,7 +9,7 @@ CREATE TABLE station
 (
    station_id int AUTO_INCREMENT PRIMARY KEY,
    name varchar(50),
-   adresse varchar(100)
+   address varchar(100)
 );
 
 CREATE TABLE bicycle
@@ -35,24 +35,16 @@ CREATE TABLE booking
 	start_time timestamp NOT NULL,
 	start_station int NOT NULL,
 	password varchar(6) NOT NULL,
-	FOREIGN KEY(start_station) REFERENCES station(station_id)
+	for_user varchar(50) NOT NULL,
+	FOREIGN KEY(start_station) REFERENCES station(station_id),
+	FOREIGN KEY(for_user) REFERENCES account(username);
 );
 
 CREATE TABLE account
 (
 	username varchar(50) PRIMARY KEY,
 	password varchar(64) NOT NULL,
-	salt varchar(8) NOT NULL
-);
-
-CREATE TABLE books
-(
-	booking_id int,
-	username varchar(50),
-	PRIMARY KEY(booking_id, username),
-	FOREIGN KEY(username) REFERENCES account(username),
-	FOREIGN KEY(booking_id) REFERENCES booking(booking_id)
-	
+	salt varchar(64) NOT NULL
 );
 
 INSERT INTO station(name) VALUES ("Banegården - Busterminal");--  1;
