@@ -1,6 +1,6 @@
 <?php
 
-class DockService{
+class DockService implements iService{
 	private $db = null;
 
 	function __construct($db) {
@@ -61,9 +61,9 @@ class DockService{
     	return $returnArray;
     }
 
-    public function create($station_id){
+    public function create($dock){
     	$stmt = $this->db->prepare("INSERT INTO dock(station_id) VALUES (?)");
-        $stmt->bind_param("i", $station_id);
+        $stmt->bind_param("i", $dock->station_id);
         $stmt->execute();
         $id = $this->db->insert_id;
         $stmt->close();
@@ -79,9 +79,9 @@ class DockService{
     	return $dock;
     }
 
-    public function delete($id){
-    	$stmt = $this->db->prepare("DELETE FROM dock WHERE dock_id = ?");
-    	$stmt->bind_param("i", $id);
+    public function delete($dock){
+    	$stmt = $this->db->prepare("DELETE FROM dock WHERE dock_id = ?, station_id = ?");
+    	$stmt->bind_param("ii", $dock->dock_id, $dock->station_id);
     	$stmt->execute();
     	$stmt->close();
     }

@@ -1,6 +1,6 @@
 <?php
 
-class AccountService
+class AccountService implements iService
 {
 	$db = null;
 
@@ -29,16 +29,16 @@ class AccountService
 		return hash('sha256', $password . $salt);
 	}
 
-	public function read($username)
+	public function read($account)
     {
     	$stmt = $this->db->prepare("SELECT username, password, salt FROM account WHERE username = ?");
-    	$stmt->bind_param("s", $username);
+    	$stmt->bind_param("s", $account->username);
     	$stmt->execute();
     	$stmt->bind_result($user, $password, $salt);
     	$stmt->fetch();
     	$stmt->close();
 
-        return new Account($username, $password, $salt);
+        return new Account($account->username, $password, $salt);
     }
 
     public function update($account)
@@ -65,10 +65,10 @@ class AccountService
     * deletes user based on the username
     * @param $username the username
     */
-    public function delete($username)
+    public function delete($account)
     {
     	$stmt = $this->db->prepare("DELETE FROM account WHERE username = ?");
-    	$stmt->bind_param("s",$username);
+    	$stmt->bind_param("s",$account->username);
     	$stmt->execute();
     	$stmt->close();
     }

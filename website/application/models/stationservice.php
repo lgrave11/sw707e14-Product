@@ -1,6 +1,7 @@
 <?php
 
-class StationService{
+class StationService implements iService
+{
 	private $db = null;
 	
 	function __construct($db) {
@@ -51,9 +52,9 @@ class StationService{
         return $dock;
     }
 
-    public function delete($station_id){
+    public function delete($station){
         $stmt = $this->db->prepare("DELETE FROM station WHERE station_id = ?")
-        $stmt->bind_param("i", $station_id);
+        $stmt->bind_param("i", $station->station_id);
         $stmt->execute();
         $stmt->close();
     }

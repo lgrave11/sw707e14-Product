@@ -1,6 +1,6 @@
 <?php
-class BookingService
-	
+class BookingService implements iService
+{
 	$db = null;
 
 	function __construct($database){
@@ -54,12 +54,12 @@ class BookingService
 		return $booking;
 	}
 
-	public function delete($booking_id)
+	public function delete($booking)
 	{
 		$stmt = $this->db->prepare("DELETE FROM booking WHERE booking_id = ?");
-		$stmt->bind_param("i", $booking_id);
+		$stmt->bind_param("i", $booking->booking_id);
 		$stmt->execute();
 		$stmt->close();
 	}
-
+}
 ?>
