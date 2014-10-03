@@ -52,14 +52,14 @@ class BicycleFactory
 	* @param $latitude the latitude
     * @return an updated Bicycle object
     */
-    public function update($id, $longitude, $latitude)
+    public function update($bicycle)
     {
     	$stmt = $this->db->prepare("UPDATE bicycle SET longitude = ?, latitude = ? WHERE bicycle_id = ?");
-    	$stmt->bind_param("ddi",$longitude, $latitude);
+    	$stmt->bind_param("ddi",$bicycle->longitude, $bicycle->latitude, $bicycle->bicycle_id);
     	$stmt->execute();
     	$stmt->close();
 
-        return new Bicycle($id, $longitude, $latitude);
+        return $bicycle;
     }
 
     /**

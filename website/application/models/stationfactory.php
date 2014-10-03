@@ -34,6 +34,29 @@ class StationFactory{
     	$stmt->close();
     	return $returnArray;
     }
+
+    public function create($station){
+        $stmt = $this->db->prepare("INSERT INTO station(station_id, name, address) VALUES (?,?,?)");
+        $stmt->bind_param("iii", $station->station_id, $station->name, $station->address);
+        $stmt->execute();
+        $stmt->close();
+        return $station;
+    }
+
+        public function update($station){
+        $stmt = $this->db->prepare("UPDATE station set name = ?, address = ? WHERE station_id = ?");
+        $stmt->bind_param("iii", $station->name, $station->address, $station->station_id);
+        $stmt->execute();
+        $stmt->close();
+        return $dock;
+    }
+
+    public function delete($station_id){
+        $stmt = $this->db->prepare("DELETE FROM station WHERE station_id = ?")
+        $stmt->bind_param("i", $station_id);
+        $stmt->execute();
+        $stmt->close();
+    }
 }
 
 ?>
