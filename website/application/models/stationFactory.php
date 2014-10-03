@@ -1,6 +1,15 @@
 <?php
 
-class StationFactory extends BaseClass{
+class StationFactory{
+	private $db = null;
+	
+	function __construct($db) {
+        try {
+            $this->db = $db;
+        } catch (Exception $e) {
+            exit('Database connection could not be established.');
+        }
+    }
 
     public function readAddressForStation($station_id){
     	$stmt = $this->db->prepare("SELECT * FROM station WHERE station_id = ?");
