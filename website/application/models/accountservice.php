@@ -1,6 +1,6 @@
 <?php
 
-class AccountFactory
+class AccountService
 {
 	$db = null;
 

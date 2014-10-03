@@ -1,6 +1,6 @@
 <?php
 
-class DockFactory{
+class DockService{
 	private $db = null;
 
 	function __construct($db) {

@@ -1,7 +1,7 @@
 <?php
 
 //create read update delete
-class BicycleFactory
+class BicycleService
 {
 	private $db = null;
 
