@@ -1,7 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="stylesheet" type="text/css" href="/public/css/style.css">
 <title>Title of the document</title>
 </head>
 
 <body>
+	<div id="container">
+	<div id="navbar">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+			<td>
+				Frontpage
+			</td>
+			<td>
+				Status
+			</td>
+			<td>
+				Book
+			</td>
+			<td>
+				Profile
+			</td>
+			<td>
+				Login
+			</td>
+			</tr>
+		</table>
+	</div>

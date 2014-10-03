@@ -5,7 +5,7 @@
         <text>A%20Web%20Page%0Ahttp%3A//</text>
       </controlProperties>
     </control>
-    <control controlID="4" controlTypeID="com.balsamiq.mockups::List" x="191" y="115" w="354" h="245" measuredW="100" measuredH="126" zOrder="1" locked="false" isInGroup="-1">
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::List" x="191" y="133" w="354" h="227" measuredW="100" measuredH="126" zOrder="1" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Usage%20History</text>
       </controlProperties>
@@ -18,6 +18,11 @@
     <control controlID="6" controlTypeID="com.balsamiq.mockups::Button" x="393" y="360" w="-1" h="-1" measuredW="129" measuredH="27" zOrder="3" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Return%20to%20Booking</text>
+      </controlProperties>
+    </control>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::ButtonBar" x="81" y="104" w="591" h="29" measuredW="331" measuredH="27" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Frontpage%2C%20Status%2C%20Book%2C%20Profile%2C%20Log%20out</text>
       </controlProperties>
     </control>
   </controls>

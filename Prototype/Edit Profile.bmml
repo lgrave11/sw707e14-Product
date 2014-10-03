@@ -10,7 +10,7 @@
         <text>Current%20Password</text>
       </controlProperties>
     </control>
-    <control controlID="7" controlTypeID="com.balsamiq.mockups::Label" x="316" y="117" w="-1" h="-1" measuredW="62" measuredH="21" zOrder="2" locked="false" isInGroup="-1">
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::Label" x="309" y="132" w="-1" h="-1" measuredW="62" measuredH="21" zOrder="2" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Username</text>
       </controlProperties>
@@ -88,6 +88,11 @@
     <control controlID="22" controlTypeID="com.balsamiq.mockups::Label" x="530" y="443" w="-1" h="-1" measuredW="91" measuredH="21" zOrder="16" locked="false" isInGroup="-1">
       <controlProperties>
         <text>History%20Window</text>
+      </controlProperties>
+    </control>
+    <control controlID="23" controlTypeID="com.balsamiq.mockups::ButtonBar" x="81" y="103" w="591" h="29" measuredW="331" measuredH="27" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Frontpage%2C%20Status%2C%20Book%2C%20Profile%2C%20Log%20out</text>
       </controlProperties>
     </control>
   </controls>

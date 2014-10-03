@@ -91,5 +91,15 @@
         <text>Booking%20window</text>
       </controlProperties>
     </control>
+    <control controlID="22" controlTypeID="com.balsamiq.mockups::ButtonBar" x="79" y="103" w="591" h="29" measuredW="256" measuredH="27" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Frontpage%2C%20Status%2C%20Book%2C%20Login</text>
+      </controlProperties>
+    </control>
+    <control controlID="23" controlTypeID="com.balsamiq.mockups::ButtonBar" x="841" y="103" w="591" h="29" measuredW="256" measuredH="27" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Frontpage%2C%20Status%2C%20Book%2C%20Login</text>
+      </controlProperties>
+    </control>
   </controls>
 </mockup>
