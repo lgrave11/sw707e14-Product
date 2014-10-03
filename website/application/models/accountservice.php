@@ -15,13 +15,20 @@ class AccountService implements iService
 
 	public function create($account)
 	{
-		$stmt = $this->db->prepare("INSERT INTO  account(username, password, salt) VALUES (?, ?, ?)");
-		$salt = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 64);
-		$hashedPassword = $this->hashPassword($account->password, $salt);
-		$stmt->bind_param("sss", $account->username, $hashedPassword, $salt);
-		$stmt->execute();
-		$stmt->close();
-        return new Account($username, $hashedPassword, $salt);
+        if(validate($account))
+        {
+    		$stmt = $this->db->prepare("INSERT INTO  account(username, password, salt) VALUES (?, ?, ?)");
+    		$salt = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 64);
+    		$hashedPassword = $this->hashPassword($account->password, $salt);
+    		$stmt->bind_param("sss", $account->username, $hashedPassword, $salt);
+    		$stmt->execute();
+    		$stmt->close();
+            return new Account($username, $hashedPassword, $salt);
+        }
+        else
+        {
+            return null;
+        }
 	}
 
 	private function hashPassword($password, $salt)
@@ -31,34 +38,48 @@ class AccountService implements iService
 
 	public function read($account)
     {
-    	$stmt = $this->db->prepare("SELECT username, password, salt FROM account WHERE username = ?");
-    	$stmt->bind_param("s", $account->username);
-    	$stmt->execute();
-    	$stmt->bind_result($user, $password, $salt);
-    	$stmt->fetch();
-    	$stmt->close();
-
-        return new Account($account->username, $password, $salt);
+        if(validate($account))
+        {
+        	$stmt = $this->db->prepare("SELECT username, password, salt FROM account WHERE username = ?");
+        	$stmt->bind_param("s", $account->username);
+        	$stmt->execute();
+        	$stmt->bind_result($user, $password, $salt);
+        	$stmt->fetch();
+        	$stmt->close();
+            return new Account($account->username, $password, $salt);
+        }
+        else
+        {
+            return null;
+        }
+        
     }
 
     public function update($account)
     {
-    	//lookup salt
-    	$stmt = $this->db->prepare("SELECT salt from account WHERE username = ?");
-    	$stmt->bind_param("s", $account->username);
-    	$stmt->execute();
-    	$stmt->bind_result($salt);
-    	$stmt->fetch();
-    	$stmt->close();
+        if(validate($account))
+        {
+        	//lookup salt
+        	$stmt = $this->db->prepare("SELECT salt from account WHERE username = ?");
+        	$stmt->bind_param("s", $account->username);
+        	$stmt->execute();
+        	$stmt->bind_result($salt);
+        	$stmt->fetch();
+        	$stmt->close();
 
-    	//Do the update
-    	$stmt = $this->db->prepare("UPDATE account SET password = ? WHERE username = ?");
-    	$hashedPassword = $this->hashedPassword($account->password, $salt)
-    	$stmt->bind_param("s", $hashedPassword);
-    	$stmt->execute();
-    	$stmt->close();
+        	//Do the update
+        	$stmt = $this->db->prepare("UPDATE account SET password = ? WHERE username = ?");
+        	$hashedPassword = $this->hashedPassword($account->password, $salt)
+        	$stmt->bind_param("s", $hashedPassword);
+        	$stmt->execute();
+        	$stmt->close();
 
-        return new Account($account->username, $hashedPassword, $salt);
+            return new Account($account->username, $hashedPassword, $salt);
+        }
+        else
+        {
+            return null;
+        }
     }
 
     /**
@@ -67,13 +88,21 @@ class AccountService implements iService
     */
     public function delete($account)
     {
-    	$stmt = $this->db->prepare("DELETE FROM account WHERE username = ?");
-    	$stmt->bind_param("s",$account->username);
-    	$stmt->execute();
-    	$stmt->close();
+        if(validate($account))
+        {
+        	$stmt = $this->db->prepare("DELETE FROM account WHERE username = ?");
+        	$stmt->bind_param("s",$account->username);
+        	$stmt->execute();
+        	$stmt->close();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
-    private function validate($account)
+    public function validate($account)
     {
         return true;
     }

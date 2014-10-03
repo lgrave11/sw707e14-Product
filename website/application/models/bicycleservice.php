@@ -20,13 +20,19 @@ class BicycleService implements iService
 	*/
 	public function create($bicycle)
 	{
-		$stmt = $this->db->prepare("INSERT INTO bicycle(longitude, latitude) VALUES (?,?)");
-        $stmt->bind_param("dd", $bicycle->longitude, $bicycle->latitude);
-		$stmt->execute();
-		$id = $this->db->insert_id;
-		$stmt->close();
-
-        return new Bicycle($id, null, null);
+        if(validate($bicycle))
+        {
+    		$stmt = $this->db->prepare("INSERT INTO bicycle(longitude, latitude) VALUES (?,?)");
+            $stmt->bind_param("dd", $bicycle->longitude, $bicycle->latitude);
+    		$stmt->execute();
+    		$id = $this->db->insert_id;
+    		$stmt->close();
+            return new Bicycle($id, null, null);
+        }
+        else
+        {
+            return null;
+        }
 	}
 
 	/**
@@ -42,8 +48,14 @@ class BicycleService implements iService
     	$stmt->bind_result($bicycle_id, $longitude, $latitude);
     	$stmt->fetch();
     	$stmt->close();
-
-        return new Bicycle($bicycle_id, $longitude, $latitude);
+        if(isset($bicycle_id))
+        {
+            return new Bicycle($bicycle_id, $longitude, $latitude);    
+        }
+        else
+        {
+            return null;
+        }
     }
 
     /**
@@ -55,15 +67,23 @@ class BicycleService implements iService
     */
     public function update($bicycle)
     {
-    	$stmt = $this->db->prepare("UPDATE bicycle SET longitude = ?, latitude = ? WHERE bicycle_id = ?");
-    	$stmt->bind_param("ddi",
-            $bicycle->longitude, 
-            $bicycle->latitude, 
-            $bicycle->bicycle_id);
-    	$stmt->execute();
-    	$stmt->close();
+        if(validate($bicycle))
+        {
+        	$stmt = $this->db->prepare("UPDATE bicycle SET longitude = ?, latitude = ? WHERE bicycle_id = ?");
+        	$stmt->bind_param("ddi",
+                $bicycle->longitude, 
+                $bicycle->latitude, 
+                $bicycle->bicycle_id);
+        	$stmt->execute();
+        	$stmt->close();
+            return $bicycle;
+        }
+        else
+        {
+            return null;
+        }
 
-        return $bicycle;
+        
     }
 
     /**
@@ -72,13 +92,21 @@ class BicycleService implements iService
     */
     public function delete($bicycle)
     {
-    	$stmt = $this->db->prepare("DELETE FROM bicycle WHERE bicycle_id = ?");
-    	$stmt->bind_param("i",$bicycle->id);
-    	$stmt->execute();
-    	$stmt->close();
+        if(validate($bicycle))
+        {
+        	$stmt = $this->db->prepare("DELETE FROM bicycle WHERE bicycle_id = ?");
+        	$stmt->bind_param("i",$bicycle->id);
+        	$stmt->execute();
+        	$stmt->close();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
-    private function validate($bicycle)
+    public function validate($bicycle)
     {
         return true;
     }
