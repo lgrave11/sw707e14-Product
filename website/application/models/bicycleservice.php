@@ -1,7 +1,7 @@
 <?php
 
 //create read update delete
-class BicycleService
+class BicycleService implements iService
 {
 	private $db = null;
 
@@ -18,14 +18,21 @@ class BicycleService
 	* Function that creates a new bicycle
     * @return the created object
 	*/
-	public function create()
+	public function create($bicycle)
 	{
-		$stmt = $this->db->prepare("INSERT INTO bicycle() VALUES ()");
-		$stmt->execute();
-		$id = $this->db->insert_id;
-		$stmt->close();
-
-        return new Bicycle($id, null, null);
+        if(validate($bicycle))
+        {
+    		$stmt = $this->db->prepare("INSERT INTO bicycle(longitude, latitude) VALUES (?,?)");
+            $stmt->bind_param("dd", $bicycle->longitude, $bicycle->latitude);
+    		$stmt->execute();
+    		$id = $this->db->insert_id;
+    		$stmt->close();
+            return new Bicycle($id, null, null);
+        }
+        else
+        {
+            return null;
+        }
 	}
 
 	/**
@@ -41,8 +48,14 @@ class BicycleService
     	$stmt->bind_result($bicycle_id, $longitude, $latitude);
     	$stmt->fetch();
     	$stmt->close();
-
-        return new Bicycle($bicycle_id, $longitude, $latitude);
+        if(isset($bicycle_id))
+        {
+            return new Bicycle($bicycle_id, $longitude, $latitude);    
+        }
+        else
+        {
+            return null;
+        }
     }
 
     /**
@@ -54,24 +67,48 @@ class BicycleService
     */
     public function update($bicycle)
     {
-    	$stmt = $this->db->prepare("UPDATE bicycle SET longitude = ?, latitude = ? WHERE bicycle_id = ?");
-    	$stmt->bind_param("ddi",$bicycle->longitude, $bicycle->latitude, $bicycle->bicycle_id);
-    	$stmt->execute();
-    	$stmt->close();
+        if(validate($bicycle))
+        {
+        	$stmt = $this->db->prepare("UPDATE bicycle SET longitude = ?, latitude = ? WHERE bicycle_id = ?");
+        	$stmt->bind_param("ddi",
+                $bicycle->longitude, 
+                $bicycle->latitude, 
+                $bicycle->bicycle_id);
+        	$stmt->execute();
+        	$stmt->close();
+            return $bicycle;
+        }
+        else
+        {
+            return null;
+        }
 
-        return $bicycle;
+        
     }
 
     /**
     * deletes bicycle based on the id
     * @param $id bicycle id
     */
-    public function delete($id)
+    public function delete($bicycle)
     {
-    	$stmt = $this->db->prepare("DELETE FROM bicycle WHERE bicycle_id = ?");
-    	$stmt->bind_param("i",$id);
-    	$stmt->execute();
-    	$stmt->close();
+        if(validate($bicycle))
+        {
+        	$stmt = $this->db->prepare("DELETE FROM bicycle WHERE bicycle_id = ?");
+        	$stmt->bind_param("i",$bicycle->id);
+        	$stmt->execute();
+        	$stmt->close();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public function validate($bicycle)
+    {
+        return true;
     }
 
 }
