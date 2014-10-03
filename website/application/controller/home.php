@@ -16,7 +16,7 @@ class Home extends Controller
      */
     public function index()
     {
-    	$dock = $this->loadModel("DockFactory");
+    	$dock = $this->loadModel("DockService");
 
     	$someDocks = $dock->readAllDocks();	
 
