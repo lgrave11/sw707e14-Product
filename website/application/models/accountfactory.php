@@ -13,12 +13,12 @@ class AccountFactory
 		}
 	}
 
-	public function create($username, $password)
+	public function create($account)
 	{
 		$stmt = $this->db->prepare("INSERT INTO  account(username, password, salt) VALUES (?, ?, ?)");
 		$salt = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 64);
-		$hashedPassword = $this->hashPassword($password, $salt);
-		$stmt->bind_param("sss", $username, $hashedPassword, $salt);
+		$hashedPassword = $this->hashPassword($account->password, $salt);
+		$stmt->bind_param("sss", $account->username, $hashedPassword, $salt);
 		$stmt->execute();
 		$stmt->close();
         return new Account($username, $hashedPassword, $salt);
@@ -41,11 +41,11 @@ class AccountFactory
         return new Account($username, $password, $salt);
     }
 
-    public function update($username, $password)
+    public function update($account)
     {
     	//lookup salt
     	$stmt = $this->db->prepare("SELECT salt from account WHERE username = ?");
-    	$stmt->bind_param("s", $username);
+    	$stmt->bind_param("s", $account->username);
     	$stmt->execute();
     	$stmt->bind_result($salt);
     	$stmt->fetch();
@@ -53,12 +53,12 @@ class AccountFactory
 
     	//Do the update
     	$stmt = $this->db->prepare("UPDATE account SET password = ? WHERE username = ?");
-    	$hashedPassword = $this->hashedPassword($password, $salt)
+    	$hashedPassword = $this->hashedPassword($account->password, $salt)
     	$stmt->bind_param("s", $hashedPassword);
     	$stmt->execute();
     	$stmt->close();
 
-        return new Account($username, $hashedPassword, $salt);
+        return new Account($account->username, $hashedPassword, $salt);
     }
 
     /**

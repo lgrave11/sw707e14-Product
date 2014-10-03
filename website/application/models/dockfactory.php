@@ -61,5 +61,30 @@ class DockFactory{
     	$stmt->close();
     	return $returnArray;
     }
+
+    public function create($station_id){
+    	$stmt = $this->db->prepare("INSERT INTO dock(station_id) VALUES (?)");
+        $stmt->bind_param("i", $station_id);
+        $stmt->execute();
+        $id = $this->db->insert_id;
+        $stmt->close();
+
+        return new Dock($station_id, $id, null);
+    }
+
+    public function update($dock){
+    	$stmt = $this->db->prepare("UPDATE dock set station_id = ?, holds_bicycle = ? WHERE dock_id = ?");
+    	$stmt->bind_param("iii", $dock->station_id, $dock->holds_bicycle, $dock->dock_id);
+    	$stmt->execute();
+    	$stmt->close();
+    	return $dock;
+    }
+
+    public function delete($id){
+    	$stmt = $this->db->prepare("DELETE FROM dock WHERE dock_id = ?")
+    	$stmt->bind_param("i", $id);
+    	$stmt->execute();
+    	$stmt->close();
+    }
 }
 ?>
