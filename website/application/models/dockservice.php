@@ -85,5 +85,10 @@ class DockService implements iService{
     	$stmt->execute();
     	$stmt->close();
     }
+
+    private function validate($dock)
+    {
+        return true;
+    }
 }
 ?>

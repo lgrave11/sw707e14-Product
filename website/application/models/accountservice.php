@@ -73,6 +73,11 @@ class AccountService implements iService
     	$stmt->close();
     }
 
+    private function validate($account)
+    {
+        return true;
+    }
+
 }
 
 ?>

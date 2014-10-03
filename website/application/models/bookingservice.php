@@ -61,5 +61,10 @@ class BookingService implements iService
 		$stmt->execute();
 		$stmt->close();
 	}
+
+	private function validate($booking)
+	{
+		return true;
+	}
 }
 ?>

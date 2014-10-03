@@ -78,6 +78,11 @@ class BicycleService implements iService
     	$stmt->close();
     }
 
+    private function validate($bicycle)
+    {
+        return true;
+    }
+
 }
 
 ?>
