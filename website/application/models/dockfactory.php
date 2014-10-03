@@ -17,7 +17,7 @@ class DockFactory{
     	$stmt->execute();
     	$stmt->bind_result($holds_bicycle);
     	$stmt->fetch();
-    	$returnDock = new Dock($station_id, $dock_id, $holds_bicycle);
+    	$returnDock = new Dock($dock_id, $station_id, $holds_bicycle);
     	$stmt->close();
     	return $returnDock;
     }
@@ -29,7 +29,7 @@ class DockFactory{
     	$stmt->execute();
     	$stmt->bind_result($dock_id, $station_id, $holds_bicycle);
     	while($stmt->fetch()){
-    		$returnArray[$dock_id] = new Dock($station_id, $dock_id, $holds_bicycle);
+    		$returnArray[$dock_id] = new Dock($dock_id, $station_id, $holds_bicycle);
     	}
     	$stmt->close();
     	return $returnArray;
@@ -54,9 +54,9 @@ class DockFactory{
     	$stmt = $this->db->prepare("SELECT * FROM dock");
     	$stmt->bind_param();
     	$stmt->execute();
-    	$stmt->bind_result($station_id, $dock_id, $holds_bicycle);
+    	$stmt->bind_result($dock_id, $station_id, $holds_bicycle);
     	while($stmt->fetch()){
-    		$returnArray[$dock_id] = new Dock($station_id, $dock_id, $holds_bicycle);
+    		$returnArray[$dock_id] = new Dock($dock_id, $station_id, $holds_bicycle);
     	}
     	$stmt->close();
     	return $returnArray;
