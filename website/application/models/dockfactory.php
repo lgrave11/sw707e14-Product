@@ -52,7 +52,6 @@ class DockFactory{
     public function readAllDocks(){
     	$returnArray = array();
     	$stmt = $this->db->prepare("SELECT * FROM dock");
-    	$stmt->bind_param();
     	$stmt->execute();
     	$stmt->bind_result($dock_id, $station_id, $holds_bicycle);
     	while($stmt->fetch()){
