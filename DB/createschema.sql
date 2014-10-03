@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS books CASCADE;
-DROP TABLE IF EXISTS account CASCADE;
 DROP TABLE IF EXISTS dock CASCADE;
 DROP TABLE IF EXISTS booking CASCADE;
+DROP TABLE IF EXISTS account CASCADE;
 DROP TABLE IF EXISTS station CASCADE;
 DROP TABLE IF EXISTS bicycle CASCADE;
 
@@ -9,7 +9,7 @@ CREATE TABLE station
 (
    station_id int AUTO_INCREMENT PRIMARY KEY,
    name varchar(50),
-   adresse varchar(100)
+   address varchar(100)
 );
 
 CREATE TABLE bicycle
@@ -29,30 +29,22 @@ CREATE TABLE dock
 	FOREIGN KEY(holds_bicycle) REFERENCES bicycle(bicycle_id)
 );
 
+CREATE TABLE account
+(
+	username varchar(50) PRIMARY KEY,
+	password varchar(64) NOT NULL,
+	salt varchar(64) NOT NULL
+);
+
 CREATE TABLE booking
 (
 	booking_id int PRIMARY KEY,
 	start_time timestamp NOT NULL,
 	start_station int NOT NULL,
 	password varchar(6) NOT NULL,
-	FOREIGN KEY(start_station) REFERENCES station(station_id)
-);
-
-CREATE TABLE account
-(
-	username varchar(50) PRIMARY KEY,
-	password varchar(64) NOT NULL,
-	salt varchar(8) NOT NULL
-);
-
-CREATE TABLE books
-(
-	booking_id int,
-	username varchar(50),
-	PRIMARY KEY(booking_id, username),
-	FOREIGN KEY(username) REFERENCES account(username),
-	FOREIGN KEY(booking_id) REFERENCES booking(booking_id)
-	
+	for_user varchar(50) NOT NULL,
+	FOREIGN KEY(start_station) REFERENCES station(station_id),
+	FOREIGN KEY(for_user) REFERENCES account(username)
 );
 
 INSERT INTO station(name) VALUES ("Banegården - Busterminal");--  1;
