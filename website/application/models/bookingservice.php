@@ -1,5 +1,5 @@
 <?php
-class BookingFactory
+class BookingService
 	
 	$db = null;
 

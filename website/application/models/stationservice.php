@@ -1,6 +1,6 @@
 <?php
 
-class StationFactory{
+class StationService{
 	private $db = null;
 	
 	function __construct($db) {
