@@ -27,7 +27,7 @@ class DockFactory{
     	$stmt = $this->db->prepare("SELECT * FROM dock WHERE station_id = ?");
     	$stmt->bind_param("i", $station_id);
     	$stmt->execute();
-    	$stmt->bind_result($station_id, $dock_id, $holds_bicycle);
+    	$stmt->bind_result($dock_id, $station_id, $holds_bicycle);
     	while($stmt->fetch()){
     		$returnArray[$dock_id] = new Dock($station_id, $dock_id, $holds_bicycle);
     	}
@@ -81,7 +81,7 @@ class DockFactory{
     }
 
     public function delete($id){
-    	$stmt = $this->db->prepare("DELETE FROM dock WHERE dock_id = ?")
+    	$stmt = $this->db->prepare("DELETE FROM dock WHERE dock_id = ?");
     	$stmt->bind_param("i", $id);
     	$stmt->execute();
     	$stmt->close();

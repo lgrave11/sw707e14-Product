@@ -16,6 +16,10 @@ class Home extends Controller
      */
     public function index()
     {
+    	$dock = $this->loadModel("DockFactory");
+
+    	$someDocks = $dock->readAllDocksForStation(5);	
+    	
         // load views. within the views we can echo out $songs and $amount_of_songs easily
         require 'application/views/_templates/header.php';
         require 'application/views/home/index.php';
