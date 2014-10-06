@@ -36,8 +36,8 @@ body {
 #container {
     width: 900px;
     margin-left: -450px;
-    height: 100%;
     margin-top: 30px;
+    margin-bottom: 30px;
     background-color: white;
     position: absolute;
     left: 50%;
@@ -81,4 +81,14 @@ body {
 #Login-Fields
 {
     text-align: center;
+}
+
+#changepass {
+    width: 50%;
+    float: left;
+}
+
+#changeother{
+    width: 50%;
+    float: right;
 }
