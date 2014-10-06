@@ -17,8 +17,8 @@ CREATE TABLE station
 CREATE TABLE bicycle
 (
 	bicycle_id int AUTO_INCREMENT PRIMARY KEY,
-	longitude float,
-	latitude float
+	latitude float,
+	longitude float
 );
 
 CREATE TABLE dock
@@ -49,27 +49,27 @@ CREATE TABLE booking
 	FOREIGN KEY(for_user) REFERENCES account(username)
 );
 
-INSERT INTO station(name, longitude, latitude) VALUES ("Banegården - Busterminal", 57.041998, 9.917633);--  1;
-INSERT INTO station(name, longitude, latitude) VALUES ("Frederikstorv", 57.045095, 9.923750);-- 2;
-INSERT INTO station(name, longitude, latitude) VALUES ("Gammeltorv", 57.048140, 9.920660);-- 3;
-INSERT INTO station(name, longitude, latitude) VALUES ("Haraldslund", 57.054428, 9.899529);-- 4;
-INSERT INTO station(name, longitude, latitude) VALUES ("Havnefronte - Jomfru Ane Parken", 57.051315, 9.920015);-- 5;
-INSERT INTO station(name, longitude, latitude) VALUES ("Karolinelund", 57.043065, 9.930580);-- 6;
-INSERT INTO station(name, longitude, latitude) VALUES ("Lystbådehavnen", 57.057042, 9.903899);-- 7;
-INSERT INTO station(name, longitude, latitude) VALUES ("Kunsten", 57.042814, 9.907255);-- 8;
-INSERT INTO station(name, longitude, latitude) VALUES ("Kjellerups Torv", 57.046231, 9.933173);-- 9;
-INSERT INTO station(name, longitude, latitude) VALUES ("Nytorv", 57.048200, 9.923068); -- 10;
-INSERT INTO station(name, longitude, latitude) VALUES ("Vestergade Nørresundby", 57.060048, 9.918804);-- 11;
-INSERT INTO station(name, longitude, latitude) VALUES ("Utzon Centeret", 57.049805, 9.926532);-- 12;
-INSERT INTO station(name, longitude, latitude) VALUES ("Vestbyens Station", 57.052838, 9.908873);-- 13;
-INSERT INTO station(name, longitude, latitude) VALUES ("Algade v. Budolfi Plads", 57.047984, 9.917883);-- 14;
-INSERT INTO station(name, longitude, latitude) VALUES ("Aalborg Zoo", 57.038530, 9.900142);-- 15;
-INSERT INTO station(name, longitude, latitude) VALUES ("Aalborg Hallen", 57.044006, 9.912161);-- 16;
-INSERT INTO station(name, longitude, latitude) VALUES ("Nørresundby Torv", 57.057703, 9.922752);-- 17;
-INSERT INTO station(name, longitude, latitude) VALUES ("AAU - Sohngårdsholmsvej", 57.027387, 9.945140);-- 18;
-INSERT INTO station(name, longitude, latitude) VALUES ("AU - Fibigerstræde", 57.016192, 9.977543);-- 19;
-INSERT INTO station(name, longitude, latitude) VALUES ("Friis", 57.047645, 9.926114);-- 20;
-INSERT INTO station(name, longitude, latitude) VALUES ("Strandvejen", 57.053474, 9.911405);-- 21;
+INSERT INTO station(name, latitude, longitude) VALUES ("Banegården - Busterminal", 57.041998, 9.917633);--  1;
+INSERT INTO station(name, latitude, longitude) VALUES ("Frederikstorv", 57.045095, 9.923750);-- 2;
+INSERT INTO station(name, latitude, longitude) VALUES ("Gammeltorv", 57.048140, 9.920660);-- 3;
+INSERT INTO station(name, latitude, longitude) VALUES ("Haraldslund", 57.054428, 9.899529);-- 4;
+INSERT INTO station(name, latitude, longitude) VALUES ("Havnefronte - Jomfru Ane Parken", 57.051315, 9.920015);-- 5;
+INSERT INTO station(name, latitude, longitude) VALUES ("Karolinelund", 57.043065, 9.930580);-- 6;
+INSERT INTO station(name, latitude, longitude) VALUES ("Lystbådehavnen", 57.057042, 9.903899);-- 7;
+INSERT INTO station(name, latitude, longitude) VALUES ("Kunsten", 57.042814, 9.907255);-- 8;
+INSERT INTO station(name, latitude, longitude) VALUES ("Kjellerups Torv", 57.046231, 9.933173);-- 9;
+INSERT INTO station(name, latitude, longitude) VALUES ("Nytorv", 57.048200, 9.923068); -- 10;
+INSERT INTO station(name, latitude, longitude) VALUES ("Vestergade Nørresundby", 57.060048, 9.918804);-- 11;
+INSERT INTO station(name, latitude, longitude) VALUES ("Utzon Centeret", 57.049805, 9.926532);-- 12;
+INSERT INTO station(name, latitude, longitude) VALUES ("Vestbyens Station", 57.052838, 9.908873);-- 13;
+INSERT INTO station(name, latitude, longitude) VALUES ("Algade v. Budolfi Plads", 57.047984, 9.917883);-- 14;
+INSERT INTO station(name, latitude, longitude) VALUES ("Aalborg Zoo", 57.038530, 9.900142);-- 15;
+INSERT INTO station(name, latitude, longitude) VALUES ("Aalborg Hallen", 57.044006, 9.912161);-- 16;
+INSERT INTO station(name, latitude, longitude) VALUES ("Nørresundby Torv", 57.057703, 9.922752);-- 17;
+INSERT INTO station(name, latitude, longitude) VALUES ("AAU - Sohngårdsholmsvej", 57.027387, 9.945140);-- 18;
+INSERT INTO station(name, latitude, longitude) VALUES ("AU - Fibigerstræde", 57.016192, 9.977543);-- 19;
+INSERT INTO station(name, latitude, longitude) VALUES ("Friis", 57.047645, 9.926114);-- 20;
+INSERT INTO station(name, latitude, longitude) VALUES ("Strandvejen", 57.053474, 9.911405);-- 21;
 
 -- Bicycles
 INSERT INTO bicycle() VALUES (),(),(),(),(),(),(),(),(),();
