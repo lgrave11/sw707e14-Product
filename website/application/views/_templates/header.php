@@ -15,21 +15,31 @@ if (isset($currentPage) && ($currentPage == "" || $currentPage == "home")){
 	<div id="navbar">
 		<table border="0" cellpadding="0" cellspacing="0">
 			<tr>
-			<td onclick="navigateTo('home/about')">
-				About
-			</td>
 			<td>
-				Status
+				<a href="/">Status</a>
 			</td>
 			<td>
 				Book
 			</td>
 			<td>
 				Profile
+			</td>			
+			<td>
+				<a href="/Home/About/">About</a>
 			</td>
 			<td>
-				Login
-			</td>
+				<?php
+					if(isset($_SESSION['login_user']))
+					{
+						echo "<a href=\"/User/Logout\">Logout</a>";
+						
+					}
+					else
+					{
+						echo "<a href=\"/User/Login\">Login</a>";
+					}
+				?>
+				</td>
 			</tr>
 		</table>
 	</div>

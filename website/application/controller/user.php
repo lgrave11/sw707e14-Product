@@ -17,6 +17,15 @@ class User extends Controller
         require 'application/views/_templates/footer.php';
     }
 
+    public function logout()
+    {
+        session_destroy();
+        if(isset($_SESSION['login_user']))
+            unset($_SESSION['login_user']);
+
+        header("Location: /");
+        exit();
+    }
     public function login()
     {
 

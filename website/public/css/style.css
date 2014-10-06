@@ -48,6 +48,16 @@ body {
     margin-bottom: 20px;
 }
 
+#navbar a
+{
+    display: block; 
+    height: 100%; 
+    width: 100%; 
+    line-height: 30px; 
+    color: white; 
+    text-decoration: none;
+}
+
 #frontpicture {
     width: 400px;
 }
