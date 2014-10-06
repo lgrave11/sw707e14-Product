@@ -35,6 +35,29 @@ class StationService implements iService
     	return $returnArray;
     }
 
+    /*public function readAllDocksForStation($station){
+        $returnArray = array();
+        $stmt = $this->db->prepare("SELECT * FROM dock WHERE station_id = ?");
+        $stmt->bind_param("i", $station->station_id);
+        $stmt->execute();
+        $stmt->bind_result($dock_id, $station_id, $holds_bicycle);
+        while($stmt->fetch()){
+            $returnArray[$dock_id] = new Dock($dock_id, $station_id, $holds_bicycle);
+        }
+        $stmt->close();
+        return $returnArray;
+    }*/
+    
+    public function readAllAvailableDocksForStation($station){
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM dock WHERE station_id = ? AND holds_bicycle IS NOT NULL");
+        $stmt->bind_param("i", $station->station_id);
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        $stmt->close();
+        return $count;
+    }
+
     public function create($station){
         $stmt = $this->db->prepare("INSERT INTO station(station_id, name, address, longitude, latitude) VALUES (?,?,?,?,?)");
         $stmt->bind_param("issff", $station->station_id, $station->name, $station->address, $station->longitude, $station->latitude);

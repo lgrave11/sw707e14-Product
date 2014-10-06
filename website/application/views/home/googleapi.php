@@ -14,11 +14,14 @@
       var stations = [];
       var titles = [];
       var mark = [];
+      var map;
+      var infowindow = [];
 
 <?php
   foreach ($stations as $station){
     echo "stations.push(new google.maps.LatLng(" . $station->latitude . ", " . $station->longitude . "));\n";
     echo "titles.push(\"" . $station->name . "\");\n";
+    echo "infowindow.push(new google.maps.InfoWindow({content: '<div style=\"line-height:1.35;overflow:hidden;white-space:nowrap;\"><b>" . $station->name . "</b><br /> Availble Bicycles: " . $stationService->readAllAvailableDocksForStation($station) . "</div>'}));\n";
   }
 
 ?>
@@ -33,8 +36,6 @@
         map = new google.maps.Map(document.getElementById('map-canvas'),
                 mapOptions);
 
-        
-
         for(i = 0; i < stations.length; i++){
           mark.push(new google.maps.Marker({
             map:map,
@@ -47,28 +48,15 @@
           
         }
 
-        var contentString = '<div id="content">'+
-      'Hej'+
-      '</div>';
-
         <?php
           $i = 0;
           foreach ($stations as $station){
-            echo "var infowindow = new google.maps.InfoWindow({
-              content: '<b>" . $station->name . "</b><br />Test'
-            });";
-            echo "google.maps.event.addListener(mark[" . $i . "], 'click', function() {infowindow.open(map,mark[" . $i . "]);});\n";
-            
+            echo "google.maps.event.addListener(mark[" . $i . "], 'click', function() {
+              for(i = 0; i < infowindow.length; i++){infowindow[i].close();}
+              infowindow[" . $i . "].open(map,mark[" . $i . "]);});\n";
             $i++;
           }
-        ?>
-        
-        //google.maps.event.addListener(mark[0], 'click', function() {infowindow.open(map,mark[0]);});
-
-      }
-
-      function helperInfoWindow(func, map, marker){
-        return function(){func(map,marker)};
+        ?>  
       }
 
       function helperBounce(i, func)
