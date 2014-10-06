@@ -15,8 +15,8 @@ if (isset($currentPage) && ($currentPage == "" || $currentPage == "home")){
 	<div id="navbar">
 		<table border="0" cellpadding="0" cellspacing="0">
 			<tr>
-			<td>
-				Frontpage
+			<td onclick="navigateTo('home/about')">
+				About
 			</td>
 			<td>
 				Status
