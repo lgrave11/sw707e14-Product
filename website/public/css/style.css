@@ -24,6 +24,7 @@ body {
     cursor: pointer;
 }
 
+
 #navbar td {
     height: 30px;
     width: 100px;
@@ -59,4 +60,15 @@ body {
 
 #abouttext {
     width: 400px;
+}
+
+#Sign-In
+{
+    width: 450px;
+    margin: 0 auto 0 auto;
+}
+
+#Login-Fields
+{
+    text-align: center;
 }
