@@ -1,9 +1,9 @@
 <?php
 class Account
 {
-	$username = null;
-	$password = null;
-	$salt = null;
+	public $username = null;
+	public $password = null;
+	public $salt = null;
 
 	function __construct($username, $password, $salt){
 		$this->username = $username;

@@ -2,7 +2,7 @@
 
 class AccountService implements iService
 {
-	$db = null;
+	private $db = null;
 
 	function __construct($database){
 		try{
@@ -15,7 +15,7 @@ class AccountService implements iService
 
 	public function create($account)
 	{
-        if(validate($account))
+        if($this->validate($account))
         {
     		$stmt = $this->db->prepare("INSERT INTO  account(username, password, salt) VALUES (?, ?, ?)");
     		$salt = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 64);
@@ -23,7 +23,7 @@ class AccountService implements iService
     		$stmt->bind_param("sss", $account->username, $hashedPassword, $salt);
     		$stmt->execute();
     		$stmt->close();
-            return new Account($username, $hashedPassword, $salt);
+            return new Account($account->username, $hashedPassword, $salt);
         }
         else
         {
@@ -69,8 +69,8 @@ class AccountService implements iService
 
         	//Do the update
         	$stmt = $this->db->prepare("UPDATE account SET password = ? WHERE username = ?");
-        	$hashedPassword = $this->hashedPassword($account->password, $salt)
-        	$stmt->bind_param("s", $hashedPassword);
+        	$hashedPassword = $this->hashedPassword($account->password, $salt);
+        	$stmt->bind_param("s", $hashedPassword, $account->username);
         	$stmt->execute();
         	$stmt->close();
 
@@ -100,6 +100,37 @@ class AccountService implements iService
         {
             return false;
         }
+    }
+
+    public function verifyLogin($username, $password)
+    {
+            //lookup salt
+            $stmt = $this->db->prepare("SELECT salt from account WHERE username = ?");
+            $stmt->bind_param("s", $username);
+            $stmt->execute();
+            $stmt->bind_result($salt);
+            $stmt->fetch();
+            $stmt->close();
+
+
+            if($salt == null)
+                return false;
+            $stmt = $this->db->prepare("SELECT password FROM account WHERE username = ?");
+            $stmt->bind_param("s", $username);
+            $stmt->execute();
+            $stmt->bind_result($passwordhashed);
+            $stmt->fetch();
+            $stmt->close();
+            
+            if($passwordhashed == $this->hashPassword($password, $salt))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
     }
 
     public function validate($account)

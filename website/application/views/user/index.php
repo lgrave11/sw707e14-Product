@@ -1,9 +1,9 @@
 <div id="Sign-In"> 
 	<fieldset style="width:50%">
-		<legend>LOG-IN HERE</legend> 
-		<form method="POST" action="#">
-			 User<br><input type="text" name="user" size="50%"><br> 
-			 Password <br><input type="password" name="pass" size="50%"><br> 
+		<legend>Login</legend> 
+		<form method="POST" action="/user/login">
+			 <b>User</b><br><input type="text" name="username" size="50%"><br> 
+			 <b>Password</b><br><input type="password" name="password" size="50%"><br> 
 			 <div id="Login-Fields" >
 				 <a href="#">Forgotten your password?</a>
 				 <a href="#">Create new user</a>
