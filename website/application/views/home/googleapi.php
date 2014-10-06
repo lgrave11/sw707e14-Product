@@ -21,7 +21,7 @@
   foreach ($stations as $station){
     echo "stations.push(new google.maps.LatLng(" . $station->latitude . ", " . $station->longitude . "));\n";
     echo "titles.push(\"" . $station->name . "\");\n";
-    echo "infowindow.push(new google.maps.InfoWindow({content: '<div style=\"overflow:hidden;white-space:nowrap;\"><b>" . $station->name . "</b><br /> Available Bicycles: " . $stationService->readAllAvailableDocksForStation($station) . "</div>'}));\n";
+    echo "infowindow.push(new google.maps.InfoWindow({content: '<div style=\"overflow:hidden;white-space:nowrap;\"><b>" . $station->name . "</b><br /> Available Bicycles: " . $stationService->readAllAvailableDocksForStation($station) . "<br/> Available Docks: " . $stationService->readAllUnavailableDocksForStation($station) . "</div>'}));\n";
   }
 
 ?>
