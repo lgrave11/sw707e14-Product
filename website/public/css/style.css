@@ -7,6 +7,7 @@ html, body {
 
 body {
     font-size: 15px;
+    background-color: lightgray;
 }
 
 #navbar table {
@@ -20,6 +21,7 @@ body {
 
 #navbar table td:hover {
     background-color: #00407C;
+    cursor: pointer;
 }
 
 
@@ -33,16 +35,31 @@ body {
 
 #container {
     width: 900px;
-    margin: auto;
+    margin-left: -450px;
     height: 100%;
-    border: 1px solid black;
+    margin-top: 30px;
+    background-color: white;
+    position: absolute;
+    left: 50%;
+
 }
 
-#navbar li {
+#navbar {
+    margin-bottom: 20px;
+}
+
+#frontpicture {
+    width: 400px;
+}
+
+#about div {
     float: left;
-    border: 1px solid black;
-    list-style-type: none
-    padding: 10px;
+    margin-right: 25px;
+    margin-left:  25px;
+}
+
+#abouttext {
+    width: 400px;
 }
 
 #Sign-In

@@ -87,9 +87,9 @@
         <text>Edit%20Profile</text>
       </controlProperties>
     </control>
-    <control controlID="24" controlTypeID="com.balsamiq.mockups::ButtonBar" x="88" y="108" w="591" h="29" measuredW="331" measuredH="27" zOrder="17" locked="false" isInGroup="-1">
+    <control controlID="24" controlTypeID="com.balsamiq.mockups::ButtonBar" x="88" y="108" w="591" h="29" measuredW="306" measuredH="27" zOrder="17" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Frontpage%2C%20Status%2C%20Book%2C%20Profile%2C%20Log%20out</text>
+        <text>About%2C%20Status%2C%20Book%2C%20Profile%2C%20Log%20out</text>
       </controlProperties>
     </control>
   </controls>

@@ -10,8 +10,8 @@ CREATE TABLE station
    station_id int AUTO_INCREMENT PRIMARY KEY,
    name varchar(50),
    address varchar(100),
-   longitude float NOT NULL,
-   latitude float NOT NULL
+   latitude float NOT NULL,
+   longitude float NOT NULL
 );
 
 CREATE TABLE bicycle
