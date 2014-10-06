@@ -25,6 +25,13 @@ class Home extends Controller
         require 'application/views/home/index.php';
         require 'application/views/_templates/footer.php';
     }
+    public function about()
+    {
+        $this->title="About";
+        require 'application/views/_templates/header.php';
+        require 'application/views/home/about.php';
+        require 'application/views/_templates/footer.php';
+    }
 
     
 }

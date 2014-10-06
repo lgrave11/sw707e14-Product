@@ -11,7 +11,7 @@
         <text/>
       </controlProperties>
     </control>
-    <control controlID="12" controlTypeID="com.balsamiq.mockups::Arrow" x="412" y="123" w="430" h="143" measuredW="150" measuredH="100" zOrder="8" locked="false" isInGroup="-1">
+    <control controlID="12" controlTypeID="com.balsamiq.mockups::Arrow" x="476" y="132" w="366" h="128" measuredW="150" measuredH="100" zOrder="8" locked="false" isInGroup="-1">
       <controlProperties>
         <curvature>-1</curvature>
         <direction>top</direction>
@@ -25,9 +25,9 @@
         <text>Login%20Window</text>
       </controlProperties>
     </control>
-    <control controlID="14" controlTypeID="com.balsamiq.mockups::ButtonBar" x="79" y="103" w="591" h="29" measuredW="256" measuredH="27" zOrder="3" locked="false" isInGroup="-1">
+    <control controlID="14" controlTypeID="com.balsamiq.mockups::ButtonBar" x="79" y="103" w="591" h="29" measuredW="231" measuredH="27" zOrder="3" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Frontpage%2C%20Status%2C%20Book%2C%20Login</text>
+        <text>About%2C%20Status%2C%20Book%2C%20Login</text>
       </controlProperties>
     </control>
     <control controlID="15" controlTypeID="com.balsamiq.mockups::Arrow" x="317" y="54" w="453" h="50" measuredW="150" measuredH="100" zOrder="4" locked="false" isInGroup="-1">
