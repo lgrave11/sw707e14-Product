@@ -16,9 +16,6 @@ if (isset($currentPage) && ($currentPage == "" || $currentPage == "home")){
 		<table border="0" cellpadding="0" cellspacing="0">
 			<tr>
 			<td>
-				<a href="/Home/About/">About</a>
-			</td>
-			<td>
 				<a href="/">Status</a>
 			</td>
 			<td>
@@ -26,6 +23,9 @@ if (isset($currentPage) && ($currentPage == "" || $currentPage == "home")){
 			</td>
 			<td>
 				Profile
+			</td>			
+			<td>
+				<a href="/Home/About/">About</a>
 			</td>
 			<td>
 				<?php
