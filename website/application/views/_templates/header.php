@@ -3,6 +3,11 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="/public/css/style.css">
 <title>Title of the document</title>
+<?php
+if (isset($currentPage) && ($currentPage == "" || $currentPage == "home")){
+	include("application/views/home/googleapi.php");
+}
+?>
 </head>
 
 <body>
