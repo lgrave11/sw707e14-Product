@@ -14,5 +14,23 @@ class User extends Controller
         require 'application/views/user/index.php';
         require 'application/views/_templates/footer.php';
     }
+
+    public function changepassword()
+    {
+        $_POST["currpass"];
+        $_POST["newpass1"];
+        $_POST["newpass2"];
+        header("location: /user/editprofile");
+    }
+
+    public function editprofile()
+    {
+        $username="Poul Hansen";
+        $email="Poul@test.dk";
+        $phone="12345678";
+        require 'application/views/_templates/header.php';
+        require 'application/views/user/editprofile.php';
+        require 'application/views/_templates/footer.php';
+    }
     
 }
