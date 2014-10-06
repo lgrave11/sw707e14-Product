@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 /**
  * A simple PHP MVC skeleton
  *
