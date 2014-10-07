@@ -1,3 +1,9 @@
 function SearchStation(){
-	alert($('#searchstation').val());
+	if ($('#searchstation').val() != ""){
+		$("#searchresult").load("/Ajax/SearchStation/" + $('#searchstation').val(), function(){
+			$("#searchresult").show();
+		});
+	} else {
+		$("#searchresult").hide();
+	}
 }
