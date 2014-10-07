@@ -81,6 +81,13 @@ class User extends Controller
         
     }
 
+    public function createUser()
+    {
+        require 'application/views/_templates/header.php';
+        require 'application/views/user/createprofile.php';
+        require 'application/views/_templates/footer.php';
+    }
+
     public function changepassword()
     {
         $_POST["currpass"];
