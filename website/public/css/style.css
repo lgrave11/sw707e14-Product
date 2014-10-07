@@ -12,6 +12,11 @@ body {
     background-color: lightgray;
 }
 
+input, textarea, select {
+    font-family: arial, verdana, sans-serif; 
+    font-size: 12px;
+}
+
 #navbar table {
     font-size: 13px;
     width: 100%;
