@@ -317,42 +317,66 @@ INSERT INTO dock(station_id) VALUES(21);
 -- a single user;
 INSERT INTO account(username, password, salt, email, phone) VALUES("sw707e14", "83fd021a41733e76771229d059c052b02bc984528c7fd0634cc5dc566eeb0e89", "12HjN8isnE3T5ArK9wLXDOpmWxukazPCtUSqBYRc6boQlVvFfJMy74gIhGde0Z", "sw707e14@cs.aau.dk", "1345678");
 
-DROP FUNCTION IF EXISTS levenshtein;
-CREATE DEFINER=`sw707e14`@`localhost` FUNCTION `levenshtein`( s1 VARCHAR(255), s2 VARCHAR(255) ) RETURNS int(11)
-    DETERMINISTIC
-BEGIN
-DECLARE s1_len, s2_len, i, j, c, c_temp, cost INT;
-DECLARE s1_char CHAR;
--- max strlen=255
-DECLARE cv0, cv1 VARBINARY(256);
-SET s1_len = CHAR_LENGTH(s1), s2_len = CHAR_LENGTH(s2), cv1 = 0x00, j = 1, i = 1, c = 0;
-IF s1 = s2 THEN
-RETURN 0;
-ELSEIF s1_len = 0 THEN
-RETURN s2_len;
-ELSEIF s2_len = 0 THEN
-RETURN s1_len;
-ELSE
-WHILE j <= s2_len DO
-SET cv1 = CONCAT(cv1, UNHEX(HEX(j))), j = j + 1;
-END WHILE;
-WHILE i <= s1_len DO
-SET s1_char = SUBSTRING(s1, i, 1), c = i, cv0 = UNHEX(HEX(i)), j = 1;
-WHILE j <= s2_len DO
-SET c = c + 1;
-IF s1_char = SUBSTRING(s2, j, 1) THEN
-SET cost = 0; ELSE SET cost = 1;
-END IF;
-SET c_temp = CONV(HEX(SUBSTRING(cv1, j, 1)), 16, 10) + cost;
-IF c > c_temp THEN SET c = c_temp; END IF;
-SET c_temp = CONV(HEX(SUBSTRING(cv1, j+1, 1)), 16, 10) + 1;
-IF c > c_temp THEN
-SET c = c_temp;
-END IF;
-SET cv0 = CONCAT(cv0, UNHEX(HEX(c))), j = j + 1;
-END WHILE;
-SET cv1 = cv0, i = i + 1;
-END WHILE;
-END IF;
-RETURN c;
-END
+DELIMITER $$
+DROP FUNCTION IF EXISTS LEVENSHTEIN $$
+CREATE FUNCTION LEVENSHTEIN(s1 VARCHAR(255) CHARACTER SET utf8, s2 VARCHAR(255) CHARACTER SET utf8)
+  RETURNS INT
+  DETERMINISTIC
+  BEGIN
+    DECLARE s1_len, s2_len, i, j, c, c_temp, cost INT;
+    DECLARE s1_char CHAR CHARACTER SET utf8;
+    -- max strlen=255 for this function
+    DECLARE cv0, cv1 VARBINARY(256);
+
+    SET s1_len = CHAR_LENGTH(s1),
+        s2_len = CHAR_LENGTH(s2),
+        cv1 = 0x00,
+        j = 1,
+        i = 1,
+        c = 0;
+
+    IF (s1 = s2) THEN
+      RETURN (0);
+    ELSEIF (s1_len = 0) THEN
+      RETURN (s2_len);
+    ELSEIF (s2_len = 0) THEN
+      RETURN (s1_len);
+    END IF;
+
+    WHILE (j <= s2_len) DO
+      SET cv1 = CONCAT(cv1, CHAR(j)),
+          j = j + 1;
+    END WHILE;
+
+    WHILE (i <= s1_len) DO
+      SET s1_char = SUBSTRING(s1, i, 1),
+          c = i,
+          cv0 = CHAR(i),
+          j = 1;
+
+      WHILE (j <= s2_len) DO
+        SET c = c + 1,
+            cost = IF(s1_char = SUBSTRING(s2, j, 1), 0, 1);
+
+        SET c_temp = ORD(SUBSTRING(cv1, j, 1)) + cost;
+        IF (c > c_temp) THEN
+          SET c = c_temp;
+        END IF;
+
+        SET c_temp = ORD(SUBSTRING(cv1, j+1, 1)) + 1;
+        IF (c > c_temp) THEN
+          SET c = c_temp;
+        END IF;
+
+        SET cv0 = CONCAT(cv0, CHAR(c)),
+            j = j + 1;
+      END WHILE;
+
+      SET cv1 = cv0,
+          i = i + 1;
+    END WHILE;
+
+    RETURN (c);
+  END $$
+
+DELIMITER ;
