@@ -1,0 +1,14 @@
+#map-canvas {
+  height: 600px;
+  width: 600px;
+  margin: 0px 10px 10px 10px;
+
+  float: left;
+}
+
+#mapinfo {
+    float: right;
+    width: 250px;
+    border: 1px solid black;
+    margin-right: 10px;
+}

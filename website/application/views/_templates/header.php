@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="/public/css/style.css">
+	<?php
+		Tools::includeCSS();
+	?>
 <title>Title of the document</title>
 <?php
 if (isset($currentPage) && ($currentPage == "" || $currentPage == "home")){
