@@ -45,12 +45,14 @@ class Controller
         return new $model_name($this->db);
     }
     
-    public function error($message) {
+    public function error($message, $name) {
         $this->error[] = $message;
+         $_SESSION[$name.'_error'] = $this->error;
     }
     
-    public function success($message) {
+    public function success($message, $name) {
         $this->success[] = $message;
+         $_SESSION[$name.'_success'] = $this->success;
     }
     
     public function publishMessages($name) {

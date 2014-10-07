@@ -12,6 +12,11 @@ body {
     background-color: lightgray;
 }
 
+input, textarea, select {
+    font-family: arial, verdana, sans-serif; 
+    font-size: 12px;
+}
+
 #navbar table {
     font-size: 13px;
     width: 100%;
@@ -92,9 +97,17 @@ body {
     margin: auto;
 }
 
-#errorlogin
+#error
 {
     color:#B20000;
+    margin:auto;
+    text-align: center;
+    padding: 10px;
+}
+
+#success
+{
+    color:#006600;
     margin:auto;
     text-align: center;
     padding: 10px;
