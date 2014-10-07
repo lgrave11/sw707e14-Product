@@ -7,5 +7,12 @@ class Tools {
 			return false;
 		}
 	}
+
+	public static requireLogin(){
+		if(!isset($_SESSION['login_user'])){
+			header("Location: /");
+			exit();
+		}
+	}
 }
 ?>
