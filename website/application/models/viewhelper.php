@@ -16,7 +16,7 @@ class ViewHelper
 		}
 	}
 
-		public static function printError($name)
+		public static function printSuccess($name)
 	{
 		if(isset($_SESSION[$name.'_succes']))
 		{
