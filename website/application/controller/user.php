@@ -7,11 +7,7 @@ class User extends Controller
      */
     public function index()
     {
-        if(!isset($_SESSION['login_user']))
-        {
-            header("Location: /User/Login/");
-            exit();
-        }
+        Tools::requireLogin();
         require 'application/views/_templates/header.php';
         echo "du er logget ind, her er en bruger side";
         require 'application/views/_templates/footer.php';
@@ -20,7 +16,7 @@ class User extends Controller
     public function logout()
     {
         session_destroy();
-        if(isset($_SESSION['login_user']))
+        if(Tools::isLoggedIn())
             unset($_SESSION['login_user']);
 
         header("Location: /");
@@ -68,7 +64,7 @@ class User extends Controller
     }
     public function validate()
     {
-        if(isset($_SESSION['login_user']))
+        if(Tools::isLoggedIn())
             return true;
 
         $username=$_POST['username'];
