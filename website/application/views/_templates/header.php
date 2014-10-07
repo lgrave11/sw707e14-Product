@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html onclick="CloseSearch()">
 <head>
 	<?php
 		Tools::includeCSS();

@@ -28,4 +28,16 @@
 	border: 1px solid lightgray;
 	border-top: 0px;
 	display: none;
+	padding-top: 3px;
+}
+
+.searchresulttext {
+	cursor: pointer;
+	display: block;
+	width: 100%;
+
+}
+
+.searchresulttext:hover {
+	background-color: #77bbff;
 }
