@@ -97,6 +97,14 @@ input, textarea, select {
     margin: auto;
 }
 
+#errorlogin
+{
+    color:#B20000;
+    margin:auto;
+    text-align: center;
+    padding: 10px;
+}
+
 #changepass {
     width: 50%;
     float: left;
