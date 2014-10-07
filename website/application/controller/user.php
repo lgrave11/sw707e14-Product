@@ -40,14 +40,14 @@ class User extends Controller
                     }
                 else
                     {
-                        $_SESSION['error'] = 'You provided a wrong username or password';
+                        $this->error('You provided a wrong username or password', 'login');
                         header("Location: /User/Login/");
                         exit();
                     }
             }
             else
             {
-                $_SESSION['error'] = 'Please insert a username and password'; 
+                $this->error('Please insert a username and password', 'login'); 
                 header("Location: /User/Login/");
                 exit();
             }

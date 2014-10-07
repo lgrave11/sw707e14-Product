@@ -9,8 +9,6 @@ class Controller
      * @var null Database Connection
      */
     public $db = null;
-    private $error = array();
-    private $success = array();
 
     /**
      * Whenever a controller is created, open a database connection too. The idea behind is to have ONE connection
@@ -46,20 +44,18 @@ class Controller
         return new $model_name($this->db);
     }
     
-    public function error($message) {
-        $this->error[] = $message;
+    public function error($message, $name) {
+         $_SESSION[$name.'_error'][] = $message;
     }
     
-    public function success($message) {
-        $this->success[] = $message;
+    public function success($message, $name){
+         $_SESSION[$name.'_success'][] =  $message;
     }
     
-    public function publishMessages($name) {
-        if (!empty($this->error)) {
-            $_SESSION[$name.'_error'] = $this->error;
-        }
-        if (!empty($this->success)) {
-            $_SESSION[$name.'_success'] = $this->success;
-        }
+    public function hasErrors($name)
+    {
+        if(!isset($_SESSION[$name.'_error']))
+            return false;
+        return count($_SESSION[$name.'_error']) > 0;
     }
 }

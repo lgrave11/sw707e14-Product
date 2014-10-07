@@ -1,10 +1,6 @@
 <div id="sign-in"> 
         <?php
-        	if(isset($_SESSION['error']))
-        	{
-            	echo '<div id="errorlogin">'.$_SESSION['error'].'</div>';
-            	unset($_SESSION['error']);
-            }
+        	ViewHelper::printError('login');
         ?>
 		<form method="POST" action="/user/login" id="form-login">
 			 <b>User</b><br><input type="text" name="username" size="50%"><br> 

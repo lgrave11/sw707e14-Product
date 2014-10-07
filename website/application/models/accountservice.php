@@ -17,13 +17,13 @@ class AccountService implements iService
 	{
         if($this->validate($account))
         {
-    		$stmt = $this->db->prepare("INSERT INTO  account(username, password, salt) VALUES (?, ?, ?)");
+    		$stmt = $this->db->prepare("INSERT INTO  account(username, password, salt, email, phone) VALUES (?, ?, ?, ?, ?)");
     		$salt = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 64);
     		$hashedPassword = $this->hashPassword($account->password, $salt);
-    		$stmt->bind_param("sss", $account->username, $hashedPassword, $salt);
+    		$stmt->bind_param("sssss", $account->username, $hashedPassword, $salt, $account->email, $account->phone);
     		$stmt->execute();
     		$stmt->close();
-            return new Account($account->username, $hashedPassword, $salt);
+            return new Account($account->username, $hashedPassword, $account->email, $account->phone, $salt);
         }
         else
         {
@@ -36,17 +36,17 @@ class AccountService implements iService
 		return hash('sha256', $password . $salt);
 	}
 
-	public function read($account)
+	public function read($username)
     {
-        if(validate($account))
+        if(!empty($username))
         {
-        	$stmt = $this->db->prepare("SELECT username, password, salt FROM account WHERE username = ?");
-        	$stmt->bind_param("s", $account->username);
+        	$stmt = $this->db->prepare("SELECT username, password, salt, email, phone FROM account WHERE username = ?");
+        	$stmt->bind_param("s", $username);
         	$stmt->execute();
-        	$stmt->bind_result($user, $password, $salt);
+        	$stmt->bind_result($user, $password, $salt, $email, $phone);
         	$stmt->fetch();
         	$stmt->close();
-            return new Account($account->username, $password, $salt);
+            return new Account($user, $password, $email, $phone, $salt);
         }
         else
         {
@@ -68,9 +68,8 @@ class AccountService implements iService
         	$stmt->close();
 
         	//Do the update
-        	$stmt = $this->db->prepare("UPDATE account SET password = ? WHERE username = ?");
-        	$hashedPassword = $this->hashedPassword($account->password, $salt);
-        	$stmt->bind_param("s", $hashedPassword, $account->username);
+        	$stmt = $this->db->prepare("UPDATE account SET password = ?, email = ?, phone = ? WHERE username = ?");
+        	$stmt->bind_param("ssss", $account->password, $account->email, $account->phone, $account->username);
         	$stmt->execute();
         	$stmt->close();
 
