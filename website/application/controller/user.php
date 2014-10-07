@@ -24,10 +24,9 @@ class User extends Controller
     }
     public function login()
     {
-
-        // load views. within the views we can echo out $songs and $amount_of_songs easily
-        require 'application/views/_templates/header.php';
         
+        require 'application/views/_templates/header.php';
+
         if(isset($_POST['submit']))
         {
             if(!empty($_POST['username']) && !empty($_POST['password']))
@@ -40,15 +39,22 @@ class User extends Controller
                         exit();
                     }
                 else
-                    echo "dit login er forkert";
+                    {
+                        $_SESSION['error'] = 'You provided a wrong username or password';
+                        header("Location: /User/Login/");
+                        exit();
+                    }
             }
             else
             {
-                echo "hov how";
+                $_SESSION['error'] = 'Please insert a username and password'; 
+                header("Location: /User/Login/");
+                exit();
             }
         }
         else
         {
+            
             require 'application/views/user/index.php';
         }
 
@@ -92,5 +98,8 @@ class User extends Controller
         require 'application/views/user/editprofile.php';
         require 'application/views/_templates/footer.php';
     }
+
+
+
     
 }
