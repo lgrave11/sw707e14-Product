@@ -1,6 +1,7 @@
 <style>
 #map-canvas {
   height: 600px;
+  width: 600px;
   margin: 10px;
   padding: 10px
 }
