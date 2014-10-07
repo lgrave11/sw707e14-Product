@@ -68,6 +68,19 @@ class StationService implements iService
         return $count;
     }
 
+    public function searchStation($name = ""){
+        $returnArray = array();
+        $name = mysqli_real_escape_string($this->db, $name);
+        $stmt = $this->db->prepare("SELECT station_id, name FROM station WHERE name LIKE '%".$name."%' ORDER BY levenshtein('".$name."', name)");
+        $stmt->execute();
+        $stmt->bind_result($station_id, $name);
+        while($stmt->fetch()){
+            $returnArray[$station_id] = new Station($station_id, $name, NULL, NULL, NULL);
+        }
+        $stmt->close();
+        return $returnArray;
+    }
+
     public function create($station){
         $stmt = $this->db->prepare("INSERT INTO station(station_id, name, address, longitude, latitude) VALUES (?,?,?,?,?)");
         $stmt->bind_param("issff", $station->station_id, $station->name, $station->address, $station->longitude, $station->latitude);
