@@ -72,13 +72,19 @@ body {
     width: 400px;
 }
 
-#sign-In
+#sign-in
 {
+    text-align: center;
     width: 450px;
-    margin: 0 auto 0 auto;
+    margin: auto;
 }
 
-#login-Fields
+#form-login
+{
+    margin:auto;
+}
+
+#login-fields
 {
     text-align: center;
     margin: auto;

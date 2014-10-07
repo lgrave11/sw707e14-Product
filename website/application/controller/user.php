@@ -64,7 +64,7 @@ class User extends Controller
     }
     public function validate()
     {
-        if(Tools:::isLoggedIn())
+        if(Tools::isLoggedIn())
             return true;
 
         $username=$_POST['username'];
