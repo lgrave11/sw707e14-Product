@@ -51,5 +51,10 @@ class Controller
          $_SESSION[$name.'_success'][] =  $message;
     }
     
-    
+    public function hasErrors($name)
+    {
+        if(!isset($_SESSION[$name.'_error']))
+            return false;
+        return count($_SESSION[$name.'_error']) > 0;
+    }
 }
