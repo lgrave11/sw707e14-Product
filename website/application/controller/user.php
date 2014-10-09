@@ -140,7 +140,7 @@ class User extends Controller
                 exit();
             }
 
-            $accountservice = $this->loadModel('accountservice');
+            $accountservice = new AccountService($this->db);
 
             if($accountservice->create(new Account($_POST['username'], $_POST['password'], $_POST['email'], $_POST['phone'])) == null)
             {
@@ -168,7 +168,7 @@ class User extends Controller
     public function changepassword()
     {
         Tools::requireLogin();
-        $accountservice = $this->loadModel('accountservice');
+        $accountservice = new AccountService($this->db);
         
         /* Verify that the current password is correct */
         if (!($accountservice->verifyLogin($_SESSION['login_user'], $_POST['currpass']))) {
@@ -193,7 +193,7 @@ class User extends Controller
     public function editprofile()
     {
         Tools::requireLogin();
-        $accountservice = $this->loadModel('accountservice');
+        $accountservice = new AccountService($this->db);
         
         $user = $accountservice->read($_SESSION['login_user']);
         
@@ -208,7 +208,7 @@ class User extends Controller
 
     public function changeAccountInfo() {
         Tools::requireLogin();
-        $accountservice = $this->loadModel('accountservice');
+        $accountservice = new AccountService($this->db);
         $account = $accountservice->read($_SESSION['login_user']);
         
         if ($_POST['email'] != '') {
