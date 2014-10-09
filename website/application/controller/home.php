@@ -17,7 +17,7 @@ class Home extends Controller
     public function index()
     {
     	$currentPage = substr($_SERVER["REQUEST_URI"], 1);
-    	$stationService = $this->loadModel("StationService");
+    	$stationService = new StationService($this->db);
 
     	$stations = $stationService->readAllStations();
     	

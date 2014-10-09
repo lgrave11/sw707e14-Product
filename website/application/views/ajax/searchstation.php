@@ -1,5 +1,5 @@
 <?php
 foreach($stations as $station){
-	echo '<span onclick="" style="cursor: pointer;">'.$station->name . '</span><br />';
+	echo '<span onclick="" class="searchresulttext">'.$station->name . '</span>';
 }
 ?>

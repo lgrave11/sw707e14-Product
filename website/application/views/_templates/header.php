@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html onclick="CloseSearch()">
 <head>
+<meta charset="UTF-8">
 	<?php
 		Tools::includeCSS();
 	?>
