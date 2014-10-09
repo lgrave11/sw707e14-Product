@@ -317,6 +317,9 @@ INSERT INTO dock(station_id) VALUES(21);
 -- a single user;
 INSERT INTO account(username, password, salt, email, phone) VALUES("sw707e14", "83fd021a41733e76771229d059c052b02bc984528c7fd0634cc5dc566eeb0e89", "12HjN8isnE3T5ArK9wLXDOpmWxukazPCtUSqBYRc6boQlVvFfJMy74gIhGde0Z", "sw707e14@cs.aau.dk", "1345678");
 
+-- a singe booking
+INSERT INTO booking(start_station,password,for_user) VALUES (5,"hejhej","sw707e14");
+
 DELIMITER $$
 DROP FUNCTION IF EXISTS LEVENSHTEIN $$
 CREATE FUNCTION LEVENSHTEIN(s1 VARCHAR(255) CHARACTER SET utf8, s2 VARCHAR(255) CHARACTER SET utf8)
