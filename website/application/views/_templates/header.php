@@ -19,13 +19,20 @@ if (isset($currentPage) && ($currentPage == "" || $currentPage == "home")){
 		<table border="0" cellpadding="0" cellspacing="0">
 			<tr>
 			<td>
-				<a href="/">Status</a>
+				<a href="/">Overview</a>
 			</td>
 			<td>
-				Book
-			</td>
-			<td>
-				Profile
+				<?php
+					if(isset($_SESSION['login_user']))
+					{
+						echo "<a href=\"/User/EditProfile\">Profile</a>";
+						
+					}
+					else
+					{
+						echo "<a href=\"/User/Login\">Profile</a>";
+					}
+				?>
 			</td>			
 			<td>
 				<a href="/Home/About/">About</a>
