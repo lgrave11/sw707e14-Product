@@ -64,7 +64,7 @@ class User extends Controller
 
     public function dirtyCreateUser($username, $password)
     {
-        $accountservice = $this->loadModel("AccountService");
+        $accountservice = new AccountService($this->db);
         $accountservice->create(new Account($username, $password, null));
 
     }
@@ -75,7 +75,7 @@ class User extends Controller
 
         $username=$_POST['username'];
         $password=$_POST['password'];
-        $accountservice = $this->loadModel("AccountService");
+        $accountservice = new AccountService($this->db);
 
         return $accountservice->verifyLogin($username, $password);
         
