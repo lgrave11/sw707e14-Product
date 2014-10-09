@@ -107,6 +107,15 @@ class User extends Controller
             {
                 $this->error('Phone field is empty', 'createuser');
             }
+            if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
+            {
+                $this->error('Invalid email', 'createuser');
+            }
+            if(!filter_var($_POST['phone'], FILTER_VALIDATE_INT))
+            {
+                $this->error('Invalid phone number', 'createuser');   
+            }
+
 
             if($this->hasErrors('createuser'))
             {
@@ -124,7 +133,7 @@ class User extends Controller
             }
             else
             {
-                $this->success('User: ' . $_POST['username'] . ' has been created.', 'home');
+                $this->success('User ' . $_POST['username'] . ' has been created.', 'home');
                 header("Location: /");
                 exit();
             }
