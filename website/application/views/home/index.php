@@ -1,3 +1,7 @@
+<?php 
+	viewHelper::printSuccess('home');
+?>
+
 <div id="map-canvas"></div>
 <div id="mapinfo">
 	<div style="position: relative;">

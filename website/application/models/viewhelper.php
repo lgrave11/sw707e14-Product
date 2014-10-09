@@ -9,7 +9,7 @@ class ViewHelper
 		{
 			for($i = 0; $i < count($_SESSION[$name.'_error']);$i++)
 			{
-				echo '<div class="error">'.$_SESSION[$name.'_error'][$i].'</div><br />';
+				echo '<div class="error">'.$_SESSION[$name.'_error'][$i].'</div>';
 			}
 			unset($_SESSION[$name.'_error']);
 		}
@@ -21,7 +21,7 @@ class ViewHelper
 		{
 			for($i = 0; $i < count($_SESSION[$name.'_success']);$i++)
 			{
-				echo '<div class="success">'.$_SESSION[$name.'_success'][$i].'</div><br />';
+				echo '<div class="success">'.$_SESSION[$name.'_success'][$i].'</div>';
 			}
 			unset($_SESSION[$name.'_success']);
 		}

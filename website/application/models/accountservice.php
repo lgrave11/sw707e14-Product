@@ -15,6 +15,16 @@ class AccountService implements iService
 
 	public function create($account)
 	{
+        $stmt = $this->db->prepare("SELECT count(*) FROM account WHERE username = ?");
+        $stmt->bind_param("s", $account->username);
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        $stmt->close();
+
+        if($count > 0)
+            return null;
+
         if($this->validate($account))
         {
     		$stmt = $this->db->prepare("INSERT INTO  account(username, password, salt, email, phone) VALUES (?, ?, ?, ?, ?)");
@@ -135,6 +145,20 @@ class AccountService implements iService
     public function validate($account)
     {
         return true;
+    }
+
+    public function getBookings($username)
+    {
+        $stmt = $this->db->prepare("SELECT start_time, name FROM booking, station
+                                    WHERE for_user = ? AND start_station = station_id
+                                    ORDER BY start_time DESC");
+        $stmt->bind_param("s", $username);
+        $stmt->execute;
+        $stmt->bind_result($userBookings);
+        $stmt->fetch;
+        $stmt->close;
+
+        return $userBookings;
     }
 
 }

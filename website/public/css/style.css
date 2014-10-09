@@ -58,7 +58,7 @@ h2 {
     width: 900px;
     margin-left: -450px;
     margin-top: 30px;
-    margin-bottom: 30px;
+    padding-bottom: 20px;
     background-color: white;
     position: absolute;
     left: 50%;
@@ -111,12 +111,20 @@ h2 {
     margin: auto;
 }
 
+#form-create
+{
+    margin:auto;
+}
+#create-fields
+{
+    text-align: center;
+    margin: auto;
+}
 .error
 {
     color:#B20000;
     margin:auto;
     text-align: center;
-    padding: 10px;
 }
 
 .success
@@ -124,7 +132,6 @@ h2 {
     color:#006600;
     margin:auto;
     text-align: center;
-    padding: 10px;
 }
 
 #changepass {

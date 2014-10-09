@@ -24,7 +24,12 @@ class User extends Controller
     }
     public function login()
     {
-        
+        if (isset($_GET['target'])) {
+            $target = $_GET['target'];
+        }
+        else{
+            $target = "";
+        }
         require 'application/views/_templates/header.php';
 
         if(isset($_POST['submit']))
@@ -34,9 +39,16 @@ class User extends Controller
                 if($this->validate())
                     {
                         session_regenerate_id(true);
+                        error_log(json_encode($target));
                         $_SESSION['login_user']= $_POST['username'];
-                        header("Location: /");
-                        exit();
+                        if ($target=="") {
+                            header("Location: /");
+                            exit();
+                        }
+                        else {
+                            header("Location:".$target);
+                            exit();
+                        }
                     }
                 else
                     {
@@ -62,12 +74,6 @@ class User extends Controller
 
     }
 
-    public function dirtyCreateUser($username, $password)
-    {
-        $accountservice = new AccountService($this->db);
-        $accountservice->create(new Account($username, $password, null));
-
-    }
     public function validate()
     {
         if(Tools::isLoggedIn())
@@ -79,6 +85,73 @@ class User extends Controller
 
         return $accountservice->verifyLogin($username, $password);
         
+    }
+
+    public function createUser()
+    {
+        if(isset($_POST['submit']))
+        {
+            if(empty($_POST['username'])){
+                $this->error('Username field is empty', 'createuser');
+            }
+            if(empty($_POST['password'])){
+                $this->error('Password field is empty', 'createuser');
+            }
+            if(empty($_POST['passwordconfirm']))
+            {
+                $this->error('Confirm Password field is empty', 'createuser');
+            }
+            if($_POST['password'] != $_POST['passwordconfirm'])
+            {
+                $this->error('Passwords are not equal', 'createuser');
+            }
+            if(empty($_POST['email']))
+            {
+                $this->error('Email field is empty', 'createuser');
+            }
+            if(empty($_POST['phone']))
+            {
+                $this->error('Phone field is empty', 'createuser');
+            }
+            if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
+            {
+                $this->error('Invalid email', 'createuser');
+            }
+            if(!filter_var($_POST['phone'], FILTER_VALIDATE_INT))
+            {
+                $this->error('Invalid phone number', 'createuser');   
+            }
+
+
+            if($this->hasErrors('createuser'))
+            {
+                header("Location: /User/CreateUser/");
+                exit();
+            }
+
+            $accountservice = $this->loadModel('accountservice');
+
+            if($accountservice->create(new Account($_POST['username'], $_POST['password'], $_POST['email'], $_POST['phone'])) == null)
+            {
+                $this->error('A user already exists with the given username', 'createuser');
+                header("Location: /User/CreateUser/");
+                exit();
+            }
+            else
+            {
+                $this->success('User ' . $_POST['username'] . ' has been created.', 'home');
+                $_SESSION['login_user']= $_POST['username'];
+                header("Location: /");
+                exit();
+            }
+        }
+        else
+        {
+            require 'application/views/_templates/header.php';
+            require 'application/views/user/createprofile.php';
+        }
+        
+        require 'application/views/_templates/footer.php';
     }
 
     public function changepassword()

@@ -30,7 +30,7 @@ if (isset($currentPage) && ($currentPage == "" || $currentPage == "home")){
 					}
 					else
 					{
-						echo "<a href=\"/User/Login\">Profile</a>";
+						echo "<a href=\"/User/Login/?target=/User/EditProfile\">Profile</a>";
 					}
 				?>
 			</td>			
