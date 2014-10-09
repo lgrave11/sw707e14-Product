@@ -44,7 +44,7 @@ input, textarea, select {
     width: 900px;
     margin-left: -450px;
     margin-top: 30px;
-    margin-bottom: 30px;
+    padding-bottom: 20px;
     background-color: white;
     position: absolute;
     left: 50%;
