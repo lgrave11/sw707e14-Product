@@ -149,16 +149,19 @@ class AccountService implements iService
 
     public function getBookings($username)
     {
+        $returnArray = array();
         $stmt = $this->db->prepare("SELECT start_time, name FROM booking, station
                                     WHERE for_user = ? AND start_station = station_id
                                     ORDER BY start_time DESC");
         $stmt->bind_param("s", $username);
-        $stmt->execute;
-        $stmt->bind_result($userBookings);
-        $stmt->fetch;
-        $stmt->close;
+        $stmt->execute();
+        $stmt->bind_result($start_time, $station_name);
+        while($stmt->fetch()){
+            $returnArray[$start_time] = new Booking(null, $start_time, $station_name, null, null);
+        }
+        $stmt->close();
 
-        return $userBookings;
+        return $returnArray;
     }
 
 }

@@ -13,6 +13,17 @@ class User extends Controller
         require 'application/views/_templates/footer.php';
     }
 
+    public function viewHistory(){
+        $currentPage = substr($_SERVER["REQUEST_URI"], 1);
+        $accountService = new AccountService($this->db);
+
+        $bookings = $accountService->getBookings($_SESSION['login_user']);
+
+        require 'application/views/_templates/header.php';
+        require 'application/views/user/history.php';
+        require 'application/views/_templates/footer.php';
+    }
+
     public function logout()
     {
         session_destroy();

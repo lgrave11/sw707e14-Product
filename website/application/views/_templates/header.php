@@ -16,7 +16,7 @@ if (isset($currentPage) && ($currentPage == "" || $currentPage == "home")){
 <body>
 	<div id="container">
 	<div id="navbar">
-		<table border="0" cellpadding="0" cellspacing="0">
+		<table>
 			<tr>
 			<td>
 				<a href="/">Overview</a>
