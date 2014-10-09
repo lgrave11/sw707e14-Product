@@ -97,12 +97,20 @@ input, textarea, select {
     margin: auto;
 }
 
+#form-create
+{
+    margin:auto;
+}
+#create-fields
+{
+    text-align: center;
+    margin: auto;
+}
 .error
 {
     color:#B20000;
     margin:auto;
     text-align: center;
-    padding: 10px;
 }
 
 .success
@@ -110,7 +118,6 @@ input, textarea, select {
     color:#006600;
     margin:auto;
     text-align: center;
-    padding: 10px;
 }
 
 #changepass {

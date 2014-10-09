@@ -15,6 +15,16 @@ class AccountService implements iService
 
 	public function create($account)
 	{
+        $stmt = $this->db->prepare("SELECT count(*) FROM account WHERE username = ?");
+        $stmt->bind_param("s", $account->username);
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        $stmt->close();
+
+        if($count > 0)
+            return null;
+
         if($this->validate($account))
         {
     		$stmt = $this->db->prepare("INSERT INTO  account(username, password, salt, email, phone) VALUES (?, ?, ?, ?, ?)");
