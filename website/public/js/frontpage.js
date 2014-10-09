@@ -7,21 +7,21 @@ $(function() {
 
 	$("#minutepicker").datetimepicker({
   		datepicker:false,
-  		format:'i',
+  		format: 'i',
+  		formatTime: 'i',
   		step: 5,
-  		roundTime: 'ceil',
-  		minTime: '00',
-  		maxTime: '55',
-  		formatTime: 'i'
+  		onlyTime: true
 	});
 
 	$("#datepicker").datetimepicker({
   		datepicker:true,
+  		format: 'd/m/Y',
   		formatDate: 'd/m/Y',
   		timepicker: false,
   		minDate: 0,
   		maxDate: '+7/1/1970',
   		scrollInput: false,
-  		scrollMonth: false
+  		scrollMonth: false,
+  		dayOfWeekStart: 1
 	});
 })
