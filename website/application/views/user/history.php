@@ -8,33 +8,8 @@
 </th>
 </tr>
 <?php
-	echo 
+	foreach ($bookings as $book) {
+		echo "<tr><td>".date('d F Y H:i:s',$book->start_time)."</td><td>".$book->start_station."</td></tr>";
+	}
 ?>
-
-
-<tr>
-<td>
-	hejghsefoehf
-</td>
-<td>
-	hej
-</td>
-</tr>
-<tr>
-<td>
-	hejghsefoehf
-</td>
-<td>
-	hej
-</td>
-</tr>
-<tr>
-<td>
-	hejghsefoehf
-</td>
-<td>
-	hej
-</td>
-</tr>
-
 </table>		

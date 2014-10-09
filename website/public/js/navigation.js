@@ -1,4 +1,4 @@
-var wwwroot = "localhost/"
+var wwwroot = "localhost/";
 
 function navigateTo(destination)
 {

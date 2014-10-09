@@ -38,6 +38,7 @@ h2 {
     background-color: #00315F;
     font-weight: bold;
     font-family: trebuchet MS;
+    border-collapse: collapse;
 }
 
 #navbar table td:hover {
