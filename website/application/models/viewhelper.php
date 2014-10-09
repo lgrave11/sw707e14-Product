@@ -31,6 +31,27 @@ class ViewHelper
 	    ViewHelper::printError($name);
 	    ViewHelper::printSuccess($name);
 	}
+
+	public static function printHour(){
+		$currentTime = time();
+		if (date("i") >= 55)
+		{
+			$hour = date("H", ($currentTime + 3600));
+		} else {
+			$hour = date("H");
+		}
+		return $hour;
+	}
+
+	public static function printMinute(){
+		if (date("i") >= 55)
+		{
+			$minute = "00";
+		} else {
+			$minute = 5 * round(date("i") / 5);
+		}
+		return str_pad($minute, 2, 0, STR_PAD_LEFT);
+	}
 }
 
 ?>
