@@ -129,3 +129,23 @@ input, textarea, select {
     width: 50%;
     float: right;
 }
+
+#historytable{
+    margin-right: 25%;
+    margin-left: 25%;
+    width: 50%;
+    border:1px solid black;
+    border-collapse: collapse;
+}
+
+#historytable th{
+    width: 50%;
+    text-align: center;
+    border-bottom: 1px solid black;
+    padding-bottom: 10px;
+}
+
+#historytable td{
+    border-bottom: 1px solid black;
+
+}
