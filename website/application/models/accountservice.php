@@ -147,6 +147,20 @@ class AccountService implements iService
         return true;
     }
 
+    public function getBookings($username)
+    {
+        $stmt = $this->db->prepare("SELECT start_time, name FROM booking, station
+                                    WHERE for_user = ? AND start_station = station_id
+                                    ORDER BY start_time DESC");
+        $stmt->bind_param("s", $username);
+        $stmt->execute;
+        $stmt->bind_result($userBookings);
+        $stmt->fetch;
+        $stmt->close;
+
+        return $userBookings;
+    }
+
 }
 
 ?>
