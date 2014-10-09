@@ -15,6 +15,16 @@ class AccountService implements iService
 
 	public function create($account)
 	{
+        $stmt = $this->db->prepare("SELECT count(*) FROM account WHERE username = ?");
+        $stmt->bind_param("s", $account->username);
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        $stmt->close();
+
+        if($count > 0)
+            return null;
+
         if($this->validate($account))
         {
     		$stmt = $this->db->prepare("INSERT INTO  account(username, password, salt, email, phone) VALUES (?, ?, ?, ?, ?)");
@@ -57,7 +67,7 @@ class AccountService implements iService
 
     public function update($account)
     {
-        if(validate($account))
+        if($this->validate($account))
         {
         	//lookup salt
         	$stmt = $this->db->prepare("SELECT salt from account WHERE username = ?");
@@ -87,7 +97,7 @@ class AccountService implements iService
     */
     public function delete($account)
     {
-        if(validate($account))
+        if($this->validate($account))
         {
         	$stmt = $this->db->prepare("DELETE FROM account WHERE username = ?");
         	$stmt->bind_param("s",$account->username);

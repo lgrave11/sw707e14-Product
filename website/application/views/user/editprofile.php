@@ -43,7 +43,7 @@
 	</center>
 	<center>
 		<div id="changeother">
-			<form action="/user/changeother" method="post">
+			<form action="/User/ChangeAccountInfo" method="post">
 				<table>
 					<tr>
 						<td>
@@ -80,6 +80,10 @@
 	<br/>
 	<p>&nbsp;</p>
 	<center>
+	    <div>
+	        <?php ViewHelper::printMessages('changepassword');
+	              ViewHelper::printMessages('accountinfo'); ?>
+	    </div>
 		<div>
 			<input type="button" value="View History"/> <br/>
 		</div>
