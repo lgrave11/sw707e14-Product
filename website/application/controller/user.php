@@ -62,12 +62,6 @@ class User extends Controller
 
     }
 
-    public function dirtyCreateUser($username, $password)
-    {
-        $accountservice = new AccountService($this->db);
-        $accountservice->create(new Account($username, $password, null));
-
-    }
     public function validate()
     {
         if(Tools::isLoggedIn())
