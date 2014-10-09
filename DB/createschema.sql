@@ -43,7 +43,7 @@ CREATE TABLE account
 CREATE TABLE booking
 (
 	booking_id int PRIMARY KEY,
-	start_time timestamp NOT NULL,
+	start_time bigint NOT NULL,
 	start_station int NOT NULL,
 	password varchar(6) NOT NULL,
 	for_user varchar(50) NOT NULL,
@@ -318,7 +318,7 @@ INSERT INTO dock(station_id) VALUES(21);
 INSERT INTO account(username, password, salt, email, phone) VALUES("sw707e14", "83fd021a41733e76771229d059c052b02bc984528c7fd0634cc5dc566eeb0e89", "12HjN8isnE3T5ArK9wLXDOpmWxukazPCtUSqBYRc6boQlVvFfJMy74gIhGde0Z", "sw707e14@cs.aau.dk", "1345678");
 
 -- a singe booking
-INSERT INTO booking(start_station,password,for_user) VALUES (5,"hejhej","sw707e14");
+INSERT INTO booking(start_time, start_station,password,for_user) VALUES (1412838613, 5,"hejhej","sw707e14");
 
 DELIMITER $$
 DROP FUNCTION IF EXISTS LEVENSHTEIN $$
