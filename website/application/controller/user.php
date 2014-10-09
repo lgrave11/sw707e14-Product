@@ -24,7 +24,12 @@ class User extends Controller
     }
     public function login()
     {
-        
+        if (isset($_GET['target'])) {
+            $target = $_GET['target'];
+        }
+        else{
+            $target = "";
+        }
         require 'application/views/_templates/header.php';
 
         if(isset($_POST['submit']))
@@ -34,9 +39,16 @@ class User extends Controller
                 if($this->validate())
                     {
                         session_regenerate_id(true);
+                        error_log(json_encode($target));
                         $_SESSION['login_user']= $_POST['username'];
-                        header("Location: /");
-                        exit();
+                        if ($target=="") {
+                            header("Location: /");
+                            exit();
+                        }
+                        else {
+                            header("Location:".$target);
+                            exit();
+                        }
                     }
                 else
                     {
@@ -62,12 +74,6 @@ class User extends Controller
 
     }
 
-    public function dirtyCreateUser($username, $password)
-    {
-        $accountservice = new AccountService($this->db);
-        $accountservice->create(new Account($username, $password, null));
-
-    }
     public function validate()
     {
         if(Tools::isLoggedIn())
@@ -81,25 +87,139 @@ class User extends Controller
         
     }
 
+    public function createUser()
+    {
+        if(isset($_POST['submit']))
+        {
+            if(empty($_POST['username'])){
+                $this->error('Username field is empty', 'createuser');
+            }
+            if(empty($_POST['password'])){
+                $this->error('Password field is empty', 'createuser');
+            }
+            if(empty($_POST['passwordconfirm']))
+            {
+                $this->error('Confirm Password field is empty', 'createuser');
+            }
+            if($_POST['password'] != $_POST['passwordconfirm'])
+            {
+                $this->error('Passwords are not equal', 'createuser');
+            }
+            if(empty($_POST['email']))
+            {
+                $this->error('Email field is empty', 'createuser');
+            }
+            if(empty($_POST['phone']))
+            {
+                $this->error('Phone field is empty', 'createuser');
+            }
+            if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
+            {
+                $this->error('Invalid email', 'createuser');
+            }
+            if(!filter_var($_POST['phone'], FILTER_VALIDATE_INT))
+            {
+                $this->error('Invalid phone number', 'createuser');   
+            }
+
+
+            if($this->hasErrors('createuser'))
+            {
+                header("Location: /User/CreateUser/");
+                exit();
+            }
+
+            $accountservice = $this->loadModel('accountservice');
+
+            if($accountservice->create(new Account($_POST['username'], $_POST['password'], $_POST['email'], $_POST['phone'])) == null)
+            {
+                $this->error('A user already exists with the given username', 'createuser');
+                header("Location: /User/CreateUser/");
+                exit();
+            }
+            else
+            {
+                $this->success('User ' . $_POST['username'] . ' has been created.', 'home');
+                $_SESSION['login_user']= $_POST['username'];
+                header("Location: /");
+                exit();
+            }
+        }
+        else
+        {
+            require 'application/views/_templates/header.php';
+            require 'application/views/user/createprofile.php';
+        }
+        
+        require 'application/views/_templates/footer.php';
+    }
+
     public function changepassword()
     {
-        $_POST["currpass"];
-        $_POST["newpass1"];
-        $_POST["newpass2"];
-        header("location: /user/editprofile");
+        Tools::requireLogin();
+        $accountservice = $this->loadModel('accountservice');
+        
+        /* Verify that the current password is correct */
+        if (!($accountservice->verifyLogin($_SESSION['login_user'], $_POST['currpass']))) {
+            $this->error('The current password is not correct', 'changepassword');
+        }
+        
+        /* Verify that the new passwords are equal */
+        if ($_POST['newpass1'] != $_POST['newpass2']) {
+            $this->error('The new passwords does not agree', 'changepassword');
+        }
+        
+        /* Update account */
+        if (!$this->hasErrors('changepassword')) {
+            $account = new Account($_SESSION['login_user'], $_POST['newpass1']);
+            $accountservice->update($account);
+            $this->success('Password changed', 'changepassword');
+        }
+        
+        header('location: /user/editprofile');
     }
 
     public function editprofile()
     {
-        $username="Poul Hansen";
-        $email="Poul@test.dk";
-        $phone="12345678";
+        Tools::requireLogin();
+        $accountservice = $this->loadModel('accountservice');
+        
+        $user = $accountservice->read($_SESSION['login_user']);
+        
+        $username= $user->username;
+        $email= $user->email;
+        $phone= $user->phone;
+        
         require 'application/views/_templates/header.php';
         require 'application/views/user/editprofile.php';
         require 'application/views/_templates/footer.php';
     }
 
-
+    public function changeAccountInfo() {
+        Tools::requireLogin();
+        $accountservice = $this->loadModel('accountservice');
+        $account = $accountservice->read($_SESSION['login_user']);
+        
+        if ($_POST['email'] != '') {
+            $account->email = $_POST['email'];
+        } else {
+            $this->error('Empty email', 'accountinfo');
+        }
+        
+        if ($_POST['phone'] != '') {
+            $account->phone = $_POST['phone'];
+        } else {
+            $this->error('Empty phone number', 'accountinfo');
+        }
+        
+        if (!$this->hasErrors('accountinfo')) {
+            $accountservice->update($account);
+            $this->success('Information saved', 'accountinfo');
+        }
+        
+        header('Location: /User/EditProfile');
+        
+    }
 
     
 }

@@ -97,20 +97,27 @@ input, textarea, select {
     margin: auto;
 }
 
-#error
+#form-create
+{
+    margin:auto;
+}
+#create-fields
+{
+    text-align: center;
+    margin: auto;
+}
+.error
 {
     color:#B20000;
     margin:auto;
     text-align: center;
-    padding: 10px;
 }
 
-#success
+.success
 {
     color:#006600;
     margin:auto;
     text-align: center;
-    padding: 10px;
 }
 
 #changepass {
