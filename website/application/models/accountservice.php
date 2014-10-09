@@ -57,7 +57,7 @@ class AccountService implements iService
 
     public function update($account)
     {
-        if(validate($account))
+        if($this->validate($account))
         {
         	//lookup salt
         	$stmt = $this->db->prepare("SELECT salt from account WHERE username = ?");
@@ -87,7 +87,7 @@ class AccountService implements iService
     */
     public function delete($account)
     {
-        if(validate($account))
+        if($this->validate($account))
         {
         	$stmt = $this->db->prepare("DELETE FROM account WHERE username = ?");
         	$stmt->bind_param("s",$account->username);

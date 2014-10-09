@@ -97,7 +97,7 @@ input, textarea, select {
     margin: auto;
 }
 
-#error
+.error
 {
     color:#B20000;
     margin:auto;
@@ -105,7 +105,7 @@ input, textarea, select {
     padding: 10px;
 }
 
-#success
+.success
 {
     color:#006600;
     margin:auto;

@@ -83,23 +83,70 @@ class User extends Controller
 
     public function changepassword()
     {
-        $_POST["currpass"];
-        $_POST["newpass1"];
-        $_POST["newpass2"];
-        header("location: /user/editprofile");
+        Tools::requireLogin();
+        $accountservice = $this->loadModel('accountservice');
+        
+        /* Verify that the current password is correct */
+        if (!($accountservice->verifyLogin($_SESSION['login_user'], $_POST['currpass']))) {
+            $this->error('The current password is not correct', 'changepassword');
+        }
+        
+        /* Verify that the new passwords are equal */
+        if ($_POST['newpass1'] != $_POST['newpass2']) {
+            $this->error('The new passwords does not agree', 'changepassword');
+        }
+        
+        /* Update account */
+        if (!$this->hasErrors('changepassword')) {
+            $account = new Account($_SESSION['login_user'], $_POST['newpass1']);
+            $accountservice->update($account);
+            $this->success('Password changed', 'changepassword');
+        }
+        
+        header('location: /user/editprofile');
     }
 
     public function editprofile()
     {
-        $username="Poul Hansen";
-        $email="Poul@test.dk";
-        $phone="12345678";
+        Tools::requireLogin();
+        $accountservice = $this->loadModel('accountservice');
+        
+        $user = $accountservice->read($_SESSION['login_user']);
+        
+        $username= $user->username;
+        $email= $user->email;
+        $phone= $user->phone;
+        
         require 'application/views/_templates/header.php';
         require 'application/views/user/editprofile.php';
         require 'application/views/_templates/footer.php';
     }
 
-
+    public function changeAccountInfo() {
+        Tools::requireLogin();
+        $accountservice = $this->loadModel('accountservice');
+        $account = $accountservice->read($_SESSION['login_user']);
+        
+        if ($_POST['email'] != '') {
+            $account->email = $_POST['email'];
+        } else {
+            $this->error('Empty email', 'accountinfo');
+        }
+        
+        if ($_POST['phone'] != '') {
+            $account->phone = $_POST['phone'];
+        } else {
+            $this->error('Empty phone number', 'accountinfo');
+        }
+        
+        if (!$this->hasErrors('accountinfo')) {
+            $accountservice->update($account);
+            $this->success('Information saved', 'accountinfo');
+        }
+        
+        header('Location: /User/EditProfile');
+        
+    }
 
     
 }
