@@ -97,6 +97,17 @@ input, textarea, select {
     margin: auto;
 }
 
+#form-create
+{
+    margin:auto;
+}
+
+#create-fields
+{
+    text-align: center;
+    margin: auto;
+}
+
 #error
 {
     color:#B20000;

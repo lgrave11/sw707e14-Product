@@ -84,7 +84,39 @@ class User extends Controller
     public function createUser()
     {
         require 'application/views/_templates/header.php';
-        require 'application/views/user/createprofile.php';
+
+        if(isset($_POST['submit']))
+        {
+            if(empty($_POST['username'])){
+                $this->error('Username field is empty', 'createuser');
+            }
+            if(empty($_POST['password'])){
+                $this->error('Password field is empty', 'createuser');
+            }
+            if(empty($_POST['passwordconfirm']))
+            {
+                $this->error('Confirm Password field is empty', 'createuser');
+            }
+            if($_POST['password'] != $_POST['passwordconfirm'])
+            {
+                $this->error('Passwords are not equal', 'createuser');
+            }
+            if(empty($_POST['email']))
+            {
+                $this->error('Email field is empty', 'createuser');
+            }
+            if(empty($_POST['phone']))
+            {
+                $this->error('Phone field is empty', 'createuser');
+            }
+
+
+        }
+        else
+        {
+            require 'application/views/user/createprofile.php';
+        }
+        
         require 'application/views/_templates/footer.php';
     }
 
