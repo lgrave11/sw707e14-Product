@@ -134,6 +134,7 @@ class User extends Controller
             else
             {
                 $this->success('User ' . $_POST['username'] . ' has been created.', 'home');
+                $_SESSION['login_user']= $_POST['username'];
                 header("Location: /");
                 exit();
             }

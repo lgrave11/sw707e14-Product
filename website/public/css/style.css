@@ -111,7 +111,6 @@ input, textarea, select {
     color:#B20000;
     margin:auto;
     text-align: center;
-    padding: 10px;
 }
 
 .success
@@ -119,7 +118,6 @@ input, textarea, select {
     color:#006600;
     margin:auto;
     text-align: center;
-    padding: 10px;
 }
 
 #changepass {
