@@ -48,17 +48,26 @@ class StationService implements iService
         return $returnArray;
     }*/
     
-    public function readAllAvailableDocksForStation($station){
+    public function readAllAvailableBicyclesForStation($station){
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM dock WHERE station_id = ? AND holds_bicycle IS NOT NULL");
         $stmt->bind_param("i", $station->station_id);
         $stmt->execute();
-        $stmt->bind_result($count);
+        $stmt->bind_result($countBicycles);
         $stmt->fetch();
         $stmt->close();
-        return $count;
+
+        $time_now = mktime(date("H"),date("i"),date("s"),date("n"), date("j"),date("Y"));
+        $time_midnight = mktime(23,59,59,date("n"),date("j"),date("Y"));
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM booking WHERE start_station = ? AND start_time BETWEEN ? AND ?");
+        $stmt->bind_param("iii",$station->station_id, $time_now, $time_midnight);
+        $stmt->execute();
+        $stmt->bind_result($countBookings);
+        $stmt->fetch();
+        $stmt->close();
+        return $countBicycles - $countBookings;
     }
 
-    public function readAllUnavailableDocksForStation($station){
+    public function readAllAvailableDocksForStation($station){
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM dock WHERE station_id = ? AND holds_bicycle IS NULL");
         $stmt->bind_param("i", $station->station_id);
         $stmt->execute();
