@@ -42,7 +42,7 @@ CREATE TABLE account
 
 CREATE TABLE booking
 (
-	booking_id int PRIMARY KEY,
+	booking_id int PRIMARY KEY AUTO_INCREMENT,
 	start_time bigint NOT NULL,
 	start_station int NOT NULL,
 	password varchar(6) NOT NULL,
@@ -55,7 +55,7 @@ INSERT INTO station(name, latitude, longitude) VALUES ("Banegården - Bustermina
 INSERT INTO station(name, latitude, longitude) VALUES ("Frederikstorv", 57.045095, 9.923750);-- 2;
 INSERT INTO station(name, latitude, longitude) VALUES ("Gammeltorv", 57.048140, 9.920660);-- 3;
 INSERT INTO station(name, latitude, longitude) VALUES ("Haraldslund", 57.054428, 9.899529);-- 4;
-INSERT INTO station(name, latitude, longitude) VALUES ("Havnefronte - Jomfru Ane Parken", 57.051315, 9.920015);-- 5;
+INSERT INTO station(name, latitude, longitude) VALUES ("Havnefronten - Jomfru Ane Parken", 57.051315, 9.920015);-- 5;
 INSERT INTO station(name, latitude, longitude) VALUES ("Karolinelund", 57.043065, 9.930580);-- 6;
 INSERT INTO station(name, latitude, longitude) VALUES ("Lystbådehavnen", 57.057042, 9.903899);-- 7;
 INSERT INTO station(name, latitude, longitude) VALUES ("Kunsten", 57.042814, 9.907255);-- 8;
@@ -317,8 +317,18 @@ INSERT INTO dock(station_id) VALUES(21);
 -- a single user;
 INSERT INTO account(username, password, salt, email, phone) VALUES("sw707e14", "83fd021a41733e76771229d059c052b02bc984528c7fd0634cc5dc566eeb0e89", "12HjN8isnE3T5ArK9wLXDOpmWxukazPCtUSqBYRc6boQlVvFfJMy74gIhGde0Z", "sw707e14@cs.aau.dk", "1345678");
 
--- a singe booking
+-- some bookings
 INSERT INTO booking(start_time, start_station,password,for_user) VALUES (1412838613, 5,"hejhej","sw707e14");
+INSERT INTO booking(start_time, start_station,password,for_user) VALUES (1208120578, 5,"anden","sw707e14");
+INSERT INTO booking(start_time, start_station,password,for_user) VALUES (1270666908, 5,"måske","sw707e14");
+INSERT INTO booking(start_time, start_station,password,for_user) VALUES (1478425556, 5,"kage","sw707e14");
+INSERT INTO booking(start_time, start_station,password,for_user) VALUES (1206887716, 5,"Lasses","sw707e14");
+INSERT INTO booking(start_time, start_station,password,for_user) VALUES (1543419251, 5,"Vi har","sw707e14");
+INSERT INTO booking(start_time, start_station,password,for_user) VALUES (1456989150, 5,"Wazzup","sw707e14");
+INSERT INTO booking(start_time, start_station,password,for_user) VALUES (1226771992, 5,"bøøh","sw707e14");
+INSERT INTO booking(start_time, start_station,password,for_user) VALUES (1594571207, 5,"graauw","sw707e14");
+INSERT INTO booking(start_time, start_station,password,for_user) VALUES (1425606759, 5,"Hvorfo","sw707e14");
+INSERT INTO booking(start_time, start_station,password,for_user) VALUES (1424095263, 5,"daauw","sw707e14");
 
 DELIMITER $$
 DROP FUNCTION IF EXISTS LEVENSHTEIN $$
