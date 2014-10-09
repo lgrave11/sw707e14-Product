@@ -24,7 +24,12 @@ class User extends Controller
     }
     public function login()
     {
-        
+        if (isset($_GET['target'])) {
+            $target = $_GET['target'];
+        }
+        else{
+            $target = "";
+        }
         require 'application/views/_templates/header.php';
 
         if(isset($_POST['submit']))
@@ -34,9 +39,16 @@ class User extends Controller
                 if($this->validate())
                     {
                         session_regenerate_id(true);
+                        error_log(json_encode($target));
                         $_SESSION['login_user']= $_POST['username'];
-                        header("Location: /");
-                        exit();
+                        if ($target=="") {
+                            header("Location: /");
+                            exit();
+                        }
+                        else {
+                            header("Location:".$target);
+                            exit();
+                        }
                     }
                 else
                     {
