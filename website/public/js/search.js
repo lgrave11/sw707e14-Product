@@ -31,3 +31,13 @@ function ShowSearch(){
 		$("#searchresult").show();
 	}
 }
+
+function SelectStationFromList(station){
+	$("#stations option").filter(function() {
+	    //may want to use $.trim in here
+	    mouseoversearch = false;
+	    $("#searchresult").hide();
+	    $("#searchstation").val('');
+	    return $(this).text() == station;
+	}).prop('selected', true);
+}

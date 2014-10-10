@@ -10,7 +10,8 @@ $(function() {
   		format: 'i',
   		formatTime: 'i',
   		step: 5,
-  		onlyTime: true
+  		onlyTime: true,
+  		roundTime: 'ceil'
 	});
 
 	$("#datepicker").datetimepicker({

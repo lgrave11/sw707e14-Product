@@ -48,7 +48,7 @@
             icon: image
           }));
           google.maps.event.addListener(mark[i], 'click', helperBounce(mark[i],toggleBounce));
-          
+          //google.maps.event.addListener(mark[i], 'click', helperSelectStation(SelectStationFromList, mark[i].title));
         }
 
         <?php
@@ -62,9 +62,13 @@
         ?>  
       }
 
+      function helperSelectStation(func, name){
+      	return function(){func(name)};
+      }
+
       function helperBounce(i, func)
       {
-        return function(){func(i)}
+        return function(){func(i)};
       }
 
       function toggleBounce(marker) {
