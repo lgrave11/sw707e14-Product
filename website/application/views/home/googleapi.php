@@ -33,7 +33,6 @@
           zoom: 13,
           center: aalborg,
           panControl: false,
-          mapTypeControl: false,
           zoomControlOptions: {
         	style: google.maps.ZoomControlStyle.LARGE,
         	position: google.maps.ControlPosition.RIGHT_TOP,
@@ -76,6 +75,14 @@
             $i++;
           }
         ?>  
+      }
+
+      function closeAllInfoWindows(marker) {
+      	for(i = 0; i < infowindow.length; i++) 
+      	{
+      		infowindow[i].close();	
+      	}
+      	toggleBounce(marker)
       }
 
       function helperSelectStation(func, name){

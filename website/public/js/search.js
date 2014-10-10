@@ -55,7 +55,7 @@ function UpdateMarker(){
 	var chosenStation = $("#stations").find(':selected').text();
 	for (i = 0; i < mark.length; i++){
 		if (mark[i].title == chosenStation){
-			toggleBounce(mark[i]);
+			closeAllInfoWindows(mark[i]);
 			break;
 		}
 	}
