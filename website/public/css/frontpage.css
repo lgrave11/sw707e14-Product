@@ -13,7 +13,7 @@
 
 .searchbox {
 	width: 225px; 
-	background-image: url('/public/img/search.png');
+	background-image: url('/public/images/search.png');
 	background-position: left center;
 	background-repeat: no-repeat;
 	background-size: 12px 12px;
@@ -21,6 +21,7 @@
 }
 
 #searchresult {
+	background-color: #ffffff;
 	position: absolute;
 	top: 22px;
 	left: 0px;
