@@ -17,12 +17,12 @@
 }
 
 .searchbox {
-	width: 225px; 
-	background-image: url('/public/images/search.png');
-	background-position: left center;
+	width: 220px;
+	background-image: url('/public/images/search-white.png');
+	background-position: 5px center;
 	background-repeat: no-repeat;
 	background-size: 12px 12px;
-	padding-left: 15px;
+	padding-left: 20px;
 }
 
 #searchresult {
