@@ -1,7 +1,8 @@
-<?php 
+<?php
 	viewHelper::printSuccess('home');
 ?>
 
+<div id="map-container">
 <div id="map-canvas"></div>
 <div id="mapinfo">
 	<div style="position: relative;">
@@ -22,4 +23,5 @@
 		Time for booking:<br />
 		<input id="hourpicker" type="text" readonly name="hour" value="<?php echo ViewHelper::printHour(); ?>" style="width: 25px" />:<input id="minutepicker" type="text" readonly name="minute" value="<?php echo ViewHelper::printMinute(); ?>" style="width: 25px" />-<input id="datepicker" type="text" readonly name="date" value="<?php echo ViewHelper::printDate(); ?>" style="width: 75px" />
 	</div>
+</div>
 </div>
