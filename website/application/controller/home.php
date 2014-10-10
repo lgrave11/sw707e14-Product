@@ -16,6 +16,7 @@ class Home extends Controller
      */
     public function index()
     {
+        $this->title = "Home";
     	$currentPage = substr($_SERVER["REQUEST_URI"], 1);
     	$stationService = new StationService($this->db);
 
@@ -28,7 +29,7 @@ class Home extends Controller
     }
     public function about()
     {
-        $this->title="About";
+        $this->title = "About";
         require 'application/views/_templates/header.php';
         require 'application/views/home/about.php';
         require 'application/views/_templates/footer.php';
