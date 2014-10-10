@@ -57,13 +57,34 @@ h2 {
 
 #container {
     width: 900px;
-    margin-left: -450px;
-    margin-top: 30px;
-    padding-bottom: 20px;
+    margin: 30px auto;
     background-color: white;
-    position: absolute;
-    left: 50%;
+}
 
+#footer
+{
+    margin: auto;
+    background-color: #00315F;
+    color:white;
+    bottom:0;
+    text-align:center;
+    width: 900px;
+    margin-top:10px;
+}
+
+#footer a:link
+{
+    color:white;
+    font-family: trebuchet MS;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
+
+}
+
+#footer a:hover
+{
+    text-decoration: underline;
 }
 
 #navbar {
@@ -85,12 +106,12 @@ h2 {
 }
 
 #about div {
-    float: left;
     margin-right: 25px;
     margin-left:  25px;
 }
 
 #abouttext {
+    float:left;
     width: 400px;
 }
 
@@ -164,3 +185,4 @@ h2 {
     border-bottom: 1px solid black;
 
 }
+
