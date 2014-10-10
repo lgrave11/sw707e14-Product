@@ -7,6 +7,7 @@ class User extends Controller
      */
     public function index()
     {
+        $this->title = "User";
         Tools::requireLogin();
         require 'application/views/_templates/header.php';
         echo "du er logget ind, her er en bruger side";
@@ -14,6 +15,7 @@ class User extends Controller
     }
 
     public function viewHistory(){
+        $this->title = "View History";
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
         $accountService = new AccountService($this->db);
 
@@ -26,6 +28,7 @@ class User extends Controller
 
     public function logout()
     {
+        $this->title = "Logout";
         session_destroy();
         if(Tools::isLoggedIn())
             unset($_SESSION['login_user']);
@@ -35,6 +38,7 @@ class User extends Controller
     }
     public function login()
     {
+        $this->title = "Login";
         if (isset($_GET['target'])) {
             $target = $_GET['target'];
         }
@@ -87,6 +91,7 @@ class User extends Controller
 
     public function validate()
     {
+        $this->title = "Validate";
         if(Tools::isLoggedIn())
             return true;
 
@@ -100,6 +105,7 @@ class User extends Controller
 
     public function createUser()
     {
+        $this->title = "Create User";
         if(isset($_POST['submit']))
         {
             if(empty($_POST['username'])){
@@ -167,6 +173,7 @@ class User extends Controller
 
     public function changepassword()
     {
+        $this->title = "Change Password";
         Tools::requireLogin();
         $accountservice = new AccountService($this->db);
         
@@ -192,6 +199,7 @@ class User extends Controller
 
     public function editprofile()
     {
+        $this->title = "Edit Profile";
         Tools::requireLogin();
         $accountservice = new AccountService($this->db);
         
@@ -207,6 +215,7 @@ class User extends Controller
     }
 
     public function changeAccountInfo() {
+        $this->title = "Change Account Information";
         Tools::requireLogin();
         $accountservice = new AccountService($this->db);
         $account = $accountservice->read($_SESSION['login_user']);
