@@ -5,7 +5,7 @@
 	<?php
 		Tools::includeCSS();
 	?>
-<title>Title of the document</title>
+<title><?php echo $this->title; ?> · Aalborg bycyklen</title>
 <?php
 if (isset($currentPage) && ($currentPage == "" || $currentPage == "home")){
 	include("application/views/home/googleapi.php");

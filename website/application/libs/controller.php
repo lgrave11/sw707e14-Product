@@ -9,6 +9,7 @@ class Controller
      * @var null Database Connection
      */
     public $db = null;
+    public $title = "";
 
     /**
      * Whenever a controller is created, open a database connection too. The idea behind is to have ONE connection
