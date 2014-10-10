@@ -1,6 +1,6 @@
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
     <script>
-      var aalborg = new google.maps.LatLng(57.040835, 9.935895
+      var aalborg = new google.maps.LatLng(57.037835, 9.940895
 );
       var marker;
       var map;
@@ -31,7 +31,13 @@
       function initialize() {
         var mapOptions = {
           zoom: 13,
-          center: aalborg
+          center: aalborg,
+          panControl: false,
+          mapTypeControl: false,
+          zoomControlOptions: {
+        	style: google.maps.ZoomControlStyle.LARGE,
+        	position: google.maps.ControlPosition.RIGHT_TOP,
+    	  },
         };
 
 
