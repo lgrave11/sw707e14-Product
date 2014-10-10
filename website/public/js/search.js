@@ -40,4 +40,24 @@ function SelectStationFromList(station){
 	    $("#searchstation").val('');
 	    return $(this).text() == station;
 	}).prop('selected', true);
+	UpdateMarker();
+}
+
+function ReadAvailableBicycles(stationName){
+	$("#stations option").filter(function() {
+	    if ($(this).text() == stationName){
+	    	$("#freebicycles").load("/Ajax/FreeBicycles/"+ $(this).val());
+	    }
+	})
+}
+
+function UpdateMarker(){
+	var chosenStation = $("#stations").find(':selected').text();
+	for (i = 0; i < mark.length; i++){
+		if (mark[i].title == chosenStation){
+			toggleBounce(mark[i]);
+			break;
+		}
+	}
+	ReadAvailableBicycles(chosenStation);
 }

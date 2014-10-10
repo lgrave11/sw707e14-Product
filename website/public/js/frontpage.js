@@ -10,8 +10,7 @@ $(function() {
   		format: 'i',
   		formatTime: 'i',
   		step: 5,
-  		onlyTime: true,
-  		roundTime: 'ceil'
+  		onlyTime: true
 	});
 
 	$("#datepicker").datetimepicker({
@@ -23,6 +22,7 @@ $(function() {
   		maxDate: '+7/1/1970',
   		scrollInput: false,
   		scrollMonth: false,
-  		dayOfWeekStart: 1
+  		dayOfWeekStart: 1,
+  		closeOnDateSelect: true
 	});
 })

@@ -48,7 +48,7 @@
             icon: image
           }));
           google.maps.event.addListener(mark[i], 'click', helperBounce(mark[i],toggleBounce));
-          //google.maps.event.addListener(mark[i], 'click', helperSelectStation(SelectStationFromList, mark[i].title));
+          google.maps.event.addListener(mark[i], 'click', helperSelectStation(SelectStationFromList, mark[i].title));
         }
 
         <?php
