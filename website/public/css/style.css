@@ -15,6 +15,11 @@ body {
 input, textarea, select {
     font-family: arial, verdana, sans-serif; 
     font-size: 12px;
+    border: 1px solid lightblue;
+    border-radius: 5px;
+    background-color: #00315F;
+    color: #ffffff;
+    cursor: pointer;
 }
 
 h1 {
