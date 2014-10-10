@@ -144,7 +144,22 @@ class AccountService implements iService
 
     public function validate($account)
     {
-        return true;
+        $valid = true;
+        
+        if (!empty($account->username)) {
+            if (!Tools::validateUsername($account->username))
+                $valid = false;
+        }
+        if (!empty($account->email)) {
+            if (!Tools::validateEmail($account->email))
+                $valid = false;
+        }
+        if (!empty($account->phone)) {
+            if (!Tools::validatePhone($account->phone)) 
+                $valid = false;
+        }
+        
+        return $valid;
     }
 
     public function getBookings($username)

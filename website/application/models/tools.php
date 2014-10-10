@@ -35,5 +35,21 @@ class Tools {
 			}
 		}
 	}
+	
+	public static function validateEmail($email) {
+	    return filter_var($email, FILTER_VALIDATE_EMAIL);
+	}
+	
+	public static function validatePhone($phone) {
+	    return preg_match("[\+[0-9]{2}]?[0-9]*", $phone);
+	}
+	
+	public static function validateUsername($username) {
+	    return strlen($username) <= 50;
+	}
+	
+	public static function validateBookingPw($password) {
+	    return ctype_alpha($password) && strlen($password) <= 6;
+	}
 }
 ?>
