@@ -34,8 +34,7 @@ CREATE TABLE dock
 CREATE TABLE account
 (
 	username varchar(50) PRIMARY KEY,
-	password varchar(64) NOT NULL,
-	salt varchar(64) NOT NULL,
+	password varchar(255),
 	email varchar(256) NOT NULL,
 	phone varchar(20) NOT NULL
 );
@@ -315,7 +314,7 @@ INSERT INTO dock(station_id) VALUES(21);
 
 
 -- a single user;
-INSERT INTO account(username, password, salt, email, phone) VALUES("sw707e14", "83fd021a41733e76771229d059c052b02bc984528c7fd0634cc5dc566eeb0e89", "12HjN8isnE3T5ArK9wLXDOpmWxukazPCtUSqBYRc6boQlVvFfJMy74gIhGde0Z", "sw707e14@cs.aau.dk", "1345678");
+INSERT INTO account(username, password, email, phone) VALUES("sw707e14", "$2y$10$gnS5CuXtiCkmSZfqiSXO7OnrDBxazIbvCUzQXtVpNgWcyy8FdLxYK", "sw707e14@cs.aau.dk", "1345678");
 
 -- some bookings
 INSERT INTO booking(start_time, start_station,password,for_user) VALUES (1412838613, 5,"hejhej","sw707e14");

@@ -114,6 +114,7 @@ class StationService implements iService
     }
 
     public function validate($station){
+        // TODO: length of station name?
         return true;
     }
 }

@@ -108,6 +108,8 @@ class BicycleService implements iService
 
     public function validate($bicycle)
     {
+        // TODO: Check that the Latitude and longitude is reasonable
+        
         return true;
     }
 
