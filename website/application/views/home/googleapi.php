@@ -54,9 +54,19 @@
         <?php
           $i = 0;
           foreach ($stations as $station){
-            echo "google.maps.event.addListener(mark[" . $i . "], 'click', function() {
-              for(i = 0; i < infowindow.length; i++){infowindow[i].close();}
-              infowindow[" . $i . "].open(map,mark[" . $i . "]);});\n";
+            echo 
+	            "google.maps.event.addListener(mark[" . $i . "], 'click', function() {
+	              for(i = 0; i < infowindow.length; i++)
+	              	{
+	              		infowindow[i].close();
+	              	}
+	              infowindow[" . $i . "].open(map,mark[" . $i . "]);
+	              google.maps.event.addListener(infowindow[" . $i . "], 'closeclick',function(){
+	              	for(i = 0; i < mark.length; i++){
+			          mark[i].setAnimation(null);
+			        }
+	              });
+	          	});\n";
             $i++;
           }
         ?>  
