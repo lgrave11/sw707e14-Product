@@ -93,7 +93,17 @@ class BookingService implements iService
 
 	public function validate($booking)
 	{
-		return true;
+	    $valid = true;
+	    
+	    if (!empty($booking->password)) {
+	        if (!Tools::validateBookingPw($booking->password))
+	            $valid = false;
+	    }
+	    
+	    // TODO: Check that the start station exists
+	    // TODO: Check that the user exists
+	    // TODO: Check? start time?
+		return $valid;
 	}
 }
 ?>

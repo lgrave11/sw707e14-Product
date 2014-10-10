@@ -9,6 +9,15 @@
       var mark = [];
       var map;
       var infowindow = [];
+      var image = {
+	    url: 'public/images/marker.png',
+	    // This marker is 20 pixels wide by 32 pixels tall.
+	    size: new google.maps.Size(25, 33),
+	    // The origin for this image is 0,0.
+	    origin: new google.maps.Point(0,0),
+	    // The anchor for this image is the base of the flagpole at 0,32.
+	    anchor: new google.maps.Point(0, 32),
+  	  };
 
 <?php
   foreach ($stations as $station){
@@ -35,10 +44,11 @@
             draggable:false,
             animation: google.maps.Animation.DROP,
             position: stations[i],
-            title: titles[i]
+            title: titles[i],
+            icon: image
           }));
           google.maps.event.addListener(mark[i], 'click', helperBounce(mark[i],toggleBounce));
-          
+          //google.maps.event.addListener(mark[i], 'click', helperSelectStation(SelectStationFromList, mark[i].title));
         }
 
         <?php
@@ -52,9 +62,13 @@
         ?>  
       }
 
+      function helperSelectStation(func, name){
+      	return function(){func(name)};
+      }
+
       function helperBounce(i, func)
       {
-        return function(){func(i)}
+        return function(){func(i)};
       }
 
       function toggleBounce(marker) {
