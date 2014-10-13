@@ -9,6 +9,10 @@
 		<input type="text" id="searchstation" name="searchstation" class="searchbox" placeholder="Search Station" oninput="SearchStation();MouseOverSearch();" onfocus="ShowSearch();MouseOverSearch();" onmouseover="ShowSearch();MouseOverSearch();" onmouseout="MouseLeaveSearch()" autocomplete="off" /><br />
 		<div id="searchresult" onmouseover="MouseOverSearch()" onmouseout="MouseLeaveSearch()"></div>
 		<h1>Book</h1>
+		<?php
+        	ViewHelper::printError('booking');
+        	ViewHelper::printSuccess('booking');
+        ?>
 		<form action="/Home/Book/" method="post">
 			Station:<br />
 			<select name="station" id="stations" style="width: 243px;" onchange="UpdateMarker()">
