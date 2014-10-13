@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="urn:StationToDB_Service" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="urn:StationToDB_Service" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="urn:StationToDB_Service">
+      <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="BicycleTakenWithBookingRequest">
+    <wsdl:part name="station_id" type="xsd:int" />
+    <wsdl:part name="bicycle_id" type="xsd:int" />
+    <wsdl:part name="booking_id" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="BicycleTakenWithBookingResponse">
+    <wsdl:part name="return" type="xsd:boolean" />
+  </wsdl:message>
+  <wsdl:message name="BicycleTakenWithoutBookingRequest">
+    <wsdl:part name="station_id" type="xsd:int" />
+    <wsdl:part name="bicycle_id" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="BicycleTakenWithoutBookingResponse">
+    <wsdl:part name="return" type="xsd:boolean" />
+  </wsdl:message>
+  <wsdl:message name="BicycleReturnedToDockAtStationRequest">
+    <wsdl:part name="bicycle_id" type="xsd:int" />
+    <wsdl:part name="station_id" type="xsd:int" />
+    <wsdl:part name="dock_id" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="BicycleReturnedToDockAtStationResponse">
+    <wsdl:part name="return" type="xsd:boolean" />
+  </wsdl:message>
+  <wsdl:portType name="StationToDB_ServicePortType">
+    <wsdl:operation name="BicycleTakenWithBooking">
+      <documentation>Registers that a given bicycle has been taken from a given station with a booking</documentation>
+      <wsdl:input message="tns:BicycleTakenWithBookingRequest" />
+      <wsdl:output message="tns:BicycleTakenWithBookingResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="BicycleTakenWithoutBooking">
+      <documentation>Registers that a given bicycle has been taken from a given station without a booking</documentation>
+      <wsdl:input message="tns:BicycleTakenWithoutBookingRequest" />
+      <wsdl:output message="tns:BicycleTakenWithoutBookingResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="BicycleReturnedToDockAtStation">
+      <documentation>Registers that a given bicycle has arrived at a given dock at a given station</documentation>
+      <wsdl:input message="tns:BicycleReturnedToDockAtStationRequest" />
+      <wsdl:output message="tns:BicycleReturnedToDockAtStationResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="StationToDB_ServiceBinding" type="tns:StationToDB_ServicePortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <wsdl:operation name="BicycleTakenWithBooking">
+      <soap:operation soapAction="urn:StationToDB_Service#soapaction" style="rpc" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="urn:StationToDB_Service" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="urn:StationToDB_Service" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BicycleTakenWithoutBooking">
+      <soap:operation soapAction="urn:StationToDB_Service#soapaction" style="rpc" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="urn:StationToDB_Service" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="urn:StationToDB_Service" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BicycleReturnedToDockAtStation">
+      <soap:operation soapAction="urn:StationToDB_Service#soapaction" style="rpc" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="urn:StationToDB_Service" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="urn:StationToDB_Service" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="StationToDB_Service">
+    <wsdl:port name="StationToDB_ServicePort" binding="tns:StationToDB_ServiceBinding">
+      <soap:address location="http://localhost/interface/stationtodbregister.php" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DatabaseStoreContainer" CdmEntityContainer="DatabaseConnection">
+    <EntitySetMapping Name="booking">
+      <EntityTypeMapping TypeName="Database.booking">
+        <MappingFragment StoreEntitySet="booking">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="StationId" ColumnName="StationId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
