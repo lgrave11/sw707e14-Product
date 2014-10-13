@@ -56,7 +56,7 @@ class Home extends Controller
             $bookingService->create($booking);
             $this->success("A bicycle has been booked", "booking");
         } else {
-            $this->error("Please fill in correct information", "booking");
+            $this->error("The booking could not be validated", "booking");
         }
 
         header("Location: /");
