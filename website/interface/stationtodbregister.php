@@ -90,7 +90,52 @@
         
         return true;
     }
-
+    
+    $server->wsdl->addComplexType(
+        'BookingObjectArray',
+        'complexType',
+        'array',
+        '',
+        'SOAP-ENC:Array',
+        array(),
+        array(array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>'xsd:string[]')),
+        'xsd:string'
+    );
+    
+    $server->register(
+        'GetAllBookingsForStation',
+        array('station_id' => 'xsd:int'),
+        array('return' => 'tns:BookingObjectArray'),
+        $SERVICE_NAMESPACE,
+        $SERVICE_NAMESPACE . '#soapaction',
+        'rpc',
+        'encoded',
+        'stuffidu'
+    );
+    function GetAllBookingsForStation($station_id)
+    {
+        global $db;
+        $stmt = $db->prepare("SELECT booking_id, start_time, start_station, password, for_user FROM booking WHERE start_station = ?");
+        $stmt->bind_param("i", $station_id);
+        $stmt->execute();
+        $stmt->bind_result($booking_id, $start_time, $start_station, $password, $for_user);
+        
+        $returnarray = array();
+        while($stmt->fetch())
+        {
+            $to_add_class = new stdclass();
+            $to_add_class->booking_id = $booking_id;
+            $to_add_class->start_time = $start_time;
+            $to_add_class->start_station = $start_station;
+            $to_add_class->password = $password;
+            $to_add_class->for_user = $for_user;
+            
+            $returnarray[] = json_encode($to_add_class);
+        }
+        $stmt->close();
+        return $returnarray;
+       
+    }
 
     //This processes the request and returns a result.
     ob_clean();
