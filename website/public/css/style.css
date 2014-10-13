@@ -12,7 +12,7 @@ body {
     background-color: lightgray;
 }
 
-input, textarea, select {
+input, textarea, select, button {
     font-family: arial, verdana, sans-serif; 
     font-size: 12px;
     border: 1px solid lightblue;
@@ -204,4 +204,21 @@ a:hover {
 .centerblock {
     margin: auto;
     text-align: center;
+    display:block;
+}
+
+.bookings
+{
+    height:400px;
+    overflow-x:hidden;
+    overflow-y:scroll;
+}
+
+.active-booking
+{
+    border-bottom:1px solid black;
+}
+.active-booking:last-child
+{
+    border:0px;
 }

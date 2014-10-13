@@ -5,7 +5,6 @@
 <div id="map-container">
 <div id="map-canvas"></div>
 <div id="mapinfo">
-	<div style="position: relative;">
 		<input type="text" id="searchstation" name="searchstation" class="searchbox" placeholder="Search Station" oninput="SearchStation();MouseOverSearch();" onfocus="ShowSearch();MouseOverSearch();" onmouseover="ShowSearch();MouseOverSearch();" onmouseout="MouseLeaveSearch()" autocomplete="off" /><br />
 		<div id="searchresult" onmouseover="MouseOverSearch()" onmouseout="MouseLeaveSearch()"></div>
 		<h1>Book</h1>
@@ -37,6 +36,20 @@
 			?>
 			</div>
 		</form>
-	</div>
+
+            <?php
+            if(Tools::isLoggedIn())
+            {
+                echo '<div class="bookings centerblock">';
+                echo '<h1>Active Bookings</h1>';
+                foreach($activeBookings as $booking)
+                {
+                    echo '<p class="active-booking">'.date("d-m-Y H:i", $booking[0]->start_time).' <br/> '.$booking[1].'
+                        <button class="centerblock" onclick="document.location=\'/Home/Unbook/'.$booking[0]->booking_id.'\'">Unbook</button>
+                        </p>';
+                }
+                echo '</div>';
+            }
+            ?>
 </div>
 </div>

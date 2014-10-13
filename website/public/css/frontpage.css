@@ -47,3 +47,7 @@
 .searchresulttext:hover {
 	background-color: #77bbff;
 }
+
+#sidebox {
+    height:50%;
+}
