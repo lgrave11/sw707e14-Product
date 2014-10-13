@@ -49,7 +49,7 @@ class Tools {
 	}
 	
 	public static function validateBookingPw($password) {
-	    return ctype_alpha($password) && strlen($password) <= 6;
+	    return ctype_digit($password) && strlen($password) <= 6;
 	}
 }
 ?>
