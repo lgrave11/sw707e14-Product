@@ -190,9 +190,10 @@ class User extends Controller
         }
         
         /* Update account */
+        $account = $accountservice->read($_SESSION['login_user']);
         if (!$this->hasErrors('changepassword')) {
-            $account = new Account($_SESSION['login_user'], $_POST['newpass1']);
-            $accountservice->update($account);
+            $updated_account = new Account($_SESSION['login_user'], $_POST['newpass1'], $account->email, $account->phone);
+            $accountservice->update($updated_account);
             $this->success('Password changed', 'changepassword');
         }
         

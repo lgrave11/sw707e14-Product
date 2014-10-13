@@ -41,7 +41,7 @@ class Tools {
     }
 
     public static function validatePhone($phone) {
-        return preg_match("[\+[0-9]{2}]?[0-9]*", $phone);
+        return is_numeric($phone);
     }
 
     public static function validateUsername($username) {
