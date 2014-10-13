@@ -82,8 +82,7 @@ class AccountService implements iService
         {
             //Do the update
             $stmt = $this->db->prepare("UPDATE account SET password = ?, email = ?, phone = ? WHERE username = ?");
-            $hashedPassword = password_hash($account->password, PASSWORD_DEFAULT);
-            $stmt->bind_param("ssss", $hashedPassword, $account->email, $account->phone, $account->username);
+            $stmt->bind_param("ssss", $account->password, $account->email, $account->phone, $account->username);
             $stmt->execute();
             $stmt->close();
 
