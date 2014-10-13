@@ -12,6 +12,27 @@ class StationService implements iService
         }
     }
 
+    /**
+     * Read a station based on id.
+     * @param $station_id
+     * @return Station|null
+     */
+    public function readStation($station_id)
+    {
+        $returnStation = null;
+        $stmt = $this->db->prepare("SELECT *, COUNT(*) FROM station WHERE station_id = ?");
+        $stmt->bind_param("i", $station_id);
+        $stmt->execute();
+        $stmt->bind_result($station_id, $name, $address, $latitude, $longitude, $count);
+        $stmt->fetch();
+        $stmt->close();
+        if($count == 1)
+        {
+            $returnStation = new Station($station_id, $name, $address, $latitude, $longitude);
+        }
+        return $returnStation;
+    }
+
     public function readAddressForStation($station_id){
     	$stmt = $this->db->prepare("SELECT * FROM station WHERE station_id = ?");
     	$stmt->bind_param("i", $station_id);

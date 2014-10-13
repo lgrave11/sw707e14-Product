@@ -116,7 +116,20 @@ class DockService implements iService{
 
     public function validate($dock)
     {
-        // TODO: Check that the station id exists
+        // Check that the station exists
+        $stationservice = new StationService($this->db);
+        if(empty($dock->station_id))
+        {
+            $valid = false;
+        }
+        else
+        {
+            $station = $stationservice->readStation($dock->station_id);
+            if(empty($station))
+            {
+                $valid = false;
+            }
+        }
         return true;
     }
 }

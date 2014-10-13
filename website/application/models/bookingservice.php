@@ -91,18 +91,55 @@ class BookingService implements iService
 		}
 	}
 
+    /**
+     * @param $booking Booking
+     * @return bool
+     */
 	public function validate($booking)
 	{
 	    $valid = true;
-	    
+
+        // Check if password is valid.
 	    if (!empty($booking->password)) {
 	        if (!Tools::validateBookingPw($booking->password))
 	            $valid = false;
 	    }
-	    
-	    // TODO: Check that the start station exists
-	    // TODO: Check that the user exists
-	    // TODO: Check? start time?
+
+        // Check if start station exists.
+        $stationservice = new StationService($this->db);
+        if(empty($booking->start_station))
+        {
+            $valid = false;
+        }
+        else
+        {
+            $start_station = $stationservice->readStation($booking->start_station);
+            if(empty($start_station))
+            {
+                $valid = false;
+            }
+        }
+        // Check if user exists.
+        $accountservice = new AccountService($this->db);
+        if(empty($booking->for_user))
+        {
+            $valid = false;
+        }
+        else
+        {
+            $for_user = $accountservice->read($booking->for_user);
+            if(empty($for_user))
+            {
+                $valid = false;
+            }
+        }
+
+        // Check that start time is valid.
+        // TODO: Check? start time? How?
+        if(empty($booking->start_time)) {
+            $valid = false;
+        }
+
 		return $valid;
 	}
 }
