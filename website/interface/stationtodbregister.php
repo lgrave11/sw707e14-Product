@@ -25,16 +25,16 @@
         array('station_id' => 'xsd:int',
               'bicycle_id' => 'xsd:int',
               'booking_id' => 'xsd:int'),
-        array('return' => 'xsd:void'),
+        array('return' => 'xsd:boolean'),
         $SERVICE_NAMESPACE,
         $SERVICE_NAMESPACE . '#soapaction',
         'rpc',
         'literal',
         'Registers that a given bicycle has been taken from a given station with a booking'
     );
-
     function BicycleTakenWithBooking($station_id, $bicycle_id, $booking_id)
     {
+        global $db;
         $stmt = $db->prepare("UPDATE booking SET password = NULL WHERE booking_id = ? AND start_station = ?");
         $stmt->bind_param("ii", $booking_id, $station_id);
         $stmt->execute();
@@ -44,6 +44,29 @@
         $stmt->bind_param("ii", $station_id, $bicycle_id);
         $stmt->execute();
         $stmt->close();
+        
+        return true;
+    }
+        
+    $server->register('BicycleTakenWithoutBooking',
+        array('station_id' => 'xsd:int',
+              'bicycle_id' => 'xsd:int'),
+        array('return' => 'xsd:boolean'),
+        $SERVICE_NAMESPACE,
+        $SERVICE_NAMESPACE . '#soapaction',
+        'rpc',
+        'literal',
+        'Registers that a given bicycle has been taken from a given station without a booking'
+    );
+    function BicycleTakenWithoutBooking($station_id, $bicycle_id)
+    {   
+        global $db;
+        $stmt = $db->prepare("UPDATE dock SET holds_bicycle = NULL WHERE station_id = ? AND holds_bicycle = ?");
+        $stmt->bind_param("ii", $station_id, $bicycle_id);
+        $stmt->execute();
+        $stmt->close();
+        
+        return true;
     }
 
 
