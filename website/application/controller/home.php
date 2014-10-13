@@ -17,11 +17,11 @@ class Home extends Controller
     public function index()
     {
         $this->title = "Home";
-    	$currentPage = substr($_SERVER["REQUEST_URI"], 1);
-    	$stationService = new StationService($this->db);
+        $currentPage = substr($_SERVER["REQUEST_URI"], 1);
+        $stationService = new StationService($this->db);
 
-    	$stations = $stationService->readAllStations();
-    	
+        $stations = $stationService->readAllStations();
+
         // load views. within the views we can echo out $songs and $amount_of_songs easily
         require 'application/views/_templates/header.php';
         require 'application/views/home/index.php';
@@ -50,13 +50,13 @@ class Home extends Controller
 
         $time = mktime($_POST['hour'], $_POST['minute'], 0, $dateSplit[1], $dateSplit[0], $dateSplit[2]);
 
-        $booking = new Booking(NULL, $time, $_POST['station'], Tools::randomString(), $_SESSION['login_user']);
+        $booking = new Booking(NULL, $time, $_POST['station'], mt_rand(100000, 999999), $_SESSION['login_user']);
 
         if ($bookingService->validate($booking)){
             $bookingService->create($booking);
             $this->success("A bicycle has been booked", "booking");
         } else {
-            $this->error("Please fill in correct information", "booking");
+            $this->error("The booking could not be validated", "booking");
         }
 
         header("Location: /");
