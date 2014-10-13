@@ -18,12 +18,12 @@
 	    anchor: new google.maps.Point(0, 32),
 		};
 
-	<?php
-	  	foreach ($stations as $station){
-	    	echo "stations.push(new google.maps.LatLng(" . $station->latitude . ", " . $station->longitude . "));\n";
-	    	echo "titles.push(\"" . $station->name . "\");\n";
-	    	echo "infowindow.push(new google.maps.InfoWindow({content: '<div style=\"overflow:hidden;white-space:nowrap;\"><b>" . $station->name . "</b><br /> Available Bicycles: " . $stationService->readAllAvailableBicyclesForStation($station) . "<br/> Available Docks: " . $stationService->readAllAvailableDocksForStation($station) . "</div>'}));\n";
-	  	}
+<?php
+  foreach ($stations as $station){
+    echo "stations.push(new google.maps.LatLng(" . $station->latitude . ", " . $station->longitude . "));\n";
+    echo "titles.push(\"" . $station->name . "\");\n";
+    echo "infowindow.push(new google.maps.InfoWindow({content: "<div style=\"overflow:hidden;white-space:nowrap;\"><b>" . $station->name . "</b><br /> Available Bicycles: " . $stationService->readAllAvailableBicyclesForStation($station) . "<br/> Available Docks: " . $stationService->readAllAvailableDocksForStation($station) . "</div>'}));\n";
+  }
 
 	?>
 

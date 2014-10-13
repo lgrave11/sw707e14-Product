@@ -50,7 +50,7 @@ class Home extends Controller
 
         $time = mktime($_POST['hour'], $_POST['minute'], 0, $dateSplit[1], $dateSplit[0], $dateSplit[2]);
 
-        $booking = new Booking(NULL, $time, $_POST['station'], Tools::randomString(), $_SESSION['login_user']);
+        $booking = new Booking(NULL, $time, $_POST['station'], mt_rand(100000, 999999), $_SESSION['login_user']);
 
         if ($bookingService->validate($booking)){
             $bookingService->create($booking);
