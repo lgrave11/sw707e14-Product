@@ -49,7 +49,16 @@ class Tools {
 	}
 	
 	public static function validateBookingPw($password) {
-	    return ctype_alpha($password) && strlen($password) <= 6;
+	    return strlen($password) <= 6;
+	}
+
+	public static function randomString($size = 6) {
+		$possibleChars = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		$randomString = "";
+		for ($i = 0; $i < $size; $i++){
+			$randomString .= $possibleChars[mt_rand(0, 61)];
+		}
+		return $randomString;
 	}
 }
 ?>

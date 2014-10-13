@@ -19,21 +19,31 @@ input, textarea, select {
     border-radius: 5px;
     background-color: #00315F;
     color: #ffffff;
-    cursor: pointer;
 }
 
 h1 {
-    font-size: 16px;
+    font-size: 18px;
     color: #00315F;
     font-weight: bold;
     margin: 5px 0px 0px 0px;
 }
 
 h2 {
-    font-size: 14px;
+    font-size: 16px;
     color: #00315F;
     font-weight: bold;
     margin: 5px 0px 0px 0px;
+}
+
+a:link, a:visited {
+    font-family: arial, verdana, sans-serif;
+    font-size: 15px;
+    color: #000000;
+    text-decoration: underline;
+}
+
+a:hover {
+    text-decoration: none;
 }
 
 #navbar table {
@@ -191,3 +201,7 @@ h2 {
 
 }
 
+.centerblock {
+    margin: auto;
+    text-align: center;
+}

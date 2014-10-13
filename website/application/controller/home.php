@@ -27,6 +27,42 @@ class Home extends Controller
         require 'application/views/home/index.php';
         require 'application/views/_templates/footer.php';
     }
+
+    public function book()
+    {
+        Tools::requireLogin();
+
+        $bookingService = new BookingService($this->db);
+
+        if (empty($_POST['station']) || empty($_POST['date']) || empty($_POST['hour']) || empty($_POST['minute'])){
+            $this->error("Please fill in all fields", "booking");
+            header("Location: /");
+            exit();
+        }
+
+        $dateSplit = explode("/", $_POST['date']);
+
+        if (!is_numeric($_POST['hour']) || !is_numeric($_POST['minute']) || !is_numeric($_POST['station']) || count($dateSplit) != 3){
+            $this->error("Please fill in correct information", "booking");
+            header("Location: /");
+            exit();
+        }
+
+        $time = mktime($_POST['hour'], $_POST['minute'], 0, $dateSplit[1], $dateSplit[0], $dateSplit[2]);
+
+        $booking = new Booking(NULL, $time, $_POST['station'], Tools::randomString(), $_SESSION['login_user']);
+
+        if ($bookingService->validate($booking)){
+            $bookingService->create($booking);
+            $this->success("A bicycle has been booked", "booking");
+        } else {
+            $this->error("Please fill in correct information", "booking");
+        }
+
+        header("Location: /");
+        exit();
+    }
+
     public function about()
     {
         $this->title = "About";

@@ -29,9 +29,11 @@ class User extends Controller
     public function logout()
     {
         $this->title = "Logout";
-        session_destroy();
-        if(Tools::isLoggedIn())
+        if(Tools::isLoggedIn()){
             unset($_SESSION['login_user']);
+            session_destroy();
+        }
+
 
         header("Location: /");
         exit();
