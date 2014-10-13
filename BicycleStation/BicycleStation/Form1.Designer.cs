@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.TakeItPanel = new System.Windows.Forms.Panel();
             this.EnterPwPanel = new System.Windows.Forms.Panel();
             this.UnlockBtn = new System.Windows.Forms.Button();
             this.KeyLbl = new System.Windows.Forms.Label();
@@ -39,8 +38,9 @@
             this.UnlockedLbl = new System.Windows.Forms.Label();
             this.LockedLbl = new System.Windows.Forms.Label();
             this.passwordTB = new System.Windows.Forms.TextBox();
+            this.TakeItPanel = new System.Windows.Forms.Panel();
             this.TimeLbl = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.UnlockMoreBtn = new System.Windows.Forms.Button();
             this.TakeAtDockLbl = new System.Windows.Forms.Label();
             this.NoBicycleStateLbl = new System.Windows.Forms.Label();
             this.UnlockStateLbl = new System.Windows.Forms.Label();
@@ -56,8 +56,8 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.TakeItPanel.SuspendLayout();
             this.EnterPwPanel.SuspendLayout();
+            this.TakeItPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DockStateBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DockIdUpDown)).BeginInit();
             this.SuspendLayout();
@@ -92,17 +92,6 @@
             this.splitContainer1.Size = new System.Drawing.Size(861, 534);
             this.splitContainer1.SplitterDistance = 607;
             this.splitContainer1.TabIndex = 0;
-            // 
-            // TakeItPanel
-            // 
-            this.TakeItPanel.Controls.Add(this.TimeLbl);
-            this.TakeItPanel.Controls.Add(this.button1);
-            this.TakeItPanel.Controls.Add(this.TakeAtDockLbl);
-            this.TakeItPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TakeItPanel.Location = new System.Drawing.Point(0, 0);
-            this.TakeItPanel.Name = "TakeItPanel";
-            this.TakeItPanel.Size = new System.Drawing.Size(607, 534);
-            this.TakeItPanel.TabIndex = 7;
             // 
             // EnterPwPanel
             // 
@@ -197,11 +186,23 @@
             this.passwordTB.Font = new System.Drawing.Font("Arial", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.passwordTB.ForeColor = System.Drawing.Color.White;
             this.passwordTB.Location = new System.Drawing.Point(213, 314);
+            this.passwordTB.MaxLength = 6;
             this.passwordTB.Name = "passwordTB";
             this.passwordTB.Size = new System.Drawing.Size(184, 48);
             this.passwordTB.TabIndex = 7;
             this.passwordTB.Text = "Key";
             this.passwordTB.Click += new System.EventHandler(this.passwordTB_Click);
+            // 
+            // TakeItPanel
+            // 
+            this.TakeItPanel.Controls.Add(this.TimeLbl);
+            this.TakeItPanel.Controls.Add(this.UnlockMoreBtn);
+            this.TakeItPanel.Controls.Add(this.TakeAtDockLbl);
+            this.TakeItPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TakeItPanel.Location = new System.Drawing.Point(0, 0);
+            this.TakeItPanel.Name = "TakeItPanel";
+            this.TakeItPanel.Size = new System.Drawing.Size(607, 534);
+            this.TakeItPanel.TabIndex = 7;
             // 
             // TimeLbl
             // 
@@ -214,19 +215,19 @@
             this.TimeLbl.TabIndex = 10;
             this.TimeLbl.Text = "01:59";
             // 
-            // button1
+            // UnlockMoreBtn
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(124)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Arial", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(171, 279);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(254, 66);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "Unlock more";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.UnlockMoreBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(124)))));
+            this.UnlockMoreBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.UnlockMoreBtn.Font = new System.Drawing.Font("Arial", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UnlockMoreBtn.ForeColor = System.Drawing.Color.White;
+            this.UnlockMoreBtn.Location = new System.Drawing.Point(171, 279);
+            this.UnlockMoreBtn.Name = "UnlockMoreBtn";
+            this.UnlockMoreBtn.Size = new System.Drawing.Size(254, 66);
+            this.UnlockMoreBtn.TabIndex = 9;
+            this.UnlockMoreBtn.Text = "Unlock more";
+            this.UnlockMoreBtn.UseVisualStyleBackColor = false;
+            this.UnlockMoreBtn.Click += new System.EventHandler(this.UnlockMoreBtn_Click);
             // 
             // TakeAtDockLbl
             // 
@@ -282,7 +283,7 @@
             this.DockStateBar.Location = new System.Drawing.Point(17, 174);
             this.DockStateBar.Maximum = 2;
             this.DockStateBar.Name = "DockStateBar";
-            this.DockStateBar.Size = new System.Drawing.Size(220, 42);
+            this.DockStateBar.Size = new System.Drawing.Size(220, 45);
             this.DockStateBar.TabIndex = 4;
             // 
             // DockNumberLbl
@@ -328,6 +329,7 @@
             // 
             // Form1
             // 
+            this.AcceptButton = this.UnlockBtn;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(861, 534);
@@ -342,10 +344,10 @@
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.TakeItPanel.ResumeLayout(false);
-            this.TakeItPanel.PerformLayout();
             this.EnterPwPanel.ResumeLayout(false);
             this.EnterPwPanel.PerformLayout();
+            this.TakeItPanel.ResumeLayout(false);
+            this.TakeItPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DockStateBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DockIdUpDown)).EndInit();
             this.ResumeLayout(false);
@@ -365,7 +367,7 @@
         private System.Windows.Forms.Label LockStateLbl;
         private System.Windows.Forms.Label DockStateLbl;
         private System.Windows.Forms.Panel TakeItPanel;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button UnlockMoreBtn;
         private System.Windows.Forms.Label TakeAtDockLbl;
         private System.Windows.Forms.Label TimeLbl;
         private System.Windows.Forms.Timer lockTimer;

@@ -18,6 +18,7 @@ namespace BicycleStation
         public Form1()
         {
             InitializeComponent();
+            //StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
         }
 
         private void lockTimer_Tick(object sender, EventArgs e)
@@ -50,17 +51,35 @@ namespace BicycleStation
 
         private void UnlockBtn_Click(object sender, EventArgs e)
         {
-            // Do validation of password
-            EnterPwPanel.Visible = false;
-            EnterPwPanel.SendToBack();
+            int pwText = 0;
+            DatabaseConnection DB = new DatabaseConnection();
+            try
+            {
+                pwText = Convert.ToInt32(passwordTB.Text.ToString());
+                if (DB.booking.Select(x => x.Password == pwText).Count() > 0)
+                {
+                    // Do validation of password
+                    EnterPwPanel.Visible = false;
+                    EnterPwPanel.SendToBack();
 
-            TakeItPanel.BringToFront();
-            TakeItPanel.Visible = true;
+                    TakeItPanel.BringToFront();
+                    TakeItPanel.Visible = true;
 
-            lockTimer.Start();
+                    lockTimer.Start();
+                }
+                else
+                {
+                    MessageBox.Show("Incorrect Key");
+                }
+            }
+            catch (FormatException){
+                MessageBox.Show("Incorrect Key");
+            }
+
+
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void UnlockMoreBtn_Click(object sender, EventArgs e)
         {
             lockTimer.Stop();
             _maxTime = MAXTIME;
@@ -72,5 +91,6 @@ namespace BicycleStation
             EnterPwPanel.BringToFront();
             EnterPwPanel.Visible = true;
         }
+
     }
 }
