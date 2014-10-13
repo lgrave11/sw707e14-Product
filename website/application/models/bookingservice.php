@@ -142,5 +142,55 @@ class BookingService implements iService
 
         return $valid;
     }
+
+    /**
+     * Get all bookings for a specific user.
+     * @param $username
+     * @return array All the bookings for that user.
+     */
+    public function getBookings($username)
+    {
+        $returnArray = array();
+        $stmt = $this->db->prepare("SELECT start_time, name FROM booking, station
+                                    WHERE for_user = ? AND start_station = station_id
+                                    ORDER BY start_time DESC");
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $stmt->bind_result($start_time, $station_name);
+        while($stmt->fetch()){
+            $returnArray[$start_time] = new Booking(null, $start_time, $station_name, null, null);
+        }
+        $stmt->close();
+
+        return $returnArray;
+    }
+
+    public function getActiveBookings($username)
+    {
+        $returnArray = array();
+        $stmt = $this->db->prepare("SELECT booking_id, start_time, start_station, password, for_user, name FROM booking, station
+                                    WHERE for_user = ? AND start_station = station_id AND password IS NOT NULL
+                                    ORDER BY start_time DESC");
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $stmt->bind_result($booking_id, $start_time, $start_station, $password, $for_user, $station_name);
+        while($stmt->fetch()){
+            $returnArray[$booking_id] = array(new Booking($booking_id, $start_time, $start_station, $password, $for_user), $station_name);
+
+        }
+        $stmt->close();
+
+        return $returnArray;
+    }
+
+    public function deleteActiveBooking($booking_id, $username)
+    {
+        $stmt = $this->db->prepare("DELETE FROM booking WHERE booking_id = ? AND for_user = ?");
+        $stmt->bind_param("is", $booking_id, $username);
+        $stmt->execute();
+        $rowsDeleted = $stmt->affected_rows;
+        $stmt->close();
+        return $rowsDeleted;
+    }
 }
 ?>
