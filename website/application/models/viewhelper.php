@@ -48,9 +48,17 @@ class ViewHelper
 		{
 			$minute = "00";
 		} else {
-			$minute = 5 * round(date("i") / 5);
+			$minute = 5 * ceil((date("i")+1) / 5);
 		}
 		return str_pad($minute, 2, 0, STR_PAD_LEFT);
+	}
+
+	public static function printDate(){
+		if (date("i") >= 55 && date("H") == 23){
+			return date("d/m/Y", time() + 3600);
+		} else {
+			return date("d/m/Y");
+		}
 	}
 }
 

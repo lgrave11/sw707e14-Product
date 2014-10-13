@@ -1,3 +1,8 @@
+#map-container
+{
+    height: 600px;
+}
+
 #map-canvas {
   height: 600px;
   width: 600px;
@@ -12,15 +17,16 @@
 }
 
 .searchbox {
-	width: 225px; 
-	background-image: url('/public/img/search.png');
-	background-position: left center;
+	width: 220px;
+	background-image: url('/public/images/search-white.png');
+	background-position: 5px center;
 	background-repeat: no-repeat;
 	background-size: 12px 12px;
-	padding-left: 15px;
+	padding-left: 20px;
 }
 
 #searchresult {
+	background-color: #ffffff;
 	position: absolute;
 	top: 22px;
 	left: 0px;

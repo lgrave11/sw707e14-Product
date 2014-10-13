@@ -1,5 +1,5 @@
 <?php
 foreach($stations as $station){
-	echo '<span onclick="" class="searchresulttext">'.$station->name . '</span>';
+	echo '<span onclick="SelectStationFromList(\'' . $station->name . '\')" class="searchresulttext">' . $station->name . '</span>';
 }
 ?>

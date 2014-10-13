@@ -22,6 +22,7 @@ $(function() {
   		maxDate: '+7/1/1970',
   		scrollInput: false,
   		scrollMonth: false,
-  		dayOfWeekStart: 1
+  		dayOfWeekStart: 1,
+  		closeOnDateSelect: true
 	});
 })
