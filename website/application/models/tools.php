@@ -19,7 +19,8 @@ class Tools {
         $files = scandir('public/css');
         foreach ($files as $file){
             if (substr($file, 0, 1) != "."){
-                echo '<link rel="stylesheet" type="text/css" href="/public/css/'.$file.'">';
+                echo '<link rel="stylesheet" type="text/css" href="/public/css/'.$file.'">
+';
             }
         }
     }
@@ -31,7 +32,8 @@ class Tools {
 ';
         foreach ($files as $file){
             if (substr($file, 0, 1) != "." && substr($file, 0, 6) != "jquery"){
-                echo '<script type="text/javascript" src="/public/js/'.$file.'"></script>';
+                echo '<script type="text/javascript" src="/public/js/'.$file.'"></script>
+';
             }
         }
     }

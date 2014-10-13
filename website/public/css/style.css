@@ -213,12 +213,3 @@ a:hover {
     overflow-x:hidden;
     overflow-y:scroll;
 }
-
-.active-booking
-{
-    border-bottom:1px solid black;
-}
-.active-booking:last-child
-{
-    border:0px;
-}
