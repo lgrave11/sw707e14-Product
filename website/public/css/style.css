@@ -12,7 +12,7 @@ body {
     background-color: lightgray;
 }
 
-input, textarea, select {
+input, textarea, select, button {
     font-family: arial, verdana, sans-serif; 
     font-size: 12px;
     border: 1px solid lightblue;
@@ -29,7 +29,7 @@ h1 {
 }
 
 h2 {
-    font-size: 16px;
+    font-size: 15px;
     color: #00315F;
     font-weight: bold;
     margin: 5px 0px 0px 0px;
@@ -204,4 +204,12 @@ a:hover {
 .centerblock {
     margin: auto;
     text-align: center;
+    display:block;
+}
+
+.bookings
+{
+    height:400px;
+    overflow-x:hidden;
+    overflow-y:scroll;
 }

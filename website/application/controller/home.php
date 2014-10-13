@@ -22,10 +22,26 @@ class Home extends Controller
 
         $stations = $stationService->readAllStations();
 
+        if (Tools::isLoggedIn()) {
+            $bookingService = new BookingService($this->db);
+            $activeBookings = $bookingService->getActiveBookings($_SESSION["login_user"]);
+
+        }
+
         // load views. within the views we can echo out $songs and $amount_of_songs easily
         require 'application/views/_templates/header.php';
         require 'application/views/home/index.php';
         require 'application/views/_templates/footer.php';
+    }
+
+    public function unbook($booking_id)
+    {
+        Tools::requireLogin();
+        $bookingService = new BookingService($this->db);
+
+        $bookingService->deleteActiveBooking($booking_id, $_SESSION["login_user"]);
+        header("Location: /");
+        exit();
     }
 
     public function book()
