@@ -52,20 +52,22 @@ class AccountService implements iService
      */
     public function read($username)
     {
+        $returnAccount = null;
         if(!empty($username))
         {
-            $stmt = $this->db->prepare("SELECT username, password, email, phone FROM account WHERE username = ?");
+            $stmt = $this->db->prepare("SELECT *, COUNT(*) FROM account WHERE username = ?");
             $stmt->bind_param("s", $username);
             $stmt->execute();
-            $stmt->bind_result($user, $password, $email, $phone);
+            $stmt->bind_result($user, $password, $email, $phone, $count);
             $stmt->fetch();
             $stmt->close();
-            return new Account($user, $password, $email, $phone);
+            if($count == 1) {
+                $returnAccount = new Account($user, $password, $email, $phone);
+            }
+
         }
-        else
-        {
-            return null;
-        }
+
+        return $returnAccount;
 
     }
 
