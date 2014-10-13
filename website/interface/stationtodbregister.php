@@ -90,6 +90,45 @@
         
         return true;
     }
+
+    $server->wsdl->addComplexType(
+        'BookingObject',
+        'complexType',
+        'struct',
+        'all',
+        '',
+        array(
+            'booking_id' => array('name'=>'booking_id','type'=>'xsd:int'),
+            'start_time' => array('name'=>'start_time','type'=>'xsd:int'),
+            'start_station' => array('name'=>'start_station','type'=>'xsd:int'),
+            'password' => array('name'=>'password','type'=>'xsd:string'),
+            'for_user' => array('name'=>'for_user','type'=>'xsd:string')
+        )
+    );
+    $server->register('getBookingWithId',
+        array('booking_id' => 'xsd:int'),
+        array('return' => 'tns:BookingObject'),
+        $SERVICE_NAMESPACE,
+        $SERVICE_NAMESPACE . '#soapaction',
+        'rpc',
+        'encoded',
+        'Get booking with booking id'
+    );
+    function getBookingWithId($id)
+    {
+        global $db;
+        $stmt = $db->prepare("SELECT booking_id, start_time, start_station, password, for_user FROM booking WHERE booking_id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->bind_result($booking_id, $start_time, $start_station, $password, $for_user);
+        $stmt->fetch();
+        $stmt->close();
+        
+        return array('booking_id' => $booking_id, 'start_time' => $start_time, 'start_station' => $start_station, 'password' => $password, 'for_user' => $for_user);
+    }
+    
+    
+    
     
     $server->wsdl->addComplexType(
         'BookingObjectArray',
@@ -101,7 +140,6 @@
         array(array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>'xsd:string[]')),
         'xsd:string'
     );
-    
     $server->register(
         'GetAllBookingsForStation',
         array('station_id' => 'xsd:int'),
@@ -110,8 +148,9 @@
         $SERVICE_NAMESPACE . '#soapaction',
         'rpc',
         'encoded',
-        'stuffidu'
+        'Get all bookings for station'
     );
+    //in case you want to read everything.
     function GetAllBookingsForStation($station_id)
     {
         global $db;
@@ -134,7 +173,6 @@
         }
         $stmt->close();
         return $returnarray;
-       
     }
 
     //This processes the request and returns a result.
