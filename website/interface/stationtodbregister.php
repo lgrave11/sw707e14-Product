@@ -68,6 +68,28 @@
         
         return true;
     }
+    
+    $server->register('BicycleReturnedToDockAtStation',
+        array('bicycle_id' => 'xsd:int',
+              'station_id' => 'xsd:int',
+              'dock_id'    => 'xsd:int'),
+        array('return' => 'xsd:boolean'),
+        $SERVICE_NAMESPACE,
+        $SERVICE_NAMESPACE . '#soapaction',
+        'rpc',
+        'literal',
+        'Registers that a given bicycle has arrived at a given dock at a given station'
+    );
+    function BicycleReturnedToDockAtStation($bicycle_id, $station_id, $dock_id)
+    {
+        global $db;
+        $stmt = $db->prepare("UPDATE dock SET holds_bicycle = ? WHERE station_id = ? AND dock_id = ?");
+        $stmt->bind_param("iii", $bicycle_id, $station_id, $dock_id);
+        $stmt->execute();
+        $stmt->close();
+        
+        return true;
+    }
 
 
     //This processes the request and returns a result.
