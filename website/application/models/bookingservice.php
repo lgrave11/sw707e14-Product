@@ -1,7 +1,7 @@
 <?php
 class BookingService implements iService
 {
-	$db = null;
+	private $db = null;
 
 	function __construct($database){
 		try{
@@ -14,17 +14,17 @@ class BookingService implements iService
 
 	public function create($booking)
 	{
-		if(validate($booking))
+		if($this->validate($booking))
 		{
-			$stmt = $this->db->prepare("INSERT INTO booking(booking_id, start_time, start_station, password, for_user) VALUES (?,?,?,?,?)");
-			$stmt->bind_param("isiss", 
-				$booking->booking_id,
+			$stmt = $this->db->prepare("INSERT INTO booking(start_time, start_station, password, for_user) VALUES (?,?,?,?)");
+			$stmt->bind_param("iiss", 
 				$booking->start_time,
 				$booking->start_station,
 				$booking->password,
 				$booking->for_user);
 
 			$stmt->execute();
+			$booking->booking_id = $stmt->insert_id;
 			$stmt->close();
 
 			return $booking;
