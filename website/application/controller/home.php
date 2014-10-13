@@ -17,11 +17,11 @@ class Home extends Controller
     public function index()
     {
         $this->title = "Home";
-    	$currentPage = substr($_SERVER["REQUEST_URI"], 1);
-    	$stationService = new StationService($this->db);
+        $currentPage = substr($_SERVER["REQUEST_URI"], 1);
+        $stationService = new StationService($this->db);
 
-    	$stations = $stationService->readAllStations();
-    	
+        $stations = $stationService->readAllStations();
+
         // load views. within the views we can echo out $songs and $amount_of_songs easily
         require 'application/views/_templates/header.php';
         require 'application/views/home/index.php';
