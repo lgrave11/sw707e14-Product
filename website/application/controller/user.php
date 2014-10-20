@@ -283,7 +283,7 @@ class User extends Controller
 
     public function resetPassword($token, $email)
     {
-        $this->title = "Reset your password?";
+        $this->title = "Reset your password";
         $accountservice = new AccountService($this->db);
         $account = $accountservice->readFromEmail($email);
         if($account != null) {
@@ -308,7 +308,6 @@ class User extends Controller
 
     public function resetPasswordForm()
     {
-        var_dump($_POST);
         $accountservice = new AccountService($this->db);
         $account = $accountservice->readFromEmail($_POST["email"]);
         if($account != null) {
