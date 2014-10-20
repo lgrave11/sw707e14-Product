@@ -11,7 +11,7 @@
 							<p> Current Password</p>
 						</td>
 						<td>
-							<input type="password" name="currpass"/> <br/>
+							<input class="padding-field" type="password" name="currpass"/> <br/>
 						</td>
 					</tr>
 					<tr>
@@ -19,7 +19,7 @@
 							<p> New Password</p>
 						</td>
 						<td>
-							<input type="password" name="newpass1"/> <br/>
+							<input class="padding-field" type="password" name="newpass1"/> <br/>
 						</td>
 					</tr>
 					<tr>
@@ -27,7 +27,7 @@
 							<p> Repeat New Password</p>
 						</td>
 						<td>
-							<input type="password" name="newpass2"/> <br/>
+							<input class="padding-field" type="password" name="newpass2"/> <br/>
 						</td>
 					</tr>
 					<tr>
@@ -50,7 +50,7 @@
 							<p> Email</p>
 						</td>
 						<td>
-							<input type="text" name="email" value="<?php echo $email; ?>"/> <br/>
+							<input class="padding-field" type="text" name="email" value="<?php echo $email; ?>"/> <br/>
 						</td>
 					</tr>
 					<tr>
@@ -58,7 +58,7 @@
 							<p> Phone Number</p>
 						</td>
 						<td>
-							<input type="text" name="phone" value="<?php echo $phone;?>"/> <br/>
+							<input class="padding-field" type="text" name="phone" value="<?php echo $phone;?>"/> <br/>
 						</td>
 					</tr>
 					<tr>

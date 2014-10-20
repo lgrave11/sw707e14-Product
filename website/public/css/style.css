@@ -157,6 +157,11 @@ a:hover {
     margin:auto;
 }
 
+.padding-field
+{
+	padding-left: 5px;
+}
+
 #login-fields
 {
     text-align: center;
