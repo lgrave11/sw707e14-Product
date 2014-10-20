@@ -17,9 +17,9 @@ class User extends Controller
     public function viewHistory(){
         $this->title = "View History";
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
-        $accountService = new AccountService($this->db);
+        $bookingservice = new BookingService($this->db);
 
-        $bookings = $accountService->getBookings($_SESSION['login_user']);
+        $bookings = $bookingservice->getBookings($_SESSION['login_user']);
 
         require 'application/views/_templates/header.php';
         require 'application/views/user/history.php';
@@ -29,9 +29,11 @@ class User extends Controller
     public function logout()
     {
         $this->title = "Logout";
-        session_destroy();
-        if(Tools::isLoggedIn())
+        if(Tools::isLoggedIn()){
             unset($_SESSION['login_user']);
+            session_destroy();
+        }
+
 
         header("Location: /");
         exit();
@@ -188,9 +190,10 @@ class User extends Controller
         }
         
         /* Update account */
+        $account = $accountservice->read($_SESSION['login_user']);
         if (!$this->hasErrors('changepassword')) {
-            $account = new Account($_SESSION['login_user'], $_POST['newpass1']);
-            $accountservice->update($account);
+            $updated_account = new Account($_SESSION['login_user'], password_hash($_POST['newpass1'], PASSWORD_DEFAULT), $account->email, $account->phone);
+            $accountservice->update($updated_account);
             $this->success('Password changed', 'changepassword');
         }
         

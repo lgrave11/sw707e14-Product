@@ -14,6 +14,7 @@
     float: right;
     width: 250px;
     margin-right: 10px;
+    position: relative;
 }
 
 .searchbox {
@@ -28,9 +29,9 @@
 #searchresult {
 	background-color: #ffffff;
 	position: absolute;
-	top: 22px;
-	left: 0px;
-	width: 243px;
+	top: 62px;
+	left: 3px;
+	width: 241px;
 	border: 1px solid lightgray;
 	border-top: 0px;
 	display: none;
@@ -46,4 +47,19 @@
 
 .searchresulttext:hover {
 	background-color: #77bbff;
+}
+
+#sidebox {
+    height:50%;
+}
+
+
+.active-booking
+{
+    border-bottom:1px solid black;
+    margin: 0px;
+}
+.active-booking:last-child
+{
+    border:0px;
 }
