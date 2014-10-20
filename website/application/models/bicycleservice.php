@@ -45,17 +45,29 @@ class BicycleService implements iService
         $stmt = $this->db->prepare("SELECT bicycle_id, longitude, latitude FROM bicycle WHERE bicycle_id=?");
         $stmt->bind_param("i", $id);
         $stmt->execute();
-        $stmt->bind_result($bicycle_id, $longitude, $latitude);
+        $stmt->bind_result($bicycle_id, $latitude, $longitude);
         $stmt->fetch();
         $stmt->close();
         if(isset($bicycle_id))
         {
-            return new Bicycle($bicycle_id, $longitude, $latitude);
+            return new Bicycle($bicycle_id,$latitude, $longitude);
         }
         else
         {
             return null;
         }
+    }
+
+    public function readAll(){
+        $returnArray = array();
+        $stmt = $this->db->prepare("SELECT * FROM bicycle WHERE latitude IS NOT NULL AND longitude IS NOT NULL");
+        $stmt->execute();
+        $stmt->bind_result($bicycle_id, $latitude, $longitude);
+        while($stmt->fetch()){
+            $returnArray[] = new Bicycle($bicycle_id,$latitude, $longitude);
+        }
+        $stmt->close();
+        return $returnArray;
     }
 
     /**
