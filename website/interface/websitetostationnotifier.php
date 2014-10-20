@@ -12,7 +12,7 @@
         
         public static function notifyStationBooking($station_id, $booking_id)
         {
-            $message = "station_id:" . $station_id . ";" . "booking:" . $booking_id . ";"; 
+            $message = "action:booking;" . "station_id:" . $station_id . ";" . "booking_id:" . $booking_id . ";"; 
             $sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
             $sock_data = socket_connect($sock, self::$station_ips[$station_id - 1], self::$port);
            // $sock_data = socket_set_option($sock, SOL_SOCKET, SO_BROADCAST);
@@ -22,7 +22,7 @@
     
         public static function notifyStationUnbooking($station_id, $booking_id)
         {
-            $message = "station_id:" . $station_id . ";" . "unbooking:" . $booking_id . ";"; 
+            $message = "action:unbooking;" . "station_id:" . $station_id . ";" . "booking_id:" . $booking_id . ";"; 
             $sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
             $sock_data = socket_connect($sock, self::$station_ips[$station_id - 1], self::$port);
            // $sock_data = socket_set_option($sock, SOL_SOCKET, SO_BROADCAST);
@@ -31,3 +31,5 @@
         }
     }
 ?>
+
+//
