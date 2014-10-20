@@ -152,7 +152,7 @@ class User extends Controller
 
             if($accountservice->create(new Account($_POST['username'], $_POST['password'], $_POST['email'], $_POST['phone'])) == null)
             {
-                $this->error('A user already exists with the given username', 'createuser');
+                $this->error('An error happened creating a user.', 'createuser');
                 header("Location: /User/CreateUser/");
                 exit();
             }
@@ -228,6 +228,11 @@ class User extends Controller
         } else {
             $this->error('Empty email', 'accountinfo');
         }
+
+        if($accountservice->emailExists($_POST['email']))
+        {
+            $this->error('Email already exists.', 'accountinfo');
+        }
         
         if ($_POST['phone'] != '') {
             $account->phone = $_POST['phone'];
@@ -242,6 +247,94 @@ class User extends Controller
         
         header('Location: /User/EditProfile');
         
+    }
+
+    /**
+     * All this is very insecure, but not a focus so we don't care.
+     */
+    public function forgotPassword()
+    {
+        $this->title = "Forgot your password?";
+
+        require 'application/views/_templates/header.php';
+        require 'application/views/user/forgotpassword.php';
+        require 'application/views/_templates/footer.php';
+    }
+
+    public function forgotPasswordForm()
+    {
+        $this->title = "Forgot your password?";
+        $email = $_POST["email"];
+        $accountservice = new AccountService($this->db);
+        $account = $accountservice->readFromEmail($_POST["email"]);
+        if($account != null) {
+            $account->token = Tools::randomString(64);
+            $account->reset_time = strtotime("+10 minutes");
+            $accountservice->update($account);
+            // Ugh fuck GET.
+            header('Location: /User/ResetPassword/'. $account->token . '/' .  $email);
+            exit();
+        }
+        else {
+            header('Location: /User/ForgotPassword/');
+            exit();
+        }
+    }
+
+    public function resetPassword($token, $email)
+    {
+        $this->title = "Reset your password?";
+        $accountservice = new AccountService($this->db);
+        $account = $accountservice->readFromEmail($email);
+        if($account != null) {
+            if(time() < $account->reset_time && $account->token == $token)
+            {
+                require 'application/views/_templates/header.php';
+                require 'application/views/user/resetpassword.php';
+                require 'application/views/_templates/footer.php';
+            }
+            else {
+                $this->error('There was an error in your link.', 'resetpassword');
+                header('Location: /User/ForgotPassword/');
+                exit();
+            }
+        }
+        else {
+            $this->error('The email was incorrect.', 'resetpassword');
+            header('Location: /User/ForgotPassword/');
+            exit();
+        }
+    }
+
+    public function resetPasswordForm()
+    {
+        var_dump($_POST);
+        $accountservice = new AccountService($this->db);
+        $account = $accountservice->readFromEmail($_POST["email"]);
+        if($account != null) {
+            if(time() < $account->reset_time && $account->token == $_POST["token"])
+            {
+                $account->password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+                $account->token = null;
+                $account->reset_time = null;
+                $accountservice->update($account);
+                $this->success('Password was successfully updated.', 'resetpassword');
+                header('Location: /User/Login/');
+                exit();
+            }
+            else
+            {
+                $account->token = null;
+                $account->reset_time = null;
+                $accountservice->update($account);
+                $this->error('There was an error in the token or your link has expired.', 'resetpassword');
+                header('Location: /User/ForgotPassword/');
+                exit();
+            }
+        }
+        $this->error('The email was incorrect.', 'resetpassword');
+        header('Location: /User/ForgotPassword/');
+        exit();
     }
 
     

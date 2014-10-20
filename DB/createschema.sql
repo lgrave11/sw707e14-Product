@@ -35,8 +35,11 @@ CREATE TABLE account
 (
 	username varchar(50) PRIMARY KEY,
 	password varchar(255),
-	email varchar(256) NOT NULL,
-	phone varchar(20) NOT NULL
+	email varchar(256) NOT NULL UNIQUE,
+	phone varchar(20) NOT NULL,
+    token varchar(255),
+    reset_time bigint
+    
 );
 
 CREATE TABLE booking

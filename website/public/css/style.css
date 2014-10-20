@@ -213,3 +213,16 @@ a:hover {
     overflow-x:hidden;
     overflow-y:scroll;
 }
+
+
+#forgot-password
+{
+    text-align: center;
+    width: 450px;
+    margin: auto;
+}
+
+#form-forgot-password
+{
+    margin:auto;
+}
