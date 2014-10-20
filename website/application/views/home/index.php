@@ -19,19 +19,22 @@
 			}
 			?>
 			</select><br />
-			<div id="freebicycles"></div>
+			
 			<br />
 			Time for booking:<br />
 			Date: <input id="datepicker" type="text" readonly name="date" value="<?php echo ViewHelper::printDate(); ?>" style="width: 75px" /> Time: <input id="hourpicker" type="text" readonly name="hour" value="<?php echo ViewHelper::printHour(); ?>" style="width: 25px" />:<input id="minutepicker" type="text" readonly name="minute" value="<?php echo ViewHelper::printMinute(); ?>" style="width: 25px" />
-
+			<div id="freebicycles"></div>
+			<div style="text-align: center;">
 			<?php
 				if (Tools::isLoggedIn()){
 					echo '<input type="submit" value="Book" />';
 				} else {
-					echo 'Login';
+					echo '<a href="/User/Login">Login</a>';
 				}
 			?>
+			</div>
 		</form>
+
 	</div>
 </div>
 </div>
