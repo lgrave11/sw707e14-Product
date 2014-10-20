@@ -32,12 +32,12 @@ class AccountService implements iService
 
         if($this->validate($account))
         {
-            $stmt = $this->db->prepare("INSERT INTO account(username, password, email, phone) VALUES (?, ?, ?, ?)");
+            $stmt = $this->db->prepare("INSERT INTO account(username, password, email, phone, token, reset_time) VALUES (?, ?, ?, ?, ?, ?)");
             $hashedPassword = password_hash($account->password, PASSWORD_DEFAULT);
-            $stmt->bind_param("ssss", $account->username, $hashedPassword, $account->email, $account->phone);
+            $stmt->bind_param("sssssi", $account->username, $hashedPassword, $account->email, $account->phone, $account->token, $account->reset_time);
             $stmt->execute();
             $stmt->close();
-            return new Account($account->username, $hashedPassword, $account->email, $account->phone);
+            return new Account($account->username, $hashedPassword, $account->email, $account->phone, $account->token, $account->reset_time);
         }
         else
         {
@@ -58,11 +58,37 @@ class AccountService implements iService
             $stmt = $this->db->prepare("SELECT *, COUNT(*) FROM account WHERE username = ?");
             $stmt->bind_param("s", $username);
             $stmt->execute();
-            $stmt->bind_result($user, $password, $email, $phone, $count);
+            $stmt->bind_result($user, $password, $email, $phone, $token, $reset_time, $count);
             $stmt->fetch();
             $stmt->close();
             if($count == 1) {
-                $returnAccount = new Account($user, $password, $email, $phone);
+                $returnAccount = new Account($user, $password, $email, $phone, $token, $reset_time);
+            }
+
+        }
+
+        return $returnAccount;
+
+    }
+
+    /**
+     * Read an account based on an email.
+     * @param $email
+     * @return Account|null
+     */
+    public function readFromEmail($email)
+    {
+        $returnAccount = null;
+        if(!empty($email))
+        {
+            $stmt = $this->db->prepare("SELECT *, COUNT(*) FROM account WHERE email = ?");
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $stmt->bind_result($user, $password, $email, $phone, $token, $reset_time,  $count);
+            $stmt->fetch();
+            $stmt->close();
+            if($count == 1) {
+                $returnAccount = new Account($user, $password, $email, $phone, $token, $reset_time);
             }
 
         }
@@ -81,12 +107,12 @@ class AccountService implements iService
         if($this->validate($account))
         {
             //Do the update
-            $stmt = $this->db->prepare("UPDATE account SET password = ?, email = ?, phone = ? WHERE username = ?");
-            $stmt->bind_param("ssss", $account->password, $account->email, $account->phone, $account->username);
+            $stmt = $this->db->prepare("UPDATE account SET password = ?, email = ?, phone = ?, token = ?, reset_time = ? WHERE username = ?");
+            $stmt->bind_param("ssssis", $account->password, $account->email, $account->phone, $account->token, $account->reset_time, $account->username);
             $stmt->execute();
             $stmt->close();
 
-            return new Account($account->username, $account->password, $account->email, $account->phone);
+            return new Account($account->username, $account->password, $account->email, $account->phone, $account->token, $account->reset_time);
         }
         else
         {
@@ -130,14 +156,7 @@ class AccountService implements iService
             $stmt->fetch();
             $stmt->close();
 
-            if(password_verify($password, $passwordHashed))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return password_verify($password, $passwordHashed);
 
     }
 
