@@ -12,29 +12,29 @@
         </EntityContainer>
         <EntityType Name="booking">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="booking_id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="StartTime" Type="bigint" Nullable="false" />
-          <Property Name="Password" Type="int" Nullable="false" />
-          <Property Name="StationId" Type="int" Nullable="false" />
+          <Property Name="booking_id" Type="int" Nullable="false" />
+          <Property Name="start_time" Type="bigint" Nullable="false" />
+          <Property Name="password" Type="int" Nullable="false" />
+          <Property Name="start_station" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="dock">
           <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="StationID" />
+            <PropertyRef Name="dock_id" />
+            <PropertyRef Name="station_id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="StationID" Type="int" Nullable="false" />
-          <Property Name="Holds_bicycle" Type="int" Nullable="false" />
-          <Property Name="IsLocked" Type="bool" Nullable="false" />
+          <Property Name="dock_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="station_id" Type="int" Nullable="false" />
+          <Property Name="holds_bicycle" Type="int" Nullable="false" />
+          <Property Name="is_locked" Type="bool" Nullable="false" />
         </EntityType>
         <EntityType Name="station">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="station_id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="station_id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" Nullable="false" MaxLength="50" />
         </EntityType>
       </Schema>
     </edmx:StorageModels>
@@ -48,29 +48,29 @@
         </EntityContainer>
         <EntityType Name="booking">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="booking_id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="StartTime" Type="Int64" Nullable="false" />
-          <Property Name="Password" Type="Int32" Nullable="false" />
-          <Property Name="StationId" Type="Int32" Nullable="false" />
+          <Property Name="booking_id" Type="Int32" Nullable="false" />
+          <Property Name="start_time" Type="Int64" Nullable="false" />
+          <Property Name="password" Type="Int32" Nullable="false" />
+          <Property Name="start_station" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="dock">
           <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="StationID" />
+            <PropertyRef Name="dock_id" />
+            <PropertyRef Name="station_id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="StationID" Type="Int32" Nullable="false" />
-          <Property Name="Holds_bicycle" Type="Int32" Nullable="false" />
-          <Property Name="IsLocked" Type="Boolean" Nullable="false" />
+          <Property Name="dock_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="station_id" Type="Int32" Nullable="false" />
+          <Property Name="holds_bicycle" Type="Int32" Nullable="false" />
+          <Property Name="is_locked" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="station">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="station_id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="station_id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -81,28 +81,28 @@
           <EntitySetMapping Name="booking">
             <EntityTypeMapping TypeName="Database.booking">
               <MappingFragment StoreEntitySet="booking">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="StationId" ColumnName="StationId" />
+                <ScalarProperty Name="booking_id" ColumnName="booking_id" />
+                <ScalarProperty Name="start_time" ColumnName="start_time" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="start_station" ColumnName="start_station" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="dock">
             <EntityTypeMapping TypeName="Database.dock">
               <MappingFragment StoreEntitySet="dock">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="StationID" ColumnName="StationID" />
-                <ScalarProperty Name="Holds_bicycle" ColumnName="Holds_bicycle" />
-                <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
+                <ScalarProperty Name="dock_id" ColumnName="dock_id" />
+                <ScalarProperty Name="station_id" ColumnName="station_id" />
+                <ScalarProperty Name="holds_bicycle" ColumnName="holds_bicycle" />
+                <ScalarProperty Name="is_locked" ColumnName="is_locked" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="station">
             <EntityTypeMapping TypeName="Database.station">
               <MappingFragment StoreEntitySet="station">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="station_id" ColumnName="station_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

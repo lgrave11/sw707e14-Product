@@ -14,9 +14,9 @@ namespace BicycleStation
     
     public partial class booking
     {
-        public int Id { get; set; }
-        public long StartTime { get; set; }
-        public int Password { get; set; }
-        public int StationId { get; set; }
+        public int booking_id { get; set; }
+        public long start_time { get; set; }
+        public int password { get; set; }
+        public int start_station { get; set; }
     }
 }

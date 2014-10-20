@@ -35,6 +35,10 @@ namespace BicycleStation.StationDBService {
         
         private System.Threading.SendOrPostCallback BicycleReturnedToDockAtStationOperationCompleted;
         
+        private System.Threading.SendOrPostCallback getBookingWithIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAllBookingsForStationOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -81,6 +85,12 @@ namespace BicycleStation.StationDBService {
         
         /// <remarks/>
         public event BicycleReturnedToDockAtStationCompletedEventHandler BicycleReturnedToDockAtStationCompleted;
+        
+        /// <remarks/>
+        public event getBookingWithIdCompletedEventHandler getBookingWithIdCompleted;
+        
+        /// <remarks/>
+        public event GetAllBookingsForStationCompletedEventHandler GetAllBookingsForStationCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapRpcMethodAttribute("urn:StationToDB_Service#soapaction", RequestNamespace="urn:StationToDB_Service", ResponseNamespace="urn:StationToDB_Service", Use=System.Web.Services.Description.SoapBindingUse.Literal)]
@@ -183,6 +193,66 @@ namespace BicycleStation.StationDBService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapRpcMethodAttribute("urn:StationToDB_Service#soapaction", RequestNamespace="urn:StationToDB_Service", ResponseNamespace="urn:StationToDB_Service")]
+        [return: System.Xml.Serialization.SoapElementAttribute("return")]
+        public BookingObject getBookingWithId(int booking_id) {
+            object[] results = this.Invoke("getBookingWithId", new object[] {
+                        booking_id});
+            return ((BookingObject)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void getBookingWithIdAsync(int booking_id) {
+            this.getBookingWithIdAsync(booking_id, null);
+        }
+        
+        /// <remarks/>
+        public void getBookingWithIdAsync(int booking_id, object userState) {
+            if ((this.getBookingWithIdOperationCompleted == null)) {
+                this.getBookingWithIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OngetBookingWithIdOperationCompleted);
+            }
+            this.InvokeAsync("getBookingWithId", new object[] {
+                        booking_id}, this.getBookingWithIdOperationCompleted, userState);
+        }
+        
+        private void OngetBookingWithIdOperationCompleted(object arg) {
+            if ((this.getBookingWithIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.getBookingWithIdCompleted(this, new getBookingWithIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapRpcMethodAttribute("urn:StationToDB_Service#soapaction", RequestNamespace="urn:StationToDB_Service", ResponseNamespace="urn:StationToDB_Service")]
+        [return: System.Xml.Serialization.SoapElementAttribute("return")]
+        public string[] GetAllBookingsForStation(int station_id) {
+            object[] results = this.Invoke("GetAllBookingsForStation", new object[] {
+                        station_id});
+            return ((string[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAllBookingsForStationAsync(int station_id) {
+            this.GetAllBookingsForStationAsync(station_id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAllBookingsForStationAsync(int station_id, object userState) {
+            if ((this.GetAllBookingsForStationOperationCompleted == null)) {
+                this.GetAllBookingsForStationOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllBookingsForStationOperationCompleted);
+            }
+            this.InvokeAsync("GetAllBookingsForStation", new object[] {
+                        station_id}, this.GetAllBookingsForStationOperationCompleted, userState);
+        }
+        
+        private void OnGetAllBookingsForStationOperationCompleted(object arg) {
+            if ((this.GetAllBookingsForStationCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAllBookingsForStationCompleted(this, new GetAllBookingsForStationCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -198,6 +268,75 @@ namespace BicycleStation.StationDBService {
                 return true;
             }
             return false;
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34234")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.SoapTypeAttribute(Namespace="urn:StationToDB_Service")]
+    public partial class BookingObject {
+        
+        private int booking_idField;
+        
+        private int start_timeField;
+        
+        private int start_stationField;
+        
+        private string passwordField;
+        
+        private string for_userField;
+        
+        /// <remarks/>
+        public int booking_id {
+            get {
+                return this.booking_idField;
+            }
+            set {
+                this.booking_idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int start_time {
+            get {
+                return this.start_timeField;
+            }
+            set {
+                this.start_timeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int start_station {
+            get {
+                return this.start_stationField;
+            }
+            set {
+                this.start_stationField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string password {
+            get {
+                return this.passwordField;
+            }
+            set {
+                this.passwordField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string for_user {
+            get {
+                return this.for_userField;
+            }
+            set {
+                this.for_userField = value;
+            }
         }
     }
     
@@ -275,6 +414,58 @@ namespace BicycleStation.StationDBService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.18408")]
+    public delegate void getBookingWithIdCompletedEventHandler(object sender, getBookingWithIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.18408")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class getBookingWithIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal getBookingWithIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public BookingObject Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((BookingObject)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.18408")]
+    public delegate void GetAllBookingsForStationCompletedEventHandler(object sender, GetAllBookingsForStationCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.18408")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAllBookingsForStationCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAllBookingsForStationCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string[])(this.results[0]));
             }
         }
     }

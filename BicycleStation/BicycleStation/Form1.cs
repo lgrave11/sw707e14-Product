@@ -7,18 +7,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Web.Helpers;
 
 namespace BicycleStation
 {
     public partial class Form1 : Form
     {
         const int MAXTIME = 120;
+        const int LOCKED = 0;
+        const int UNLOCKED = 1;
+        const int NOBICYCLE = 2;
         int _maxTime = MAXTIME;
+        
 
         public Form1()
         {
             InitializeComponent();
-            //StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
+            DatabaseConnection DB = new DatabaseConnection();
+            string[] query = (from c in DB.station
+                                  select c.name).ToArray();
+            StationNameDropDown.Items.AddRange(query);
+            StationNameDropDown.SelectedItem = query[0];
+         
         }
 
         private void lockTimer_Tick(object sender, EventArgs e)
@@ -38,7 +48,28 @@ namespace BicycleStation
 
         private void StationNameDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
-            /* Load en farlig masse */
+            DatabaseConnection DB = new DatabaseConnection();
+            string stationName = StationNameDropDown.SelectedItem.ToString();
+
+            List<dock> getDocks = (from d in DB.dock
+                             join s in DB.station on d.station_id equals s.station_id
+                             where s.name == stationName
+                             select d).ToList();
+            DockIdUpDown.Maximum = getDocks.Count();
+
+            int locked = 0;
+            int unlocked = 0;
+            foreach (dock d in getDocks)
+            {
+                if (d.is_locked)
+                    locked++;
+                else if (d.holds_bicycle > 0)
+                    unlocked++;
+            }
+            LockednumberLbl.Text = locked.ToString();
+            UnlockedNumberLbl.Text = unlocked.ToString();
+
+            DockIdUpDown_ValueChanged(sender, e);
         }
 
         private void passwordTB_Click(object sender, EventArgs e)
@@ -52,13 +83,20 @@ namespace BicycleStation
         private void UnlockBtn_Click(object sender, EventArgs e)
         {
             int pwText = 0;
+
             DatabaseConnection DB = new DatabaseConnection();
             try
             {
                 pwText = Convert.ToInt32(passwordTB.Text.ToString());
-                if (DB.booking.Select(x => x.Password == pwText).Count() > 0)
+                string stationName = StationNameDropDown.SelectedItem.ToString();
+
+                var query = from c in DB.booking
+                            join s in DB.station on c.start_station equals s.station_id
+                            where c.password == pwText && s.name == stationName
+                            select c;
+
+                if (query.Count() > 0)
                 {
-                    // Do validation of password
                     EnterPwPanel.Visible = false;
                     EnterPwPanel.SendToBack();
 
@@ -66,6 +104,30 @@ namespace BicycleStation
                     TakeItPanel.Visible = true;
 
                     lockTimer.Start();
+
+                    List<dock> docks = (from d in DB.dock
+                                        join s in DB.station on d.station_id equals s.station_id
+                                        where s.name == stationName
+                                        select d).ToList();
+                    int availableDock = -1;
+                    int i = 0;
+                    while (availableDock < 0 && i < docks.Count)
+                    {
+                        if (docks[i].is_locked)
+                            availableDock = i;
+                        i++;
+                    }
+                    if (availableDock >= 0)
+                    {
+                        TakeAtDockLbl.Text = "Take your bicycle at dock " + (availableDock + 1);
+                        docks[availableDock].is_locked = false;
+                        DB.SaveChanges();
+                        DockIdUpDown.Value = availableDock + 1;
+                        DockIdUpDown_ValueChanged(sender, e);
+                    }
+                    else
+                        TakeAtDockLbl.Text = "Error with booking";
+
                 }
                 else
                 {
@@ -90,6 +152,38 @@ namespace BicycleStation
             passwordTB.Text = "Key";
             EnterPwPanel.BringToFront();
             EnterPwPanel.Visible = true;
+
+            StationNameDropDown_SelectedIndexChanged(sender, e);
+        }
+
+        private void DockIdUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            DatabaseConnection DB = new DatabaseConnection();
+            string stationName = StationNameDropDown.SelectedItem.ToString();
+
+            int[] getDocks = (from d in DB.dock
+                              join s in DB.station on d.station_id equals s.station_id
+                              where s.name == stationName
+                              select d.dock_id).ToArray();
+
+            int docID = getDocks[Convert.ToInt32(DockIdUpDown.Value)-1];
+
+            dock getDock = (from d in DB.dock
+                           where d.dock_id == docID
+                           select d).FirstOrDefault();
+
+            if (getDock.holds_bicycle == 0)
+                DockStateBar.Value = NOBICYCLE;
+            else if (!getDock.is_locked)
+                DockStateBar.Value = UNLOCKED;
+            else
+                DockStateBar.Value = LOCKED;
+            
+        }
+
+        private void DockStateBar_Scroll(object sender, EventArgs e)
+        {
+
         }
 
     }
