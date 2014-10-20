@@ -27,8 +27,8 @@ class Tools {
 
     public static function includeJS(){
         $files = scandir('public/js');
-        echo '<script type="text/javascript" src="public/js/jquery.js"></script>
-<script type="text/javascript" src="public/js/jquery.datetimepicker.js"></script>
+        echo '<script type="text/javascript" src="/public/js/jquery.js"></script>
+<script type="text/javascript" src="/public/js/jquery.datetimepicker.js"></script>
 ';
         foreach ($files as $file){
             if (substr($file, 0, 1) != "." && substr($file, 0, 6) != "jquery"){

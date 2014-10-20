@@ -14,5 +14,13 @@ class Ajax extends Controller {
         $freeDocks = $stationService->readAllAvailableDocksForStation($station);
         require 'application/views/ajax/freebicycles.php';
     }
+
+    public function getBicyclePositions() 
+    {
+        $bicycleService = new BicycleService($this->db);
+        $bicycles = $bicycleService->readAll();
+        
+        echo json_encode($bicycles);
+    }
 }
 ?>

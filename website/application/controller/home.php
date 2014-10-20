@@ -33,13 +33,10 @@ class Home extends Controller
         require 'application/views/_templates/footer.php';
     }
 
-    public function test()
+    public function admin()
     {
-        echo "flæske";
         $this->title = "Admin";
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
-        $stationService = new StationService($this->db);
-        $stations = $stationService->readAllStations();
 
         $bicycleService = new bicycleService($this->db);
         $bicycles = $bicycleService->readAll();
@@ -52,7 +49,7 @@ class Home extends Controller
 
         // load views. within the views we can echo out $songs and $amount_of_songs easily
         require 'application/views/_templates/header.php';
-        require 'application/views/home/adminMap.php';
+        require 'application/views/home/admin.php';
         require 'application/views/_templates/footer.php';
     }
 

@@ -44,7 +44,7 @@ namespace GPSUpdatus
             {
                 PointF point = GetNextPosition();
                 (new gpsservice.GPS_Service()).RegisterGPS(bicycleid, point.X, point.Y);
-                Thread.Sleep(10000);//10 sekunder
+                Thread.Sleep(1000);//1 sekunder
             }
         }
 

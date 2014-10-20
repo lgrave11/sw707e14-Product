@@ -1,41 +1,18 @@
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 <script>
 	var aalborg = new google.maps.LatLng(57.037835, 9.940895);
-	var marker;
-	var map;
-	var stations = [];
-	var titles = [];
 	var mark = [];
 	var map;
-	var infowindow = [];
-	var image = {
-	    url: 'public/images/marker.png',
-	    // This marker is 20 pixels wide by 32 pixels tall.
-	    size: new google.maps.Size(25, 33),
-	    // The origin for this image is 0,0.
-	    origin: new google.maps.Point(0,0),
-	    // The anchor for this image is the base of the flagpole at 0,32.
-	    anchor: new google.maps.Point(0, 32),
-		};
 
 	var bicycleimage = {
-	    url: 'public/images/bicycleMarker.png',
+	    url: '/public/images/bicycleMarker.png',
 	    // This marker is 20 pixels wide by 32 pixels tall.
 	    size: new google.maps.Size(9, 9),
 	    // The origin for this image is 0,0.
 	    origin: new google.maps.Point(0,0),
 	    // The anchor for this image is the base of the flagpole at 0,32.
-	    anchor: new google.maps.Point(0, 9),
+	    anchor: new google.maps.Point(4, 4),
 		};
-
-<?php
-  foreach ($stations as $station){
-    echo "stations.push(new google.maps.LatLng(" . $station->latitude . ", " . $station->longitude . "));\n";
-    echo "titles.push(\"" . $station->name . "\");\n";
-    echo "infowindow.push(new google.maps.InfoWindow({content: '<div style=\"overflow:hidden;white-space:nowrap;\"><b>" . $station->name . "</b><br /> Available Bicycles: " . $stationService->readAllAvailableBicyclesForStation($station) . "<br/> Available Docks: " . $stationService->readAllAvailableDocksForStation($station) . "</div>'}));\n";
-  }
-
-	?>
 
 	function initialize() {
 	    var mapOptions = {
@@ -49,40 +26,32 @@
 	    };
 
 	    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+		updateMarkers();
+	}
 
-	    for(i = 0; i < stations.length; i++){
-	    	mark.push(new google.maps.Marker({
-	        	map:map,
-	        	draggable:false,
-	        	animation: google.maps.Animation.DROP,
-	        	position: stations[i],
-	        	title: titles[i],
-	        	icon: image
-	      	}));
-	      	google.maps.event.addListener(mark[i], 'click', helperBounce(mark[i],toggleBounce));
-	      	google.maps.event.addListener(mark[i], 'click', helperSelectStation(SelectStationFromList, mark[i].title));
-	    }
-
-		<?php
-		  	for($i = 0; $i < count($stations); $i++){
-		    	echo 
-		        	"google.maps.event.addListener(mark[" . $i . "], 'click', function() {
-		        		closeAllInfoWindows();
-		          		infowindow[" . $i . "].open(map,mark[" . $i . "]);
-		          		google.maps.event.addListener(infowindow[" . $i . "], 'closeclick',function(){
-		          			stopAllBouncing();
-		          		});
-		      		});
-					\n";
-		  	}	
-		?>
-
-		<?php
-			foreach ($bicycles as $bicycle){
-				echo "var position = new google.maps.LatLng(" . $bicycle->latitude . ", " . $bicycle->longitude . ");\n";
-				echo "mark.push(new google.maps.Marker({map:map, draggable:false, position: position, icon: bicycleimage}));\n";
+	function updateMarkers() {
+		var result = $.ajax({
+			url: "/Ajax/GetBicyclePositions"
+		}).success(function() {
+			setAllMap(null);
+			var j = $.parseJSON(result.responseText);
+			for(i = 0; i < j.length; i++) {
+				mark.push(
+					new google.maps.Marker(
+						{ map:map, draggable:false, position: new google.maps.LatLng(j[i]["latitude"], j[i]["longitude"]), icon: bicycleimage }
+						)
+					);
 			}
-		?>
+			setTimeout(function() {updateMarkers();}, 1000);
+		});
+	}
+
+	// Sets the map on all markers in the array.
+	function setAllMap(map) {
+	  for (var i = 0; i < mark.length; i++) {
+	    mark[i].setMap(map);
+	  }
+	  mark = [];
 	}
 
 	function stopAllBouncing(){
