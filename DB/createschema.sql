@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS booking CASCADE;
 DROP TABLE IF EXISTS account CASCADE;
 DROP TABLE IF EXISTS station CASCADE;
 DROP TABLE IF EXISTS bicycle CASCADE;
+DROP TABLE IF EXISTS historylocationbicycle CASCADE;
 
 CREATE TABLE station
 (
@@ -397,3 +398,13 @@ CREATE FUNCTION LEVENSHTEIN(s1 VARCHAR(255) CHARACTER SET utf8, s2 VARCHAR(255) 
   END $$
 
 DELIMITER ;
+
+CREATE TABLE historylocationbicycle
+(
+	bicycle_id int,
+	timeforlocation timestamp,
+	latitude float NOT NULL,
+	longitude float NOT NULL,
+	PRIMARY KEY(bicycle_id,timeforlocation),
+	FOREIGN KEY(bicycle_id) REFERENCES bicycle(bicycle_id)
+);
