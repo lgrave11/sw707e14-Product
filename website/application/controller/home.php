@@ -19,7 +19,6 @@ class Home extends Controller
         $this->title = "Home";
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
         $stationService = new StationService($this->db);
-
         $stations = $stationService->readAllStations();
 
         if (Tools::isLoggedIn()) {
@@ -31,6 +30,26 @@ class Home extends Controller
         // load views. within the views we can echo out $songs and $amount_of_songs easily
         require 'application/views/_templates/header.php';
         require 'application/views/home/index.php';
+        require 'application/views/_templates/footer.php';
+    }
+
+    public function admin()
+    {
+        $this->title = "Admin";
+        $currentPage = substr($_SERVER["REQUEST_URI"], 1);
+
+        $bicycleService = new bicycleService($this->db);
+        $bicycles = $bicycleService->readAll();
+
+        if (Tools::isLoggedIn()) {
+            $bookingService = new BookingService($this->db);
+            $activeBookings = $bookingService->getActiveBookings($_SESSION["login_user"]);
+
+        }
+
+        // load views. within the views we can echo out $songs and $amount_of_songs easily
+        require 'application/views/_templates/header.php';
+        require 'application/views/home/admin.php';
         require 'application/views/_templates/footer.php';
     }
 

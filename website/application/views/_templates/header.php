@@ -24,7 +24,8 @@
 	Tools::includeCSS();
 	if (isset($currentPage) && ($currentPage == "" || $currentPage == "home")){
 		include("application/views/home/googleapi.php");
-}
+	}
+	
 ?>
 </head>
 
