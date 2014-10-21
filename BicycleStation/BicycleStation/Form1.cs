@@ -18,7 +18,6 @@ namespace BicycleStation
         const int UNLOCKED = 1;
         const int NOBICYCLE = 2;
         int _maxTime = MAXTIME;
-        int prevBarValue = 1;
         
 
         public Form1()
@@ -91,12 +90,12 @@ namespace BicycleStation
                 pwText = Convert.ToInt32(passwordTB.Text.ToString());
                 string stationName = StationNameDropDown.SelectedItem.ToString();
 
-                var query = from b in DB.booking
-                            join s in DB.station on b.start_station equals s.station_id
-                            where b.password == pwText && s.name == stationName
-                            select b;
+                List<booking> findBookings = (from b in DB.booking
+                                             join s in DB.station on b.start_station equals s.station_id
+                                             where b.password == pwText && s.name == stationName
+                                             select b).ToList();
 
-                if (query.Count() > 0)
+                if (findBookings.Count() > 0)
                 {
                     EnterPwPanel.Visible = false;
                     EnterPwPanel.SendToBack();
@@ -127,7 +126,7 @@ namespace BicycleStation
                         DockIdUpDown_ValueChanged(sender, e);
 
                         StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
-
+                        service.BicycleWithBookingUnlocked(findBookings[0].start_station, findBookings[0].booking_id);
                     }
                     else
                         TakeAtDockLbl.Text = "Error with booking";
@@ -177,52 +176,105 @@ namespace BicycleStation
                            select d).FirstOrDefault();
 
             if (getDock.holds_bicycle == 0)
+            {
                 DockStateBar.Value = NOBICYCLE;
+                TakeBicycleBtn.Enabled = false;
+                ReturnBicycleBtn.Enabled = true;
+            }
             else if (!getDock.is_locked)
+            {
                 DockStateBar.Value = UNLOCKED;
+                TakeBicycleBtn.Enabled = true;
+                ReturnBicycleBtn.Enabled = false;
+            }
             else
+            {
                 DockStateBar.Value = LOCKED;
+                TakeBicycleBtn.Enabled = false;
+                ReturnBicycleBtn.Enabled = false;
+            }
 
-            prevBarValue = DockStateBar.Value;
             
+        }      
+
+
+        private void bicycleTaken(dock Dock)
+        {
+            StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
+            service.BicycleTaken(Dock.station_id, Dock.holds_bicycle);
         }
 
-        private void DockStateBar_Scroll(object sender, EventArgs e)
+        private void bicycleReturn(dock Dock)
+        {
+            StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
+            service.BicycleReturnedToDockAtStation(Dock.holds_bicycle, Dock.station_id, Dock.dock_id);
+        }
+
+        private void TakeBicycleBtn_Click(object sender, EventArgs e)
         {
             DatabaseConnection DB = new DatabaseConnection();
-            
+
             string stationName = StationNameDropDown.SelectedItem.ToString();
 
             List<dock> getDocks = (from d in DB.dock
                                    join s in DB.station on d.station_id equals s.station_id
                                    where s.name == stationName
                                    select d).ToList();
-            if (DockStateBar.Value == LOCKED)
-                getDocks[Convert.ToInt32(DockIdUpDown.Value)].is_locked = true;
-            else if (DockStateBar.Value == UNLOCKED)
-            {
-                getDocks[Convert.ToInt32(DockIdUpDown.Value)].holds_bicycle = 1;
-                getDocks[Convert.ToInt32(DockIdUpDown.Value)].is_locked = false;
 
-            }
-            else
-            {
-                getDocks[Convert.ToInt32(DockIdUpDown.Value)].holds_bicycle = 0;
-                bicycleTaken();
-            }
-
-
-
+            bicycleTaken(getDocks[Convert.ToInt32(DockIdUpDown.Value)-1]);
+            getDocks[Convert.ToInt32(DockIdUpDown.Value) - 1].holds_bicycle = 0;
             DB.SaveChanges();
 
+            DockStateBar.Value = 2;
+            ReturnBicycleBtn.Enabled = true;
+            TakeBicycleBtn.Enabled = false;
         }
 
-
-        private void bicycleTaken()
+        private void ReturnBicycleBtn_Click(object sender, EventArgs e)
         {
-            StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
+            DatabaseConnection DB = new DatabaseConnection();
 
+            string stationName = StationNameDropDown.SelectedItem.ToString();
+
+            List<dock> getDocks = (from d in DB.dock
+                                   join s in DB.station on d.station_id equals s.station_id
+                                   where s.name == stationName
+                                   select d).ToList();
+
+            getDocks[Convert.ToInt32(DockIdUpDown.Value) - 1].holds_bicycle = getRandomBicycleID();
+            DB.SaveChanges();
+            bicycleReturn(getDocks[Convert.ToInt32(DockIdUpDown.Value) - 1]);
+            DockStateBar.Value = 1;
+            TakeBicycleBtn.Enabled = true;
+            ReturnBicycleBtn.Enabled = false;
         }
+
+        private int getRandomBicycleID()
+        {
+            DatabaseConnection DB = new DatabaseConnection();
+
+            List<int> availableIDs = new List<int>();
+            for(int i = 1; i <= 178; i++)
+                availableIDs.Add(i);
+            List<int> usedIDs = (from d in DB.dock
+                                where d.holds_bicycle > 0
+                                select d.holds_bicycle).ToList();
+            foreach(int i in usedIDs)
+                availableIDs.Remove(i);
+
+            return availableIDs[(new Random()).Next(1, availableIDs.Count())];
+        }
+
+
+        //develop later after DB communication is done
+ /*       private bool recurringAttemptsToService(Func<bool> call, int attempts)
+        {
+            int attempt = 0;
+            while (!call() && attempt <= attempts)
+            {
+                
+            }
+        }*/
 
     }
 }

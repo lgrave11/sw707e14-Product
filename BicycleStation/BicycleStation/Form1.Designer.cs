@@ -52,6 +52,9 @@
             this.DockIdUpDown = new System.Windows.Forms.NumericUpDown();
             this.StationNameDropDown = new System.Windows.Forms.ComboBox();
             this.lockTimer = new System.Windows.Forms.Timer(this.components);
+            this.TakeBicycleBtn = new System.Windows.Forms.Button();
+            this.ReturnBicycleBtn = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -79,6 +82,9 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.label1);
+            this.splitContainer1.Panel2.Controls.Add(this.ReturnBicycleBtn);
+            this.splitContainer1.Panel2.Controls.Add(this.TakeBicycleBtn);
             this.splitContainer1.Panel2.Controls.Add(this.NoBicycleStateLbl);
             this.splitContainer1.Panel2.Controls.Add(this.UnlockStateLbl);
             this.splitContainer1.Panel2.Controls.Add(this.LockStateLbl);
@@ -280,13 +286,13 @@
             // 
             // DockStateBar
             // 
+            this.DockStateBar.Enabled = false;
             this.DockStateBar.LargeChange = 1;
             this.DockStateBar.Location = new System.Drawing.Point(17, 174);
             this.DockStateBar.Maximum = 2;
             this.DockStateBar.Name = "DockStateBar";
             this.DockStateBar.Size = new System.Drawing.Size(220, 45);
             this.DockStateBar.TabIndex = 4;
-            this.DockStateBar.Scroll += new System.EventHandler(this.DockStateBar_Scroll);
             // 
             // DockNumberLbl
             // 
@@ -340,6 +346,38 @@
             this.lockTimer.Interval = 1000;
             this.lockTimer.Tick += new System.EventHandler(this.lockTimer_Tick);
             // 
+            // TakeBicycleBtn
+            // 
+            this.TakeBicycleBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TakeBicycleBtn.Location = new System.Drawing.Point(17, 425);
+            this.TakeBicycleBtn.Name = "TakeBicycleBtn";
+            this.TakeBicycleBtn.Size = new System.Drawing.Size(94, 45);
+            this.TakeBicycleBtn.TabIndex = 9;
+            this.TakeBicycleBtn.Text = "Take";
+            this.TakeBicycleBtn.UseVisualStyleBackColor = true;
+            this.TakeBicycleBtn.Click += new System.EventHandler(this.TakeBicycleBtn_Click);
+            // 
+            // ReturnBicycleBtn
+            // 
+            this.ReturnBicycleBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ReturnBicycleBtn.Location = new System.Drawing.Point(138, 425);
+            this.ReturnBicycleBtn.Name = "ReturnBicycleBtn";
+            this.ReturnBicycleBtn.Size = new System.Drawing.Size(89, 45);
+            this.ReturnBicycleBtn.TabIndex = 10;
+            this.ReturnBicycleBtn.Text = "Return";
+            this.ReturnBicycleBtn.UseVisualStyleBackColor = true;
+            this.ReturnBicycleBtn.Click += new System.EventHandler(this.ReturnBicycleBtn_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(37, 396);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(164, 24);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "Dock State Control";
+            // 
             // Form1
             // 
             this.AcceptButton = this.UnlockBtn;
@@ -392,6 +430,9 @@
         private System.Windows.Forms.Label UnlockedLbl;
         private System.Windows.Forms.Label LockedLbl;
         private System.Windows.Forms.TextBox passwordTB;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button ReturnBicycleBtn;
+        private System.Windows.Forms.Button TakeBicycleBtn;
 
     }
 }

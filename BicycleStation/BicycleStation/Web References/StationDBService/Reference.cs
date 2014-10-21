@@ -29,9 +29,9 @@ namespace BicycleStation.StationDBService {
     [System.Web.Services.WebServiceBindingAttribute(Name="StationToDB_ServiceBinding", Namespace="urn:StationToDB_Service")]
     public partial class StationToDB_Service : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
-        private System.Threading.SendOrPostCallback BicycleTakenWithBookingOperationCompleted;
+        private System.Threading.SendOrPostCallback BicycleWithBookingUnlockedOperationCompleted;
         
-        private System.Threading.SendOrPostCallback BicycleTakenWithoutBookingOperationCompleted;
+        private System.Threading.SendOrPostCallback BicycleTakenOperationCompleted;
         
         private System.Threading.SendOrPostCallback BicycleReturnedToDockAtStationOperationCompleted;
         
@@ -78,10 +78,10 @@ namespace BicycleStation.StationDBService {
         }
         
         /// <remarks/>
-        public event BicycleTakenWithBookingCompletedEventHandler BicycleTakenWithBookingCompleted;
+        public event BicycleWithBookingUnlockedCompletedEventHandler BicycleWithBookingUnlockedCompleted;
         
         /// <remarks/>
-        public event BicycleTakenWithoutBookingCompletedEventHandler BicycleTakenWithoutBookingCompleted;
+        public event BicycleTakenCompletedEventHandler BicycleTakenCompleted;
         
         /// <remarks/>
         public event BicycleReturnedToDockAtStationCompletedEventHandler BicycleReturnedToDockAtStationCompleted;
@@ -95,66 +95,64 @@ namespace BicycleStation.StationDBService {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapRpcMethodAttribute("urn:StationToDB_Service#soapaction", RequestNamespace="urn:StationToDB_Service", ResponseNamespace="urn:StationToDB_Service", Use=System.Web.Services.Description.SoapBindingUse.Literal)]
         [return: System.Xml.Serialization.XmlElementAttribute("return")]
-        public bool BicycleTakenWithBooking(int station_id, int bicycle_id, int booking_id) {
-            object[] results = this.Invoke("BicycleTakenWithBooking", new object[] {
+        public bool BicycleWithBookingUnlocked(int station_id, int booking_id) {
+            object[] results = this.Invoke("BicycleWithBookingUnlocked", new object[] {
                         station_id,
-                        bicycle_id,
                         booking_id});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void BicycleTakenWithBookingAsync(int station_id, int bicycle_id, int booking_id) {
-            this.BicycleTakenWithBookingAsync(station_id, bicycle_id, booking_id, null);
+        public void BicycleWithBookingUnlockedAsync(int station_id, int booking_id) {
+            this.BicycleWithBookingUnlockedAsync(station_id, booking_id, null);
         }
         
         /// <remarks/>
-        public void BicycleTakenWithBookingAsync(int station_id, int bicycle_id, int booking_id, object userState) {
-            if ((this.BicycleTakenWithBookingOperationCompleted == null)) {
-                this.BicycleTakenWithBookingOperationCompleted = new System.Threading.SendOrPostCallback(this.OnBicycleTakenWithBookingOperationCompleted);
+        public void BicycleWithBookingUnlockedAsync(int station_id, int booking_id, object userState) {
+            if ((this.BicycleWithBookingUnlockedOperationCompleted == null)) {
+                this.BicycleWithBookingUnlockedOperationCompleted = new System.Threading.SendOrPostCallback(this.OnBicycleWithBookingUnlockedOperationCompleted);
             }
-            this.InvokeAsync("BicycleTakenWithBooking", new object[] {
+            this.InvokeAsync("BicycleWithBookingUnlocked", new object[] {
                         station_id,
-                        bicycle_id,
-                        booking_id}, this.BicycleTakenWithBookingOperationCompleted, userState);
+                        booking_id}, this.BicycleWithBookingUnlockedOperationCompleted, userState);
         }
         
-        private void OnBicycleTakenWithBookingOperationCompleted(object arg) {
-            if ((this.BicycleTakenWithBookingCompleted != null)) {
+        private void OnBicycleWithBookingUnlockedOperationCompleted(object arg) {
+            if ((this.BicycleWithBookingUnlockedCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.BicycleTakenWithBookingCompleted(this, new BicycleTakenWithBookingCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.BicycleWithBookingUnlockedCompleted(this, new BicycleWithBookingUnlockedCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapRpcMethodAttribute("urn:StationToDB_Service#soapaction", RequestNamespace="urn:StationToDB_Service", ResponseNamespace="urn:StationToDB_Service", Use=System.Web.Services.Description.SoapBindingUse.Literal)]
         [return: System.Xml.Serialization.XmlElementAttribute("return")]
-        public bool BicycleTakenWithoutBooking(int station_id, int bicycle_id) {
-            object[] results = this.Invoke("BicycleTakenWithoutBooking", new object[] {
+        public bool BicycleTaken(int station_id, int bicycle_id) {
+            object[] results = this.Invoke("BicycleTaken", new object[] {
                         station_id,
                         bicycle_id});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void BicycleTakenWithoutBookingAsync(int station_id, int bicycle_id) {
-            this.BicycleTakenWithoutBookingAsync(station_id, bicycle_id, null);
+        public void BicycleTakenAsync(int station_id, int bicycle_id) {
+            this.BicycleTakenAsync(station_id, bicycle_id, null);
         }
         
         /// <remarks/>
-        public void BicycleTakenWithoutBookingAsync(int station_id, int bicycle_id, object userState) {
-            if ((this.BicycleTakenWithoutBookingOperationCompleted == null)) {
-                this.BicycleTakenWithoutBookingOperationCompleted = new System.Threading.SendOrPostCallback(this.OnBicycleTakenWithoutBookingOperationCompleted);
+        public void BicycleTakenAsync(int station_id, int bicycle_id, object userState) {
+            if ((this.BicycleTakenOperationCompleted == null)) {
+                this.BicycleTakenOperationCompleted = new System.Threading.SendOrPostCallback(this.OnBicycleTakenOperationCompleted);
             }
-            this.InvokeAsync("BicycleTakenWithoutBooking", new object[] {
+            this.InvokeAsync("BicycleTaken", new object[] {
                         station_id,
-                        bicycle_id}, this.BicycleTakenWithoutBookingOperationCompleted, userState);
+                        bicycle_id}, this.BicycleTakenOperationCompleted, userState);
         }
         
-        private void OnBicycleTakenWithoutBookingOperationCompleted(object arg) {
-            if ((this.BicycleTakenWithoutBookingCompleted != null)) {
+        private void OnBicycleTakenOperationCompleted(object arg) {
+            if ((this.BicycleTakenCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.BicycleTakenWithoutBookingCompleted(this, new BicycleTakenWithoutBookingCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.BicycleTakenCompleted(this, new BicycleTakenCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -342,17 +340,17 @@ namespace BicycleStation.StationDBService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.18408")]
-    public delegate void BicycleTakenWithBookingCompletedEventHandler(object sender, BicycleTakenWithBookingCompletedEventArgs e);
+    public delegate void BicycleWithBookingUnlockedCompletedEventHandler(object sender, BicycleWithBookingUnlockedCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.18408")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class BicycleTakenWithBookingCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class BicycleWithBookingUnlockedCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal BicycleTakenWithBookingCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal BicycleWithBookingUnlockedCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -368,17 +366,17 @@ namespace BicycleStation.StationDBService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.18408")]
-    public delegate void BicycleTakenWithoutBookingCompletedEventHandler(object sender, BicycleTakenWithoutBookingCompletedEventArgs e);
+    public delegate void BicycleTakenCompletedEventHandler(object sender, BicycleTakenCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.18408")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class BicycleTakenWithoutBookingCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class BicycleTakenCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal BicycleTakenWithoutBookingCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal BicycleTakenCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
