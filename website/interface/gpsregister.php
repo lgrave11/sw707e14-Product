@@ -41,7 +41,7 @@
         $stmt->execute();
         $stmt->close();
         
-        $stmt = $db->prepare("INSERT INTO historylocationbicycle(bicycle_id, latitude, longitude) VALUES (?,?,?");
+        $stmt = $db->prepare("INSERT INTO historylocationbicycle(bicycle_id, latitude, longitude) VALUES (?,?,?)");
         $stmt->bind_param("idd", $bicycle_id, $latitude, $longitude);
         $stmt->execute();
         $stmt->close();
