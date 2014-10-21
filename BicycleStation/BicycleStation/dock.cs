@@ -14,9 +14,9 @@ namespace BicycleStation
     
     public partial class dock
     {
-        public int Id { get; set; }
-        public int StationID { get; set; }
-        public int Holds_bicycle { get; set; }
-        public bool IsLocked { get; set; }
+        public int dock_id { get; set; }
+        public int station_id { get; set; }
+        public int holds_bicycle { get; set; }
+        public bool is_locked { get; set; }
     }
 }

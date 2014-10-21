@@ -214,6 +214,7 @@
             this.TimeLbl.Size = new System.Drawing.Size(103, 40);
             this.TimeLbl.TabIndex = 10;
             this.TimeLbl.Text = "01:59";
+            this.TimeLbl.Visible = false;
             // 
             // UnlockMoreBtn
             // 
@@ -285,6 +286,7 @@
             this.DockStateBar.Name = "DockStateBar";
             this.DockStateBar.Size = new System.Drawing.Size(220, 45);
             this.DockStateBar.TabIndex = 4;
+            this.DockStateBar.Scroll += new System.EventHandler(this.DockStateBar_Scroll);
             // 
             // DockNumberLbl
             // 
@@ -309,9 +311,20 @@
             // DockIdUpDown
             // 
             this.DockIdUpDown.Location = new System.Drawing.Point(117, 77);
+            this.DockIdUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.DockIdUpDown.Name = "DockIdUpDown";
             this.DockIdUpDown.Size = new System.Drawing.Size(120, 20);
             this.DockIdUpDown.TabIndex = 1;
+            this.DockIdUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.DockIdUpDown.ValueChanged += new System.EventHandler(this.DockIdUpDown_ValueChanged);
             // 
             // StationNameDropDown
             // 

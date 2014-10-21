@@ -4,6 +4,22 @@
     <xsd:schema targetNamespace="urn:StationToDB_Service">
       <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
       <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+      <xsd:complexType name="BookingObject">
+        <xsd:all>
+          <xsd:element name="booking_id" type="xsd:int" />
+          <xsd:element name="start_time" type="xsd:int" />
+          <xsd:element name="start_station" type="xsd:int" />
+          <xsd:element name="password" type="xsd:string" />
+          <xsd:element name="for_user" type="xsd:string" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="BookingObjectArray">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="SOAP-ENC:Array">
+            <xsd:attribute wsdl:arrayType="xsd:string[]" ref="SOAP-ENC:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="BicycleTakenWithBookingRequest">
@@ -29,6 +45,18 @@
   <wsdl:message name="BicycleReturnedToDockAtStationResponse">
     <wsdl:part name="return" type="xsd:boolean" />
   </wsdl:message>
+  <wsdl:message name="getBookingWithIdRequest">
+    <wsdl:part name="booking_id" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="getBookingWithIdResponse">
+    <wsdl:part name="return" type="tns:BookingObject" />
+  </wsdl:message>
+  <wsdl:message name="GetAllBookingsForStationRequest">
+    <wsdl:part name="station_id" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="GetAllBookingsForStationResponse">
+    <wsdl:part name="return" type="tns:BookingObjectArray" />
+  </wsdl:message>
   <wsdl:portType name="StationToDB_ServicePortType">
     <wsdl:operation name="BicycleTakenWithBooking">
       <documentation>Registers that a given bicycle has been taken from a given station with a booking</documentation>
@@ -44,6 +72,16 @@
       <documentation>Registers that a given bicycle has arrived at a given dock at a given station</documentation>
       <wsdl:input message="tns:BicycleReturnedToDockAtStationRequest" />
       <wsdl:output message="tns:BicycleReturnedToDockAtStationResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getBookingWithId">
+      <documentation>Get booking with booking id</documentation>
+      <wsdl:input message="tns:getBookingWithIdRequest" />
+      <wsdl:output message="tns:getBookingWithIdResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBookingsForStation">
+      <documentation>Get all bookings for station</documentation>
+      <wsdl:input message="tns:GetAllBookingsForStationRequest" />
+      <wsdl:output message="tns:GetAllBookingsForStationResponse" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="StationToDB_ServiceBinding" type="tns:StationToDB_ServicePortType">
@@ -73,6 +111,24 @@
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" namespace="urn:StationToDB_Service" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBookingWithId">
+      <soap:operation soapAction="urn:StationToDB_Service#soapaction" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="urn:StationToDB_Service" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="urn:StationToDB_Service" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBookingsForStation">
+      <soap:operation soapAction="urn:StationToDB_Service#soapaction" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="urn:StationToDB_Service" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="urn:StationToDB_Service" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>

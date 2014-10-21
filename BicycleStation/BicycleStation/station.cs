@@ -14,7 +14,7 @@ namespace BicycleStation
     
     public partial class station
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public int station_id { get; set; }
+        public string name { get; set; }
     }
 }
