@@ -18,6 +18,7 @@ namespace BicycleStation
         const int UNLOCKED = 1;
         const int NOBICYCLE = 2;
         int _maxTime = MAXTIME;
+        int prevBarValue = 1;
         
 
         public Form1()
@@ -90,10 +91,10 @@ namespace BicycleStation
                 pwText = Convert.ToInt32(passwordTB.Text.ToString());
                 string stationName = StationNameDropDown.SelectedItem.ToString();
 
-                var query = from c in DB.booking
-                            join s in DB.station on c.start_station equals s.station_id
-                            where c.password == pwText && s.name == stationName
-                            select c;
+                var query = from b in DB.booking
+                            join s in DB.station on b.start_station equals s.station_id
+                            where b.password == pwText && s.name == stationName
+                            select b;
 
                 if (query.Count() > 0)
                 {
@@ -124,6 +125,9 @@ namespace BicycleStation
                         DB.SaveChanges();
                         DockIdUpDown.Value = availableDock + 1;
                         DockIdUpDown_ValueChanged(sender, e);
+
+                        StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
+
                     }
                     else
                         TakeAtDockLbl.Text = "Error with booking";
@@ -178,11 +182,45 @@ namespace BicycleStation
                 DockStateBar.Value = UNLOCKED;
             else
                 DockStateBar.Value = LOCKED;
+
+            prevBarValue = DockStateBar.Value;
             
         }
 
         private void DockStateBar_Scroll(object sender, EventArgs e)
         {
+            DatabaseConnection DB = new DatabaseConnection();
+            
+            string stationName = StationNameDropDown.SelectedItem.ToString();
+
+            List<dock> getDocks = (from d in DB.dock
+                                   join s in DB.station on d.station_id equals s.station_id
+                                   where s.name == stationName
+                                   select d).ToList();
+            if (DockStateBar.Value == LOCKED)
+                getDocks[Convert.ToInt32(DockIdUpDown.Value)].is_locked = true;
+            else if (DockStateBar.Value == UNLOCKED)
+            {
+                getDocks[Convert.ToInt32(DockIdUpDown.Value)].holds_bicycle = 1;
+                getDocks[Convert.ToInt32(DockIdUpDown.Value)].is_locked = false;
+
+            }
+            else
+            {
+                getDocks[Convert.ToInt32(DockIdUpDown.Value)].holds_bicycle = 0;
+                bicycleTaken();
+            }
+
+
+
+            DB.SaveChanges();
+
+        }
+
+
+        private void bicycleTaken()
+        {
+            StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
 
         }
 
