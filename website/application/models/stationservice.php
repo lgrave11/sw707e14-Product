@@ -71,7 +71,7 @@ class StationService implements iService
     
     public function readAllAvailableBicycles(){
         $bicycleArray = array();
-        $stmt = $this->db->prepare("SELECT COUNT(*), station_id FROM dock WHERE holds_bicycle IS NOT NULL GROUP BY station_id");
+        $stmt = $this->db->prepare("SELECT SUM(CASE WHEN holds_bicycle IS NOT NULL then 1 else 0 END), station_id FROM dock GROUP BY station_id");
         $stmt->execute();
         $stmt->bind_result($countBicycles, $station_id);
         while($stmt->fetch()){

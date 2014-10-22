@@ -48,7 +48,7 @@
 
 
 				var info = new google.maps.InfoWindow(
-							{ content: "<div style=\"overflow:hidden;white-space:nowrap;\"><b>" + stations[i]["name"] + "</b><br/> Available Bicycles: " + freeBicycleList[i] + "<br/> Available Docks: " + freeDockList[i] + "</div>"});
+							{ content: "<div style=\"overflow:hidden;white-space:nowrap;\"><b>" + stations[i]["name"] + "</b><br/> Available Bicycles: " + freeBicycleList[i+1] + "<br/> Available Docks: " + freeDockList[i+1] + "</div>"});
 	      		
 
 				var marker = new google.maps.Marker({
