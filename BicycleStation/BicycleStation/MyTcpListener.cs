@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
+using System.Web.Helpers;
 
 namespace BicycleStation
 {
@@ -15,7 +15,7 @@ namespace BicycleStation
 
         //tcp listener code from http://msdn.microsoft.com/en-us/library/system.net.sockets.tcplistener(v=vs.110).aspx
         // with minor modifications
-        public static void Main()
+        public void Listen()
         {
             TcpListener server = null;
             try
@@ -63,6 +63,9 @@ namespace BicycleStation
                         stream.Write(msg, 0, msg.Length);
                         
                         //interpret msg here and update DB (UI?)
+                        string test = msg.ToString();
+                        NetworkData networkdata = Json.Decode(data, typeof(NetworkData));
+                        networkdata.performAction();
                     }
 
                     // Shutdown and end connection
