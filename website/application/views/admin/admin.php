@@ -5,5 +5,5 @@
 <script src="/public/js/adminMap.js"></script>
 
 <div id="map-container">
-<div id="map-canvas"></div>
+<div id="map-canvasFullSize"></div>
 </div>
