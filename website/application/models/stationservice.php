@@ -50,7 +50,7 @@ class StationService implements iService
     	$stmt->execute();
     	$stmt->bind_result($station_id, $name, $address, $latitude, $longitude);
     	while($stmt->fetch()){
-    		$returnArray[$station_id] = new Station($station_id, $name, $address, $latitude, $longitude);
+    		$returnArray[] = new Station($station_id, $name, $address, $latitude, $longitude);
     	}
     	$stmt->close();
     	return $returnArray;
@@ -69,33 +69,49 @@ class StationService implements iService
         return $returnArray;
     }*/
     
-    public function readAllAvailableBicyclesForStation($station){
-        $stmt = $this->db->prepare("SELECT COUNT(*) FROM dock WHERE station_id = ? AND holds_bicycle IS NOT NULL");
-        $stmt->bind_param("i", $station->station_id);
+    public function readAllAvailableBicycles(){
+        $bicycleArray = array();
+        $stmt = $this->db->prepare("SELECT SUM(CASE WHEN holds_bicycle IS NOT NULL then 1 else 0 END), station_id FROM dock GROUP BY station_id");
         $stmt->execute();
-        $stmt->bind_result($countBicycles);
-        $stmt->fetch();
+        $stmt->bind_result($countBicycles, $station_id);
+        while($stmt->fetch()){
+            $bicycleArray[$station_id] = $countBicycles;
+        }
         $stmt->close();
 
+        $bookingArray = array();
         $time_now = mktime(date("H"),date("i"),date("s"),date("n"), date("j"),date("Y"));
         $time_midnight = mktime(23,59,59,date("n"),date("j"),date("Y"));
-        $stmt = $this->db->prepare("SELECT COUNT(*) FROM booking WHERE start_station = ? AND start_time BETWEEN ? AND ?");
-        $stmt->bind_param("iii",$station->station_id, $time_now, $time_midnight);
+        $stmt = $this->db->prepare("SELECT COUNT(*), start_station FROM booking WHERE start_time BETWEEN ? AND ? GROUP BY start_station");
+        $stmt->bind_param("ii", $time_now, $time_midnight);
         $stmt->execute();
-        $stmt->bind_result($countBookings);
-        $stmt->fetch();
+        $stmt->bind_result($countBookings, $start_station);
+        while($stmt->fetch()){
+            $bookingArray[$start_station] = $countBookings;
+        }
         $stmt->close();
-        return $countBicycles - $countBookings;
+
+        $returnArray = array();
+        foreach ($bicycleArray as $id => $counts) {
+            $returnArray[$id] = $counts;
+        }
+        foreach($bookingArray as $id => $counts){
+            $returnArray[$id] = $returnArray[$id] - $counts;
+        }
+
+        return $returnArray;
     }
 
-    public function readAllAvailableDocksForStation($station){
-        $stmt = $this->db->prepare("SELECT COUNT(*) FROM dock WHERE station_id = ? AND holds_bicycle IS NULL");
-        $stmt->bind_param("i", $station->station_id);
+    public function readAllAvailableDocks(){
+        $returnArray = array();
+        $stmt = $this->db->prepare("SELECT SUM(CASE WHEN holds_bicycle IS NULL then 1 else 0 END),station_id FROM dock GROUP BY station_id");
         $stmt->execute();
-        $stmt->bind_result($count);
-        $stmt->fetch();
+        $stmt->bind_result($count, $station);
+        while($stmt->fetch()){
+            $returnArray[$station] = $count;
+        }
         $stmt->close();
-        return $count;
+        return $returnArray;
     }
 
     public function searchStation($name = ""){
