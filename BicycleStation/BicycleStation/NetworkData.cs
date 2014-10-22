@@ -14,7 +14,7 @@ namespace BicycleStation
         private int _password;
         private int _start_time;
 
-
+        public NetworkData(){}
         public NetworkData(string action, int booking_id)
         {
             _action = action;

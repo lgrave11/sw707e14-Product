@@ -18,6 +18,7 @@ namespace BicycleStation
         {
             MyTcpListener myTcpListener = new MyTcpListener();
             Thread tcpListener = new Thread(new ThreadStart(myTcpListener.Listen));
+            tcpListener.Start();
 
             StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
             DatabaseConnection db = new DatabaseConnection();

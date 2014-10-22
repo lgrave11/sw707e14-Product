@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Web.Helpers;
 
 namespace BicycleStation
@@ -64,7 +63,8 @@ namespace BicycleStation
                         stream.Write(msg, 0, msg.Length);
                         
                         //interpret msg here and update DB (UI?)
-                        NetworkData networkdata = Json.Decode(msg.ToString(), typeof(NetworkData));
+                        string test = msg.ToString();
+                        NetworkData networkdata = Json.Decode(data, typeof(NetworkData));
                         networkdata.performAction();
                     }
 
