@@ -1,5 +1,8 @@
 <?php
 class Ajax extends Controller {
+    public function index(){
+    }
+
     public function searchStation($query = ""){
         $stationService = new StationService($this->db);
 
