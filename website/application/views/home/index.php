@@ -46,9 +46,9 @@
                 foreach($activeBookings as $booking)
                 {
                     echo '<h2>'.date("d-m-Y H:i", $booking[0]->start_time).'</h2>
-                    <p  class="active-booking">'.$booking[1].'
+                    <p class="active-booking">'.$booking[1].' <br>Kodeord: '.$booking[0]->password.'
                         <button class="centerblock" onclick="document.location=\'/Home/Unbook/'.$booking[0]->booking_id.'\'" style="margin-top: 5px; margin-bottom: 5px;">Unbook</button>
-                        </p>';
+                    </p>';
                 }
                 echo '</div>';
             }
