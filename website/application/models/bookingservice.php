@@ -27,7 +27,7 @@ class BookingService implements iService
             $booking->booking_id = $stmt->insert_id;
             $stmt->close();
 
-            WebsiteToStationNotifier::notifyStationBooking($booking->start_station, $booking->booking_id);
+            WebsiteToStationNotifier::notifyStationBooking($booking->start_station, $booking->booking_id, $booking->start_time, $booking->password);
 
             return $booking;
         }
