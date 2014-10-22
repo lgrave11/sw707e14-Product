@@ -46,7 +46,19 @@ function SelectStationFromList(station){
 function ReadAvailableBicycles(stationName){
 	$("#stations option").filter(function() {
 	    if ($(this).text() == stationName){
-	    	$("#freebicycles").load("/Ajax/FreeBicycles/"+ $(this).val());
+            var freeBicycleList;
+            $.get("/Ajax/getFreeBicyclesList/",function(data){
+                freeBicycleList = $.parseJSON(data);
+            });
+ 
+            var freeDockList;
+            $.get("/Ajax/getFreeDocksList/",function(data){
+                freeDockList = $.parseJSON(data);
+            });
+            
+            s = "Available Bicycles: "+ freeBicycleList[$(this).val()] + "<br />Available Docks: " + freeDockList[$(this).val()]
+              
+            $("#freebicycles").html(s);
 	    }
 	})
 }

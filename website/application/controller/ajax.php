@@ -7,20 +7,30 @@ class Ajax extends Controller {
         require 'application/views/ajax/searchstation.php';
     }
 
-    public function freeBicycles($stationId){
-        $stationService = new StationService($this->db);
-        $station = new Station($stationId, null, null, null, null);
-        $freeBicycles = $stationService->readAllAvailableBicyclesForStation($station);
-        $freeDocks = $stationService->readAllAvailableDocksForStation($station);
-        require 'application/views/ajax/freebicycles.php';
-    }
-
     public function getBicyclePositions() 
     {
         $bicycleService = new BicycleService($this->db);
         $bicycles = $bicycleService->readAll();
         
         echo json_encode($bicycles);
+    }
+
+    public function getStations(){
+    	$stationService = new StationService($this->db);
+    	$stations = $stationService->readAllStations();
+
+    	echo json_encode($stations);
+    }
+
+    public function getFreeBicyclesList(){
+        $stationService = new StationService($this->db);
+        echo json_encode($stationService->readAllAvailableBicycles());
+
+    }
+
+    public function getFreeDocksList(){
+    	$stationService = new StationService($this->db);
+    	echo json_encode($stationService->readAllAvailableDocks());
     }
 }
 ?>

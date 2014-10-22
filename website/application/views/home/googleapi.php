@@ -1,31 +1,15 @@
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 <script>
 	var aalborg = new google.maps.LatLng(57.037835, 9.940895);
-	var marker;
-	var map;
-	var stations = [];
-	var titles = [];
 	var mark = [];
-	var map;
 	var infowindow = [];
+	var map;
 	var image = {
 	    url: 'public/images/marker.png',
-	    // This marker is 20 pixels wide by 32 pixels tall.
 	    size: new google.maps.Size(25, 33),
-	    // The origin for this image is 0,0.
 	    origin: new google.maps.Point(0,0),
-	    // The anchor for this image is the base of the flagpole at 0,32.
 	    anchor: new google.maps.Point(0, 32),
 		};
-
-<?php
-  foreach ($stations as $station){
-    echo "stations.push(new google.maps.LatLng(" . $station->latitude . ", " . $station->longitude . "));\n";
-    echo "titles.push(\"" . $station->name . "\");\n";
-    echo "infowindow.push(new google.maps.InfoWindow({content: '<div style=\"overflow:hidden;white-space:nowrap;\"><b>" . $station->name . "</b><br /> Available Bicycles: " . $stationService->readAllAvailableBicyclesForStation($station) . "<br/> Available Docks: " . $stationService->readAllAvailableDocksForStation($station) . "</div>'}));\n";
-  }
-
-	?>
 
 	function initialize() {
 	    var mapOptions = {
@@ -40,32 +24,68 @@
 
 	    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-	    for(i = 0; i < stations.length; i++){
-	    	mark.push(new google.maps.Marker({
-	        	map:map,
-	        	draggable:false,
-	        	animation: google.maps.Animation.DROP,
-	        	position: stations[i],
-	        	title: titles[i],
-	        	icon: image
-	      	}));
-	      	google.maps.event.addListener(mark[i], 'click', helperBounce(mark[i],toggleBounce));
-	      	google.maps.event.addListener(mark[i], 'click', helperSelectStation(SelectStationFromList, mark[i].title));
-	    }
+	    getTheStations();
+	    
+	}
 
-		<?php
-		  	for($i = 0; $i < count($stations); $i++){
-		    	echo 
-		        	"google.maps.event.addListener(mark[" . $i . "], 'click', function() {
-		        		closeAllInfoWindows();
-		          		infowindow[" . $i . "].open(map,mark[" . $i . "]);
-		          		google.maps.event.addListener(infowindow[" . $i . "], 'closeclick',function(){
-		          			stopAllBouncing();
-		          		});
-		      		});
-					\n";
-		  	}	
-		?>
+	function getTheStations() {
+		$.ajaxSetup({async: false});
+
+		var freeBicycleList
+		var freeDockList
+		$.get("/Ajax/getFreeBicyclesList/",function(data){
+			freeBicycleList = $.parseJSON(data);
+		});
+		$.get("/Ajax/getFreeDocksList/",function(data){
+			freeDockList = $.parseJSON(data);
+		});
+		console.log(freeBicycleList);
+		console.log(freeDockList);
+
+		$.get("/Ajax/getStations", function(data) {
+			var stations = $.parseJSON(data);
+			for(i = 0; i < stations.length; i++){
+
+
+				var info = new google.maps.InfoWindow(
+							{ content: "<div style=\"overflow:hidden;white-space:nowrap;\"><b>" + stations[i]["name"] + "</b><br/> Available Bicycles: " + freeBicycleList[i+1] + "<br/> Available Docks: " + freeDockList[i+1] + "</div>"});
+	      		
+
+				var marker = new google.maps.Marker({
+		        	map:map,
+		        	draggable:false,
+		        	animation: google.maps.Animation.DROP,
+		        	position: new google.maps.LatLng(stations[i]["latitude"],stations[i]["longitude"]),
+		        	title: stations[i]["name"],
+		        	icon: image
+	      		});
+	      		
+				google.maps.event.addListener(marker, 'click', helperBounce(marker,toggleBounce));
+	      		google.maps.event.addListener(marker, 'click', helperSelectStation(SelectStationFromList, marker.title));
+	      		google.maps.event.addListener(marker, 'click', infoHelper(marker,info,map));
+	      		infowindow.push(info);
+				mark.push(marker);
+			}
+		});
+	}
+
+	function addToFreeBicycles(data) 
+	{
+		freeBicycles.push(data);
+	}
+
+	function addToFreeDocks(data) 
+	{
+		freeDocks.push(data);
+	}
+
+	function infoHelper(marker, info, maper){
+		return function(){
+	  			closeAllInfoWindows();
+		    	info.open(maper,marker);
+		    	google.maps.event.addListener(info, 'closeclick',function(){
+		    		stopAllBouncing();
+				})};
 	}
 
 	function stopAllBouncing(){
