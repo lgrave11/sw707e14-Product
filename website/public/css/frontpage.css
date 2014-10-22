@@ -10,6 +10,12 @@
   float: left;
 }
 
+#map-canvasFullSize {
+  height: 600px;
+  width: 97.8%;
+  margin: 0px 10px 10px 10px;
+}
+
 #mapinfo {
     float: right;
     width: 250px;

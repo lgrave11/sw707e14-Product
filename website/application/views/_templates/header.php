@@ -22,10 +22,6 @@
 <title><?php echo $this->title; ?> · Aalborg bycyklen</title>
 <?php
 	Tools::includeCSS();
-	if (isset($currentPage) && ($currentPage == "" || $currentPage == "home")){
-		include("application/views/home/googleapi.php");
-	}
-	
 ?>
 </head>
 
@@ -51,7 +47,7 @@
 				?>
 			</td>			
 			<td>
-				<a href="/Home/About/">About</a>
+				<a href="/About/">About</a>
 			</td>
 			<td>
 				<?php
