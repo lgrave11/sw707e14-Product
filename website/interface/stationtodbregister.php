@@ -21,18 +21,17 @@
     // this has many input parameters but we only need two: the service name and the namespace
     $server->configureWSDL('StationToDB_Service', $SERVICE_NAMESPACE);
 
-    $server->register('BicycleTakenWithBooking',
+    $server->register('BicycleWithBookingUnlocked',
         array('station_id' => 'xsd:int',
-              'bicycle_id' => 'xsd:int',
               'booking_id' => 'xsd:int'),
         array('return' => 'xsd:boolean'),
         $SERVICE_NAMESPACE,
         $SERVICE_NAMESPACE . '#soapaction',
         'rpc',
         'literal',
-        'Registers that a given bicycle has been taken from a given station with a booking'
+        'Registers that a given bicycle has been unlocked from a given station with a booking'
     );
-    function BicycleTakenWithBooking($station_id, $bicycle_id, $booking_id)
+    function BicycleWithBookingUnlocked($station_id, $booking_id)
     {
         global $db;
         $stmt = $db->prepare("UPDATE booking SET password = NULL WHERE booking_id = ? AND start_station = ?");
@@ -40,15 +39,10 @@
         $stmt->execute();
         $stmt->close();
         
-        $stmt = $db->prepare("UPDATE dock SET holds_bicycle = NULL WHERE station_id = ? AND holds_bicycle = ?");
-        $stmt->bind_param("ii", $station_id, $bicycle_id);
-        $stmt->execute();
-        $stmt->close();
-        
         return true;
     }
         
-    $server->register('BicycleTakenWithoutBooking',
+    $server->register('BicycleTaken',
         array('station_id' => 'xsd:int',
               'bicycle_id' => 'xsd:int'),
         array('return' => 'xsd:boolean'),
@@ -56,9 +50,9 @@
         $SERVICE_NAMESPACE . '#soapaction',
         'rpc',
         'literal',
-        'Registers that a given bicycle has been taken from a given station without a booking'
+        'Registers that a given bicycle has been taken from a given station, aka removed from dock'
     );
-    function BicycleTakenWithoutBooking($station_id, $bicycle_id)
+    function BicycleTaken($station_id, $bicycle_id)
     {   
         global $db;
         $stmt = $db->prepare("UPDATE dock SET holds_bicycle = NULL WHERE station_id = ? AND holds_bicycle = ?");
