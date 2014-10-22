@@ -61,7 +61,7 @@ namespace BicycleStation
             int unlocked = 0;
             foreach (dock d in getDocks)
             {
-                if (d.is_locked)
+                if (d.is_locked == 1)
                     locked++;
                 else if (d.holds_bicycle > 0)
                     unlocked++;
@@ -113,14 +113,14 @@ namespace BicycleStation
                     int i = 0;
                     while (availableDock < 0 && i < docks.Count)
                     {
-                        if (docks[i].is_locked)
+                        if (docks[i].is_locked == 1)
                             availableDock = i;
                         i++;
                     }
                     if (availableDock >= 0)
                     {
                         TakeAtDockLbl.Text = "Take your bicycle at dock " + (availableDock + 1);
-                        docks[availableDock].is_locked = false;
+                        docks[availableDock].is_locked = 0;
                         DB.SaveChanges();
                         DockIdUpDown.Value = availableDock + 1;
                         DockIdUpDown_ValueChanged(sender, e);
@@ -184,7 +184,7 @@ namespace BicycleStation
                 TakeBicycleBtn.Enabled = false;
                 ReturnBicycleBtn.Enabled = true;
             }
-            else if (!getDock.is_locked)
+            else if (!(getDock.is_locked == 1))
             {
                 DockStateBar.Value = UNLOCKED;
                 TakeBicycleBtn.Enabled = true;

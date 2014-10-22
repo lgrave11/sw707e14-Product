@@ -31,7 +31,6 @@ namespace BicycleStation
                 server.Start();
 
                 // Buffer for reading data
-                Byte[] bytes = new Byte[256];
                 String data = null;
 
                 // Enter the listening loop. 
@@ -42,15 +41,23 @@ namespace BicycleStation
                     TcpClient client = server.AcceptTcpClient();
                     
                     data = null;
-
                     // Get a stream object for reading and writing
                     NetworkStream stream = client.GetStream();
+                    Byte[] bytes = new Byte[client.ReceiveBufferSize];
+                    int length = stream.Read(bytes, 0, bytes.Length);
+                    string received = Encoding.ASCII.GetString(bytes, 0, length);
+                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(received.ToUpper());
+                    // Send back a response.
+                    stream.Write(msg, 0, msg.Length);
+                    NetworkData networkdata = Json.Decode(received, typeof(NetworkData));
+                    networkdata.performAction();
 
-                    int i;
+                    /*int i;
 
-                    // Loop to receive all the data sent by the client. 
+                    // Loop to receive all the data sent by the client.
                     while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
                     {
+
                         // Translate data bytes to a ASCII string.
                         data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
 
@@ -61,12 +68,15 @@ namespace BicycleStation
 
                         // Send back a response.
                         stream.Write(msg, 0, msg.Length);
-                        
+
                         //interpret msg here and update DB (UI?)
                         string test = msg.ToString();
+                            
                         NetworkData networkdata = Json.Decode(data, typeof(NetworkData));
                         networkdata.performAction();
-                    }
+                        
+                    }*/
+                    
 
                     // Shutdown and end connection
                     client.Close();

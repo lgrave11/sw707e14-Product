@@ -8,42 +8,42 @@ namespace BicycleStation
 {
     class NetworkData
     {
-        private string _action;
-        private int _booking_id;
-        private int _start_station;
-        private int _password;
-        private int _start_time;
+        public string action;
+        public int booking_id;
+        public int start_station;
+        public int password;
+        public int start_time;
 
         public NetworkData(){}
-        public NetworkData(string action, int booking_id)
+        public NetworkData(string _action, int _booking_id)
         {
-            _action = action;
-            _booking_id = booking_id;
+            action = _action;
+            booking_id = _booking_id;
         }
-        public NetworkData(string action, int booking_id, int start_station, int password, int start_time)
+        public NetworkData(string _action, int _booking_id, int _start_station, int _password, int _start_time)
         {
-            _action = action;
-            _booking_id = booking_id;
-            _start_station = start_station;
-            _password = password;
-            _start_time = start_time;
+            action = _action;
+            booking_id = _booking_id;
+            start_station = _start_station;
+            password = _password;
+            start_time = _start_time;
         }
 
         public void performAction()
         {
             DatabaseConnection DB = new DatabaseConnection();
-            if (_action == "booking")
+            if (action == "booking")
             {
-                DB.booking.Add(new booking(){booking_id = _booking_id,
-                                             password = _password,
-                                             start_station = _start_time,
-                                             start_time = _start_time });
+                DB.booking.Add(new booking(){booking_id = booking_id,
+                                             password = password,
+                                             start_station = start_station,
+                                             start_time = start_time });
                 DB.SaveChanges();
             }
-            else if (_action == "unbooking")
+            else if (action == "unbooking")
             {
                 booking toRemove = (from b in DB.booking
-                                   where b.booking_id == _booking_id
+                                   where b.booking_id == booking_id
                                    select b).Single();
                 DB.booking.Remove(toRemove);
                 DB.SaveChanges();
