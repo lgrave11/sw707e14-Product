@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Web.Helpers;
+using System.Threading;
 
 namespace BicycleStation
 {
@@ -15,6 +16,9 @@ namespace BicycleStation
         [STAThread]
         static void Main()
         {
+            MyTcpListener myTcpListener = new MyTcpListener();
+            Thread tcpListener = new Thread(new ThreadStart(myTcpListener.Listen));
+
             StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
             DatabaseConnection db = new DatabaseConnection();
             for(int i = 1; i <= 21; i++){
