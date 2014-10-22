@@ -127,6 +127,9 @@ namespace BicycleStation
 
                         StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
                         service.BicycleWithBookingUnlocked(findBookings[0].start_station, findBookings[0].booking_id);
+                        
+                        DB.booking.Remove(findBookings[0]);
+                        DB.SaveChanges();
                     }
                     else
                         TakeAtDockLbl.Text = "Error with booking";
