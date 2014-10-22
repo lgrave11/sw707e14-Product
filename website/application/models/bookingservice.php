@@ -110,6 +110,13 @@ class BookingService implements iService
                 $valid = false;
             }
         }
+        // Check if any bicycles are available for booking.
+        $amount_of_bicycles = $stationservice->readAllAvailableBicycles()[$booking->start_station];
+        if($amount_of_bicycles <= 0)
+        {
+            $valid = false;
+        }
+
         // Check if user exists.
         $accountservice = new AccountService($this->db);
         if(empty($booking->for_user))
