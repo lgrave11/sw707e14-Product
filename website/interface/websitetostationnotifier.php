@@ -23,7 +23,7 @@
     
         public static function notifyStationUnbooking($station_id, $booking_id)
         {
-            $message = self::makeJson("unbooking", $station_id, $booking_id);
+            $message = self::makeJson("unbooking", $station_id, $booking_id, null, null);
             
             $sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
             $sock_data = socket_connect($sock, self::$station_ips[$station_id - 1], self::$port);

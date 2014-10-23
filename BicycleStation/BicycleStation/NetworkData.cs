@@ -13,6 +13,8 @@ namespace BicycleStation
         public int start_station;
         public int password;
         public int start_time;
+        
+
 
         public NetworkData(){}
         public NetworkData(string _action, int _booking_id)
@@ -31,14 +33,23 @@ namespace BicycleStation
 
         public void performAction()
         {
+            
+
             DatabaseConnection DB = new DatabaseConnection();
             if (action == "booking")
             {
-                DB.booking.Add(new booking(){booking_id = booking_id,
-                                             password = password,
-                                             start_station = start_station,
-                                             start_time = start_time });
+                booking b = new booking()
+                {
+                    booking_id = booking_id,
+                    password = password,
+                    start_station = start_station,
+                    start_time = start_time
+                };
+
+                DB.booking.Add(b);
                 DB.SaveChanges();
+                //lockDock(b, DB);
+                
             }
             else if (action == "unbooking")
             {
@@ -52,6 +63,24 @@ namespace BicycleStation
             else
                 return;
         }
+
+        //no longer needed
+        /*
+        public void lockDock(booking b, DatabaseConnection DB)
+        {
+            int bookingStation = b.start_station;
+            dock toLock = (from d in DB.dock
+                           join s in DB.station on d.station_id equals s.station_id
+                           where s.station_id == bookingStation && d.is_locked == false && d.holds_bicycle > 0
+                           select d).First();
+            if (toLock != null)
+                toLock.is_locked = true;
+            //maybe need something to handle when there is no dock to lock
+            DB.SaveChanges();
+            
+        }*/
+
+
 
     }
 }
