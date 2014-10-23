@@ -33,26 +33,6 @@ class Home extends Controller
         require 'application/views/_templates/footer.php';
     }
 
-    public function admin()
-    {
-        $this->title = "Admin";
-        $currentPage = substr($_SERVER["REQUEST_URI"], 1);
-
-        $bicycleService = new bicycleService($this->db);
-        $bicycles = $bicycleService->readAll();
-
-        if (Tools::isLoggedIn()) {
-            $bookingService = new BookingService($this->db);
-            $activeBookings = $bookingService->getActiveBookings($_SESSION["login_user"]);
-
-        }
-
-        // load views. within the views we can echo out $songs and $amount_of_songs easily
-        require 'application/views/_templates/header.php';
-        require 'application/views/home/admin.php';
-        require 'application/views/_templates/footer.php';
-    }
-
     public function unbook($booking_id)
     {
         Tools::requireLogin();
@@ -96,15 +76,5 @@ class Home extends Controller
 
         header("Location: /");
         exit();
-    }
-
-    public function about()
-    {
-        $this->title = "About";
-        require 'application/views/_templates/header.php';
-        require 'application/views/home/about.php';
-        require 'application/views/_templates/footer.php';
-    }
-
-    
+    }    
 }
