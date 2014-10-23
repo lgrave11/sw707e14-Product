@@ -168,7 +168,7 @@ class BookingService implements iService
         $returnArray = array();
         $stmt = $this->db->prepare("SELECT booking_id, start_time, start_station, password, for_user, name FROM booking, station
                                     WHERE for_user = ? AND start_station = station_id AND password IS NOT NULL
-                                    ORDER BY start_time DESC");
+                                    ORDER BY start_time ASC");
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $stmt->bind_result($booking_id, $start_time, $start_station, $password, $for_user, $station_name);

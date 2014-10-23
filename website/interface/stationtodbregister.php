@@ -148,7 +148,7 @@
     function GetAllBookingsForStation($station_id)
     {
         global $db;
-        $stmt = $db->prepare("SELECT booking_id, start_time, start_station, password, for_user FROM booking WHERE start_station = ?");
+        $stmt = $db->prepare("SELECT booking_id, start_time, start_station, password, for_user FROM booking WHERE start_station = ? AND password IS NOT NULL");
         $stmt->bind_param("i", $station_id);
         $stmt->execute();
         $stmt->bind_result($booking_id, $start_time, $start_station, $password, $for_user);
