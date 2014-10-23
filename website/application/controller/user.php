@@ -47,13 +47,26 @@ class User extends Controller
         else{
             $target = "";
         }
+        if(Tools::isLoggedIn()) 
+        {
+            if ($target=="") {
+                header("Location: /");
+                exit();
+            }
+            else {
+                header("Location:".$target);
+                exit();
+            }
+        }
         require 'application/views/_templates/header.php';
 
+        $accountService = new AccountService($this->db);
+        
         if(isset($_POST['submit']))
         {
             if(!empty($_POST['username']) && !empty($_POST['password']))
             {
-                if($this->validate())
+                if($accountService->verifyLogin($_POST['username'], $_POST['password']))
                     {
                         session_regenerate_id(true);
                         error_log(json_encode($target));
@@ -89,20 +102,6 @@ class User extends Controller
 
         require 'application/views/_templates/footer.php';
 
-    }
-
-    public function validate()
-    {
-        $this->title = "Validate";
-        if(Tools::isLoggedIn())
-            return true;
-
-        $username=$_POST['username'];
-        $password=$_POST['password'];
-        $accountservice = new AccountService($this->db);
-
-        return $accountservice->verifyLogin($username, $password);
-        
     }
 
     public function createUser()
