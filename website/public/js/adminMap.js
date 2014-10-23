@@ -36,7 +36,11 @@ function updateMarkers() {
         for(i = 0; i < j.length; i++) {
             mark.push(
                 new google.maps.Marker(
-                    { map:map, draggable:false, position: new google.maps.LatLng(j[i]["latitude"], j[i]["longitude"]), icon: bicycleimage }
+                    { 
+                        map:map, 
+                        draggable:false, 
+                        position: new google.maps.LatLng(j[i]["latitude"], j[i]["longitude"]), 
+                        icon: bicycleimage }
                     )
                 );
         }
