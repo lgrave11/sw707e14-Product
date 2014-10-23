@@ -17,6 +17,6 @@ namespace BicycleStation
         public int dock_id { get; set; }
         public int station_id { get; set; }
         public int holds_bicycle { get; set; }
-        public byte is_locked { get; set; }
+        public bool is_locked { get; set; }
     }
 }
