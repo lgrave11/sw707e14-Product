@@ -16,13 +16,18 @@ namespace BicycleStation
         [STAThread]
         static void Main()
         {
-            MyTcpListener myTcpListener = new MyTcpListener();
-            Thread tcpListener = new Thread(new ThreadStart(myTcpListener.Listen));
-            tcpListener.Start();
 
             StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
             DatabaseConnection db = new DatabaseConnection();
-            for(int i = 1; i <= 21; i++){
+            List<booking> old = (from b in db.booking
+                                select b).ToList();
+            foreach (booking b in old)
+                db.booking.Remove(b);
+            db.SaveChanges();
+
+            int stations = (from s in db.station
+                            select s).Count();
+            for(int i = 1; i <= stations; i++){
                 string[] bookings = service.GetAllBookingsForStation(i);
                 if (bookings.Count() > 0)
                 {

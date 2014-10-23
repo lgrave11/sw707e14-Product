@@ -12,9 +12,17 @@ namespace BicycleStation
 {
     class MyTcpListener
     {
+        Form1  GUI;
+        public delegate void InvokeDelegate();
 
         //tcp listener code from http://msdn.microsoft.com/en-us/library/system.net.sockets.tcplistener(v=vs.110).aspx
         // with minor modifications
+        public MyTcpListener(Form1 form)
+        {
+            this.GUI = form;
+        }
+
+
         public void Listen()
         {
             TcpListener server = null;
@@ -30,17 +38,13 @@ namespace BicycleStation
                 // Start listening for client requests.
                 server.Start();
 
-                // Buffer for reading data
-                String data = null;
-
                 // Enter the listening loop. 
                 while (true)
                 {
                     // Perform a blocking call to accept requests. 
                     // You could also user server.AcceptSocket() here.
                     TcpClient client = server.AcceptTcpClient();
-                    
-                    data = null;
+
                     // Get a stream object for reading and writing
                     NetworkStream stream = client.GetStream();
                     Byte[] bytes = new Byte[client.ReceiveBufferSize];
@@ -51,6 +55,7 @@ namespace BicycleStation
                     stream.Write(msg, 0, msg.Length);
                     NetworkData networkdata = Json.Decode(received, typeof(NetworkData));
                     networkdata.performAction();
+                    GUI.BeginInvoke(new InvokeDelegate(GUI.updateLabels));
 
                     /*int i;
 
@@ -91,7 +96,6 @@ namespace BicycleStation
                 // Stop listening for new clients.
                 server.Stop();
             }
-
-        } 
+        }
     }
 }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Web.Helpers;
+using System.Threading;
 
 namespace BicycleStation
 {
@@ -18,7 +19,6 @@ namespace BicycleStation
         const int UNLOCKED = 1;
         const int NOBICYCLE = 2;
         int _maxTime = MAXTIME;
-        
 
         public Form1()
         {
@@ -28,6 +28,14 @@ namespace BicycleStation
                                   select c.name).ToArray();
             StationNameDropDown.Items.AddRange(query);
             StationNameDropDown.SelectedItem = query[0];
+
+            MyTcpListener myTcpListener = new MyTcpListener(this);
+            Thread tcpListener = new Thread(new ThreadStart(myTcpListener.Listen));
+            tcpListener.Start();
+
+            LockManager lockManager = new LockManager(this);
+            Thread manager = new Thread(new ThreadStart(lockManager.manage));
+            manager.Start();
          
         }
 
@@ -48,26 +56,7 @@ namespace BicycleStation
 
         private void StationNameDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DatabaseConnection DB = new DatabaseConnection();
-            string stationName = StationNameDropDown.SelectedItem.ToString();
-
-            List<dock> getDocks = (from d in DB.dock
-                             join s in DB.station on d.station_id equals s.station_id
-                             where s.name == stationName
-                             select d).ToList();
-            DockIdUpDown.Maximum = getDocks.Count();
-
-            int locked = 0;
-            int unlocked = 0;
-            foreach (dock d in getDocks)
-            {
-                if (d.is_locked == 1)
-                    locked++;
-                else if (d.holds_bicycle > 0)
-                    unlocked++;
-            }
-            LockednumberLbl.Text = locked.ToString();
-            UnlockedNumberLbl.Text = unlocked.ToString();
+            updateLabels();
 
             DockIdUpDown_ValueChanged(sender, e);
         }
@@ -113,14 +102,14 @@ namespace BicycleStation
                     int i = 0;
                     while (availableDock < 0 && i < docks.Count)
                     {
-                        if (docks[i].is_locked == 1)
+                        if (docks[i].is_locked)
                             availableDock = i;
                         i++;
                     }
                     if (availableDock >= 0)
                     {
                         TakeAtDockLbl.Text = "Take your bicycle at dock " + (availableDock + 1);
-                        docks[availableDock].is_locked = 0;
+                        docks[availableDock].is_locked = false;
                         DB.SaveChanges();
                         DockIdUpDown.Value = availableDock + 1;
                         DockIdUpDown_ValueChanged(sender, e);
@@ -184,7 +173,7 @@ namespace BicycleStation
                 TakeBicycleBtn.Enabled = false;
                 ReturnBicycleBtn.Enabled = true;
             }
-            else if (!(getDock.is_locked == 1))
+            else if (!(getDock.is_locked))
             {
                 DockStateBar.Value = UNLOCKED;
                 TakeBicycleBtn.Enabled = true;
@@ -266,6 +255,30 @@ namespace BicycleStation
                 availableIDs.Remove(i);
 
             return availableIDs[(new Random()).Next(1, availableIDs.Count())];
+        }
+
+        public void updateLabels()
+        {
+            DatabaseConnection DB = new DatabaseConnection();
+            string stationName = StationNameDropDown.SelectedItem.ToString();
+
+            List<dock> getDocks = (from d in DB.dock
+                                   join s in DB.station on d.station_id equals s.station_id
+                                   where s.name == stationName
+                                   select d).ToList();
+            DockIdUpDown.Maximum = getDocks.Count();
+            
+            int locked = 0;
+            int unlocked = 0;
+            foreach (dock d in getDocks)
+            {
+                if (d.is_locked)
+                    locked++;
+                else if (d.holds_bicycle > 0)
+                    unlocked++;
+            }
+            LockednumberLbl.Text = locked.ToString();
+            UnlockedNumberLbl.Text = unlocked.ToString();
         }
 
 
