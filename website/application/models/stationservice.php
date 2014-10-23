@@ -80,10 +80,10 @@ class StationService implements iService
         $stmt->close();
 
         $bookingArray = array();
-        $time_now = mktime(date("H"),date("i"),date("s"),date("n"), date("j"),date("Y"));
-        $time_midnight = mktime(23,59,59,date("n"),date("j"),date("Y"));
+        $hour_back = time() - 3600;
+        $hour_forward = time() + 3600;
         $stmt = $this->db->prepare("SELECT COUNT(*), start_station FROM booking WHERE start_time BETWEEN ? AND ? GROUP BY start_station");
-        $stmt->bind_param("ii", $time_now, $time_midnight);
+        $stmt->bind_param("ii", $hour_back, $hour_forward);
         $stmt->execute();
         $stmt->bind_result($countBookings, $start_station);
         while($stmt->fetch()){

@@ -19,7 +19,7 @@ $(function() {
   		formatDate: 'd/m/Y',
   		timepicker: false,
   		minDate: 0,
-  		maxDate: '+7/1/1970',
+  		maxDate: '+2/1/1970',
   		scrollInput: false,
   		scrollMonth: false,
   		dayOfWeekStart: 1,

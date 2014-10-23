@@ -12,9 +12,17 @@ namespace BicycleStation
 {
     class MyTcpListener
     {
+        Form1  GUI;
+        public delegate void InvokeDelegate();
 
         //tcp listener code from http://msdn.microsoft.com/en-us/library/system.net.sockets.tcplistener(v=vs.110).aspx
-        // with minor modifications
+        // with modifications to match system needs
+        public MyTcpListener(Form1 form)
+        {
+            this.GUI = form;
+        }
+
+
         public void Listen()
         {
             TcpListener server = null;
@@ -30,17 +38,13 @@ namespace BicycleStation
                 // Start listening for client requests.
                 server.Start();
 
-                // Buffer for reading data
-                String data = null;
-
                 // Enter the listening loop. 
                 while (true)
                 {
                     // Perform a blocking call to accept requests. 
                     // You could also user server.AcceptSocket() here.
                     TcpClient client = server.AcceptTcpClient();
-                    
-                    data = null;
+
                     // Get a stream object for reading and writing
                     NetworkStream stream = client.GetStream();
                     Byte[] bytes = new Byte[client.ReceiveBufferSize];
@@ -49,34 +53,11 @@ namespace BicycleStation
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(received.ToUpper());
                     // Send back a response.
                     stream.Write(msg, 0, msg.Length);
+
+                    //Decode date and create networkdata object
                     NetworkData networkdata = Json.Decode(received, typeof(NetworkData));
                     networkdata.performAction();
-
-                    /*int i;
-
-                    // Loop to receive all the data sent by the client.
-                    while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
-                    {
-
-                        // Translate data bytes to a ASCII string.
-                        data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-
-                        // Process the data sent by the client.
-                        data = data.ToUpper();
-
-                        byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
-
-                        // Send back a response.
-                        stream.Write(msg, 0, msg.Length);
-
-                        //interpret msg here and update DB (UI?)
-                        string test = msg.ToString();
-                            
-                        NetworkData networkdata = Json.Decode(data, typeof(NetworkData));
-                        networkdata.performAction();
-                        
-                    }*/
-                    
+                    GUI.BeginInvoke(new InvokeDelegate(GUI.updateLabels));
 
                     // Shutdown and end connection
                     client.Close();
@@ -91,7 +72,6 @@ namespace BicycleStation
                 // Stop listening for new clients.
                 server.Stop();
             }
-
-        } 
+        }
     }
 }
