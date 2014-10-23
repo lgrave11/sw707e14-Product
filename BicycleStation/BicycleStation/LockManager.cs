@@ -9,15 +9,21 @@ namespace BicycleStation
 {
     class LockManager
     {
+        //Timeframe in seconds that a booked bicycle is loocked
         const int TIMEBEFORE = 3600;
         const int TIMEAFTER = 3600;
+
+        //Time thread sleeps after every iteration
+        const int SLEEPTIME = 60000;
+
         List<booking> prevousBookings = new List<booking>();
         StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
-
+        DatabaseConnection DB = new DatabaseConnection();
+        
+        //Used for GUI updates in main thread
         Form1 GUI;
         public delegate void InvokeDelegate();
-        DatabaseConnection DB = new DatabaseConnection();
-
+        
         public LockManager(Form1 form)
         {
             this.GUI = form;
@@ -25,12 +31,13 @@ namespace BicycleStation
 
         public void manage()
         {
-
+            //Infinite thread loop
             while (true)
             {
-                
+                //Current time in Unix format
                 Int32 currentTime = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
 
+                //Bookings that should have started 1 hour ago
                 List<booking> oldBookings = (from b in DB.booking
                                              where b.start_time < currentTime - TIMEAFTER
                                              select b).ToList();
@@ -38,29 +45,43 @@ namespace BicycleStation
                     unlockDock(b);
 
 
-
+                //Bookings that start in less than an hour
                 List<booking> bookings = (from b in DB.booking
                                           where b.start_time < currentTime + TIMEBEFORE
                                           select b).ToList();
+                List<booking> notUnlocked = new List<booking>();
+
                 foreach (booking b in bookings)
                     if (!prevousBookings.Contains(b))
                         if (!lockDock(b))
-                            bookings.Remove(b);
+                            notUnlocked.Add(b);
 
+                foreach (booking b in notUnlocked)
+                    bookings.Remove(b);
+
+
+                //Bookings used this iteration are stored to avoid locking docks for them at each iteration
                 prevousBookings = bookings;
+
+                //Updates UI in main thread
                 GUI.BeginInvoke(new InvokeDelegate(GUI.updateLabels));
-                Thread.Sleep(60000);
+
+                //Sleeps as process does not require constant iteration
+                Thread.Sleep(SLEEPTIME);
             }
         }
 
-        //located in 2 files
+        //Locks the first available dock at a station for a booking
+        //Attempted again in next iteration if it fails
         public bool lockDock(booking b)
         {
             bool returnval = false;
             int bookingStation = b.start_station;
             dock toLock = null;
+            //Query might be empty
             try
             {
+                //Selects first available dock
                 toLock = (from d in DB.dock
                           where d.station_id == bookingStation && d.is_locked == false && d.holds_bicycle > 0
                           select d).First();
@@ -72,19 +93,22 @@ namespace BicycleStation
                 toLock.is_locked = true;
                 returnval = true;
             }
-            //maybe need something to handle when there is no dock to lock
+            //Something to handle when there is no dock to lock
+
             DB.SaveChanges();
             return returnval;
 
         }
 
+        //Unlocks the first locked dock at a station when a booking expires
         public void unlockDock(booking b)
         {
             int bookingStation = b.start_station;
             dock toUnlock = null;
-
+            //Query might be empty
             try
             {
+                //Selects first locked dock
                 toUnlock = (from d in DB.dock
                             where d.station_id == bookingStation && d.is_locked == true
                             select d).First();
@@ -93,8 +117,12 @@ namespace BicycleStation
 
             if (toUnlock != null)
                 toUnlock.is_locked = false;
-            //maybe need something to handle when there is no dock to lock
+            //Something to handle when there is no dock to lock
+
+            //Deactivates expired booking in global database
             service.BicycleWithBookingUnlocked(b.start_station, b.booking_id);
+
+            //Removes expired booking from local database
             DB.booking.Remove(b);
             DB.SaveChanges();
         }
