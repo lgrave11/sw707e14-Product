@@ -56,7 +56,7 @@ function ReadAvailableBicycles(stationName){
                 freeDockList = $.parseJSON(data);
             });
             
-            s = "Available Bicycles: "+ freeBicycleList[$(this).val()] + "<br />Available Docks: " + freeDockList[$(this).val()]
+            s = "Available Bicycles: "+ freeBicycleList[$(this).val()] + "<br />Empty Docks: " + freeDockList[$(this).val()]
               
             $("#freebicycles").html(s);
 	    }

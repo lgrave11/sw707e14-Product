@@ -27,7 +27,7 @@ class BicycleService implements iService
             $stmt->execute();
             $id = $this->db->insert_id;
             $stmt->close();
-            return new Bicycle($id, null, null);
+            return new Bicycle($id, $bicycle->latitude, $bicycle->longitude);
         }
         else
         {
@@ -58,6 +58,7 @@ class BicycleService implements iService
         }
     }
 
+    // All bicycles should have a longitude and latitude after they have been used the first time.
     public function readAll(){
         $returnArray = array();
         $stmt = $this->db->prepare("SELECT * FROM bicycle WHERE latitude IS NOT NULL AND longitude IS NOT NULL");
