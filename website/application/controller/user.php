@@ -8,10 +8,13 @@ class User extends Controller
     public function index()
     {
         $this->title = "User";
-        Tools::requireLogin();
-        require 'application/views/_templates/header.php';
-        echo "du er logget ind, her er en bruger side";
-        require 'application/views/_templates/footer.php';
+        if(Tools::isLoggedIn()){
+            header("Location: /");
+        }
+        else{
+            header("Location: /User/login");
+        }
+        exit();
     }
 
     public function viewHistory(){
