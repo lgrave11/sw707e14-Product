@@ -26,8 +26,14 @@
 				</select><br />
 				<div id="freebicycles"></div>
 				<br />
+				<?php
+					if (Tools::isLoggedIn()){
+						?>
 				<h2>Time for booking:</h2>
 				Date: <input id="datepicker" type="text" readonly name="date" value="<?php echo ViewHelper::printDate(); ?>" style="width: 75px; text-align: center;" /> Time: <input id="hourpicker" type="text" readonly name="hour" value="<?php echo ViewHelper::printHour(); ?>" style="width: 25px; text-align: center;" />:<input id="minutepicker" type="text" readonly name="minute" value="<?php echo ViewHelper::printMinute(); ?>" style="width: 25px;  text-align: center;" />
+				<?php
+					}
+				?>
 				<div class="centerblock"><br />
 				<?php
 					if (Tools::isLoggedIn()){
