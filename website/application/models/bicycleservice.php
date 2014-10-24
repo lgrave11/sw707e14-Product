@@ -27,7 +27,7 @@ class BicycleService implements iService
             $stmt->execute();
             $id = $this->db->insert_id;
             $stmt->close();
-            return new Bicycle($id, null, null);
+            return new Bicycle($id, $bicycle->latitude, $bicycle->longitude);
         }
         else
         {
