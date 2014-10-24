@@ -42,6 +42,9 @@
             this.TimeLbl = new System.Windows.Forms.Label();
             this.UnlockMoreBtn = new System.Windows.Forms.Button();
             this.TakeAtDockLbl = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.ReturnBicycleBtn = new System.Windows.Forms.Button();
+            this.TakeBicycleBtn = new System.Windows.Forms.Button();
             this.NoBicycleStateLbl = new System.Windows.Forms.Label();
             this.UnlockStateLbl = new System.Windows.Forms.Label();
             this.LockStateLbl = new System.Windows.Forms.Label();
@@ -52,9 +55,6 @@
             this.DockIdUpDown = new System.Windows.Forms.NumericUpDown();
             this.StationNameDropDown = new System.Windows.Forms.ComboBox();
             this.lockTimer = new System.Windows.Forms.Timer(this.components);
-            this.TakeBicycleBtn = new System.Windows.Forms.Button();
-            this.ReturnBicycleBtn = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -134,11 +134,11 @@
             this.KeyLbl.AutoSize = true;
             this.KeyLbl.Font = new System.Drawing.Font("Arial", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.KeyLbl.ForeColor = System.Drawing.Color.White;
-            this.KeyLbl.Location = new System.Drawing.Point(158, 254);
+            this.KeyLbl.Location = new System.Drawing.Point(169, 255);
             this.KeyLbl.Name = "KeyLbl";
-            this.KeyLbl.Size = new System.Drawing.Size(309, 40);
+            this.KeyLbl.Size = new System.Drawing.Size(256, 40);
             this.KeyLbl.TabIndex = 12;
-            this.KeyLbl.Text = "Enter key to unlock";
+            this.KeyLbl.Text = "Enter password";
             // 
             // UnlockedNumberLbl
             // 
@@ -166,24 +166,24 @@
             // UnlockedLbl
             // 
             this.UnlockedLbl.AutoSize = true;
-            this.UnlockedLbl.Font = new System.Drawing.Font("Arial", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UnlockedLbl.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UnlockedLbl.ForeColor = System.Drawing.Color.White;
-            this.UnlockedLbl.Location = new System.Drawing.Point(376, 72);
+            this.UnlockedLbl.Location = new System.Drawing.Point(370, 78);
             this.UnlockedLbl.Name = "UnlockedLbl";
-            this.UnlockedLbl.Size = new System.Drawing.Size(159, 40);
+            this.UnlockedLbl.Size = new System.Drawing.Size(162, 32);
             this.UnlockedLbl.TabIndex = 9;
-            this.UnlockedLbl.Text = "Unlocked";
+            this.UnlockedLbl.Text = "Free to take";
             // 
             // LockedLbl
             // 
             this.LockedLbl.AutoSize = true;
-            this.LockedLbl.Font = new System.Drawing.Font("Arial", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LockedLbl.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LockedLbl.ForeColor = System.Drawing.Color.White;
-            this.LockedLbl.Location = new System.Drawing.Point(81, 72);
+            this.LockedLbl.Location = new System.Drawing.Point(47, 78);
             this.LockedLbl.Name = "LockedLbl";
-            this.LockedLbl.Size = new System.Drawing.Size(127, 40);
+            this.LockedLbl.Size = new System.Drawing.Size(209, 32);
             this.LockedLbl.TabIndex = 8;
-            this.LockedLbl.Text = "Locked";
+            this.LockedLbl.Text = "Locked bicycles";
             // 
             // passwordTB
             // 
@@ -196,7 +196,7 @@
             this.passwordTB.Name = "passwordTB";
             this.passwordTB.Size = new System.Drawing.Size(184, 48);
             this.passwordTB.TabIndex = 7;
-            this.passwordTB.Text = "Key";
+            this.passwordTB.Text = "Password";
             this.passwordTB.Click += new System.EventHandler(this.passwordTB_Click);
             // 
             // TakeItPanel
@@ -246,6 +246,38 @@
             this.TakeAtDockLbl.Size = new System.Drawing.Size(447, 40);
             this.TakeAtDockLbl.TabIndex = 8;
             this.TakeAtDockLbl.Text = "Take your bicycle at dock 10";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(37, 396);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(164, 24);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "Dock State Control";
+            // 
+            // ReturnBicycleBtn
+            // 
+            this.ReturnBicycleBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ReturnBicycleBtn.Location = new System.Drawing.Point(138, 425);
+            this.ReturnBicycleBtn.Name = "ReturnBicycleBtn";
+            this.ReturnBicycleBtn.Size = new System.Drawing.Size(89, 45);
+            this.ReturnBicycleBtn.TabIndex = 10;
+            this.ReturnBicycleBtn.Text = "Return";
+            this.ReturnBicycleBtn.UseVisualStyleBackColor = true;
+            this.ReturnBicycleBtn.Click += new System.EventHandler(this.ReturnBicycleBtn_Click);
+            // 
+            // TakeBicycleBtn
+            // 
+            this.TakeBicycleBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TakeBicycleBtn.Location = new System.Drawing.Point(17, 425);
+            this.TakeBicycleBtn.Name = "TakeBicycleBtn";
+            this.TakeBicycleBtn.Size = new System.Drawing.Size(94, 45);
+            this.TakeBicycleBtn.TabIndex = 9;
+            this.TakeBicycleBtn.Text = "Take";
+            this.TakeBicycleBtn.UseVisualStyleBackColor = true;
+            this.TakeBicycleBtn.Click += new System.EventHandler(this.TakeBicycleBtn_Click);
             // 
             // NoBicycleStateLbl
             // 
@@ -345,38 +377,6 @@
             // 
             this.lockTimer.Interval = 1000;
             this.lockTimer.Tick += new System.EventHandler(this.lockTimer_Tick);
-            // 
-            // TakeBicycleBtn
-            // 
-            this.TakeBicycleBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TakeBicycleBtn.Location = new System.Drawing.Point(17, 425);
-            this.TakeBicycleBtn.Name = "TakeBicycleBtn";
-            this.TakeBicycleBtn.Size = new System.Drawing.Size(94, 45);
-            this.TakeBicycleBtn.TabIndex = 9;
-            this.TakeBicycleBtn.Text = "Take";
-            this.TakeBicycleBtn.UseVisualStyleBackColor = true;
-            this.TakeBicycleBtn.Click += new System.EventHandler(this.TakeBicycleBtn_Click);
-            // 
-            // ReturnBicycleBtn
-            // 
-            this.ReturnBicycleBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ReturnBicycleBtn.Location = new System.Drawing.Point(138, 425);
-            this.ReturnBicycleBtn.Name = "ReturnBicycleBtn";
-            this.ReturnBicycleBtn.Size = new System.Drawing.Size(89, 45);
-            this.ReturnBicycleBtn.TabIndex = 10;
-            this.ReturnBicycleBtn.Text = "Return";
-            this.ReturnBicycleBtn.UseVisualStyleBackColor = true;
-            this.ReturnBicycleBtn.Click += new System.EventHandler(this.ReturnBicycleBtn_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(37, 396);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(164, 24);
-            this.label1.TabIndex = 11;
-            this.label1.Text = "Dock State Control";
             // 
             // Form1
             // 

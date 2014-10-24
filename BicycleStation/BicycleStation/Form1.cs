@@ -84,7 +84,7 @@ namespace BicycleStation
         private void passwordTB_Click(object sender, EventArgs e)
         {
             //removes default value if that is currently in the field
-            if (passwordTB.Text == "Key")
+            if (passwordTB.Text == "Password")
             {
                 passwordTB.Clear();
             }
@@ -98,7 +98,7 @@ namespace BicycleStation
                 CheckPassword();
             }
             catch (FormatException){
-                MessageBox.Show("Incorrect Key");
+                MessageBox.Show("Incorrect Password");
             }
         }
 
@@ -132,7 +132,7 @@ namespace BicycleStation
             }
             else
             {
-                MessageBox.Show("Incorrect Key");
+                MessageBox.Show("Incorrect Password");
             }
         }
 
@@ -189,7 +189,7 @@ namespace BicycleStation
             TakeItPanel.Visible = false;
             TakeItPanel.SendToBack();
 
-            passwordTB.Text = "Key";
+            passwordTB.Text = "Password";
             EnterPwPanel.BringToFront();
             EnterPwPanel.Visible = true;
 
@@ -285,6 +285,7 @@ namespace BicycleStation
             DockStateBar.Value = 2;
             ReturnBicycleBtn.Enabled = true;
             TakeBicycleBtn.Enabled = false;
+            updateLabels();
         }
 
 
@@ -306,6 +307,7 @@ namespace BicycleStation
             DockStateBar.Value = 1;
             TakeBicycleBtn.Enabled = true;
             ReturnBicycleBtn.Enabled = false;
+            updateLabels();
         }
 
         //Generates random bicycle ID not currently in use
