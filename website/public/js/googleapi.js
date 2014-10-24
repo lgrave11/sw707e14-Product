@@ -46,7 +46,7 @@ function getTheStations() {
                         { content: '<div id="content">' +
                                    '<h2 id="firstHeading" class="firstHeading" style="margin-bottom:-10px; white-space: nowrap; line-height:1.35;overflow:hidden;">' + name + '</h2>' + 
                         '<div id="bodyContent"><p style="white-space: nowrap; line-height:1.35;overflow:hidden;">Available Bicycles: ' + freeBicycleList[i+1] +
-                        '<br>Available Docks: ' + freeDockList[i+1] + '</p></div></div>',
+                        '<br>Empty Docks: ' + freeDockList[i+1] + '</p></div></div>',
                         });
             
             

@@ -55,10 +55,14 @@
 	background-color: #77bbff;
 }
 
+#freebicycles 
+{
+    height:50px;
+}
+
 #sidebox {
     height:50%;
 }
-
 
 .active-booking
 {
