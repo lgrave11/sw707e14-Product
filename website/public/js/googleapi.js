@@ -41,11 +41,12 @@ function getTheStations() {
     $.get("/Ajax/getStations", function(data) {
         var stations = $.parseJSON(data);
         for(i = 0; i < stations.length; i++){
-
+            var name = stations[i]["name"];
             var info = new google.maps.InfoWindow(
-                        { content: '<div><h2 style="margin-bottom:-10px;">' + stations[i]["name"] + '</h2>' +
-                        '<div id="bodyContent"><p> Available Bicycles: '   + freeBicycleList[i+1] + 
-                        '</br> Available Docks: ' + freeDockList[i+1] + '</p></div></div>'
+                        { content: '<div id="content">' +
+                                   '<h2 id="firstHeading" class="firstHeading" style="margin-bottom:-10px; white-space: nowrap; line-height:1.35;overflow:hidden;">' + name + '</h2>' + 
+                        '<div id="bodyContent"><p style="white-space: nowrap; line-height:1.35;overflow:hidden;">Available Bicycles: ' + freeBicycleList[i+1] +
+                        '<br>Available Docks: ' + freeDockList[i+1] + '</p></div></div>',
                         });
             
             
