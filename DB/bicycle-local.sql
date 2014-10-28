@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `dock` (
   `dock_id` int(11) AUTO_INCREMENT NOT NULL,
   `station_id` int(11) NOT NULL,
   `holds_bicycle` int(11) NOT NULL,
-  `is_locked` tinyint(1) NOT NULL DEFAULT 0,
+  `is_locked` bit(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`dock_id`, `station_id`)
 );
 

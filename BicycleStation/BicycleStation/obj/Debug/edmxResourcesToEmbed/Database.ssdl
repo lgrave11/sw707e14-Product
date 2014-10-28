@@ -22,7 +22,7 @@
     <Property Name="dock_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="station_id" Type="int" Nullable="false" />
     <Property Name="holds_bicycle" Type="int" Nullable="false" />
-    <Property Name="is_locked" Type="bool" Nullable="false" />
+    <Property Name="is_locked" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="station">
     <Key>
