@@ -15,25 +15,30 @@ body {
 input, textarea, select, button {
     font-family: arial, verdana, sans-serif; 
     font-size: 12px;
-    border: 1px solid lightblue;
+    border: 1px solid #00315F;
     border-radius: 5px;
-    background-color: #00315F;
-    color: #ffffff;
+    background-color: #EEEEEE;
+    color: #00315F;
 }
 
 ::-webkit-input-placeholder { /* WebKit browsers */
-    color:    #DDDDDD;
+    color:    #657E96;
 }
 :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-   color:    #DDDDDD;
+   color:    #657E96;
    opacity:  1;
 }
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
-   color:    #DDDDDD;
+   color:    #657E96;
    opacity:  1;
 }
 :-ms-input-placeholder { /* Internet Explorer 10+ */
-   color:    #DDDDDD;
+   color:    #657E96;
+}
+
+input.button, button.button {
+	background-color: #00315F;
+	color: #EEEEEE;
 }
 
 h1 {

@@ -33,7 +33,7 @@
 					<tr>
 						<td colspan="2">
 							<center>
-							<input type="submit" value="Change Password"/> <br/>
+							<input type="submit" class="button" value="Change Password"/> <br/>
 							</center>
 						</td>
 					</tr>			
@@ -69,7 +69,7 @@
 					<tr>
 						<td colspan="2">
 							<center>
-								<input type="submit" value="Update Profile Data"/> <br/>
+								<input type="submit" class="button" value="Update Profile Data"/> <br/>
 							</center>
 						</td>
 					</tr>			
@@ -85,7 +85,7 @@
 	              ViewHelper::printMessages('accountinfo'); ?>
 	    </div>
 		<div>
-			<input type="button" value="View History" onclick="navigateTo('/User/ViewHistory')" /> <br/>
+			<input type="button" class="button" value="View History" onclick="navigateTo('/User/ViewHistory')" /> <br/>
 		</div>
 	</center>
 </div>
