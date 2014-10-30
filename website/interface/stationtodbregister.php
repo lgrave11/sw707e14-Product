@@ -23,7 +23,7 @@
 
     $server->register('BicycleWithBookingUnlocked',
         array('station_id' => 'xsd:int',
-              'booking_id' => 'xsd:int'
+              'booking_id' => 'xsd:int',
               'bicycle_id' => 'xsd:int'),
         array('return' => 'xsd:boolean'),
         $SERVICE_NAMESPACE,
