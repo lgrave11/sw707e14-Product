@@ -31,11 +31,11 @@
         'literal',
         'Registers that a given bicycle has been unlocked from a given station with a booking'
     );
-    function BicycleWithBookingUnlocked($station_id, $booking_id)
+    function BicycleWithBookingUnlocked($station_id, $booking_id, $bicycle_id)
     {
         global $db;
-        $stmt = $db->prepare("UPDATE booking SET password = NULL WHERE booking_id = ? AND start_station = ?");
-        $stmt->bind_param("ii", $booking_id, $station_id);
+        $stmt = $db->prepare("UPDATE booking SET password = NULL, used_bicycle = ? WHERE booking_id = ? AND start_station = ?");
+        $stmt->bind_param("iii", $bicycle_id, $booking_id, $station_id);
         $stmt->execute();
         $stmt->close();
         
