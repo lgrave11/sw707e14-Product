@@ -35,6 +35,10 @@
     function BicycleWithBookingUnlocked($station_id, $booking_id, $bicycle_id)
     {
         global $db;
+        if($bicycle_id == 0)
+        {
+            $bicycle_id = null;
+        }
         $stmt = $db->prepare("UPDATE booking SET password = NULL, used_bicycle = ? WHERE booking_id = ? AND start_station = ?");
         $stmt->bind_param("iii", $bicycle_id, $booking_id, $station_id);
         $stmt->execute();
