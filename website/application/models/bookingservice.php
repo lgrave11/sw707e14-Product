@@ -41,14 +41,14 @@ class BookingService implements iService
     {
         if(validate($booking))
         {
-            $stmt = $this->db->prepare("SELECT booking_id, start_time, start_station, password, for_user FROM booking WHERE booking_id = ?");
+            $stmt = $this->db->prepare("SELECT booking_id, start_time, start_station, password, for_user, used_bicycle FROM booking WHERE booking_id = ?");
             $stmt->bind_param("i", $booking->booking_id);
             $stmt->execute();
-            $stmt->bind_result($id, $start_time, $start_station, $password, $for_user);
+            $stmt->bind_result($id, $start_time, $start_station, $password, $for_user, $used_bicycle);
             $stmt->fetch();
             $stmt->close();
 
-            return new Booking($id, $start_time, $start_station, $password, $for_user);
+            return new Booking($id, $start_time, $start_station, $password, $for_user, $used_bicycle);
         }
         else
         {
@@ -156,7 +156,7 @@ class BookingService implements iService
         $stmt->execute();
         $stmt->bind_result($start_time, $station_name);
         while($stmt->fetch()){
-            $returnArray[$start_time] = new Booking(null, $start_time, $station_name, null, null);
+            $returnArray[$start_time] = new Booking(null, $start_time, $station_name, null, null, null);
         }
         $stmt->close();
 
@@ -166,14 +166,14 @@ class BookingService implements iService
     public function getActiveBookings($username)
     {
         $returnArray = array();
-        $stmt = $this->db->prepare("SELECT booking_id, start_time, start_station, password, for_user, name FROM booking, station
+        $stmt = $this->db->prepare("SELECT booking_id, start_time, start_station, password, for_user, name, used_bicycle FROM booking, station
                                     WHERE for_user = ? AND start_station = station_id AND password IS NOT NULL
                                     ORDER BY start_time ASC");
         $stmt->bind_param("s", $username);
         $stmt->execute();
-        $stmt->bind_result($booking_id, $start_time, $start_station, $password, $for_user, $station_name);
+        $stmt->bind_result($booking_id, $start_time, $start_station, $password, $for_user, $station_name, $used_bicycle);
         while($stmt->fetch()){
-            $returnArray[$booking_id] = array(new Booking($booking_id, $start_time, $start_station, $password, $for_user), $station_name);
+            $returnArray[$booking_id] = array(new Booking($booking_id, $start_time, $start_station, $password, $for_user, $used_bicycle), $station_name);
 
         }
         $stmt->close();
