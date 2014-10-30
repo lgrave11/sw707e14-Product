@@ -129,26 +129,28 @@ namespace BicycleStation.StationDBService {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapRpcMethodAttribute("urn:StationToDB_Service#soapaction", RequestNamespace="urn:StationToDB_Service", ResponseNamespace="urn:StationToDB_Service", Use=System.Web.Services.Description.SoapBindingUse.Literal)]
         [return: System.Xml.Serialization.XmlElementAttribute("return")]
-        public bool BicycleTaken(int station_id, int bicycle_id) {
+        public bool BicycleTaken(int station_id, int bicycle_id, int booking_id) {
             object[] results = this.Invoke("BicycleTaken", new object[] {
                         station_id,
-                        bicycle_id});
+                        bicycle_id,
+                        booking_id});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void BicycleTakenAsync(int station_id, int bicycle_id) {
-            this.BicycleTakenAsync(station_id, bicycle_id, null);
+        public void BicycleTakenAsync(int station_id, int bicycle_id, int booking_id) {
+            this.BicycleTakenAsync(station_id, bicycle_id, booking_id, null);
         }
         
         /// <remarks/>
-        public void BicycleTakenAsync(int station_id, int bicycle_id, object userState) {
+        public void BicycleTakenAsync(int station_id, int bicycle_id, int booking_id, object userState) {
             if ((this.BicycleTakenOperationCompleted == null)) {
                 this.BicycleTakenOperationCompleted = new System.Threading.SendOrPostCallback(this.OnBicycleTakenOperationCompleted);
             }
             this.InvokeAsync("BicycleTaken", new object[] {
                         station_id,
-                        bicycle_id}, this.BicycleTakenOperationCompleted, userState);
+                        bicycle_id,
+                        booking_id}, this.BicycleTakenOperationCompleted, userState);
         }
         
         private void OnBicycleTakenOperationCompleted(object arg) {
