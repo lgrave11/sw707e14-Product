@@ -52,8 +52,10 @@ CREATE TABLE booking
 	start_station int NOT NULL,
 	password int(6),
 	for_user varchar(50) NOT NULL,
+	used_bicycle int NULL,
 	FOREIGN KEY(start_station) REFERENCES station(station_id),
-	FOREIGN KEY(for_user) REFERENCES account(username)
+	FOREIGN KEY(for_user) REFERENCES account(username),
+	FOREIGN KEY(used_bicycle) REFERENCES bicycle(bicycle_id)
 );
 
 CREATE TABLE historylocationbicycle
