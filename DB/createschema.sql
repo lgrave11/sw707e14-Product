@@ -69,7 +69,7 @@ CREATE TABLE historylocationbicycle
 CREATE TABLE historyusagebicycle
 (
     id int PRIMARY KEY AUTO_INCREMENT,
-    bicycle_id int,
+    bicycle_id int NOT NULL,
     start_station int,
     end_station int,
     FOREIGN KEY(start_station) REFERENCES station(station_id),
