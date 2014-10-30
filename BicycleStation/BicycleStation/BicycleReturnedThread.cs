@@ -3,23 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Threading;
 using System.Net;
 
 namespace BicycleStation
 {
-    class UnlockWithBookingThread
+    class BicycleReturnedThread
     {
-        int _startStation;
-        int _bookingID;
+        int _stationID;
+        int _dockID;
+        int _bicycleID;
 
-        public UnlockWithBookingThread(int startStation, int bookingID)
+        public BicycleReturnedThread(int bicycleID, int stationID, int dockID)
         {
-            this._startStation = startStation;
-            this._bookingID = bookingID;
+            this._stationID = stationID;
+            this._dockID = dockID;
+            this._bicycleID = bicycleID;
         }
 
-        public void unlockWithBooking()
+        public void bicycleReturnedReport()
         {
             bool b = true;
             while (b)
@@ -27,11 +28,13 @@ namespace BicycleStation
                 try
                 {
                     StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
-                    service.BicycleWithBookingUnlocked(_startStation, _bookingID);
+                    service.BicycleReturnedToDockAtStation(_bicycleID, _stationID, _dockID);
                     b = false;
                 }
                 catch (WebException) { }
+
             }
+            
         }
     }
 }

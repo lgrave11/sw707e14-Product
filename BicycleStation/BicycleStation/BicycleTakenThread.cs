@@ -8,18 +8,18 @@ using System.Net;
 
 namespace BicycleStation
 {
-    class UnlockWithBookingThread
+    class BicycleTakenThread
     {
-        int _startStation;
-        int _bookingID;
+        int _stationID;
+        int _bicycleID;
 
-        public UnlockWithBookingThread(int startStation, int bookingID)
+        public BicycleTakenThread(int stationID, int bicycleID)
         {
-            this._startStation = startStation;
-            this._bookingID = bookingID;
+            this._stationID = stationID;
+            this._bicycleID = bicycleID;
         }
 
-        public void unlockWithBooking()
+        public void bicycleTakenReport()
         {
             bool b = true;
             while (b)
@@ -27,7 +27,7 @@ namespace BicycleStation
                 try
                 {
                     StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
-                    service.BicycleWithBookingUnlocked(_startStation, _bookingID);
+                    service.BicycleTaken(_stationID, _bicycleID);
                     b = false;
                 }
                 catch (WebException) { }
