@@ -190,7 +190,7 @@ namespace BicycleStation
                 }
                 catch (WebException) 
                 {
-                    ServiceThreads serviceThread = new ServiceThreads(unlockedBooking.start_station, unlockedBooking.booking_id);
+                    UnlockWithBookingThread serviceThread = new UnlockWithBookingThread(unlockedBooking.start_station, unlockedBooking.booking_id);
                     Thread unlockWithBookingReporter = new Thread(new ThreadStart(serviceThread.unlockWithBooking));
                     unlockWithBookingReporter.Start();
                 }
@@ -280,15 +280,35 @@ namespace BicycleStation
         //Only Happens on unlocked docks
         private void bicycleTaken(dock Dock)
         {
-            StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
-            service.BicycleTaken(Dock.station_id, Dock.holds_bicycle);
+            try
+            {
+                StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
+                service.BicycleTaken(Dock.station_id, Dock.holds_bicycle);
+            }
+            catch (WebException)
+            {
+                BicycleTakenThread BTT = new BicycleTakenThread(Dock.station_id, Dock.holds_bicycle);
+                Thread BTTReporter = new Thread(new ThreadStart(BTT.bicycleTakenReport));
+                BTTReporter.Start();
+            }
         }
 
         //Sends message to DB interface that a bicycle has been returned to a dock
         private void bicycleReturn(dock Dock)
         {
-            StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
-            service.BicycleReturnedToDockAtStation(Dock.holds_bicycle, Dock.station_id, Dock.dock_id);
+            try
+            {
+                StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
+                service.BicycleReturnedToDockAtStation(Dock.holds_bicycle, Dock.station_id, Dock.dock_id);
+            }
+            catch (WebException)
+            {
+                BicycleReturnedThread BRT = new BicycleReturnedThread(Dock.holds_bicycle, Dock.station_id, Dock.dock_id);
+                Thread BRTReporter = new Thread(new ThreadStart(BRT.bicycleReturnedReport));
+                BRTReporter.Start();
+            }
+
+
         }
 
 
