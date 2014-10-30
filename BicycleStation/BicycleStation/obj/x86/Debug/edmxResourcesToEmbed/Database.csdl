@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Database" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="DatabaseConnection" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="booking" EntityType="Database.booking" />
+    <EntitySet Name="dock" EntityType="Database.dock" />
+    <EntitySet Name="station" EntityType="Database.station" />
+  </EntityContainer>
+  <EntityType Name="booking">
+    <Key>
+      <PropertyRef Name="booking_id" />
+    </Key>
+    <Property Name="booking_id" Type="Int32" Nullable="false" />
+    <Property Name="start_time" Type="Int64" Nullable="false" />
+    <Property Name="password" Type="Int32" Nullable="false" />
+    <Property Name="start_station" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="dock">
+    <Key>
+      <PropertyRef Name="dock_id" />
+      <PropertyRef Name="station_id" />
+    </Key>
+    <Property Name="dock_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="station_id" Type="Int32" Nullable="false" />
+    <Property Name="holds_bicycle" Type="Int32" Nullable="false" />
+    <Property Name="is_locked" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="station">
+    <Key>
+      <PropertyRef Name="station_id" />
+    </Key>
+    <Property Name="station_id" Type="Int32" Nullable="false" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+  </EntityType>
+</Schema>
