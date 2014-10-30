@@ -1,0 +1,25 @@
+Tutorial for setting up BicycleStation:
+1. Make sure that you have the database "bicycle-local"
+ - import table from /DB/bicycle-local.sql
+ - make sure that you have the updated scema for "bicycle-db" too
+
+2. Download and install entity framework MySQL for Visual Studio
+http://dev.mysql.com/get/Downloads/MySQL-for-VisualStudio/mysql-for-visualstudio-1.2.3.msi
+ - Just do the complete!
+
+3. Restart VS if it was open before installing Entity Framework
+
+4. Make sure that you have at least .Net Framework 4.0
+
+4.5 Clean Solution! Just to be sure
+
+5. Right click 'References' in the solution -> manage Nuget stuff -> Uninstall EntityFramework 5.0.0 if it is there
+because it needs to be installed from Nuget terminal stuff
+
+6. Open the Nuget manager terminal stuff from Tools->Library Package Manager -> Package Manager Console
+
+7. Insert this line and press enter:
+ Install-Package EntityFramework -Version 5.0.0
+
+8. It should work now!
+
