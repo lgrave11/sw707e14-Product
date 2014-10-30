@@ -7,3 +7,28 @@ c:\users\erik\documents\visual studio 2012\Projects\BicycleStation\BicycleStatio
 c:\users\erik\documents\visual studio 2012\Projects\BicycleStation\BicycleStation\obj\Debug\BicycleStation.csproj.GenerateResource.Cache
 c:\users\erik\documents\visual studio 2012\Projects\BicycleStation\BicycleStation\obj\Debug\BicycleStation.exe
 c:\users\erik\documents\visual studio 2012\Projects\BicycleStation\BicycleStation\obj\Debug\BicycleStation.pdb
+<<<<<<< HEAD
+=======
+C:\Users\Lars\Documents\uni_docs\p7\Produkt\BicycleStation\BicycleStation\bin\Debug\BicycleStation.exe.config
+C:\Users\Lars\Documents\uni_docs\p7\Produkt\BicycleStation\BicycleStation\obj\Debug\BicycleStation.exe
+C:\Users\Lars\Documents\uni_docs\p7\Produkt\BicycleStation\BicycleStation\obj\Debug\BicycleStation.pdb
+C:\Users\Lars\Documents\uni_docs\p7\Produkt\BicycleStation\BicycleStation\bin\Debug\BicycleStation.exe
+C:\Users\Lars\Documents\uni_docs\p7\Produkt\BicycleStation\BicycleStation\bin\Debug\BicycleStation.pdb
+C:\Users\Lars\Documents\uni_docs\p7\Produkt\BicycleStation\BicycleStation\bin\Debug\EntityFramework.dll
+C:\Users\Lars\Documents\uni_docs\p7\Produkt\BicycleStation\BicycleStation\bin\Debug\EntityFramework.xml
+C:\Users\Lars\Documents\uni_docs\p7\Produkt\BicycleStation\BicycleStation\obj\Debug\BicycleStation.csprojResolveAssemblyReference.cache
+C:\Users\Lars\Documents\uni_docs\p7\Produkt\BicycleStation\BicycleStation\obj\Debug\BicycleStation.Form1.resources
+C:\Users\Lars\Documents\uni_docs\p7\Produkt\BicycleStation\BicycleStation\obj\Debug\BicycleStation.Properties.Resources.resources
+C:\Users\Lars\Documents\uni_docs\p7\Produkt\BicycleStation\BicycleStation\obj\Debug\BicycleStation.csproj.GenerateResource.Cache
+C:\Users\erik\Documents\sw707e14-Product\BicycleStation\BicycleStation\bin\Debug\BicycleStation.exe.config
+C:\Users\erik\Documents\sw707e14-Product\BicycleStation\BicycleStation\bin\Debug\BicycleStation.exe
+C:\Users\erik\Documents\sw707e14-Product\BicycleStation\BicycleStation\bin\Debug\BicycleStation.pdb
+C:\Users\erik\Documents\sw707e14-Product\BicycleStation\BicycleStation\bin\Debug\EntityFramework.dll
+C:\Users\erik\Documents\sw707e14-Product\BicycleStation\BicycleStation\bin\Debug\EntityFramework.xml
+C:\Users\erik\Documents\sw707e14-Product\BicycleStation\BicycleStation\obj\Debug\BicycleStation.csprojResolveAssemblyReference.cache
+C:\Users\erik\Documents\sw707e14-Product\BicycleStation\BicycleStation\obj\Debug\BicycleStation.Form1.resources
+C:\Users\erik\Documents\sw707e14-Product\BicycleStation\BicycleStation\obj\Debug\BicycleStation.Properties.Resources.resources
+C:\Users\erik\Documents\sw707e14-Product\BicycleStation\BicycleStation\obj\Debug\BicycleStation.csproj.GenerateResource.Cache
+C:\Users\erik\Documents\sw707e14-Product\BicycleStation\BicycleStation\obj\Debug\BicycleStation.exe
+C:\Users\erik\Documents\sw707e14-Product\BicycleStation\BicycleStation\obj\Debug\BicycleStation.pdb
+>>>>>>> bbc62529f465a93bb8e79763a69c8cc72ede8102

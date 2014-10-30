@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS historylocationbicycle CASCADE;
+DROP TABLE IF EXISTS historyusagebicycle;
 DROP TABLE IF EXISTS books CASCADE;
 DROP TABLE IF EXISTS dock CASCADE;
 DROP TABLE IF EXISTS booking CASCADE;
@@ -53,6 +54,27 @@ CREATE TABLE booking
 	for_user varchar(50) NOT NULL,
 	FOREIGN KEY(start_station) REFERENCES station(station_id),
 	FOREIGN KEY(for_user) REFERENCES account(username)
+);
+
+CREATE TABLE historylocationbicycle
+(
+	bicycle_id int,
+	timeforlocation timestamp,
+	latitude float NOT NULL,
+	longitude float NOT NULL,
+	PRIMARY KEY(bicycle_id,timeforlocation),
+	FOREIGN KEY(bicycle_id) REFERENCES bicycle(bicycle_id)
+);
+
+CREATE TABLE historyusagebicycle
+(
+    id int PRIMARY KEY AUTO_INCREMENT,
+    bicycle_id int NOT NULL,
+    start_station int,
+    end_station int,
+    FOREIGN KEY(start_station) REFERENCES station(station_id),
+    FOREIGN KEY(end_station) REFERENCES station(station_id),
+    FOREIGN KEY(bicycle_id) REFERENCES bicycle(bicycle_id)
 );
 
 INSERT INTO station(name, latitude, longitude) VALUES ("Banegården - Busterminal", 57.041998, 9.917633);--  1;
@@ -399,13 +421,3 @@ CREATE FUNCTION LEVENSHTEIN(s1 VARCHAR(255) CHARACTER SET utf8, s2 VARCHAR(255) 
   END $$
 
 DELIMITER ;
-
-CREATE TABLE historylocationbicycle
-(
-	bicycle_id int,
-	timeforlocation timestamp,
-	latitude float NOT NULL,
-	longitude float NOT NULL,
-	PRIMARY KEY(bicycle_id,timeforlocation),
-	FOREIGN KEY(bicycle_id) REFERENCES bicycle(bicycle_id)
-);
