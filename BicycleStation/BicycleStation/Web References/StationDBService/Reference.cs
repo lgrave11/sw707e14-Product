@@ -95,26 +95,28 @@ namespace BicycleStation.StationDBService {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapRpcMethodAttribute("urn:StationToDB_Service#soapaction", RequestNamespace="urn:StationToDB_Service", ResponseNamespace="urn:StationToDB_Service", Use=System.Web.Services.Description.SoapBindingUse.Literal)]
         [return: System.Xml.Serialization.XmlElementAttribute("return")]
-        public bool BicycleWithBookingUnlocked(int station_id, int booking_id) {
+        public bool BicycleWithBookingUnlocked(int station_id, int booking_id, int bicycle_id) {
             object[] results = this.Invoke("BicycleWithBookingUnlocked", new object[] {
                         station_id,
-                        booking_id});
+                        booking_id,
+                        bicycle_id});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void BicycleWithBookingUnlockedAsync(int station_id, int booking_id) {
-            this.BicycleWithBookingUnlockedAsync(station_id, booking_id, null);
+        public void BicycleWithBookingUnlockedAsync(int station_id, int booking_id, int bicycle_id) {
+            this.BicycleWithBookingUnlockedAsync(station_id, booking_id, bicycle_id, null);
         }
         
         /// <remarks/>
-        public void BicycleWithBookingUnlockedAsync(int station_id, int booking_id, object userState) {
+        public void BicycleWithBookingUnlockedAsync(int station_id, int booking_id, int bicycle_id, object userState) {
             if ((this.BicycleWithBookingUnlockedOperationCompleted == null)) {
                 this.BicycleWithBookingUnlockedOperationCompleted = new System.Threading.SendOrPostCallback(this.OnBicycleWithBookingUnlockedOperationCompleted);
             }
             this.InvokeAsync("BicycleWithBookingUnlocked", new object[] {
                         station_id,
-                        booking_id}, this.BicycleWithBookingUnlockedOperationCompleted, userState);
+                        booking_id,
+                        bicycle_id}, this.BicycleWithBookingUnlockedOperationCompleted, userState);
         }
         
         private void OnBicycleWithBookingUnlockedOperationCompleted(object arg) {

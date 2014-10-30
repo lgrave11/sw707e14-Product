@@ -186,11 +186,11 @@ namespace BicycleStation
                 try
                 {
                     StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
-                    service.BicycleWithBookingUnlocked(unlockedBooking.start_station, unlockedBooking.booking_id);
+                    service.BicycleWithBookingUnlocked(unlockedBooking.start_station, unlockedBooking.booking_id, docks[availableDock].holds_bicycle);
                 }
                 catch (WebException) 
                 {
-                    UnlockWithBookingThread serviceThread = new UnlockWithBookingThread(unlockedBooking.start_station, unlockedBooking.booking_id);
+                    UnlockWithBookingThread serviceThread = new UnlockWithBookingThread(unlockedBooking.start_station, unlockedBooking.booking_id, docks[availableDock].holds_bicycle);
                     Thread unlockWithBookingReporter = new Thread(new ThreadStart(serviceThread.unlockWithBooking));
                     unlockWithBookingReporter.Start();
                 }

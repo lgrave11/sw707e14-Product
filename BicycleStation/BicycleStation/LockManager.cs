@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Net;
 
 namespace BicycleStation
 {
@@ -17,7 +18,6 @@ namespace BicycleStation
         const int SLEEPTIME = 1000;
 
         List<booking> prevousBookings = new List<booking>();
-        StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
         DatabaseConnection DB = new DatabaseConnection();
         
         //Used for GUI updates in main thread
@@ -117,14 +117,30 @@ namespace BicycleStation
 
             if (toUnlock != null)
                 toUnlock.is_locked = false;
+
             //Something to handle when there is no dock to lock
 
-            //Deactivates expired booking in global database
-            service.BicycleWithBookingUnlocked(b.start_station, b.booking_id);
+            removeGlobal(b);
 
             //Removes expired booking from local database
             DB.booking.Remove(b);
             DB.SaveChanges();
+        }
+
+        //Deactivates expired booking in global database
+        private static void removeGlobal(booking b)
+        {
+            try
+            {
+                StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
+                service.BicycleWithBookingUnlocked(b.start_station, b.booking_id, 0);
+            }
+            catch (WebException)
+            {
+                UnlockWithBookingThread UWBT = new UnlockWithBookingThread(b.start_station, b.booking_id, 0);
+                Thread BookingExpiredReporter = new Thread(new ThreadStart(UWBT.unlockWithBooking));
+                BookingExpiredReporter.Start();
+            }
         }
 
     }
