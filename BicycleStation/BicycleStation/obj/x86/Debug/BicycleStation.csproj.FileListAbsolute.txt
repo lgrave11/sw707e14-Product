@@ -1,4 +1,0 @@
-C:\Users\erik\Documents\sw707e14-Product\BicycleStation\BicycleStation\obj\x86\Debug\BicycleStation.Form1.resources
-C:\Users\erik\Documents\sw707e14-Product\BicycleStation\BicycleStation\obj\x86\Debug\BicycleStation.Properties.Resources.resources
-C:\Users\erik\Documents\sw707e14-Product\BicycleStation\BicycleStation\obj\x86\Debug\BicycleStation.csproj.GenerateResource.Cache
-C:\Users\erik\Documents\sw707e14-Product\BicycleStation\BicycleStation\obj\x86\Debug\BicycleStation.csprojResolveAssemblyReference.cache
