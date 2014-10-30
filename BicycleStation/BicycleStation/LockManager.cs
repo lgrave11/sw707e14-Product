@@ -14,7 +14,7 @@ namespace BicycleStation
         const int TIMEAFTER = 3600;
 
         //Time thread sleeps after every iteration
-        const int SLEEPTIME = 60000;
+        const int SLEEPTIME = 1000;
 
         List<booking> prevousBookings = new List<booking>();
         StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
@@ -64,7 +64,7 @@ namespace BicycleStation
                 prevousBookings = bookings;
 
                 //Updates UI in main thread
-                GUI.BeginInvoke(new InvokeDelegate(GUI.updateLabels));
+                GUI.BeginInvoke(new InvokeDelegate(GUI.updateUI));
 
                 //Sleeps as process does not require constant iteration
                 Thread.Sleep(SLEEPTIME);

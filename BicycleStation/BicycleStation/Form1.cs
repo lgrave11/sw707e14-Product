@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Web.Helpers;
 using System.Threading;
+using System.Net;
 
 namespace BicycleStation
 {
@@ -16,6 +17,9 @@ namespace BicycleStation
     {
         //Timer duration
         const int MAXTIME = 120;
+
+        //Time before a booking the bike can be unlocked
+        const int TIMEBEFORE = 3600;
 
         //Slidebar values
         const int LOCKED = 0;
@@ -27,12 +31,10 @@ namespace BicycleStation
 
         int _maxTime = MAXTIME;
 
-        //Database access variable
-        DatabaseConnection DB = new DatabaseConnection();
-
         public Form1()
         {
             InitializeComponent();
+            DatabaseConnection DB = new DatabaseConnection();
 
             //loads stations from Database into component
             string[] stations = (from c in DB.station
@@ -104,6 +106,8 @@ namespace BicycleStation
 
         private void CheckPassword()
         {
+            DatabaseConnection DB = new DatabaseConnection();
+
             //Extracts information from UI
             int pwText = Convert.ToInt32(passwordTB.Text.ToString());
             string stationName = StationNameDropDown.SelectedItem.ToString();
@@ -116,19 +120,28 @@ namespace BicycleStation
             //Code accepted if atleast one booking matches. Should always be only 1 if any
             if (findBookings.Count() > 0)
             {
-                //Hides the Password input panel
-                EnterPwPanel.Visible = false;
-                EnterPwPanel.SendToBack();
+                //Current time in Unix format
+                Int32 currentTime = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+                if (findBookings.First().start_time < currentTime + TIMEBEFORE)
+                {
+                    //Hides the Password input panel
+                    EnterPwPanel.Visible = false;
+                    EnterPwPanel.SendToBack();
 
-                //Presents the tale ot panel
-                TakeItPanel.BringToFront();
-                TakeItPanel.Visible = true;
+                    //Presents the tale ot panel
+                    TakeItPanel.BringToFront();
+                    TakeItPanel.Visible = true;
 
-                lockTimer.Start();
+                    lockTimer.Start();
 
-                booking unlockedBooking = findBookings[0];
+                    booking unlockedBooking = findBookings[0];
 
-                FindAvailableDock(stationName, unlockedBooking);
+                    FindAvailableDock(stationName, unlockedBooking, DB);
+                }
+                else
+                {
+                    MessageBox.Show("Booking not yet available");
+                }
             }
             else
             {
@@ -136,8 +149,10 @@ namespace BicycleStation
             }
         }
 
-        private void FindAvailableDock(string stationName, booking unlockedBooking)
+        private void FindAvailableDock(string stationName, booking unlockedBooking, DatabaseConnection DB)
         {
+
+
             List<dock> docks = (from d in DB.dock
                                 join s in DB.station on d.station_id equals s.station_id
                                 where s.name == stationName
@@ -168,9 +183,17 @@ namespace BicycleStation
                 UpdateDockValues();
 
                 //reports unlock to Global Database interface
-                StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
-                service.BicycleWithBookingUnlocked(unlockedBooking.start_station, unlockedBooking.booking_id);
-
+                try
+                {
+                    StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
+                    service.BicycleWithBookingUnlocked(unlockedBooking.start_station, unlockedBooking.booking_id);
+                }
+                catch (WebException) 
+                {
+                    ServiceThreads serviceThread = new ServiceThreads(unlockedBooking.start_station, unlockedBooking.booking_id);
+                    Thread unlockWithBookingReporter = new Thread(new ThreadStart(serviceThread.unlockWithBooking));
+                    unlockWithBookingReporter.Start();
+                }
                 DB.booking.Remove(unlockedBooking);
                 DB.SaveChanges();
             }
@@ -207,6 +230,8 @@ namespace BicycleStation
         //Created to prevent calling eventhandler from other methods
         private void UpdateDockValues()
         {
+            DatabaseConnection DB = new DatabaseConnection();
+
             //gets name of current station
             string stationName = StationNameDropDown.SelectedItem.ToString();
 
@@ -269,6 +294,7 @@ namespace BicycleStation
 
         private void TakeBicycleBtn_Click(object sender, EventArgs e)
         {
+            DatabaseConnection DB = new DatabaseConnection();
             string stationName = StationNameDropDown.SelectedItem.ToString();
 
             List<dock> getDocks = (from d in DB.dock
@@ -292,6 +318,7 @@ namespace BicycleStation
         private void ReturnBicycleBtn_Click(object sender, EventArgs e)
         {
             string stationName = StationNameDropDown.SelectedItem.ToString();
+            DatabaseConnection DB = new DatabaseConnection();
 
             List<dock> getDocks = (from d in DB.dock
                                    join s in DB.station on d.station_id equals s.station_id
@@ -300,7 +327,7 @@ namespace BicycleStation
 
             //returns bicycle to a dock in database
             //returned bicycle has random ID in simulation
-            getDocks[Convert.ToInt32(DockIdUpDown.Value) - 1].holds_bicycle = getRandomBicycleID();
+            getDocks[Convert.ToInt32(DockIdUpDown.Value) - 1].holds_bicycle = getRandomBicycleID(DB);
             DB.SaveChanges();
             bicycleReturn(getDocks[Convert.ToInt32(DockIdUpDown.Value) - 1]);
 
@@ -311,7 +338,7 @@ namespace BicycleStation
         }
 
         //Generates random bicycle ID not currently in use
-        private int getRandomBicycleID()
+        private int getRandomBicycleID(DatabaseConnection DB)
         {
             List<int> availableIDs = new List<int>();
 
@@ -331,8 +358,8 @@ namespace BicycleStation
             return availableIDs[(new Random()).Next(1, availableIDs.Count())];
         }
 
-        //Update labels, invoked from Threads
-        public void updateLabels()
+        
+        private void updateLabels()
         {
             DatabaseConnection DB = new DatabaseConnection();
             string stationName = StationNameDropDown.SelectedItem.ToString();
@@ -354,6 +381,13 @@ namespace BicycleStation
             }
             LockednumberLbl.Text = locked.ToString();
             UnlockedNumberLbl.Text = unlocked.ToString();
+        }
+
+        //method invoked from threads to update UI
+        public void updateUI()
+        {
+            updateLabels();
+            UpdateDockValues();
         }
 
     }

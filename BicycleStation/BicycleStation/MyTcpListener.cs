@@ -57,7 +57,7 @@ namespace BicycleStation
                     //Decode date and create networkdata object
                     NetworkData networkdata = Json.Decode(received, typeof(NetworkData));
                     networkdata.performAction();
-                    GUI.BeginInvoke(new InvokeDelegate(GUI.updateLabels));
+                    GUI.BeginInvoke(new InvokeDelegate(GUI.updateUI));
 
                     // Shutdown and end connection
                     client.Close();

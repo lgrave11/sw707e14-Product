@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Web.Helpers;
 using System.Threading;
+using System.Net;
 
 namespace BicycleStation
 {
@@ -26,36 +27,40 @@ namespace BicycleStation
         //Refresh bookings in local database, as they are likely outdated
         private static void RefreshBookings()
         {
-            StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
-            DatabaseConnection db = new DatabaseConnection();
-
-            //finds all bookings in database, then removes them
-            List<booking> old = (from b in db.booking
-                                 select b).ToList();
-            foreach (booking b in old)
-                db.booking.Remove(b);
-            db.SaveChanges();
-
-            //Checks the number of stations in the database
-            int stations = (from s in db.station
-                            select s).Count();
-            //Gets all the bookings for each station in the Global database and stores them locally
-            for (int i = 1; i <= stations; i++)
+            try
             {
-                string[] bookings = service.GetAllBookingsForStation(i);
-                if (bookings.Count() > 0)
+                StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
+                DatabaseConnection db = new DatabaseConnection();
+
+                //finds all bookings in database, then removes them
+                List<booking> old = (from b in db.booking
+                                     select b).ToList();
+                foreach (booking b in old)
+                    db.booking.Remove(b);
+                db.SaveChanges();
+
+                //Checks the number of stations in the database
+                int stations = (from s in db.station
+                                select s).Count();
+                //Gets all the bookings for each station in the Global database and stores them locally
+                for (int i = 1; i <= stations; i++)
                 {
-                    foreach (string s in bookings)
+                    string[] bookings = service.GetAllBookingsForStation(i);
+                    if (bookings.Count() > 0)
                     {
-                        try
+                        foreach (string s in bookings)
                         {
-                            db.booking.Add(Json.Decode(s, typeof(booking)));
-                            db.SaveChanges();
+                            try
+                            {
+                                db.booking.Add(Json.Decode(s, typeof(booking)));
+                                db.SaveChanges();
+                            }
+                            catch (Exception) { }
                         }
-                        catch (Exception) { }
                     }
                 }
             }
+            catch (WebException) { RefreshBookings(); }
         }
     }
 }

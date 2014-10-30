@@ -8,6 +8,8 @@ namespace BicycleStation
 {
     class NetworkData
     {
+        const int TIMEBEFORE = 3600;
+
         //Assigned through Json decode of remote database messages
         public string action { get; set; }
         public int booking_id { get; set; }
@@ -37,6 +39,17 @@ namespace BicycleStation
                 booking toRemove = (from b in DB.booking
                                    where b.booking_id == booking_id
                                    select b).Single();
+
+                //Current time in Unix format
+                Int32 currentTime = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+                if (!(toRemove.start_time < currentTime + TIMEBEFORE))
+                {
+                    dock toUnlock = (from d in DB.dock
+                                     where d.is_locked && d.station_id == toRemove.start_station
+                                     select d).First();
+                    toUnlock.is_locked = false;
+                }
+
                 DB.booking.Remove(toRemove);
                 DB.SaveChanges();
             }
