@@ -69,12 +69,21 @@ namespace BicycleStation
             {
                 lockTimer.Stop();
                 _maxTime = MAXTIME;
+
+                TakeItPanel.Visible = false;
+                TakeItPanel.SendToBack();
+
+                passwordTB.Text = "Password";
+                EnterPwPanel.BringToFront();
+                EnterPwPanel.Visible = true;
+
+                //updates UI to reflect changes caused during unlock
+                updateLabels();
+                UpdateDockValues();
             }
             else
             {
                 _maxTime--;
-                TimeSpan timespan = TimeSpan.FromSeconds(_maxTime);
-                TimeLbl.Text = timespan.ToString(@"mm\:ss");
             }
         }
 
@@ -441,8 +450,7 @@ namespace BicycleStation
         //Closes all running threads when UI window is closed
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            foreach (Thread t in threadList)
-                t.Abort();
+            GlobalVariable.running = false;
         }
 
     }
