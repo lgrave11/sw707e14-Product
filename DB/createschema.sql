@@ -74,8 +74,7 @@ CREATE TABLE historyusagebicycle
     bicycle_id int NOT NULL,
     start_station int,
     end_station int,
-    FOREIGN KEY(start_station) REFERENCES station(station_id),
-    FOREIGN KEY(end_station) REFERENCES station(station_id),
+    booking_id int,
     FOREIGN KEY(bicycle_id) REFERENCES bicycle(bicycle_id)
 );
 
