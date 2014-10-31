@@ -283,7 +283,7 @@ namespace BicycleStation
             try
             {
                 StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
-                service.BicycleTaken(Dock.station_id, Dock.holds_bicycle, 0);
+                service.BicycleTaken(Dock.station_id, Dock.holds_bicycle, 11);
             }
             catch (WebException)
             {

@@ -70,7 +70,7 @@
             $booking_id = NULL;
 
         $stmt = $db->prepare("INSERT INTO historyusagebicycle (bicycle_id, start_station, booking_id) VALUES (?, ?, ?)");
-        $stmt>bind_param("iii", $bicycle_id, $station_id, $booking_id);
+        $stmt->bind_param("iii", $bicycle_id, $station_id, $booking_id);
         $stmt->execute();
         $stmt->close();
         return true;
