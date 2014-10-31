@@ -32,7 +32,7 @@ namespace BicycleStation
         public void manage()
         {
             //Infinite thread loop
-            while (true)
+            while (GlobalVariable.running)
             {
                 //Current time in Unix format
                 Int32 currentTime = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
