@@ -84,6 +84,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="GlobalVariable.cs" />
     <Compile Include="LockManager.cs" />
     <Compile Include="MyTcpListener.cs" />
     <Compile Include="NetworkData.cs" />

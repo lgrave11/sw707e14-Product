@@ -23,7 +23,7 @@ namespace BicycleStation
         public void bicycleReturnedReport()
         {
             bool b = true;
-            while (b)
+            while (GlobalVariable.running && b)
             {
                 try
                 {
