@@ -31,5 +31,13 @@ class Admin extends Controller
         require 'application/views/admin/usagehistory.php';
         require 'application/views/_templates/footer.php';
     }
+
+    public function graphTest(){
+        
+
+        require 'application/views/_templates/adminheader.php';
+        require 'application/views/admin/graphtest.php';
+        require 'application/views/_templates/footer.php';
+    }
 }
 ?>
