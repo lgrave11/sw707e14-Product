@@ -68,14 +68,16 @@ CREATE TABLE historylocationbicycle
 	FOREIGN KEY(bicycle_id) REFERENCES bicycle(bicycle_id)
 );
 
-CREATE TABLE historyusagebicycle
+CREATE TABLE historyusagebicycle 
 (
-    id int PRIMARY KEY AUTO_INCREMENT,
-    bicycle_id int NOT NULL,
-    start_station int,
-    end_station int,
-    booking_id int,
-    FOREIGN KEY(bicycle_id) REFERENCES bicycle(bicycle_id)
+  id int PRIMARY KEY AUTO_INCREMENT,
+  bicycle_id int NOT NULL,
+  start_station int DEFAULT NULL,
+  start_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  end_station int DEFAULT NULL,
+  end_time timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  booking_id int DEFAULT NULL,
+  FOREIGN KEY (bicycle_id) REFERENCES bicycle(bicycle_id)
 );
 
 INSERT INTO station(name, latitude, longitude) VALUES ("Banegården - Busterminal", 57.041998, 9.917633);--  1;
