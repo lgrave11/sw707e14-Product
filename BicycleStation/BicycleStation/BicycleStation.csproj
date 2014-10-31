@@ -93,6 +93,7 @@
     <Compile Include="station.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
+    <Compile Include="UnlockedBooking.cs" />
     <Compile Include="Web References\StationDBService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
