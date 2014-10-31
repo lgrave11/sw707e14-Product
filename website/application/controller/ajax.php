@@ -35,5 +35,10 @@ class Ajax extends Controller {
     	$stationService = new StationService($this->db);
     	echo json_encode($stationService->readAllAvailableDocks());
     }
+    
+    public function getStationUsageContent() {
+        Tools::requireAdmin();
+        
+    }
 }
 ?>

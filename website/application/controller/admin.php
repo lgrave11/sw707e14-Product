@@ -8,6 +8,8 @@ class Admin extends Controller
 {
     public function index()
     {
+        Tools::requireAdmin();
+        
         $this->title = "Admin";
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
 
@@ -26,6 +28,13 @@ class Admin extends Controller
     }
     
     public function usageHistory() {
+        Tools::requireAdmin();
+        
+        $this->title = "Usage History";
+        $bicycleservice = $this->loadModel("bicycleservice");
+        $stationservice = $this->loadModel("stationservice");
+        
+        $list = array_map(function($b) { return $b->id; }, $bicycleservice->readAll());
         
         require 'application/views/_templates/adminheader.php';
         require 'application/views/admin/usagehistory.php';

@@ -31,10 +31,10 @@
 		<table>
 			<tr>
 			<td>
-				<a href="/">Usage History</a>
+				<a href="/Admin/UsageHistory">Usage History</a>
 			</td>	
 			<td>
-				<a href="/About/">GPS Tracking</a>
+				<a href="/Admin/">GPS Tracking</a>
 			</td>
 			</tr>
 		</table>
