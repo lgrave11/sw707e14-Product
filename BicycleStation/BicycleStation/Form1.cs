@@ -283,11 +283,11 @@ namespace BicycleStation
             try
             {
                 StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
-                service.BicycleTaken(Dock.station_id, Dock.holds_bicycle);
+                service.BicycleTaken(Dock.station_id, Dock.holds_bicycle, 0);
             }
             catch (WebException)
             {
-                BicycleTakenThread BTT = new BicycleTakenThread(Dock.station_id, Dock.holds_bicycle);
+                BicycleTakenThread BTT = new BicycleTakenThread(Dock.station_id, Dock.holds_bicycle, 0);
                 Thread BTTReporter = new Thread(new ThreadStart(BTT.bicycleTakenReport));
                 BTTReporter.Start();
             }
