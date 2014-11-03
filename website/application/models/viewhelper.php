@@ -60,6 +60,21 @@ class ViewHelper
             return date("d/m/Y");
         }
     }
+    
+    public static function generateHTMLSelectOptions($list, $options = array()) {
+        $html = "";
+        $attributeList = "";
+        
+        foreach ($options as $key => $value) {
+            $attributeList .= $key . '="' . $value . '" ';
+        }
+        
+        foreach ($list as $item) {
+            $html .= "<option ". $attributeList .">". $item ."</option>";
+        }
+        
+        return $html;
+    }
 }
 
 ?>

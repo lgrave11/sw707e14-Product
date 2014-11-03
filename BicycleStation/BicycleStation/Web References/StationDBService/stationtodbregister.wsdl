@@ -25,6 +25,7 @@
   <wsdl:message name="BicycleWithBookingUnlockedRequest">
     <wsdl:part name="station_id" type="xsd:int" />
     <wsdl:part name="booking_id" type="xsd:int" />
+    <wsdl:part name="bicycle_id" type="xsd:int" />
   </wsdl:message>
   <wsdl:message name="BicycleWithBookingUnlockedResponse">
     <wsdl:part name="return" type="xsd:boolean" />
@@ -32,6 +33,7 @@
   <wsdl:message name="BicycleTakenRequest">
     <wsdl:part name="station_id" type="xsd:int" />
     <wsdl:part name="bicycle_id" type="xsd:int" />
+    <wsdl:part name="booking_id" type="xsd:int" />
   </wsdl:message>
   <wsdl:message name="BicycleTakenResponse">
     <wsdl:part name="return" type="xsd:boolean" />

@@ -74,6 +74,10 @@ class User extends Controller
                         session_regenerate_id(true);
                         error_log(json_encode($target));
                         $_SESSION['login_user']= $_POST['username'];
+                        
+                        /* TODO: Only temporary, since we need to handle admin differently */
+                        $_SESSION['admin_user'] = $_POST['username'];
+                        
                         if ($target=="") {
                             header("Location: /");
                             exit();

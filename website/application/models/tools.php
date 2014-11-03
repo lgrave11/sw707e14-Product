@@ -14,6 +14,13 @@ class Tools {
             exit();
         }
     }
+    
+    public static function requireAdmin() {
+        if (!isset($_SESSION['admin_user'])){
+            header("Location: /");
+            exit();
+        }
+    }
 
     public static function includeCSS(){
         $files = scandir('public/css');

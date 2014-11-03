@@ -84,6 +84,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="GlobalVariable.cs" />
     <Compile Include="LockManager.cs" />
     <Compile Include="MyTcpListener.cs" />
     <Compile Include="NetworkData.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="station.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
+    <Compile Include="UnlockedBooking.cs" />
     <Compile Include="Web References\StationDBService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

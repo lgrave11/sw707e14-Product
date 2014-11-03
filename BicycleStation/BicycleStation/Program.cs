@@ -17,11 +17,25 @@ namespace BicycleStation
         [STAThread]
         static void Main()
         {
+            ResetDocks();
             RefreshBookings();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
+        }
+
+        //Resets the locked state of the docks
+        private static void ResetDocks()
+        {
+            DatabaseConnection db = new DatabaseConnection();
+            List<dock> Docks = (from d in db.dock
+                                select d).ToList();
+
+            foreach (dock d in Docks)
+                d.is_locked = false;
+
+            db.SaveChanges();
         }
 
         //Refresh bookings in local database, as they are likely outdated

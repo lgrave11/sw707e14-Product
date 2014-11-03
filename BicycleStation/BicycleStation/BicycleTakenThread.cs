@@ -12,22 +12,24 @@ namespace BicycleStation
     {
         int _stationID;
         int _bicycleID;
+        int _bookingID;
 
-        public BicycleTakenThread(int stationID, int bicycleID)
+        public BicycleTakenThread(int stationID, int bicycleID, int bookingID)
         {
             this._stationID = stationID;
             this._bicycleID = bicycleID;
+            this._bookingID = bookingID;
         }
 
         public void bicycleTakenReport()
         {
             bool b = true;
-            while (b)
+            while (GlobalVariable.running && b)
             {
                 try
                 {
                     StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
-                    service.BicycleTaken(_stationID, _bicycleID);
+                    service.BicycleTaken(_stationID, _bicycleID, _bookingID);
                     b = false;
                 }
                 catch (WebException) { }

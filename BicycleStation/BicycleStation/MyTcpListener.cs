@@ -39,7 +39,7 @@ namespace BicycleStation
                 server.Start();
 
                 // Enter the listening loop. 
-                while (true)
+                while (GlobalVariable.running)
                 {
                     // Perform a blocking call to accept requests. 
                     // You could also user server.AcceptSocket() here.

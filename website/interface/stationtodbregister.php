@@ -49,7 +49,8 @@
         
     $server->register('BicycleTaken',
         array('station_id' => 'xsd:int',
-              'bicycle_id' => 'xsd:int'),
+              'bicycle_id' => 'xsd:int',
+              'booking_id' => 'xsd:int'),
         array('return' => 'xsd:boolean'),
         $SERVICE_NAMESPACE,
         $SERVICE_NAMESPACE . '#soapaction',
@@ -57,7 +58,7 @@
         'literal',
         'Registers that a given bicycle has been taken from a given station, aka removed from dock'
     );
-    function BicycleTaken($station_id, $bicycle_id)
+    function BicycleTaken($station_id, $bicycle_id, $booking_id = NULL)
     {   
         global $db;
         $stmt = $db->prepare("UPDATE dock SET holds_bicycle = NULL WHERE station_id = ? AND holds_bicycle = ?");
@@ -65,8 +66,11 @@
         $stmt->execute();
         $stmt->close();
         
-        $stmt = $db->prepare("INSERT INTO historyusagebicycle (bicycle_id, start_station) VALUES (?, ?)");
-        $stmt>bind_param("ii", $bicycle_id, $station_id);
+        if ($booking_id == 0)
+            $booking_id = NULL;
+
+        $stmt = $db->prepare("INSERT INTO historyusagebicycle (bicycle_id, start_station, booking_id) VALUES (?, ?, ?)");
+        $stmt->bind_param("iii", $bicycle_id, $station_id, $booking_id);
         $stmt->execute();
         $stmt->close();
         return true;

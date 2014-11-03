@@ -29,6 +29,10 @@ namespace BicycleStation
         //number of bicycles in the system
         const int NUMBEROFBICYCLES = 178;
 
+        List<Thread> threadList = new List<Thread>();
+
+        List<UnlockedBooking> lastUnlocked = new List<UnlockedBooking>();
+
         int _maxTime = MAXTIME;
 
         public Form1()
@@ -47,12 +51,14 @@ namespace BicycleStation
             MyTcpListener myTcpListener = new MyTcpListener(this);
             Thread tcpListener = new Thread(new ThreadStart(myTcpListener.Listen));
             tcpListener.Start();
+            threadList.Add(tcpListener);
 
             //Creates lockManager thread
             //Locs or unlocks docks based on time of bookings
             LockManager lockManager = new LockManager(this);
             Thread manager = new Thread(new ThreadStart(lockManager.manage));
             manager.Start();
+            threadList.Add(manager);
          
         }
 
@@ -63,12 +69,21 @@ namespace BicycleStation
             {
                 lockTimer.Stop();
                 _maxTime = MAXTIME;
+
+                TakeItPanel.Visible = false;
+                TakeItPanel.SendToBack();
+
+                passwordTB.Text = "Password";
+                EnterPwPanel.BringToFront();
+                EnterPwPanel.Visible = true;
+
+                //updates UI to reflect changes caused during unlock
+                updateLabels();
+                UpdateDockValues();
             }
             else
             {
                 _maxTime--;
-                TimeSpan timespan = TimeSpan.FromSeconds(_maxTime);
-                TimeLbl.Text = timespan.ToString(@"mm\:ss");
             }
         }
 
@@ -100,7 +115,7 @@ namespace BicycleStation
                 CheckPassword();
             }
             catch (FormatException){
-                MessageBox.Show("Incorrect Password");
+                MessageBox.Show("Incorrect Password, error");
             }
         }
 
@@ -182,15 +197,18 @@ namespace BicycleStation
                 DockIdUpDown.Value = availableDock + 1;
                 UpdateDockValues();
 
+                Int32 currentTime = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+                lastUnlocked.Add(new UnlockedBooking(unlockedBooking.start_station, docks[availableDock].dock_id, unlockedBooking.booking_id, docks[availableDock].holds_bicycle, currentTime));
+
                 //reports unlock to Global Database interface
                 try
                 {
                     StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
-                    service.BicycleWithBookingUnlocked(unlockedBooking.start_station, unlockedBooking.booking_id);
+                    service.BicycleWithBookingUnlocked(unlockedBooking.start_station, unlockedBooking.booking_id, docks[availableDock].holds_bicycle);
                 }
                 catch (WebException) 
                 {
-                    UnlockWithBookingThread serviceThread = new UnlockWithBookingThread(unlockedBooking.start_station, unlockedBooking.booking_id);
+                    UnlockWithBookingThread serviceThread = new UnlockWithBookingThread(unlockedBooking.start_station, unlockedBooking.booking_id, docks[availableDock].holds_bicycle);
                     Thread unlockWithBookingReporter = new Thread(new ThreadStart(serviceThread.unlockWithBooking));
                     unlockWithBookingReporter.Start();
                 }
@@ -280,14 +298,33 @@ namespace BicycleStation
         //Only Happens on unlocked docks
         private void bicycleTaken(dock Dock)
         {
+            int bookingID = 0;
+            Int32 currentTime = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            for (int i = 0; i < lastUnlocked.Count; )
+            {
+                if (lastUnlocked[i].unlockTime + 300 < currentTime)
+                {
+                    lastUnlocked.RemoveAt(i);
+                }
+                else if (lastUnlocked[i].bicycleID == Dock.holds_bicycle)
+                {
+                    bookingID = lastUnlocked[i].bookingID;
+                    lastUnlocked.RemoveAt(i);
+                    break;
+                }
+                else
+                    i++;
+                
+            }
+
             try
             {
                 StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
-                service.BicycleTaken(Dock.station_id, Dock.holds_bicycle);
+                service.BicycleTaken(Dock.station_id, Dock.holds_bicycle, bookingID);
             }
             catch (WebException)
             {
-                BicycleTakenThread BTT = new BicycleTakenThread(Dock.station_id, Dock.holds_bicycle);
+                BicycleTakenThread BTT = new BicycleTakenThread(Dock.station_id, Dock.holds_bicycle, bookingID);
                 Thread BTTReporter = new Thread(new ThreadStart(BTT.bicycleTakenReport));
                 BTTReporter.Start();
             }
@@ -408,6 +445,12 @@ namespace BicycleStation
         {
             updateLabels();
             UpdateDockValues();
+        }
+
+        //Closes all running threads when UI window is closed
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            GlobalVariable.running = false;
         }
 
     }
