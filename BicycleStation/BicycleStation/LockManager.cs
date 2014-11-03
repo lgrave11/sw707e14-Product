@@ -14,9 +14,6 @@ namespace BicycleStation
         const int TIMEBEFORE = 3600;
         const int TIMEAFTER = 3600;
 
-        //Time thread sleeps after every iteration
-        const int SLEEPTIME = 1000;
-
         List<booking> prevousBookings = new List<booking>();
         DatabaseConnection DB = new DatabaseConnection();
         
@@ -67,7 +64,7 @@ namespace BicycleStation
                 GUI.BeginInvoke(new InvokeDelegate(GUI.updateUI));
 
                 //Sleeps as process does not require constant iteration
-                Thread.Sleep(SLEEPTIME);
+                Thread.Sleep(GlobalVariable.SLEEPTIME);
             }
         }
 

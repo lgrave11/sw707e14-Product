@@ -26,6 +26,8 @@ namespace BicycleStation
             bool b = true;
             while (GlobalVariable.running && b)
             {
+                Thread.Sleep(GlobalVariable.SLEEPTIME);
+
                 try
                 {
                     StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
