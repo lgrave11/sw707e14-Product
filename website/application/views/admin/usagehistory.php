@@ -11,7 +11,10 @@
                 echo ViewHelper::GenerateHTMLSelectOptions($list);
             ?>
         </select><br /><br />
-        
+        <?php
+            require 'application/views/admin/timeintervalpicker.php';
+        ?>
+        <br /><br />
         <input type="button" onclick="UpdateUsageContent()" value="Get History" />
     </form>
     <hr />
