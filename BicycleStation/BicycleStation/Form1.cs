@@ -29,8 +29,6 @@ namespace BicycleStation
         //number of bicycles in the system
         const int NUMBEROFBICYCLES = 178;
 
-        List<Thread> threadList = new List<Thread>();
-
         List<UnlockedBooking> lastUnlocked = new List<UnlockedBooking>();
 
         int _maxTime = MAXTIME;
@@ -51,14 +49,17 @@ namespace BicycleStation
             MyTcpListener myTcpListener = new MyTcpListener(this);
             Thread tcpListener = new Thread(new ThreadStart(myTcpListener.Listen));
             tcpListener.Start();
-            threadList.Add(tcpListener);
 
             //Creates lockManager thread
             //Locs or unlocks docks based on time of bookings
             LockManager lockManager = new LockManager(this);
             Thread manager = new Thread(new ThreadStart(lockManager.manage));
             manager.Start();
-            threadList.Add(manager);
+
+            //Creates service thread
+            //Reports data changes to global database
+            Thread reporter = new Thread(new ThreadStart(ServiceThreads.reportActions));
+            reporter.Start();
          
         }
 
@@ -201,17 +202,8 @@ namespace BicycleStation
                 lastUnlocked.Add(new UnlockedBooking(unlockedBooking.start_station, docks[availableDock].dock_id, unlockedBooking.booking_id, docks[availableDock].holds_bicycle, currentTime));
 
                 //reports unlock to Global Database interface
-                try
-                {
-                    StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
-                    service.BicycleWithBookingUnlocked(unlockedBooking.start_station, unlockedBooking.booking_id, docks[availableDock].holds_bicycle);
-                }
-                catch (WebException) 
-                {
-                    UnlockWithBookingThread serviceThread = new UnlockWithBookingThread(unlockedBooking.start_station, unlockedBooking.booking_id, docks[availableDock].holds_bicycle);
-                    Thread unlockWithBookingReporter = new Thread(new ThreadStart(serviceThread.unlockWithBooking));
-                    unlockWithBookingReporter.Start();
-                }
+                GlobalVariable.ActionQueue.Enqueue(() => ServiceThreads.unlockWithBooking(unlockedBooking.start_station, unlockedBooking.booking_id, docks[availableDock].holds_bicycle));
+
                 DB.booking.Remove(unlockedBooking);
                 DB.SaveChanges();
             }
@@ -317,35 +309,13 @@ namespace BicycleStation
                 
             }
 
-            try
-            {
-                StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
-                service.BicycleTaken(Dock.station_id, Dock.holds_bicycle, bookingID);
-            }
-            catch (WebException)
-            {
-                BicycleTakenThread BTT = new BicycleTakenThread(Dock.station_id, Dock.holds_bicycle, bookingID);
-                Thread BTTReporter = new Thread(new ThreadStart(BTT.bicycleTakenReport));
-                BTTReporter.Start();
-            }
+            GlobalVariable.ActionQueue.Enqueue(() => ServiceThreads.bicycleTakenReport(Dock.station_id, Dock.holds_bicycle, bookingID));
         }
 
         //Sends message to DB interface that a bicycle has been returned to a dock
         private void bicycleReturn(dock Dock)
         {
-            try
-            {
-                StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
-                service.BicycleReturnedToDockAtStation(Dock.holds_bicycle, Dock.station_id, Dock.dock_id);
-            }
-            catch (WebException)
-            {
-                BicycleReturnedThread BRT = new BicycleReturnedThread(Dock.holds_bicycle, Dock.station_id, Dock.dock_id);
-                Thread BRTReporter = new Thread(new ThreadStart(BRT.bicycleReturnedReport));
-                BRTReporter.Start();
-            }
-
-
+            GlobalVariable.ActionQueue.Enqueue(() => ServiceThreads.bicycleReturnedReport(Dock.holds_bicycle, Dock.station_id, Dock.dock_id));
         }
 
 

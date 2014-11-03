@@ -8,34 +8,78 @@ using System.Net;
 
 namespace BicycleStation
 {
-    class UnlockWithBookingThread
+    class ServiceThreads
     {
-        int _startStation;
-        int _bookingID;
-        int _bicycleID;
-
-        public UnlockWithBookingThread(int startStation, int bookingID, int bicycleID)
+        public static void reportActions()
         {
-            this._startStation = startStation;
-            this._bookingID = bookingID;
-            this._bicycleID = bicycleID;
+            while (GlobalVariable.running)
+            {
+                if (GlobalVariable.ActionQueue.Count() > 0)
+                {
+                    Action current = GlobalVariable.ActionQueue.Dequeue();
+                    current.Invoke();
+                }
+                else
+                    Thread.Sleep(GlobalVariable.SLEEPTIME);
+
+            }
         }
 
-        public void unlockWithBooking()
+        public static void unlockWithBooking(int startStation, int bookingID, int bicycleID)
         {
             bool b = true;
             while (GlobalVariable.running && b)
             {
-                Thread.Sleep(GlobalVariable.SLEEPTIME);
-
                 try
                 {
                     StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
-                    service.BicycleWithBookingUnlocked(_startStation, _bookingID, _bicycleID);
+                    service.BicycleWithBookingUnlocked(startStation, bookingID, bicycleID);
                     b = false;
                 }
-                catch (WebException) { }
+                catch (WebException)
+                {
+                    Thread.Sleep(GlobalVariable.SLEEPTIME);
+                }
             }
         }
+
+        public static void bicycleReturnedReport(int bicycleID, int stationID, int dockID)
+        {
+            bool b = true;
+            while (GlobalVariable.running && b)
+            {
+                try
+                {
+                    StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
+                    service.BicycleReturnedToDockAtStation(bicycleID, stationID, dockID);
+                    b = false;
+                }
+                catch (WebException) 
+                {
+                    Thread.Sleep(GlobalVariable.SLEEPTIME);
+                }
+
+            }
+
+        }
+
+        public static void bicycleTakenReport(int stationID, int bicycleID, int bookingID)
+        {
+            bool b = true;
+            while (GlobalVariable.running && b)
+            {
+                try
+                {
+                    StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
+                    service.BicycleTaken(stationID, bicycleID, bookingID);
+                    b = false;
+                }
+                catch (WebException)
+                {
+                    Thread.Sleep(GlobalVariable.SLEEPTIME);
+                }
+            }
+        }
+
     }
 }
