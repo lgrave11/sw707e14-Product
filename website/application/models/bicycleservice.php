@@ -70,6 +70,23 @@ class BicycleService implements iService
         $stmt->close();
         return $returnArray;
     }
+    
+    public function readBicyclePositions($bicycle_id, $from_date, $to_date) 
+    {
+        $returnArray = array();
+        $stmt = $this->db->prepare("SELECT latitude, longitude FROM historylocationbicycle WHERE bicycle_id = ? AND (timeforlocation BETWEEN ? AND ?) ORDER BY timeforlocation ASC");
+        $stmt->bind_param("iii", $bicycle_id, $from_date, $to_date);
+        $stmt->execute();
+        $stmt->bind_result($latitude, $longitude);
+        while($stmt->fetch()){
+            $cls = new stdclass();
+            $cls->latitude = $latitude;
+            $cls->longitude = $longitude;
+            $returnArray[] = $cls;
+        }
+        
+        return json_encode($returnArray);
+    }
 
     /**
      * updates location based on given id

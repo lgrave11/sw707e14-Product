@@ -24,29 +24,6 @@ function initialize() {
     };
 
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-    updateMarkers();
-}
-
-function updateMarkers() {
-    var result = $.ajax({
-        url: "/Ajax/GetBicyclePositions"
-    }).success(function() {
-        setAllMap(null);
-        var j = $.parseJSON(result.responseText);
-        for(i = 0; i < j.length; i++) {
-            mark.push(
-                new google.maps.Marker(
-                    { 
-                        map:map, 
-                        draggable:false, 
-                        position: new google.maps.LatLng(j[i]["latitude"], j[i]["longitude"]), 
-                        icon: bicycleimage }
-                    )
-                );
-        }
-        setTimeout(function() {updateMarkers();}, 1000);
-    });
 }
 
 // Sets the map on all markers in the array.

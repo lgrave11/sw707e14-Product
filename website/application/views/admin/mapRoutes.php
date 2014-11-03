@@ -6,17 +6,14 @@
 
 <div id="map-container">
 <div id="map-canvas"></div>
-<form action="/Home/Book/" method="post">
-	<h2>Bicycle Routes</h2>
+<form action="/Admin/MapRoutesForm/" method="post">
+	<h2>Bicycles</h2>
 	
-	<select name="bicycle" id="bicycles" style="width: 243px;" onchange="UpdateMarker()">
-	<option value="0" disabled selected>- Select Bicycle -</option>
-	<?php
-	foreach($bicycles as $bicycle){
-		echo '<option value="'.$station->station_id.'">'.$station->name.'</option>';
-	}
-	?>
-	</select><br />
+	<select name="bicycles">
+        <?php
+            echo ViewHelper::GenerateHTMLSelectOptions($list);
+        ?>
+    </select><br />
 	<div id="freebicycles"></div>
 	<br />
 	<?php
@@ -38,7 +35,7 @@
 	<div class="centerblock"><br />
 	<?php
 		if (Tools::isLoggedIn()){
-			echo '<input type="submit" value="Show Map" class="button" />';
+			echo '<input type="submit" value="Show Route" class="button" />';
 		} else {
 			echo '<a href="/User/Login/">Login</a>';
 		}
