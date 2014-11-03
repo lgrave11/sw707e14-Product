@@ -23,7 +23,7 @@ function initialize() {
         },
     };
 
-    map = new google.maps.Map(document.getElementById('map-canvasFullSize'), mapOptions);
+    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
     updateMarkers();
 }

@@ -1,6 +1,5 @@
 
 $(function() {
-	alert("Brug den her i stedet: http://www.amcharts.com/demos/line-chart-with-scroll-and-zoom/");
 	var data = {
     labels: ["January", "February", "March", "April", "May", "June", "July"],
     datasets: [

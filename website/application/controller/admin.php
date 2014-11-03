@@ -26,6 +26,21 @@ class Admin extends Controller
         require 'application/views/admin/admin.php';
         require 'application/views/_templates/footer.php';
     }
+
+
+    public function mapRoutes() 
+    {
+        $this->title = "Admin";
+        $currentPage = substr($_SERVER["REQUEST_URI"], 1);
+
+        $bicycleService = new bicycleService($this->db);
+        $bicycles = $bicycleService->readAll();
+
+        // load views. within the views we can echo out $songs and $amount_of_songs easily
+        require 'application/views/_templates/header.php';
+        require 'application/views/admin/mapRoutes.php';
+        require 'application/views/_templates/footer.php';
+    }
     
     public function usageHistory() {
         Tools::requireAdmin();
@@ -48,5 +63,6 @@ class Admin extends Controller
         require 'application/views/admin/graphtest.php';
         require 'application/views/_templates/footer.php';
     }
+
 }
 ?>
