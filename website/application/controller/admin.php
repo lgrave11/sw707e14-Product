@@ -49,7 +49,7 @@ class Admin extends Controller
         $bicycleservice = $this->loadModel("bicycleservice");
         $stationservice = $this->loadModel("stationservice");
         
-        $list = array_map(function($b) { return $b->id; }, $bicycleservice->readAll());
+        $list = array_map(function($b) { return $b->bicycle_id; }, $bicycleservice->readAll());
         
         require 'application/views/_templates/adminheader.php';
         require 'application/views/admin/usagehistory.php';

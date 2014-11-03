@@ -61,11 +61,11 @@ class ViewHelper
         }
     }
     
-    public static function generateHTMLSelectOptions($list, $options = array()) {
+    public static function generateHTMLSelectOptions($list, $attributes = array()) {
         $html = "";
         $attributeList = "";
         
-        foreach ($options as $key => $value) {
+        foreach ($attributes as $key => $value) {
             $attributeList .= $key . '="' . $value . '" ';
         }
         

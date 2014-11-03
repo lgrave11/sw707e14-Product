@@ -10,7 +10,7 @@
             <?php
                 echo ViewHelper::GenerateHTMLSelectOptions($list);
             ?>
-        </select>
+        </select><br /><br />
         <input type="submit" value="Get History" />
     </form>
     
