@@ -9,5 +9,8 @@ namespace BicycleStation
     static class GlobalVariable
     {
         public static bool running = true;
+
+        //Time thread sleeps after every iteration
+        public static const int SLEEPTIME = 1000;
     }
 }
