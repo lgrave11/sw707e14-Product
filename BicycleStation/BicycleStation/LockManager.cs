@@ -127,17 +127,7 @@ namespace BicycleStation
         //Deactivates expired booking in global database
         private static void removeGlobal(booking b)
         {
-            try
-            {
-                StationDBService.StationToDB_Service service = new StationDBService.StationToDB_Service();
-                service.BicycleWithBookingUnlocked(b.start_station, b.booking_id, 0);
-            }
-            catch (WebException)
-            {
-                UnlockWithBookingThread UWBT = new UnlockWithBookingThread(b.start_station, b.booking_id, 0);
-                Thread BookingExpiredReporter = new Thread(new ThreadStart(UWBT.unlockWithBooking));
-                BookingExpiredReporter.Start();
-            }
+            GlobalVariable.ActionQueue.Enqueue(() => ServiceThreads.unlockWithBooking(b.start_station, b.booking_id, 0));
         }
 
     }

@@ -55,8 +55,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BicycleReturnedThread.cs" />
-    <Compile Include="BicycleTakenThread.cs" />
     <Compile Include="booking.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
