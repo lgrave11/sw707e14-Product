@@ -71,11 +71,11 @@ class BicycleService implements iService
         return $returnArray;
     }
     
-    public function readBicyclePositions($bicycle_id, $from_date, $to_date) 
+    public function readBicyclePositions($bicycle_id, $from_time, $to_time) 
     {
         $returnArray = array();
-        $stmt = $this->db->prepare("SELECT latitude, longitude FROM historylocationbicycle WHERE bicycle_id = ? AND (timeforlocation BETWEEN ? AND ?) ORDER BY timeforlocation ASC");
-        $stmt->bind_param("iii", $bicycle_id, $from_date, $to_date);
+        $stmt = $this->db->prepare("SELECT latitude, longitude FROM historylocationbicycle WHERE bicycle_id = ? AND (timeforlocation BETWEEN FROM_UNIXTIME(?) AND FROM_UNIXTIME(?)) ORDER BY timeforlocation ASC");
+        $stmt->bind_param("iii", $bicycle_id, $from_time, $to_time);
         $stmt->execute();
         $stmt->bind_result($latitude, $longitude);
         while($stmt->fetch()){
@@ -85,7 +85,7 @@ class BicycleService implements iService
             $returnArray[] = $cls;
         }
         
-        return json_encode($returnArray);
+        return $returnArray;
     }
 
     /**

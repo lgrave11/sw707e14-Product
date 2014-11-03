@@ -28,7 +28,7 @@ class Admin extends Controller
     }
 
 
-    public function mapRoutes() 
+    public function mapRoutes($arr = array()) 
     {
         $this->title = "Map Routes";
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
@@ -73,10 +73,7 @@ class Admin extends Controller
         
         $bicycleService = new bicycleService($this->db);
         $bicycles = $bicycleService->readBicyclePositions($_POST['bicycles'], $fromtime, $totime);
-        
-        var_dump($bicycles);
-        
-        //header('Location: /')
+        $this->mapRoutes($bicycles);
     }
     
     public function usageHistory() {

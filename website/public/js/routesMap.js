@@ -1,5 +1,6 @@
 var aalborg = new google.maps.LatLng(57.037835, 9.940895);
 var mark = [];
+var infowindow = [];
 var map;
 
 var bicycleimage = {
@@ -22,8 +23,51 @@ function initialize() {
             position: google.maps.ControlPosition.RIGHT_TOP,
         },
     };
-
+    
+    var positionsLatLng = [];
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    for(var i = 0; i < coords.length; i++) 
+    {
+        var latlng = new google.maps.LatLng(coords[i]["latitude"], coords[i]["longitude"]);
+        positionsLatLng.push(latlng);
+    }
+
+    var routePath = new google.maps.Polyline({
+      path: positionsLatLng,
+      geodesic: true,
+      strokeColor: '#FF0000',
+      strokeOpacity: 1.0,
+      strokeWeight: 2
+    });
+    
+    for(var i; i < positionsLatLng.length; i++) 
+    {
+        var marker = new google.maps.Marker(
+                    { 
+                        map:map, 
+                        draggable:false, 
+                        position: positionsLatLng[i], 
+                        icon: bicycleimage,
+                        }
+                    );
+        mark.push(marker);
+        var iw = new google.maps.InfoWindow({
+            content: i.toString()
+        });
+        infowindow.push(iw);
+        
+        google.maps.event.addListener(marker, 'click', infoHelper(marker, iw, map));
+    }
+    routePath.setMap(map);
+}
+
+function setRoute() 
+{
+    
+}
+
+function infoHelper(marker, info, map){
+    return function(){ info.open(map,marker); }
 }
 
 // Sets the map on all markers in the array.
