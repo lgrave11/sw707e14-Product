@@ -61,6 +61,15 @@ class ViewHelper
         }
     }
     
+    public static function printDateTime() 
+    {
+        if (date("i") >= 55 && date("H") == 23){
+            return date("d/m/Y H:i", time() + 3600);
+        } else {
+            return date("d/m/Y H:i");
+        }
+    }
+    
     public static function generateHTMLSelectOptions($list, $attributes = array()) {
         $html = "";
         $attributeList = "";
