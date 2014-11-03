@@ -36,6 +36,9 @@
 			<td>
 				<a href="/Admin/">GPS Tracking</a>
 			</td>
+            <td>
+				<a href="/Admin/MapRoutes">GPS Route History</a>
+			</td>
 			</tr>
 		</table>
 	</div>

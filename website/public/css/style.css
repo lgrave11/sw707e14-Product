@@ -251,3 +251,10 @@ a:hover {
 {
     margin:auto;
 }
+
+#loading {
+    position:relative;
+    left:50%;
+    margin-left:-21px;
+    display:none;
+}

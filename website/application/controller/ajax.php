@@ -24,6 +24,18 @@ class Ajax extends Controller {
 
     	echo json_encode($stations);
     }
+    
+    public function getStationOptions() {
+        $stationservice = new StationService($this->db);
+        $stations = array_map(function($s) { return $s->name; }, $stationservice->readAllStations());
+        echo ViewHelper::generateHTMLSelectOptions($stations);
+    }
+    
+    public function getBicycleOptions() {
+        $bicycleservice = new BicycleService($this->db);
+        $bicycles = array_map(function($b) { return $b->bicycle_id; }, $bicycleservice->readAll());
+        echo ViewHelper::generateHTMLSelectOptions($bicycles);
+    }
 
     public function getFreeBicyclesList(){
         $stationService = new StationService($this->db);
@@ -36,9 +48,15 @@ class Ajax extends Controller {
     	echo json_encode($stationService->readAllAvailableDocks());
     }
     
-    public function getStationUsageContent() {
+    public function getStationUsageContent($name) {
         Tools::requireAdmin();
         
     }
+    
+    public function getBicycleUsageContent($id) {
+        Tools::requireAdmin();
+        echo $id;
+    }
+        
 }
 ?>

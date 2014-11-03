@@ -1,7 +1,7 @@
 <div>
-    <form action="/Admin/UsageHistoryForm" method="POST">
+    <form>
         <h2>Choose Perspective</h2>
-        <select onchange="UpdateSelectList()">
+        <select id="usageperspective" onchange="UpdateSelectList()">
             <option>Bicycle</option>
             <option>Station</option>
         </select>
@@ -10,11 +10,16 @@
             <?php
                 echo ViewHelper::GenerateHTMLSelectOptions($list);
             ?>
-        </select>
-        <input type="submit" value="Get History" />
+        </select><br /><br />
+        
+        <input type="button" onclick="UpdateUsageContent()" value="Get History" />
     </form>
-    
+    <hr />
     <div>
-    <!-- Show stuff! -->
+        <img id="loading" src="/public/images/ajax-loader.gif" alt="loading gif" />
+        
+        <div id="usagecontent">
+            
+        </div>
     </div>
 </div>

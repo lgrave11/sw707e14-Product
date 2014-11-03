@@ -11,6 +11,8 @@ namespace BicycleStation
         public static bool running = true;
 
         //Time thread sleeps after every iteration
-        public static const int SLEEPTIME = 1000;
+        public const int SLEEPTIME = 1000;
+
+        public static Queue<Action> ActionQueue = new Queue<Action>();
     }
 }
