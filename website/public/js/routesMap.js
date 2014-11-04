@@ -35,7 +35,7 @@ function initialize() {
     var routePath = new google.maps.Polyline({
       path: positionsLatLng,
       geodesic: true,
-      strokeColor: '#FF0000',
+      strokeColor: getRandomColor(),
       strokeOpacity: 1.0,
       strokeWeight: 2
     });
@@ -61,9 +61,13 @@ function initialize() {
     routePath.setMap(map);
 }
 
-function setRoute() 
-{
-    
+function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
 }
 
 function infoHelper(marker, info, map){

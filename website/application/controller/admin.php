@@ -38,6 +38,7 @@ class Admin extends Controller
         
         $list = array_map(function($b) { return $b->bicycle_id; }, $bicycles);
 
+        $jsFiles = ["routesMap"];
         require 'application/views/_templates/adminheader.php';
         require 'application/views/admin/mapRoutes.php';
         require 'application/views/_templates/footer.php';
