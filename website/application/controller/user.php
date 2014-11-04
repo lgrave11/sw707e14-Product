@@ -24,6 +24,7 @@ class User extends Controller
 
         $bookings = $bookingservice->getBookings($_SESSION['login_user']);
 
+        $jsFiles = [];
         require 'application/views/_templates/header.php';
         require 'application/views/user/history.php';
         require 'application/views/_templates/footer.php';
@@ -107,6 +108,7 @@ class User extends Controller
             require 'application/views/user/index.php';
         }
 
+        $jsFiles = [];
         require 'application/views/_templates/footer.php';
 
     }
@@ -176,6 +178,7 @@ class User extends Controller
             require 'application/views/user/createprofile.php';
         }
         
+        $jsFiles = [];
         require 'application/views/_templates/footer.php';
     }
 
@@ -218,6 +221,7 @@ class User extends Controller
         $email= $user->email;
         $phone= $user->phone;
         
+        $jsFiles = ["navigation"];
         require 'application/views/_templates/header.php';
         require 'application/views/user/editprofile.php';
         require 'application/views/_templates/footer.php';
@@ -262,6 +266,7 @@ class User extends Controller
     {
         $this->title = "Forgot your password?";
 
+        $jsFiles = [];
         require 'application/views/_templates/header.php';
         require 'application/views/user/forgotpassword.php';
         require 'application/views/_templates/footer.php';
@@ -295,6 +300,7 @@ class User extends Controller
         if($account != null) {
             if(time() < $account->reset_time && $account->token == $token)
             {
+                $jsFiles = [];
                 require 'application/views/_templates/header.php';
                 require 'application/views/user/resetpassword.php';
                 require 'application/views/_templates/footer.php';

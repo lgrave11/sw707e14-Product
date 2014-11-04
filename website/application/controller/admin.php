@@ -22,6 +22,7 @@ class Admin extends Controller
 
         }
 
+        $jsFiles = ["adminMap"];
         require 'application/views/_templates/adminheader.php';
         require 'application/views/admin/admin.php';
         require 'application/views/_templates/footer.php';
@@ -38,6 +39,7 @@ class Admin extends Controller
         
         $list = array_map(function($b) { return $b->bicycle_id; }, $bicycles);
 
+        $jsFiles = ["routesMap"];
         require 'application/views/_templates/adminheader.php';
         require 'application/views/admin/mapRoutes.php';
         require 'application/views/_templates/footer.php';
@@ -84,6 +86,7 @@ class Admin extends Controller
         
         $list = array_map(function($b) { return $b->bicycle_id; }, $bicycleservice->readAll());
         
+        $jsFiles = ["amcharts", "chart", "serial", "usagehistory"];
         require 'application/views/_templates/adminheader.php';
         require 'application/views/admin/usagehistory.php';
         require 'application/views/_templates/footer.php';
@@ -91,7 +94,7 @@ class Admin extends Controller
 
     public function graphTest(){
         
-
+        $jsFiles = ["amcharts", "chart", "serial", "usagehistory"];
         require 'application/views/_templates/adminheader.php';
         require 'application/views/admin/graphtest.php';
         require 'application/views/_templates/footer.php';
