@@ -51,6 +51,7 @@ class Ajax extends Controller {
     public function getStationUsageContent($name) {
         Tools::requireAdmin();
         
+        $name = urldecode($name);
     }
     
     public function getBicycleUsageContent($id) {

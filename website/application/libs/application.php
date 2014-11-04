@@ -72,8 +72,8 @@ class Application
 
             // split URL
             $url = rtrim($_GET['url'], '/');
-            $url = filter_var($url, FILTER_SANITIZE_URL);
-            $url = explode('/', $url);
+            $url = filter_var($url, FILTER_SANITIZE_ENCODED);
+            $url = explode('%2F', $url);
 
             // Put URL parts into according properties
             // By the way, the syntax here is just a short form of if/else, called "Ternary Operators"
