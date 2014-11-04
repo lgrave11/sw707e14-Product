@@ -24,21 +24,29 @@ function initialize() {
         },
     };
     
-    var positionsLatLng = [];
+    
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-    for(var i = 0; i < coords.length; i++) 
+    for(var key in coords) 
     {
-        var latlng = new google.maps.LatLng(coords[i]["latitude"], coords[i]["longitude"]);
-        positionsLatLng.push(latlng);
-    }
+        var positionsLatLng = new Array();
+        console.log(coords[key]);
+        for(var i = 0; i < coords[key]["coordinates"].length; i++) 
+        {
+            var latlng = new google.maps.LatLng(coords[key]["coordinates"][i]["latitude"], coords[key]["coordinates"][i]["longitude"]);
+            positionsLatLng.push(latlng);
+        }
 
-    var routePath = new google.maps.Polyline({
-      path: positionsLatLng,
-      geodesic: true,
-      strokeColor: getRandomColor(),
-      strokeOpacity: 1.0,
-      strokeWeight: 2
-    });
+        var routePath = new google.maps.Polyline({
+          path: positionsLatLng,
+          geodesic: true,
+          strokeColor: coords[key]["color"],
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+        routePath.setMap(map);
+        console.log(routePath);
+
+    }
     
     /*for(var i; i < positionsLatLng.length; i++) 
     {
@@ -58,7 +66,7 @@ function initialize() {
         
         google.maps.event.addListener(marker, 'click', infoHelper(marker, iw, map));
     }*/
-    routePath.setMap(map);
+    
 }
 
 function getRandomColor() 
