@@ -32,18 +32,7 @@ class Tools {
         }
     }
 
-    public static function includeJS(){
-        $files = scandir('public/js');
-        echo '<script type="text/javascript" src="/public/js/jquery.js"></script>
-			  <script type="text/javascript" src="/public/js/jquery.datetimepicker.js"></script>';
-        foreach ($files as $file){
-            if (substr($file, 0, 1) != "." && substr($file, 0, 6) != "jquery" && $file != "adminMap.js" && $file != "googleapi.js"){
-                echo '<script type="text/javascript" src="/public/js/'.$file.'"></script>';
-            }
-        }
-    }
-
-    public static function includeJSnew($jsList){
+    public static function includeJS($jsList){
     	$files = scandir('public/js');
 
     	echo '<script type="text/javascript" src="/public/js/jquery.js"></script>
