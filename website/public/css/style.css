@@ -258,3 +258,10 @@ a:hover {
     margin-left:-21px;
     display:none;
 }
+
+#mapRoutesSelect 
+{
+	height:300px;
+	margin:5px;
+	padding:5px;
+}
