@@ -71,6 +71,9 @@ AmCharts.ready(function() {
         "chartCursor": {
             "cursorPosition": "mouse"
         },
+        "valueAxes": [{
+            "title": "Bicycles"
+        }],
         "graphs": [{
             "id": "g1",
             "valueField": "visits",
