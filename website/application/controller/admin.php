@@ -21,7 +21,7 @@ class Admin extends Controller
             $activeBookings = $bookingService->getActiveBookings($_SESSION["login_user"]);
 
         }
-
+        $jsFiles = ["adminMap"];
         require 'application/views/_templates/adminheader.php';
         require 'application/views/admin/admin.php';
         require 'application/views/_templates/footer.php';
@@ -34,10 +34,11 @@ class Admin extends Controller
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
 
         $bicycleService = new bicycleService($this->db);
-        $bicycles = $bicycleService->readAll();
+        $bicycles = $bicycleService->readAllBicyclesWithRoute();
         
         $list = array_map(function($b) { return $b->bicycle_id; }, $bicycles);
 
+        $jsFiles = ["routesMap", "admin.datetimepicker"];
         require 'application/views/_templates/adminheader.php';
         require 'application/views/admin/mapRoutes.php';
         require 'application/views/_templates/footer.php';
@@ -55,7 +56,7 @@ class Admin extends Controller
         
         $fromdateSplit = preg_split("/[\s:\/]+/", $_POST['fromdate']);
         $todateSplit = preg_split("/[\s:\/]+/", $_POST['todate']);
-        if (count($fromdateSplit) != 5 || !is_numeric($fromdateSplit[3]) || !is_numeric($fromdateSplit[4]) || !is_numeric($_POST['bicycles'])){
+        if (count($fromdateSplit) != 5 || !is_numeric($fromdateSplit[3]) || !is_numeric($fromdateSplit[4])){
             $this->error("Please fill in correct information", "mapRoutes");
             header("Location: /Admin/MapRoutes");
             exit();
@@ -71,8 +72,13 @@ class Admin extends Controller
         $totime = mktime($todateSplit[3], $todateSplit[4], 0, $todateSplit[1], $todateSplit[0], $todateSplit[2]);
         
         $bicycleService = new bicycleService($this->db);
-        $bicycles = $bicycleService->readBicyclePositions($_POST['bicycles'], $fromtime, $totime);
-        $this->mapRoutes($bicycles);
+        $allRoutes = array();
+        foreach($_POST['bicycles'] as $b) 
+        {
+            $allRoutes[$b]["coordinates"] = $bicycleService->readBicyclePositions($b, $fromtime, $totime);
+            $allRoutes[$b]["color"] = ViewHelper::generateRandomColor();
+        }
+        $this->mapRoutes($allRoutes);
     }
     
     public function usageHistory() {
@@ -84,6 +90,7 @@ class Admin extends Controller
         
         $list = array_map(function($b) { return $b->bicycle_id; }, $bicycleservice->readAll());
         
+        $jsFiles = ["admin.datetimepicker", "amcharts", "usagehistory", "chart", "serial"];
         require 'application/views/_templates/adminheader.php';
         require 'application/views/admin/usagehistory.php';
         require 'application/views/_templates/footer.php';

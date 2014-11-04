@@ -84,6 +84,11 @@ class ViewHelper
         
         return $html;
     }
+
+    public static function generateRandomColor() 
+    {
+        return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+    }
 }
 
 ?>

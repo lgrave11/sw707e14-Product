@@ -37,13 +37,13 @@ class Ajax extends Controller {
         echo ViewHelper::generateHTMLSelectOptions($bicycles);
     }
 
-    public function getFreeBicyclesList(){
+    public function getFreeBicyclesList() {
         $stationService = new StationService($this->db);
         echo json_encode($stationService->readAllAvailableBicycles());
 
     }
 
-    public function getFreeDocksList(){
+    public function getFreeDocksList() {
     	$stationService = new StationService($this->db);
     	echo json_encode($stationService->readAllAvailableDocks());
     }
@@ -51,6 +51,7 @@ class Ajax extends Controller {
     public function getStationUsageContent($name) {
         Tools::requireAdmin();
         
+        $name = urldecode($name);
     }
     
     public function getBicycleUsageContent($id) {

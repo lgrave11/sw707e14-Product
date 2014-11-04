@@ -24,23 +24,47 @@ function initialize() {
         },
     };
     
-    var positionsLatLng = [];
+    
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-    for(var i = 0; i < coords.length; i++) 
+    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('map-legend'));
+    var legend = document.getElementById('map-legend');
+    for(var key in coords) 
     {
-        var latlng = new google.maps.LatLng(coords[i]["latitude"], coords[i]["longitude"]);
-        positionsLatLng.push(latlng);
+        var positionsLatLng = new Array();
+        console.log(coords[key]);
+        for(var i = 0; i < coords[key]["coordinates"].length; i++) 
+        {
+            var latlng = new google.maps.LatLng(coords[key]["coordinates"][i]["latitude"], coords[key]["coordinates"][i]["longitude"]);
+            positionsLatLng.push(latlng);
+        }
+
+        var routePath = new google.maps.Polyline({
+          path: positionsLatLng,
+          geodesic: true,
+          strokeColor: coords[key]["color"],
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+        routePath.setMap(map);
+        var div = document.createElement('div');
+        div.style = "width: 15px;height: 15px;background-color:"+coords[key]["color"]+";border: 1px black solid;float:left;margin-right:5px;margin-bottom:5px;";
+        var div2 = document.createElement('div');
+        div2.style = "float:right;margin-right:5px;";
+        div2.innerHTML = key;
+        var br = document.createElement('br');
+        legend.appendChild(div);
+        legend.appendChild(div2);
+        legend.appendChild(br);
+
+    }
+    
+    
+    for (var key in coords) {
+        
     }
 
-    var routePath = new google.maps.Polyline({
-      path: positionsLatLng,
-      geodesic: true,
-      strokeColor: '#FF0000',
-      strokeOpacity: 1.0,
-      strokeWeight: 2
-    });
     
-    for(var i; i < positionsLatLng.length; i++) 
+    /*for(var i; i < positionsLatLng.length; i++) 
     {
         var marker = new google.maps.Marker(
                     { 
@@ -57,13 +81,55 @@ function initialize() {
         infowindow.push(iw);
         
         google.maps.event.addListener(marker, 'click', infoHelper(marker, iw, map));
-    }
-    routePath.setMap(map);
+    }*/
+    
 }
 
-function setRoute() 
+function getRandomColor() 
 {
+    var h = Math.floor(Math.random() * 360) + 1;
+    var s = 75;
+    var l = 50;
+    var rgb = hslToRgb(h,s,l);
+    return rgbToHex(rgb[0], rgb[1], rgb[2]);
     
+}
+
+function hslToRgb(h, s, l){
+    var r, g, b;
+    h = h / 360;
+    s = s / 100;
+    l = l / 100;
+
+    if(s == 0){
+        r = g = b = l; // achromatic
+    }else{
+        function hue2rgb(p, q, t){
+            if(t < 0) t += 1;
+            if(t > 1) t -= 1;
+            if(t < 1/6) return p + (q - p) * 6 * t;
+            if(t < 1/2) return q;
+            if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+            return p;
+        }
+
+        var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        var p = 2 * l - q;
+        r = hue2rgb(p, q, h + 1/3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1/3);
+    }
+
+    return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+}
+
+function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+}
+
+function rgbToHex(r, g, b) {
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
 function infoHelper(marker, info, map){
@@ -114,5 +180,7 @@ function toggleBounce(marker) {
         marker.setAnimation(google.maps.Animation.BOUNCE);
     }
 }
+
+
 
 google.maps.event.addDomListener(window, 'load', initialize);

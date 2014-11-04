@@ -9,15 +9,19 @@
 
 <div id="map-container">
 <div id="map-canvas"></div>
+<div id="map-legend"></div>
+<?php
+	ViewHelper::printError('mapRoutes');
+	ViewHelper::printSuccess('mapRoutes');
+?>
 <form action="/Admin/MapRoutesForm/" method="post">
 	<h2>Bicycles</h2>
 	
-	<select name="bicycles">
+	<select name="bicycles[]" multiple id="mapRoutesSelect">
         <?php
             echo ViewHelper::GenerateHTMLSelectOptions($list);
         ?>
     </select><br />
-	<div id="freebicycles"></div>
 	<br />
 	<?php require 'application/views/admin/timeintervalpicker.php'; ?>
 

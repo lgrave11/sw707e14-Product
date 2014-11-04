@@ -6,7 +6,7 @@
 
 
 <?php
-Tools::includeJS();
+Tools::includeJS($jsFiles);
 ?>
 </body>
 </html>
