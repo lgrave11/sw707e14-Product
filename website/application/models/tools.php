@@ -37,6 +37,7 @@ class Tools {
 
     	echo '<script type="text/javascript" src="/public/js/jquery.js"></script>
 <script type="text/javascript" src="/public/js/jquery.datetimepicker.js"></script>
+<script type="text/javascript" src="/public/js/search.js"></script>
 ';
 
 		foreach($jsList as $jsFile){
