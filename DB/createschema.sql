@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS historylocationbicycle CASCADE;
+DROP TABLE IF EXISTS historyusagestation CASCADE;
 DROP TABLE IF EXISTS historyusagebicycle;
 DROP TABLE IF EXISTS books CASCADE;
 DROP TABLE IF EXISTS dock CASCADE;
@@ -73,11 +74,20 @@ CREATE TABLE historyusagebicycle
   id int PRIMARY KEY AUTO_INCREMENT,
   bicycle_id int NOT NULL,
   start_station int DEFAULT NULL,
-  start_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  start_time bigint NOT NULL,
   end_station int DEFAULT NULL,
-  end_time timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  end_time bigint NULL DEFAULT NULL,
   booking_id int DEFAULT NULL,
   FOREIGN KEY (bicycle_id) REFERENCES bicycle(bicycle_id)
+);
+
+CREATE TABLE historyusagestation
+(
+    id int PRIMARY KEY AUTO_INCREMENT,
+    station_id int NOT NULL,
+    time bigint NOT NULL,
+    num_bicycles INT NOT NULL,
+    FOREIGN KEY (station_id) REFERENCES station(station_id)
 );
 
 INSERT INTO station(name, latitude, longitude) VALUES ("Banegården - Busterminal", 57.041998, 9.917633);--  1;
@@ -101,6 +111,29 @@ INSERT INTO station(name, latitude, longitude) VALUES ("AAU - Sohngårdsholmsvej
 INSERT INTO station(name, latitude, longitude) VALUES ("AU - Fibigerstræde", 57.016192, 9.977543);-- 19;
 INSERT INTO station(name, latitude, longitude) VALUES ("Friis", 57.047645, 9.926114);-- 20;
 INSERT INTO station(name, latitude, longitude) VALUES ("Strandvejen", 57.053474, 9.911405);-- 21;
+
+
+INSERT INTO historyusagestation(station_id, num_bicycles, time) VALUES (1, 6, UNIX_TIMESTAMP());
+INSERT INTO historyusagestation(station_id, num_bicycles, time) VALUES (2, 6, UNIX_TIMESTAMP());
+INSERT INTO historyusagestation(station_id, num_bicycles, time) VALUES (3, 5, UNIX_TIMESTAMP());
+INSERT INTO historyusagestation(station_id, num_bicycles, time) VALUES (4, 8, UNIX_TIMESTAMP());
+INSERT INTO historyusagestation(station_id, num_bicycles, time) VALUES (5, 2, UNIX_TIMESTAMP());
+INSERT INTO historyusagestation(station_id, num_bicycles, time) VALUES (6, 0, UNIX_TIMESTAMP());
+INSERT INTO historyusagestation(station_id, num_bicycles, time) VALUES (7, 3, UNIX_TIMESTAMP());
+INSERT INTO historyusagestation(station_id, num_bicycles, time) VALUES (8, 5, UNIX_TIMESTAMP());
+INSERT INTO historyusagestation(station_id, num_bicycles, time) VALUES (9, 6, UNIX_TIMESTAMP());
+INSERT INTO historyusagestation(station_id, num_bicycles, time) VALUES (10, 15, UNIX_TIMESTAMP());
+INSERT INTO historyusagestation(station_id, num_bicycles, time) VALUES (11, 5, UNIX_TIMESTAMP());
+INSERT INTO historyusagestation(station_id, num_bicycles, time) VALUES (12, 3, UNIX_TIMESTAMP());
+INSERT INTO historyusagestation(station_id, num_bicycles, time) VALUES (13, 5, UNIX_TIMESTAMP());
+INSERT INTO historyusagestation(station_id, num_bicycles, time) VALUES (14, 12, UNIX_TIMESTAMP());
+INSERT INTO historyusagestation(station_id, num_bicycles, time) VALUES (15, 5, UNIX_TIMESTAMP());
+INSERT INTO historyusagestation(station_id, num_bicycles, time) VALUES (16, 2, UNIX_TIMESTAMP());
+INSERT INTO historyusagestation(station_id, num_bicycles, time) VALUES (17, 6, UNIX_TIMESTAMP());
+INSERT INTO historyusagestation(station_id, num_bicycles, time) VALUES (18, 5, UNIX_TIMESTAMP());
+INSERT INTO historyusagestation(station_id, num_bicycles, time) VALUES (19, 1, UNIX_TIMESTAMP());
+INSERT INTO historyusagestation(station_id, num_bicycles, time) VALUES (20, 6, UNIX_TIMESTAMP());
+INSERT INTO historyusagestation(station_id, num_bicycles, time) VALUES (21, 0, UNIX_TIMESTAMP());
 
 -- Bicycles
 INSERT INTO `bicycle` (`bicycle_id`, `latitude`, `longitude`) VALUES
