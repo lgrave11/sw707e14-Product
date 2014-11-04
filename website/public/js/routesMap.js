@@ -26,6 +26,8 @@ function initialize() {
     
     
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('map-legend'));
+    var legend = document.getElementById('map-legend');
     for(var key in coords) 
     {
         var positionsLatLng = new Array();
@@ -44,9 +46,23 @@ function initialize() {
           strokeWeight: 2
         });
         routePath.setMap(map);
-        console.log(routePath);
+        var div = document.createElement('div');
+        div.style = "width: 15px;height: 15px;background-color:"+coords[key]["color"]+";border: 1px black solid;float:left;margin-right:5px;margin-bottom:5px;";
+        var div2 = document.createElement('div');
+        div2.style = "float:right;margin-right:5px;";
+        div2.innerHTML = key;
+        var br = document.createElement('br');
+        legend.appendChild(div);
+        legend.appendChild(div2);
+        legend.appendChild(br);
 
     }
+    
+    
+    for (var key in coords) {
+        
+    }
+
     
     /*for(var i; i < positionsLatLng.length; i++) 
     {
@@ -164,5 +180,7 @@ function toggleBounce(marker) {
         marker.setAnimation(google.maps.Animation.BOUNCE);
     }
 }
+
+
 
 google.maps.event.addDomListener(window, 'load', initialize);

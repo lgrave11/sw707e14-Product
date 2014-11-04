@@ -77,7 +77,6 @@ class Admin extends Controller
         {
             $allRoutes[$b]["coordinates"] = $bicycleService->readBicyclePositions($b, $fromtime, $totime);
             $allRoutes[$b]["color"] = ViewHelper::generateRandomColor();
-            $this->success("<font color=\"". $allRoutes[$b]["color"] . "\">" . $b . "</font>", "mapRoutes");
         }
         $this->mapRoutes($allRoutes);
     }

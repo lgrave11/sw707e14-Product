@@ -9,6 +9,7 @@
 
 <div id="map-container">
 <div id="map-canvas"></div>
+<div id="map-legend"></div>
 <?php
 	ViewHelper::printError('mapRoutes');
 	ViewHelper::printSuccess('mapRoutes');
