@@ -160,6 +160,20 @@ class AccountService implements iService
 
     }
 
+    public function emailExists($email){
+        $stmt = $this->db->prepare("SELECT email FROM account WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->bind_result($result);
+        $stmt->fetch();
+        $stmt->close();
+
+        if($result == null){
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Validate an account.
      * @param $account The account to be validated.
@@ -188,3 +202,4 @@ class AccountService implements iService
 }
 
 ?>
+

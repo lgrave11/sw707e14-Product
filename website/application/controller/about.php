@@ -17,6 +17,8 @@ class About extends Controller
     public function index()
     {
         $this->title = "About";
+        
+        $jsFiles = [];
         require 'application/views/_templates/header.php';
         require 'application/views/about/about.php';
         require 'application/views/_templates/footer.php';
