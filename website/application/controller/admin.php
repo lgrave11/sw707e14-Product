@@ -85,6 +85,7 @@ class Admin extends Controller
         
         $list = array_map(function($b) { return $b->bicycle_id; }, $bicycleservice->readAll());
         
+        $jsFiles = ["admin.datetimepicker", "amcharts", "usagehistory", "chart", "serial"];
         require 'application/views/_templates/adminheader.php';
         require 'application/views/admin/usagehistory.php';
         require 'application/views/_templates/footer.php';
