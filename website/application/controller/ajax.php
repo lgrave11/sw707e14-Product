@@ -54,7 +54,10 @@ class Ajax extends Controller {
     
     public function getStationUsageContent($id, $fromtime, $totime) {
         Tools::requireAdmin();
-        
+        $historyUsageStationService = new historyUsageStationService($this->db);
+        $historyUsageStation = new HistoryUsageStation(null, $station_id, null, null);
+        $stationHistory = $historyUsageStationService->readAllHistoryForStation($historyUsageStation, $fromtime, $totime);
+        require 'application/views/ajax/graph.php';
     }
     
     public function getBicycleUsageContent($id, $fromtime, $totime) {
@@ -80,10 +83,8 @@ class Ajax extends Controller {
     
     public function getStationHistory($station_id) {
         Tools::requireAdmin();
-        $historyUsageStationService = new historyUsageStationService($this->db);
-        $historyUsageStation = new HistoryUsageStation(null, $station_id, null, null);
-        $stationHistory = $historyUsageStationService->readAllHistoryForStation($historyUsageStation);
-        echo json_encode($stationHistory);
+        
+
     }   
 }
 ?>
