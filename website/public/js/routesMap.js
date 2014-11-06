@@ -38,21 +38,24 @@ function initialize() {
             var latlng = new google.maps.LatLng(coords[key]["coordinates"][i]["latitude"], coords[key]["coordinates"][i]["longitude"]);
             positionsLatLng.push(latlng);
         }
-
+        var color = tinycolor(coords[key]["color"]).toHexString();
+        console.log(color);
         var routePath = new google.maps.Polyline({
           path: positionsLatLng,
           geodesic: true,
-          strokeColor: coords[key]["color"],
+          strokeColor: color,
           strokeOpacity: 1.0,
           strokeWeight: 2
         });
         routePath.setMap(map);
-       
-        var div = $("<div style='width: 15px;height: 15px;background-color:"+coords[key]["color"]+";border: 1px black solid;float:left;margin-right:5px;margin-bottom:5px;'></div>").appendTo(legend);
+        var div = $("<div style='width: 15px;height: 15px;background-color:"+color+";border: 1px black solid;float:left;margin-right:5px;margin-bottom:5px;'></div>").appendTo(legend);
         var div2 = $("<div style='float:right;margin-right:5px;'>"+key+"</div>").appendTo(legend);
         var br =  $("<br>").appendTo(legend);
     }
-    //$("#map-legend").hide();
+    $("#map-legend").hide();
+    google.maps.event.addListener(map, 'idle', function() {
+        $("#map-legend").show();
+    });
 
     
     /*for(var i; i < positionsLatLng.length; i++) 
