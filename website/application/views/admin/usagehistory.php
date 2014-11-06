@@ -8,7 +8,9 @@
         <h2>Choose Bicycle</h2>
         <select name="StationBicycleList">
             <?php
-                echo ViewHelper::GenerateHTMLSelectOptions($list);
+                foreach ($list as $item) {
+                    echo ViewHelper::GenerateHTMLSelectOption($item, array('value'=>$item));
+                }
             ?>
         </select><br /><br />
         <?php

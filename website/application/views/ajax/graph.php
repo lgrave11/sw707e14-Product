@@ -1,12 +1,12 @@
-var chartData;
+<div style="border: 1px solid black;">
+<div id="chart" style="height: 400px; width: 880px;"></div>
+</div>
 
-function setJSONData(data){
-    chartData = eval(data);
-}
-
-AmCharts.ready(function() {
-    $.get( "/Ajax/GetStationHistory/2/", function( data ) {
-        setJSONData(data);
+<script type="text/javascript" src="/public/js/amcharts.js"></script>
+<script type="text/javascript" src="/public/js/serial.js"></script>
+<script type="text/javascript">
+	AmCharts.ready(function() {
+		var chartData = <?php json_encode($stationHistory); ?>
         var chart = AmCharts.makeChart("chart", {
             "type": "serial",
             "categoryField": "time",
@@ -28,12 +28,12 @@ AmCharts.ready(function() {
                 "valueField": "num_bicycles",
                 "type": "line",
                 "bullet": "round",
-                "balloonText": "[[category]]<br /><b><span style='font-size:14px;'>value: [[value]]</span></b>"
+                "balloonText": "[[category]]<br /><b><span style='font-size:14px;'>Bicycles: [[value]]</span></b>"
             }],
             "categoryAxis": {
                 "labelsEnabled": false
             },
             "dataProvider": chartData
         });
-    });
-});
+	});
+</script>
