@@ -75,7 +75,7 @@
         $stmt->close();
         
         $stmt = $db->prepare("INSERT INTO historyusagestation (station_id, time, num_bicycles) 
-                              VALUES (?, UNIX_TIMESTAMP(), ? + 1)");
+                              VALUES (?, UNIX_TIMESTAMP(), ? - 1)");
         $stmt->bind_param("ii", $station_id, GetCurrentBicycleCount($station_id));
         $stmt->execute();
         $stmt->close();
@@ -83,7 +83,7 @@
         return true;
     }
     
-    private function GetCurrentBicycleCount($station_id) {
+    function GetCurrentBicycleCount($station_id) {
         global $db;
         
         $stmt = $db->prepare("SELECT num_bicycles FROM historyusagestation WHERE station_id = ? ORDER BY id DESC LIMIT 1");
@@ -122,7 +122,7 @@
         $stmt->close();
         
         $stmt = $db->prepare("INSERT INTO historyusagestation (station_id, time, num_bicycles) 
-                              VALUES (?, UNIX_TIMESTAMP(), ? - 1)");
+                              VALUES (?, UNIX_TIMESTAMP(), ? + 1)");
         $stmt->bind_param("ii", $station_id, GetCurrentBicycleCount($station_id));
         $stmt->execute();
         $stmt->close();
