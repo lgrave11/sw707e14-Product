@@ -6,7 +6,7 @@
 <script type="text/javascript" src="/public/js/serial.js"></script>
 <script type="text/javascript">
 	AmCharts.ready(function() {
-		var chartData = <?php json_encode($stationHistory); ?>
+		var chartData = <?php echo json_encode($stationHistory); ?>;
         var chart = AmCharts.makeChart("chart", {
             "type": "serial",
             "categoryField": "time",

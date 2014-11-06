@@ -57,6 +57,7 @@ class Ajax extends Controller {
         $historyUsageStationService = new historyUsageStationService($this->db);
         $historyUsageStation = new HistoryUsageStation(null, $id, null, null);
         $stationHistory = $historyUsageStationService->readAllHistoryForStation($historyUsageStation, $fromtime, $totime);
+        print_r($stationHistory);
         require 'application/views/ajax/graph.php';
     }
     
