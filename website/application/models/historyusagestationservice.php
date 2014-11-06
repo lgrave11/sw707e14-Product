@@ -26,7 +26,7 @@ class HistoryUsageStationService implements iService
     public function readAllHistoryForStation($historyusagestation, $fromtime, $totime){
         $returnArray = array();
         $stmt = $this->db->prepare("SELECT * FROM historyusagestation WHERE station_id = ? AND time BETWEEN ? AND ?");
-        $stmt->bind_param("i", $historyusagestation->station_id, $fromtime, $totime);
+        $stmt->bind_param("iii", $historyusagestation->station_id, $fromtime, $totime);
         $stmt->execute();
         $stmt->bind_result($id, $station_id, $time, $num_bicycle);
         while($stmt->fetch()){

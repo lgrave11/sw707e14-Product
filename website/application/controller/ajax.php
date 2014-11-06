@@ -55,7 +55,7 @@ class Ajax extends Controller {
     public function getStationUsageContent($id, $fromtime, $totime) {
         Tools::requireAdmin();
         $historyUsageStationService = new historyUsageStationService($this->db);
-        $historyUsageStation = new HistoryUsageStation(null, $station_id, null, null);
+        $historyUsageStation = new HistoryUsageStation(null, $id, null, null);
         $stationHistory = $historyUsageStationService->readAllHistoryForStation($historyUsageStation, $fromtime, $totime);
         require 'application/views/ajax/graph.php';
     }
