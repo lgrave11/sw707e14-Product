@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.Net;
 using System.IO;
+using System.Globalization;
 
 namespace GPSUpdatus
 {
@@ -19,6 +20,7 @@ namespace GPSUpdatus
 
         public Form1()
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
             InitializeComponent();
             AddRoute("LasseHjem.txt", "Lasse er for tyk til at cykle hjem");
             AddRoute("ErikTilUni.txt", "Eriks rejse til uni");
@@ -52,16 +54,18 @@ namespace GPSUpdatus
             int bicycle_id = (int)numUpDownBicycle.Value;
             Route currentRoute = (Route)((Route)lstRoutes.SelectedItem).Clone();
 
-            if(threadDic.ContainsKey(bicycle_id))
+            if (threadDic.ContainsKey(bicycle_id))
             {
                 threadDic[bicycle_id].Abort();
                 threadDic[bicycle_id].Join();
             }
-
-            currentRoute.AssignBicycle(bicycle_id);
-            threadDic[bicycle_id] = new Thread(new ThreadStart(currentRoute.TraverseList));
-            threadDic[bicycle_id].IsBackground = true;
-            threadDic[bicycle_id].Start();
+            else
+            {
+                currentRoute.AssignBicycle(bicycle_id);
+                threadDic[bicycle_id] = new Thread(new ThreadStart(currentRoute.TraverseList));
+                threadDic[bicycle_id].IsBackground = true;
+                threadDic[bicycle_id].Start();
+            }
         }
 
     }
