@@ -96,8 +96,8 @@ class Admin extends Controller
         require 'application/views/_templates/footer.php';
     }
 
-    public function graphTest(){
-        
+    public function graphTest() {
+        $jsFiles = ["amcharts", "serial", "chart"];
 
         require 'application/views/_templates/adminheader.php';
         require 'application/views/admin/graphtest.php';

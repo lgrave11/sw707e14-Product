@@ -1,6 +1,6 @@
 <?php
 
-class StationService implements iService
+class HistoryUsageBicycleService implements iService
 {
 	private $db = null;
 	
