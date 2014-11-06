@@ -73,8 +73,29 @@
         $stmt->bind_param("iii", $bicycle_id, $station_id, $booking_id);
         $stmt->execute();
         $stmt->close();
+        
+        $stmt = $db->prepare("INSERT INTO historyusagestation (station_id, time, num_bicycles) 
+                              VALUES (?, UNIX_TIMESTAMP(), ? + 1)");
+        $stmt->bind_param("ii", $station_id, GetCurrentBicycleCount($station_id));
+        $stmt->execute();
+        $stmt->close();
+                                                            
         return true;
     }
+    
+    private function GetCurrentBicycleCount($station_id) {
+        global $db;
+        
+        $stmt = $db->prepare("SELECT num_bicycles FROM historyusagestation WHERE station_id = ? ORDER BY id DESC LIMIT 1");
+        $stmt->bind_param("i", $station_id);
+        $stmt->execute();
+        $stmt->bind_result($numBicycles);
+        $stmt->fetch();
+        $stmt->close();
+        
+        return $numBicycles;
+    }
+    
     
     $server->register('BicycleReturnedToDockAtStation',
         array('bicycle_id' => 'xsd:int',
@@ -97,6 +118,12 @@
 
         $stmt = $db->prepare("UPDATE historyusagebicycle SET end_station = ? WHERE bicycle_id = ? AND end_station IS NULL");
         $stmt->bind_param("ii", $station_id, $bicycle_id);
+        $stmt->execute();
+        $stmt->close();
+        
+        $stmt = $db->prepare("INSERT INTO historyusagestation (station_id, time, num_bicycles) 
+                              VALUES (?, UNIX_TIMESTAMP(), ? - 1)");
+        $stmt->bind_param("ii", $station_id, GetCurrentBicycleCount($station_id));
         $stmt->execute();
         $stmt->close();
         
