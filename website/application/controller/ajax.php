@@ -48,15 +48,31 @@ class Ajax extends Controller {
     	echo json_encode($stationService->readAllAvailableDocks());
     }
     
-    public function getStationUsageContent($name) {
+    public function getStationUsageContent($name, $fromtime, $totime) {
         Tools::requireAdmin();
         
         $name = urldecode($name);
     }
     
-    public function getBicycleUsageContent($id) {
+    public function getBicycleUsageContent($id, $fromtime, $totime) {
         Tools::requireAdmin();
-        echo $id;
+        
+        $historyusagebicycleservice = new HistoryUsageBicycleService($this->db);
+        $stationservice = new StationService($this->db);
+        $bicycleData = array();
+        
+        $historyData = $historyusagebicycleservice->readHistoryBetween($id, $fromtime, $totime);
+        
+        foreach ($historyData as $data) {
+            $station = $stationservice->readStation($data->station_id);
+            $obj = new StdClass();
+            $obj->station_name = $station->station_name;
+            $obj->start_time = date('d/m/Y H:i:s', $data->start_time);
+            $obj->end_time = date('d/m/Y H:i:s', $data->end_time);
+            $bicycleData[] = $obj;
+        }
+        
+        require 'application/views/admin/bicycleusage.php';
     }
         
 }

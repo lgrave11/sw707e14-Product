@@ -13,7 +13,9 @@ function UpdateUsageContent() {
     var timer = setTimeout(function() { $('#loading').show(); }, 500);
     var type = $('#usageperspective option:selected').val();
     var id = $("select[name='StationBicycleList'] option:selected").val();
-    $('#usagecontent').load('/ajax/get'+capitaliseFirstLetter(type)+'UsageContent/'+encodeURIComponent(id), function() { clearTimeout(timer); $('#loading').hide(); } );
+    var fromtime = Date.parse($("#admin_fromdatepicker").val()) / 1000;
+    var totime = Date.parse($("#admin_todatepicker").val()) / 1000;
+    $('#usagecontent').load('/ajax/get'+capitaliseFirstLetter(type)+'UsageContent/'+encodeURIComponent(id)+'/'+fromtime+'/'+totime, function() { clearTimeout(timer); $('#loading').hide(); } );
 }
 
 function capitaliseFirstLetter(string)
