@@ -74,6 +74,13 @@ class Ajax extends Controller {
         
         require 'application/views/admin/bicycleusage.php';
     }
-        
+    
+    public function getStationHistory($station_id) {
+        Tools::requireAdmin();
+        $historyUsageStationService = new historyUsageStationService($this->db);
+        $historyUsageStation = new HistoryUsageStation(null, $station_id, null, null);
+        $stationHistory = $historyUsageStationService->readAllHistoryForStation($historyUsageStation);
+        echo json_encode($stationHistory);
+    }   
 }
 ?>
