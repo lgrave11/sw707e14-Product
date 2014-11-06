@@ -28,7 +28,7 @@ function initialize() {
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('map-legend'));
     var legend = document.getElementById('map-legend');
-    console.log(coords);
+    //legend.innerHTML = "";
     for(var key in coords) 
     {
         var positionsLatLng = new Array();
@@ -47,12 +47,12 @@ function initialize() {
           strokeWeight: 2
         });
         routePath.setMap(map);
-        legend.innerHTML = "";
-        
+       
         var div = $("<div style='width: 15px;height: 15px;background-color:"+coords[key]["color"]+";border: 1px black solid;float:left;margin-right:5px;margin-bottom:5px;'></div>").appendTo(legend);
         var div2 = $("<div style='float:right;margin-right:5px;'>"+key+"</div>").appendTo(legend);
         var br =  $("<br>").appendTo(legend);
     }
+    //$("#map-legend").hide();
 
     
     /*for(var i; i < positionsLatLng.length; i++) 
@@ -73,7 +73,6 @@ function initialize() {
         
         google.maps.event.addListener(marker, 'click', infoHelper(marker, iw, map));
     }*/
-    
 }
 
 function getRandomColor() 
@@ -171,5 +170,8 @@ function toggleBounce(marker) {
         marker.setAnimation(google.maps.Animation.BOUNCE);
     }
 }
-
-google.maps.event.addDomListener(window, 'load', initialize);
+window.onload = initialize;
+//google.maps.event.addDomListener(window, 'load', initialize);
+/*google.maps.event.addListenerOnce(map, 'idle', function(){
+    $("map-legend").show();
+});*/
