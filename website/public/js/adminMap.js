@@ -1,6 +1,9 @@
 var aalborg = new google.maps.LatLng(57.037835, 9.940895);
 var mark = [];
 var map;
+var geocoder;
+var infowindow = [];
+var address = [];
 
 var bicycleimage = {
     url: '/public/images/bicycleMarker.png',
@@ -10,9 +13,10 @@ var bicycleimage = {
     origin: new google.maps.Point(0,0),
     // The anchor for this image is the base of the flagpole at 0,32.
     anchor: new google.maps.Point(5, 5),
-    };
+};
 
 function initialize() {
+    geocoder = new google.maps.Geocoder();
     var mapOptions = {
         zoom: 13,
         center: aalborg,
@@ -28,24 +32,49 @@ function initialize() {
     updateMarkers();
 }
 
+function getAddress(lat, lng, bicycleId, callback) 
+{
+    return geocoder.geocode({"latLng":new google.maps.LatLng(lat, lng)}, function(results, status){
+                if (status == google.maps.GeocoderStatus.OK) {
+                    callback(lat, lng, bicycleId, results[0].formatted_address);
+                }
+                else{
+                    callback(lat,lng,bicycleId, "");
+                }
+            });
+}
+
+function CreateMarker(lat, lng, bicycleId, address){
+    var info = new google.maps.InfoWindow(
+                { content: '<div id="content">' +
+                    '<h2 id="firstHeading" class="firstHeading" style="margin-bottom:-10px; white-space: nowrap; line-height:1.35;overflow:hidden;">ID: ' + bicycleId + '</h2>' + 
+                    '<div id="bodyContent"><p style="white-space: nowrap; line-height:1.35;overflow:hidden;">Latitude: ' + lat +
+                    '<br>Longitude: ' + lng + 
+                    '<br>' + address + '</p></div></div>',
+                });
+    marker = new google.maps.Marker(
+            { 
+                map:map, 
+                draggable:false, 
+                position: new google.maps.LatLng(lat, lng), 
+                icon: bicycleimage }
+        );
+    mark.push(marker);
+    infowindow.push(info);
+    google.maps.event.addListener(marker, 'click', infoHelper(marker,info,map));
+}
+
 function updateMarkers() {
+    setAllMap(null);
+    infowindow = [];
     var result = $.ajax({
-        url: "/Ajax/GetBicyclePositions"
+        url: "/Ajax/GetBicyclePositions",
     }).success(function() {
-        setAllMap(null);
         var j = $.parseJSON(result.responseText);
         for(i = 0; i < j.length; i++) {
-            mark.push(
-                new google.maps.Marker(
-                    { 
-                        map:map, 
-                        draggable:false, 
-                        position: new google.maps.LatLng(j[i]["latitude"], j[i]["longitude"]), 
-                        icon: bicycleimage }
-                    )
-                );
+            getAddress(j[i]["latitude"],j[i]["longitude"], j[i]["bicycle_id"], CreateMarker);
         }
-        setTimeout(function() {updateMarkers();}, 1000);
+        setTimeout(function() {updateMarkers();}, 10000);
     });
 }
 
@@ -68,6 +97,15 @@ function closeAllInfoWindows() {
     {
         infowindow[i].close();	
     }
+}
+
+function infoHelper(marker, info, maper){
+    return function(){
+            closeAllInfoWindows();
+            info.open(maper,marker);
+            google.maps.event.addListener(info, 'closeclick',function(){
+                stopAllBouncing();
+            })};
 }
 
 function closeAllAndBounce(marker) {
