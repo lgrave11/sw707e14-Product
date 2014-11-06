@@ -70,24 +70,21 @@ class ViewHelper
         }
     }
     
-    public static function generateHTMLSelectOptions($list, $attributes = array()) {
-        $html = "";
+    public static function generateHTMLSelectOption($value, $attributes = array()) {
         $attributeList = "";
         
-        foreach ($attributes as $key => $value) {
-            $attributeList .= $key . '="' . $value . '" ';
+        foreach ($attributes as $attribute => $val) {
+            $attributeList .= $attribute . '="' . $val . '" ';
         }
-        
-        foreach ($list as $item) {
-            $html .= "<option ". $attributeList .">". $item ."</option>";
-        }
-        
-        return $html;
+        return  "<option ". $attributeList .">". $value ."</option>";
     }
 
-    public static function generateRandomColor() 
+    public static function generateRandomColor($colorNum = 0, $color_count = 1) 
     {
-        return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+        if($color_count < 1) $color_count = 1;
+        $h = $colorNum * (360 / $color_count) % 360;
+        return "hsl(".$h.", 100, 50);";
+        //return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
     }
 }
 

@@ -38,7 +38,7 @@ class Admin extends Controller
         
         $list = array_map(function($b) { return $b->bicycle_id; }, $bicycles);
 
-        $jsFiles = ["routesMap", "admin.datetimepicker"];
+        $jsFiles = ["routesMap", "admin.datetimepicker", "tinycolor"];
         require 'application/views/_templates/adminheader.php';
         require 'application/views/admin/mapRoutes.php';
         require 'application/views/_templates/footer.php';
@@ -76,10 +76,12 @@ class Admin extends Controller
         foreach($_POST['bicycles'] as $b) 
         {
             $allRoutes[$b]["coordinates"] = $bicycleService->readBicyclePositions($b, $fromtime, $totime);
-            $allRoutes[$b]["color"] = ViewHelper::generateRandomColor();
+            $allRoutes[$b]["color"] = ViewHelper::generateRandomColor($b, count($_POST['bicycles']));
         }
         $this->mapRoutes($allRoutes);
     }
+    
+    
     
     public function usageHistory() {
         Tools::requireAdmin();
@@ -96,8 +98,8 @@ class Admin extends Controller
         require 'application/views/_templates/footer.php';
     }
 
-    public function graphTest(){
-        
+    public function graphTest() {
+        $jsFiles = ["amcharts", "serial", "chart"];
 
         require 'application/views/_templates/adminheader.php';
         require 'application/views/admin/graphtest.php';

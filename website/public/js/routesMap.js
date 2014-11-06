@@ -1,6 +1,7 @@
 var aalborg = new google.maps.LatLng(57.037835, 9.940895);
 var mark = [];
 var infowindow = [];
+var polylines = [];
 var map;
 
 var bicycleimage = {
@@ -28,7 +29,7 @@ function initialize() {
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('map-legend'));
     var legend = document.getElementById('map-legend');
-    console.log(coords);
+    //legend.innerHTML = "";
     for(var key in coords) 
     {
         var positionsLatLng = new Array();
@@ -38,42 +39,44 @@ function initialize() {
             var latlng = new google.maps.LatLng(coords[key]["coordinates"][i]["latitude"], coords[key]["coordinates"][i]["longitude"]);
             positionsLatLng.push(latlng);
         }
-
+        var color = tinycolor(coords[key]["color"]).toHexString();
         var routePath = new google.maps.Polyline({
           path: positionsLatLng,
           geodesic: true,
-          strokeColor: coords[key]["color"],
+          strokeColor: color,
           strokeOpacity: 1.0,
-          strokeWeight: 2
+          strokeWeight: 4
         });
         routePath.setMap(map);
-        legend.innerHTML = "";
         
-        var div = $("<div style='width: 15px;height: 15px;background-color:"+coords[key]["color"]+";border: 1px black solid;float:left;margin-right:5px;margin-bottom:5px;'></div>").appendTo(legend);
+        polylines.push(routePath);
+        
+        var div = $("<div id='path"+key+"Legend' style='width: 15px;height: 15px;background-color:"+color+";border: 1px black solid;float:left;margin-right:5px;margin-bottom:5px;'></div>").appendTo(legend);
         var div2 = $("<div style='float:right;margin-right:5px;'>"+key+"</div>").appendTo(legend);
         var br =  $("<br>").appendTo(legend);
-    }
-
-    
-    /*for(var i; i < positionsLatLng.length; i++) 
-    {
-        var marker = new google.maps.Marker(
-                    { 
-                        map:map, 
-                        draggable:false, 
-                        position: positionsLatLng[i], 
-                        icon: bicycleimage,
-                        }
-                    );
-        mark.push(marker);
-        var iw = new google.maps.InfoWindow({
-            content: i.toString()
-        });
-        infowindow.push(iw);
         
-        google.maps.event.addListener(marker, 'click', infoHelper(marker, iw, map));
-    }*/
-    
+        var iwcontent = '<div id="content">' +
+                                   '<h2 id="firstHeading" class="firstHeading" style="margin-bottom:-10px; white-space: nowrap; line-height:1.35;overflow:hidden;">Cykel ' + key + '</h2>' + 
+                        '<div id="bodyContent"><p style="white-space: nowrap; line-height:1.35;overflow:hidden;">Valgt Cykel: ' + key +
+                        '<br>Rute Længde: ' + Math.round(google.maps.geometry.spherical.computeLength(routePath.getPath().getArray())) / 1000 + 'km </p></div></div>';
+        var infowindow = new google.maps.InfoWindow({content: iwcontent});
+        console.log(routePath[0]);
+        infowindow.setPosition(routePath[0]);
+        
+        google.maps.event.addListener(routePath, 'click', infoHelper(infowindow, map));
+    }
+    $("#map-legend").hide();
+    google.maps.event.addListener(map, 'idle', function() {
+        $("#map-legend").show();
+    });
+}
+
+function createInfoWindow(poly,content,map) {
+    google.maps.event.addListener(poly, 'click', function(event) {
+        infowindow.content = content;
+        infowindow.position = event.latLng;
+        infowindow.open(map);
+    });
 }
 
 function getRandomColor() 
@@ -93,7 +96,7 @@ function hslToRgb(h, s, l){
     l = l / 100;
 
     if(s == 0){
-        r = g = b = l; // achromatic
+        r = g = b = l
     }else{
         function hue2rgb(p, q, t){
             if(t < 0) t += 1;
@@ -123,8 +126,10 @@ function rgbToHex(r, g, b) {
     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
-function infoHelper(marker, info, map){
-    return function(){ info.open(map,marker); }
+function infoHelper(info, map){
+    return function(event){ 
+    info.setPosition(event.latLng);
+    info.open(map); }
 }
 
 // Sets the map on all markers in the array.
@@ -171,5 +176,4 @@ function toggleBounce(marker) {
         marker.setAnimation(google.maps.Animation.BOUNCE);
     }
 }
-
-google.maps.event.addDomListener(window, 'load', initialize);
+window.onload = initialize;
