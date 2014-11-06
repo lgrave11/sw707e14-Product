@@ -74,7 +74,7 @@ class Ajax extends Controller {
             $bicycleData[] = $obj;
         }
         
-        require 'application/views/admin/bicycleusage.php';
+        require 'application/views/ajax/bicycleusage.php';
     }
     
     public function getStationHistory($station_id) {
