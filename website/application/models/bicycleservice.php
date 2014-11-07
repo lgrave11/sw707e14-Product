@@ -99,6 +99,47 @@ class BicycleService implements iService
         
         return $returnArray;
     }
+    
+    public function readBicycleBookingPairs()
+    {
+        $returnArray = array();
+        $stmt = $this->db->prepare("SELECT DISTINCT bicycle_id, booking_id
+                                    FROM historyusagebicycle
+                                    WHERE booking_id IS NOT NULL AND booking_id != 0");
+        $stmt->execute();
+        $stmt->bind_result($bicycle_id, $booking_id);
+        while($stmt->fetch()){
+            $cls = new stdclass();
+            $cls->bicycle_id = $bicycle_id;
+            $cls->booking_id = $booking_id;
+            $returnArray[] = $cls;
+        }
+        
+        return $returnArray;
+    }
+    
+    public function readBicyclePositionsWithBooking($bicycle_id, $booking_id)
+    {
+        $returnArray = array();
+        $stmt = $this->db->prepare("SELECT historylocationbicycle.latitude, historylocationbicycle.longitude 
+                                    FROM historylocationbicycle, historyusagebicycle
+                                    WHERE historyusagebicycle.booking_id IS NOT NULL AND historyusagebicycle.end_time IS NOT NULL AND
+                                          historylocationbicycle.biycle_id = ? AND historylocationbicycle.bicycle_id = historyusagebicycle.bicycle_id AND
+                                          historyusagebicycle.booking_id = ? AND
+                                          FROM_UNIXTIME(historylocationbicycle.timeforlocation) BETWEEN FROM_UNIXTIME(historyusagebicycle.start_time) AND FROM_UNIXTIME(historyusagebicycle.end_time)
+                                    ORDER BY historylocationbicycle.timeforlocation ASC");
+        $stmt->bind_param("ii", $bicycle_id, $booking_id);
+        $stmt->execute();
+        $stmt->bind_result($latitude, $longitude);
+        while($stmt->fetch()){
+            $cls = new stdclass();
+            $cls->latitude = $latitude;
+            $cls->longitude = $longitude;
+            $returnArray[] = $cls;
+        }
+        
+        return $returnArray;
+    }
 
     /**
      * updates location based on given id
