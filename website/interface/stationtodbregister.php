@@ -69,7 +69,7 @@
         if ($booking_id == 0)
             $booking_id = NULL;
 
-        $stmt = $db->prepare("INSERT INTO historyusagebicycle (bicycle_id, start_station, booking_id) VALUES (?, ?, ?)");
+        $stmt = $db->prepare("INSERT INTO historyusagebicycle (bicycle_id, start_station, start_time, booking_id) VALUES (?, ?, UNIX_TIMESTAMP(), ?)");
         $stmt->bind_param("iii", $bicycle_id, $station_id, $booking_id);
         $stmt->execute();
         $stmt->close();
@@ -116,7 +116,7 @@
         $stmt->execute();
         $stmt->close();
 
-        $stmt = $db->prepare("UPDATE historyusagebicycle SET end_station = ? WHERE bicycle_id = ? AND end_station IS NULL");
+        $stmt = $db->prepare("UPDATE historyusagebicycle SET end_station = ?, end_time = UNIX_TIMESTAMP() WHERE bicycle_id = ? AND end_station IS NULL");
         $stmt->bind_param("ii", $station_id, $bicycle_id);
         $stmt->execute();
         $stmt->close();
