@@ -35,29 +35,6 @@
                 </td>
             </tr>
         </table>
-        <!--<div style="float: left; width: 50%; display: inline-block; text-align: center;">
-        <h2>Choose Perspective</h2>
-        <select id="usageperspective" onchange="UpdateSelectList()">
-            <option>Bicycle</option>
-            <option>Station</option>
-        </select>
-        <h2>Choose Bicycle</h2>
-        <select name="StationBicycleList">
-            <?php
-                foreach ($list as $item) {
-                    echo ViewHelper::GenerateHTMLSelectOption($item, array('value'=>$item));
-                }
-            ?>
-        </select>
-        </div>
-        <div style="float: right; width: 50%; display: inline-block; text-align: center;">
-        <?php
-            require 'application/views/admin/timeintervalpicker.php';
-        ?>
-        </div>
-        <center style="clear: both;">
-        <input type="button" onclick="UpdateUsageContent()" value="Get History" />
-        </center>-->
     </form>
     <hr />
     <div>
