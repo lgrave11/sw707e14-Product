@@ -14,14 +14,13 @@
             "valueAxes": [{
                 "axisAlpha": 0.2,
                 "dashLength": 1,
-                "position": "left"
+                "position": "left",
+                "integersOnly": true,
+                "title": "Bicycles"
             }],
             "chartCursor": {
                 "cursorPosition": "mouse"
             },
-            "valueAxes": [{
-                "title": "Bicycles"
-            }],
             "graphs": [{
                 "id": "g1",
                 "valueField": "num_bicycles",

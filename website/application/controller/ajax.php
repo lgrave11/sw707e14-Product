@@ -57,7 +57,11 @@ class Ajax extends Controller {
         $historyUsageStationService = new historyUsageStationService($this->db);
         $historyUsageStation = new HistoryUsageStation(null, $id, null, null);
         $stationHistory = $historyUsageStationService->readAllHistoryForStation($historyUsageStation, $fromtime, $totime);
-        require 'application/views/ajax/graph.php';
+        if (empty($stationHistory)) {
+            require 'application/views/ajax/nousagedata.php';
+        } else {
+            require 'application/views/ajax/graph.php';
+        }
     }
     
     public function getBicycleUsageContent($id, $fromtime, $totime) {
@@ -84,7 +88,11 @@ class Ajax extends Controller {
 			}
             $bicycleData[] = $obj;
         }
-        require 'application/views/ajax/bicycleusage.php';
+        if (empty($bicycleData)) {
+            require 'application/views/ajax/nousagedata.php';
+        } else {
+            require 'application/views/ajax/bicycleusage.php';
+        }
     }
     
     public function getStationHistory($station_id) {

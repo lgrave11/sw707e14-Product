@@ -6,6 +6,7 @@ $(function() {
 
 function UpdateSelectList() {
     var type = $('#usageperspective option:selected').val();
+    $("#selectlistlabel h2").html("Choose " + type);
     $("select[name='StationBicycleList']").load('/ajax/get'+capitaliseFirstLetter(type)+'Options');
 }
 
