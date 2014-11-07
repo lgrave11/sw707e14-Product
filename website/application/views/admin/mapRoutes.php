@@ -16,10 +16,13 @@
 ?>
 <form action="/Admin/MapRoutesForm/" method="post">
 	<h2>Bicycles</h2>
-	
 	<select size=<?php echo (count($list) > 5 ? 5 : count($list)); ?> style='height: 100%;' name="bicycles[]" multiple id="mapRoutesSelect">
         <?php
-            echo ViewHelper::GenerateHTMLSelectOptions($list);
+            foreach($list as $l) 
+            {
+                echo ViewHelper::generateHTMLSelectOption($l);
+            }
+            
         ?>
     </select><br />
 	<br />

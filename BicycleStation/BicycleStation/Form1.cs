@@ -308,7 +308,7 @@ namespace BicycleStation
                     i++;
                 
             }
-
+            MessageBox.Show(String.Format("Bicycle {0} taken", bicycleId));
             GlobalVariable.ActionQueue.Enqueue(() => ServiceThreads.bicycleTakenReport(Dock.station_id, bicycleId, bookingID));
         }
 
@@ -354,7 +354,21 @@ namespace BicycleStation
 
             //returns bicycle to a dock in database
             //returned bicycle has random ID in simulation
-            getDocks[Convert.ToInt32(DockIdUpDown.Value) - 1].holds_bicycle = getRandomBicycleID(DB);
+            int returnedBicycle;
+            if (!(idTB.Text == String.Empty) && int.TryParse(idTB.Text, out returnedBicycle))
+            {
+                List<int> usedIDs = (from d in DB.dock
+                                     where d.holds_bicycle > 0
+                                     select d.holds_bicycle).ToList();
+                if (usedIDs.Contains(returnedBicycle))
+                {
+                    returnedBicycle = getRandomBicycleID(DB);
+                    MessageBox.Show("Specified ID in use, using random ID: " + returnedBicycle);
+                }
+            }
+            else returnedBicycle = getRandomBicycleID(DB);
+
+            getDocks[Convert.ToInt32(DockIdUpDown.Value) - 1].holds_bicycle = returnedBicycle;
             DB.SaveChanges();
             bicycleReturn(getDocks[Convert.ToInt32(DockIdUpDown.Value) - 1]);
 
@@ -382,7 +396,7 @@ namespace BicycleStation
                 availableIDs.Remove(i);
 
             //Returns random element of the available IDs
-            return availableIDs[(new Random()).Next(1, availableIDs.Count())];
+            return availableIDs[(new Random()).Next(0, availableIDs.Count())];
         }
 
         
