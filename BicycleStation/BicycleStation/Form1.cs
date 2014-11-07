@@ -308,7 +308,7 @@ namespace BicycleStation
                     i++;
                 
             }
-
+            MessageBox.Show(String.Format("Bicycle {0} taken", bicycleId));
             GlobalVariable.ActionQueue.Enqueue(() => ServiceThreads.bicycleTakenReport(Dock.station_id, bicycleId, bookingID));
         }
 
