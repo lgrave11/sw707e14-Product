@@ -124,9 +124,9 @@ class BicycleService implements iService
         $stmt = $this->db->prepare("SELECT historylocationbicycle.latitude, historylocationbicycle.longitude 
                                     FROM historylocationbicycle, historyusagebicycle
                                     WHERE historyusagebicycle.booking_id IS NOT NULL AND historyusagebicycle.end_time IS NOT NULL AND
-                                          historylocationbicycle.biycle_id = ? AND historylocationbicycle.bicycle_id = historyusagebicycle.bicycle_id AND
+                                          historylocationbicycle.bicycle_id = ? AND historylocationbicycle.bicycle_id = historyusagebicycle.bicycle_id AND
                                           historyusagebicycle.booking_id = ? AND
-                                          FROM_UNIXTIME(historylocationbicycle.timeforlocation) BETWEEN FROM_UNIXTIME(historyusagebicycle.start_time) AND FROM_UNIXTIME(historyusagebicycle.end_time)
+                                          historylocationbicycle.timeforlocation BETWEEN FROM_UNIXTIME(historyusagebicycle.start_time) AND FROM_UNIXTIME(historyusagebicycle.end_time)
                                     ORDER BY historylocationbicycle.timeforlocation ASC");
         $stmt->bind_param("ii", $bicycle_id, $booking_id);
         $stmt->execute();

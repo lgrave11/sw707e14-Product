@@ -27,6 +27,58 @@ class Admin extends Controller
         require 'application/views/_templates/footer.php';
     }
 
+    public function bookingRoutes($arr = array()) 
+    {
+        $this->title = "Booking Routes";
+        $currentPage = substr($_SERVER["REQUEST_URI"], 1);
+        $bicycleService = new bicycleService($this->db);
+        $bicyclesBookings = $bicycleService->readBicycleBookingPairs();
+        $list = array();
+        if(count($bicyclesBookings) > 0) 
+        {
+            foreach ($bicyclesBookings as $v) {
+                if(!in_array($v->bicycle_id, $list)) 
+                {
+                    $list[] = $v->bicycle_id;
+                }
+                
+            }
+        }
+
+        $jsFiles = ["bookingMap", "tinycolor"];
+        require 'application/views/_templates/adminheader.php';
+        require 'application/views/admin/bookingRoutes.php';
+        require 'application/views/_templates/footer.php';
+
+    }
+
+    public function bookingRoutesForm() 
+    {
+        $this->title = "Booking Routes";
+        $currentPage = substr($_SERVER["REQUEST_URI"], 1);
+        if (empty($_POST['bicycle_id'])){
+            $this->error("Please fill the bicycle id field", "bookingRoutes");
+            header("Location: /Admin/BookingRoutes");
+            exit();
+        }
+        $bicycleService = new bicycleService($this->db);
+        $bicyclesBookings = $bicycleService->readBicycleBookingPairs();
+        //var_dump($bicyclesBookings);
+        $positions = array();
+        foreach($bicyclesBookings as $bb) 
+        {
+            if($bb->bicycle_id == $_POST['bicycle_id'])
+                $positions[$bb->booking_id] = $bicycleService->readBicyclePositionsWithBooking($bb->bicycle_id, $bb->booking_id);
+
+        }
+        $allRoutes = array();
+        foreach ($positions as $key => $value) {
+            $allRoutes[$key]["coordinates"] = $value;
+            $allRoutes[$key]["color"] = ViewHelper::generateRandomColor($key, count($positions));
+        }
+        $this->bookingRoutes($allRoutes);
+    }
+
 
     public function mapRoutes($arr = array()) 
     {

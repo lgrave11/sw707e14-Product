@@ -5,6 +5,6 @@
 <script src="/public/js/adminMap.js"></script>
 
 <div id="map-container">
-<div id="map-legendAdmin"></div>
+<div id="map-legend"></div>
 <div id="map-canvasFullSize"></div>
 </div>
