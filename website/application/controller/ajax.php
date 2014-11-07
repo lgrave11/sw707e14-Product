@@ -70,14 +70,20 @@ class Ajax extends Controller {
         $historyData = $historyusagebicycleservice->readHistoryBetween($id, $fromtime, $totime);
         
         foreach ($historyData as $data) {
-            $station = $stationservice->readStation($data->station_id);
+            $start = $stationservice->readStation($data->start_station);
+			$end = $stationservice->readStation($data->end_station);
             $obj = new StdClass();
-            $obj->station_name = $station->station_name;
-            $obj->start_time = date('d/m/Y H:i:s', $data->start_time);
-            $obj->end_time = date('d/m/Y H:i:s', $data->end_time);
+            $obj->start_station = $start->name;
+			$obj->start_time = date('d/m/Y H:i:s', $data->start_time);
+			if (is_null($end)) {
+				$obj->end_station = "";
+				$obj->end_time = "";
+			} else {
+				$obj->end_station = $end->name;
+				$obj->end_time = date('d/m/Y H:i:s', $data->end_time);
+			}
             $bicycleData[] = $obj;
         }
-        
         require 'application/views/ajax/bicycleusage.php';
     }
     

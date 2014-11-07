@@ -1,16 +1,17 @@
-<table>
+<table style="width:100%;">
     <tr>
-        <th>Station</th>
-        <th>Leaves At</th>
-        <th>Arrives At</th>
+		<th style="width:50%;" colspan="2">Leaves At</th>
+        
+        <th style="width:50%;" colspan="2">Arrives At</th>
     </tr>
     <?php
         foreach ($bicycleData as $bicycle) {
             echo "<tr>";
+            echo "<td>".$bicycle->start_time."</td>";
+            echo "<td>".$bicycle->start_station."</td>";
             
-            echo "<td>".$bicycle->station_name."</td>";
-            echo "<td>".date("d/m/Y H:i:s", $bicycle->start_time)."</td>";
-            echo "<td>".date("d/m/Y H:i:s", $bicycle->end_time)."</td>";
+            echo "<td>".$bicycle->end_time."</td>";
+            echo "<td>".$bicycle->end_station."</td>";
             
             echo "</tr>";
         }
