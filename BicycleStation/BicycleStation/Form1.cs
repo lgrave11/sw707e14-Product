@@ -288,7 +288,7 @@ namespace BicycleStation
 
         //Sends message to DB interface that a bicycle has been removed from a dock
         //Only Happens on unlocked docks
-        private void bicycleTaken(dock Dock)
+        private void bicycleTaken(dock Dock, int bicycleId)
         {
             int bookingID = 0;
             Int32 currentTime = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
@@ -309,7 +309,7 @@ namespace BicycleStation
                 
             }
 
-            GlobalVariable.ActionQueue.Enqueue(() => ServiceThreads.bicycleTakenReport(Dock.station_id, Dock.holds_bicycle, bookingID));
+            GlobalVariable.ActionQueue.Enqueue(() => ServiceThreads.bicycleTakenReport(Dock.station_id, bicycleId, bookingID));
         }
 
         //Sends message to DB interface that a bicycle has been returned to a dock
@@ -329,7 +329,7 @@ namespace BicycleStation
                                    where s.name == stationName
                                    select d).ToList();
 
-            bicycleTaken(getDocks[Convert.ToInt32(DockIdUpDown.Value)-1]);
+            bicycleTaken(getDocks[Convert.ToInt32(DockIdUpDown.Value) - 1], getDocks[Convert.ToInt32(DockIdUpDown.Value) - 1].holds_bicycle);
 
             //removes bicycle from dock in database
             getDocks[Convert.ToInt32(DockIdUpDown.Value) - 1].holds_bicycle = 0;
@@ -354,7 +354,13 @@ namespace BicycleStation
 
             //returns bicycle to a dock in database
             //returned bicycle has random ID in simulation
-            getDocks[Convert.ToInt32(DockIdUpDown.Value) - 1].holds_bicycle = getRandomBicycleID(DB);
+            int returnedBicycle;
+            if (idTB.Text == String.Empty || !(int.TryParse(idTB.Text, out returnedBicycle)))
+            {
+                returnedBicycle = getRandomBicycleID(DB);
+            }
+
+            getDocks[Convert.ToInt32(DockIdUpDown.Value) - 1].holds_bicycle = returnedBicycle;
             DB.SaveChanges();
             bicycleReturn(getDocks[Convert.ToInt32(DockIdUpDown.Value) - 1]);
 

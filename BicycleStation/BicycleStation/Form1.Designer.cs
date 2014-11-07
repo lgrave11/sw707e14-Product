@@ -55,6 +55,8 @@
             this.DockIdUpDown = new System.Windows.Forms.NumericUpDown();
             this.StationNameDropDown = new System.Windows.Forms.ComboBox();
             this.lockTimer = new System.Windows.Forms.Timer(this.components);
+            this.idTB = new System.Windows.Forms.TextBox();
+            this.returnIDlbl = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -82,6 +84,8 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.returnIDlbl);
+            this.splitContainer1.Panel2.Controls.Add(this.idTB);
             this.splitContainer1.Panel2.Controls.Add(this.label1);
             this.splitContainer1.Panel2.Controls.Add(this.ReturnBicycleBtn);
             this.splitContainer1.Panel2.Controls.Add(this.TakeBicycleBtn);
@@ -378,6 +382,22 @@
             this.lockTimer.Interval = 1000;
             this.lockTimer.Tick += new System.EventHandler(this.lockTimer_Tick);
             // 
+            // idTB
+            // 
+            this.idTB.Location = new System.Drawing.Point(183, 477);
+            this.idTB.Name = "idTB";
+            this.idTB.Size = new System.Drawing.Size(44, 20);
+            this.idTB.TabIndex = 12;
+            // 
+            // returnIDlbl
+            // 
+            this.returnIDlbl.AutoSize = true;
+            this.returnIDlbl.Location = new System.Drawing.Point(152, 480);
+            this.returnIDlbl.Name = "returnIDlbl";
+            this.returnIDlbl.Size = new System.Drawing.Size(16, 13);
+            this.returnIDlbl.TabIndex = 13;
+            this.returnIDlbl.Text = "Id";
+            // 
             // Form1
             // 
             this.AcceptButton = this.UnlockBtn;
@@ -434,6 +454,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button ReturnBicycleBtn;
         private System.Windows.Forms.Button TakeBicycleBtn;
+        private System.Windows.Forms.Label returnIDlbl;
+        private System.Windows.Forms.TextBox idTB;
 
     }
 }
