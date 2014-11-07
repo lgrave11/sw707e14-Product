@@ -29,6 +29,12 @@ function initialize() {
 
     map = new google.maps.Map(document.getElementById('map-canvasFullSize'), mapOptions);
 
+    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('map-legendAdmin'));
+    var legend = document.getElementById('map-legendAdmin');
+
+	var div = $("<div style='width: 10px;height: 10px;background-image: url(/public/images/bicycleMarker.png);float:left;margin-right:5px;margin-bottom:5px;'></div>" + 
+				"<div style='float:right;margin-right:5px;'>Bicycle</div>").appendTo(legend);
+
     updateMarkers();
 }
 
@@ -70,6 +76,7 @@ function updateMarkers() {
     var result = $.ajax({
         url: "/Ajax/GetBicyclePositions",
     }).success(function() {
+    	if(mark.length >= j || mark.length == 0)
         var j = $.parseJSON(result.responseText);
         for(i = 0; i < j.length; i++) {
             getAddress(j[i]["latitude"],j[i]["longitude"], j[i]["bicycle_id"], CreateMarker);
@@ -132,4 +139,4 @@ function toggleBounce(marker) {
     }
 }
 
-google.maps.event.addDomListener(window, 'load', initialize);
+window.onload = initialize;

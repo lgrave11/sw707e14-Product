@@ -265,3 +265,12 @@ a:hover {
 	margin:5px;
 	padding:5px;
 }
+
+#map-legendAdmin
+{
+    background:white;
+    padding: 5px;
+    border-style: solid;
+    border-width: 1px;
+    border-color:black;
+}
