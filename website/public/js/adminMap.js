@@ -76,6 +76,7 @@ function updateMarkers() {
     var result = $.ajax({
         url: "/Ajax/GetBicyclePositions",
     }).success(function() {
+    	if(mark.length >= j || mark.length == 0)
         var j = $.parseJSON(result.responseText);
         for(i = 0; i < j.length; i++) {
             getAddress(j[i]["latitude"],j[i]["longitude"], j[i]["bicycle_id"], CreateMarker);
