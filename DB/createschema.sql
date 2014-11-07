@@ -136,7 +136,7 @@ INSERT INTO historyusagestation(station_id, num_bicycles, time) VALUES (20, 6, U
 INSERT INTO historyusagestation(station_id, num_bicycles, time) VALUES (21, 0, UNIX_TIMESTAMP());
 
 -- Bicycles
-INSERT INTO `bicycle` (`bicycle_id`, `latitude`, `longitude`) VALUES
+INSERT INTO `bicycle` (`bicycle_id`, `longitude`, `latitude`) VALUES
 (1, 9.91763, 57.042),
 (2, 9.91763, 57.042),
 (3, 9.91763, 57.042),

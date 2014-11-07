@@ -42,7 +42,7 @@ class BicycleService implements iService
      */
     public function read($id)
     {
-        $stmt = $this->db->prepare("SELECT bicycle_id, longitude, latitude FROM bicycle WHERE bicycle_id=?");
+        $stmt = $this->db->prepare("SELECT bicycle_id, latitude, longitude FROM bicycle WHERE bicycle_id=?");
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $stmt->bind_result($bicycle_id, $latitude, $longitude);
