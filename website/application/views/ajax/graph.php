@@ -1,6 +1,4 @@
-<div style="border: 1px solid black;">
 <div id="chart" style="height: 400px; width: 880px;"></div>
-</div>
 
 <script type="text/javascript" src="/public/js/amcharts.js"></script>
 <script type="text/javascript" src="/public/js/serial.js"></script>
@@ -12,6 +10,7 @@
             "categoryField": "time",
             "pathToImages": "http://cdn.amcharts.com/lib/3/images/", // required for grips
             "mouseWheelZoomEnabled":true,
+            "borderAlpha": 0,
             "valueAxes": [{
                 "axisAlpha": 0.2,
                 "dashLength": 1,
