@@ -30,10 +30,14 @@
 	<div id="navbar">
 		<table>
 			<tr>
-			<td>
+			<?php if ($navbarChosen == "Overview"){
+			echo '<td id="selectedNav">';
+            } else { echo '<td>'; } ?>
 				<a href="/">Overview</a>
 			</td>
-			<td>
+			<?php if ($navbarChosen == "Profile"){
+			echo '<td id="selectedNav">';
+            } else { echo '<td>'; } ?>
 				<?php
 					if(isset($_SESSION['login_user']))
 					{
@@ -46,10 +50,14 @@
 					}
 				?>
 			</td>			
-			<td>
+			<?php if ($navbarChosen == "About"){
+			echo '<td id="selectedNav">';
+            } else { echo '<td>'; } ?>
 				<a href="/About/">About</a>
 			</td>
-			<td>
+            <?php if ($navbarChosen == "Login"){
+			echo '<td id="selectedNav">';
+            } else { echo '<td>'; } ?>
 				<?php
 					if(isset($_SESSION['login_user']))
 					{

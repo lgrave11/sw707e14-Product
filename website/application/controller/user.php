@@ -7,7 +7,6 @@ class User extends Controller
      */
     public function index()
     {
-        $this->title = "User";
         if(Tools::isLoggedIn()){
             header("Location: /");
         }
@@ -18,6 +17,7 @@ class User extends Controller
     }
 
     public function viewHistory(){
+        $navbarChosen = "Profile";
         $this->title = "View History";
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
         $bookingservice = new BookingService($this->db);
@@ -44,6 +44,7 @@ class User extends Controller
     }
     public function login()
     {
+        $navbarChosen = "Login";
         $this->title = "Login";
         if (isset($_GET['target'])) {
             $target = $_GET['target'];
@@ -115,6 +116,7 @@ class User extends Controller
 
     public function createUser()
     {
+        $navbarChosen = "Login";
         $this->title = "Create User";
         if(isset($_POST['submit']))
         {
@@ -184,6 +186,7 @@ class User extends Controller
 
     public function changepassword()
     {
+        $navbarChosen = "Profile";
         $this->title = "Change Password";
         Tools::requireLogin();
         $accountservice = new AccountService($this->db);
@@ -211,6 +214,7 @@ class User extends Controller
 
     public function editprofile()
     {
+        $navbarChosen = "Profile";
         $this->title = "Edit Profile";
         Tools::requireLogin();
         $accountservice = new AccountService($this->db);
@@ -264,6 +268,7 @@ class User extends Controller
      */
     public function forgotPassword()
     {
+        $navbarChosen = "Login";
         $this->title = "Forgot your password?";
 
         $jsFiles = [];
@@ -294,6 +299,7 @@ class User extends Controller
 
     public function resetPassword($token, $email)
     {
+        $navbarChosen = "Login";
         $this->title = "Reset your password";
         $accountservice = new AccountService($this->db);
         $account = $accountservice->readFromEmail($email);
