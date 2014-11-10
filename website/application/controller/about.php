@@ -16,6 +16,7 @@ class About extends Controller
      */
     public function index()
     {
+        $navbarChosen = "About";
         $this->title = "About";
         
         $jsFiles = [];

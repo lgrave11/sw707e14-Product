@@ -9,7 +9,7 @@ class Admin extends Controller
     public function index()
     {
         Tools::requireAdmin();
-        
+        $navbarChosen = "GPS Tracking";
         $this->title = "Admin";
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
 
@@ -29,6 +29,7 @@ class Admin extends Controller
 
     public function bookingRoutes($arr = array()) 
     {
+        $navbarChosen = "Booking Routes";
         $this->title = "Booking Routes";
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
         $bicycleService = new bicycleService($this->db);
@@ -54,6 +55,7 @@ class Admin extends Controller
 
     public function bookingRoutesForm() 
     {
+        $navbarChosen = "Booking Routes";
         $this->title = "Booking Routes";
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
         if (empty($_POST['bicycle_id'])){
@@ -82,6 +84,7 @@ class Admin extends Controller
 
     public function mapRoutes($arr = array()) 
     {
+        $navbarChosen = "Map Routes";
         $this->title = "Map Routes";
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
 
@@ -98,6 +101,7 @@ class Admin extends Controller
     
     public function mapRoutesForm() 
     {
+        $navbarChosen = "Map Routes";
         $this->title = "Map Routes";
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
         if (empty($_POST['bicycles']) || empty($_POST['fromdate']) || empty($_POST['todate'])){
@@ -138,7 +142,9 @@ class Admin extends Controller
     public function usageHistory() {
         Tools::requireAdmin();
         
+        $navbarChosen = "Usage History";
         $this->title = "Usage History";
+        $currentPage = substr($_SERVER["REQUEST_URI"], 1);
         $bicycleservice = $this->loadModel("bicycleservice");
         $stationservice = $this->loadModel("stationservice");
         
@@ -151,7 +157,7 @@ class Admin extends Controller
     }
 
     public function graphTest() {
-        $jsFiles = ["amcharts", "serial", "chart"];
+        $jsFiles = ["d3.min", "graphtest"];
 
         require 'application/views/_templates/adminheader.php';
         require 'application/views/admin/graphtest.php';

@@ -16,6 +16,7 @@ class Home extends Controller
      */
     public function index()
     {
+        $navbarChosen = "Overview";
         $this->title = "Home";
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
         $stationService = new StationService($this->db);

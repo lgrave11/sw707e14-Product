@@ -70,7 +70,6 @@ a:hover {
     font-size: 13px;
     width: 100%;
     color: white;
-    background-color: #00315F;
     font-weight: bold;
     font-family: trebuchet MS;
     border-collapse: collapse;
@@ -83,11 +82,17 @@ a:hover {
 
 
 #navbar td {
+    background-color: #00315F;
     height: 30px;
     width: 100px;
     vertical-align: middle;
     display: table-cell;
     text-align: center;
+}
+
+#selectedNav 
+{
+    background-color: #00407C !important;
 }
 
 #container {
