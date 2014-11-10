@@ -65,9 +65,8 @@ function initialize() {
         
         google.maps.event.addListener(routePath, 'click', infoHelper(infowindow, map));
     }
-    $("#map-legend").hide();
     google.maps.event.addListener(map, 'idle', function() {
-        $("#map-legend").show();
+        $("#map-legend").css("display", "inline");
     });
 }
 
