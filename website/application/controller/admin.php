@@ -74,7 +74,7 @@ class Admin extends Controller
         $allRoutes = array();
         foreach ($positions as $key => $value) {
             $allRoutes[$key]["coordinates"] = $value;
-            $allRoutes[$key]["color"] = ViewHelper::generateRandomColor($key, count($positions));
+            $allRoutes[$key]["color"] = ViewHelper::generateRandomColor($key);
         }
         $this->bookingRoutes($allRoutes);
     }

@@ -39,6 +39,9 @@
             <td>
 				<a href="/Admin/MapRoutes">GPS Route History</a>
 			</td>
+            <td>
+				<a href="/Admin/BookingRoutes">GPS Booking History</a>
+			</td>
 			</tr>
 		</table>
 	</div>

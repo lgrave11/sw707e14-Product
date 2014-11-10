@@ -30,7 +30,7 @@
 	<div class="centerblock"><br />
 	<?php
 		if (Tools::isLoggedIn()){
-			echo '<input type="submit" value="Show Route" class="button" />';
+			echo '<input type="submit" value="Show Route(s)" class="button" />';
 		} else {
 			echo '<a href="/User/Login/">Login</a>';
 		}

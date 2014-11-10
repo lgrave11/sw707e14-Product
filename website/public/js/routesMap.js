@@ -51,8 +51,10 @@ function initialize() {
         
         polylines.push(routePath);
         
-        var div = $("<div id='path"+key+"Legend' style='width: 15px;height: 15px;background-color:"+color+";border: 1px black solid;float:left;margin-right:5px;margin-bottom:5px;'></div>").appendTo(legend);
-        var div2 = $("<div style='float:right;margin-right:5px;'>"+key+"</div>").appendTo(legend);
+        var legendEntry = $("<div style='margin-bottom:5px;'></div>")
+        var div = $("<div id='path"+key+"Legend' style='width: 10px;height: 10px;background-color:"+color+";border: 1px black solid;float:left;margin-right:5px;'></div>").appendTo(legendEntry);
+        var div2 = $("<div style='float:right;margin-right:5px;'>"+key+"</div>").appendTo(legendEntry);
+        legendEntry.appendTo(legend);
         var br =  $("<br>").appendTo(legend);
         
         var iwcontent = '<div id="content">' +
@@ -65,9 +67,8 @@ function initialize() {
         
         google.maps.event.addListener(routePath, 'click', infoHelper(infowindow, map));
     }
-    $("#map-legend").hide();
     google.maps.event.addListener(map, 'idle', function() {
-        $("#map-legend").show();
+        $("#map-legend").css("display", "inline");
     });
 }
 

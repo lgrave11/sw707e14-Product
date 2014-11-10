@@ -17,6 +17,7 @@ var bicycleimage = {
 
 function initialize() {
     geocoder = new google.maps.Geocoder();
+    
     var mapOptions = {
         zoom: 13,
         center: aalborg,
@@ -28,14 +29,19 @@ function initialize() {
     };
 
     map = new google.maps.Map(document.getElementById('map-canvasFullSize'), mapOptions);
+    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('map-legend'));
 
-    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('map-legendAdmin'));
-    var legend = document.getElementById('map-legendAdmin');
+    var legend = document.getElementById('map-legend');
 
 	var div = $("<div style='width: 10px;height: 10px;background-image: url(/public/images/bicycleMarker.png);float:left;margin-right:5px;margin-bottom:5px;'></div>" + 
 				"<div style='float:right;margin-right:5px;'>Bicycle</div>").appendTo(legend);
 
     updateMarkers();
+    
+    
+    google.maps.event.addListener(map, 'idle', function() {
+        $("#map-legend").css("display", "inline");
+    });
 }
 
 function getAddress(lat, lng, bicycleId, callback) 
