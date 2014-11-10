@@ -39,7 +39,7 @@ CREATE TABLE account
 (
 	username varchar(50) PRIMARY KEY,
 	password varchar(255),
-	email varchar(256) NOT NULL UNIQUE,
+	email varchar(255) NOT NULL UNIQUE,
 	phone varchar(20) NOT NULL,
     token varchar(255),
     reset_time bigint
