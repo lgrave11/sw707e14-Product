@@ -9,20 +9,14 @@
                                     "127.0.0.1","127.0.0.1","127.0.0.1",//16-18
                                     "127.0.0.1","127.0.0.1","127.0.0.1");//19-21
         static $port = 10000;
-
-        define('DB_HOST', 'localhost');
-        define('DB_NAME', 'bicycle-db');
-        define('DB_USER', 'sw707e14');
-        define('DB_PASS', 'saledes');
-        $db = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-        mysqli_set_charset($db, "utf8");
         
         public static function notifyStationBooking($station_id, $booking_id, $start_time, $password)
         {
             $message = self::makeJson("booking", $station_id, $booking_id, $start_time, $password);
 
             $sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-            $sock_data = socket_connect($sock, self::getStationIP($station_id), self::$port);
+            $ip = self::getStationIP($station_id);
+            $sock_data = socket_connect($sock, $ip, self::$port);
            // $sock_data = socket_set_option($sock, SOL_SOCKET, SO_BROADCAST);
             $sock_data = socket_write($sock, $message);
             socket_close($sock);
@@ -55,7 +49,8 @@
         }
 
         private static function getStationIP($station_id){
-            global $db;
+            $db = mysqli_connect('localhost', 'sw707e14', 'saledes', 'bicycle-db');
+            mysqli_set_charset($db, "utf8");
 
             $stmt = $db->prepare("SELECT ipaddress FROM station WHERE station_id = ?");
             $stmt->bind_param("i",$station_id);

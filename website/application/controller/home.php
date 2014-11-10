@@ -75,7 +75,6 @@ class Home extends Controller
         } else {
             $this->error("The booking could not be validated", "booking");
         }
-
         header("Location: /");
         exit();
     }    

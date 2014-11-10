@@ -1,10 +1,20 @@
 <?php
 function classAutoloader($class) {
-    include 'application/models/' . strtolower($class) . '.php';
+	$file = 'application/models/' . strtolower($class) . '.php';
+	if(is_file($file)) 
+	{
+		include $file;
+	}
+    
 }
 
 function interfaceAutoloader($className){
-	include 'interface/' . strtolower($className) . '.php';
+	$file = 'interface/' . strtolower($className) . '.php';
+	if(is_file($file)) 
+	{
+		include $file;
+	}
+	
 }
 
 spl_autoload_register('classAutoloader');
