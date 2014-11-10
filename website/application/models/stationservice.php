@@ -20,7 +20,7 @@ class StationService implements iService
     public function readStation($station_id)
     {
         $returnStation = null;
-        $stmt = $this->db->prepare("SELECT *, COUNT(*) FROM station WHERE station_id = ?");
+        $stmt = $this->db->prepare("SELECT station_id, name, address, latitude, longitude, COUNT(*) FROM station WHERE station_id = ?");
         $stmt->bind_param("i", $station_id);
         $stmt->execute();
         $stmt->bind_result($station_id, $name, $address, $latitude, $longitude, $count);
@@ -34,7 +34,7 @@ class StationService implements iService
     }
 
     public function readAddressForStation($station_id){
-    	$stmt = $this->db->prepare("SELECT * FROM station WHERE station_id = ?");
+    	$stmt = $this->db->prepare("SELECT station_id, name, address, latitude, longitude FROM station WHERE station_id = ?");
     	$stmt->bind_param("i", $station_id);
     	$stmt->execute();
     	$stmt->bind_result($station_id, $name, $address, $latitude, $longitude);
@@ -46,7 +46,7 @@ class StationService implements iService
 
     public function readAllStations(){
     	$returnArray = array();
-    	$stmt = $this->db->prepare("SELECT * FROM station");
+    	$stmt = $this->db->prepare("SELECT station_id, name, address, latitude, longitude FROM station");
     	$stmt->execute();
     	$stmt->bind_result($station_id, $name, $address, $latitude, $longitude);
     	while($stmt->fetch()){
