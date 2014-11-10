@@ -79,10 +79,9 @@ class ViewHelper
         return  "<option ". $attributeList .">". $value ."</option>";
     }
 
-    public static function generateRandomColor($colorNum = 0, $color_count = 1) 
+    public static function generateRandomColor($colorNum = 0) 
     {
-        if($color_count < 1) $color_count = 1;
-        $h = $colorNum * (360 / $color_count) % 360;
+        $h = ($colorNum * 53) % 360;
         return "hsl(".$h.", 100, 50);";
         //return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
     }

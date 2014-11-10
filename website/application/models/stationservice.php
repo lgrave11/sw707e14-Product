@@ -82,7 +82,7 @@ class StationService implements iService
         $bookingArray = array();
         $hour_back = time() - 3600;
         $hour_forward = time() + 3600;
-        $stmt = $this->db->prepare("SELECT COUNT(*), start_station FROM booking WHERE start_time BETWEEN ? AND ? GROUP BY start_station");
+        $stmt = $this->db->prepare("SELECT COUNT(*), start_station FROM booking WHERE password IS NOT NULL AND start_time BETWEEN ? AND ? GROUP BY start_station");
         $stmt->bind_param("ii", $hour_back, $hour_forward);
         $stmt->execute();
         $stmt->bind_result($countBookings, $start_station);
