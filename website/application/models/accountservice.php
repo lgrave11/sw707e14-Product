@@ -55,14 +55,14 @@ class AccountService implements iService
         $returnAccount = null;
         if(!empty($username))
         {
-            $stmt = $this->db->prepare("SELECT *, COUNT(*) FROM account WHERE username = ?");
+            $stmt = $this->db->prepare("SELECT username, password, email, phone, token, reset_time, role, COUNT(*) FROM account WHERE username = ?");
             $stmt->bind_param("s", $username);
             $stmt->execute();
-            $stmt->bind_result($user, $password, $email, $phone, $token, $reset_time, $count);
+            $stmt->bind_result($user, $password, $email, $phone, $token, $reset_time, $role, $count);
             $stmt->fetch();
             $stmt->close();
             if($count == 1) {
-                $returnAccount = new Account($user, $password, $email, $phone, $token, $reset_time);
+                $returnAccount = new Account($user, $password, $email, $phone, $token, $reset_time, $role);
             }
 
         }
@@ -81,14 +81,14 @@ class AccountService implements iService
         $returnAccount = null;
         if(!empty($email))
         {
-            $stmt = $this->db->prepare("SELECT *, COUNT(*) FROM account WHERE email = ?");
+            $stmt = $this->db->prepare("SELECT username, password, email, phone, token, reset_time, role, COUNT(*) FROM account WHERE email = ?");
             $stmt->bind_param("s", $email);
             $stmt->execute();
-            $stmt->bind_result($user, $password, $email, $phone, $token, $reset_time,  $count);
+            $stmt->bind_result($user, $password, $email, $phone, $token, $reset_time, $role,  $count);
             $stmt->fetch();
             $stmt->close();
             if($count == 1) {
-                $returnAccount = new Account($user, $password, $email, $phone, $token, $reset_time);
+                $returnAccount = new Account($user, $password, $email, $phone, $token, $reset_time, $role);
             }
 
         }

@@ -156,10 +156,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://localhost/interface/stationtodbregister.php%3fwsdl">
+    <WebReferenceUrl Include="http://172.25.23.67/interface/stationtodbregister.php%3fwsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\StationDBService\</RelPath>
-      <UpdateFromURL>http://localhost/interface/stationtodbregister.php%3fwsdl</UpdateFromURL>
+      <UpdateFromURL>http://172.25.23.67/interface/stationtodbregister.php%3fwsdl</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
