@@ -157,7 +157,7 @@ class Admin extends Controller
     }
 
     public function graphTest() {
-        $jsFiles = ["amcharts", "serial", "chart"];
+        $jsFiles = ["d3.min", "graphtest"];
 
         require 'application/views/_templates/adminheader.php';
         require 'application/views/admin/graphtest.php';
