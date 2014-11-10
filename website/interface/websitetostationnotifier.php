@@ -13,24 +13,42 @@
         public static function notifyStationBooking($station_id, $booking_id, $start_time, $password)
         {
             $message = self::makeJson("booking", $station_id, $booking_id, $start_time, $password);
-
             $sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
             $ip = self::getStationIP($station_id);
-            $sock_data = socket_connect($sock, $ip, self::$port);
-           // $sock_data = socket_set_option($sock, SOL_SOCKET, SO_BROADCAST);
-            $sock_data = socket_write($sock, $message);
-            socket_close($sock);
+
+            if(self::checkIpOnline($ip, self::$port)){
+                $sock_data = socket_connect($sock, $ip, self::$port);
+                // $sock_data = socket_set_option($sock, SOL_SOCKET, SO_BROADCAST);
+                $sock_data = socket_write($sock, $message);
+                socket_close($sock);
+                return true;
+            }
+            return false;
+
         }
     
         public static function notifyStationUnbooking($station_id, $booking_id)
         {
-            $message = self::makeJson("unbooking", $station_id, $booking_id, null, null);
-            
+            $message = self::makeJson("unbooking", $station_id, $booking_id, null, null);  
             $sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-            $sock_data = socket_connect($sock, self::getStationIP($station_id), self::$port);
-           // $sock_data = socket_set_option($sock, SOL_SOCKET, SO_BROADCAST);
-            $sock_data = socket_write($sock, $message);
-            socket_close($sock);
+            $ip = self::getStationIP($station_id);
+
+            if(self::checkIpOnline($ip, self::$port)){
+                $sock_data = socket_connect($sock, $ip, self::$port);
+                // $sock_data = socket_set_option($sock, SOL_SOCKET, SO_BROADCAST);
+                $sock_data = socket_write($sock, $message);
+                socket_close($sock);
+                return true;
+            }
+
+            return false;
+        }
+
+        private static function checkIpOnline($ip, $port){
+            error_reporting(0);
+            $errno;
+            $errstr;
+            return fsockopen($ip, $port, $errno, $errstr, 30);
         }
 
         private static function makeJson($action, $station_id, $booking_id, $start_time, $password)

@@ -70,8 +70,12 @@ class Home extends Controller
         $booking = new Booking(NULL, $time, $_POST['station'], mt_rand(100000, 999999), $_SESSION['login_user']);
 
         if ($bookingService->validate($booking)){
-            $bookingService->create($booking);
-            $this->success("A bicycle has been booked", "booking");
+            if($bookingService->create($booking) != null){
+                $this->success("A bicycle has been booked", "booking");
+            }
+            else{
+                $this->error("The station is offline, but will be registered once the station gets online","booking");
+            }
         } else {
             $this->error("The booking could not be validated", "booking");
         }
