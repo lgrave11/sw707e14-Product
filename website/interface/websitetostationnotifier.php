@@ -9,13 +9,20 @@
                                     "127.0.0.1","127.0.0.1","127.0.0.1",//16-18
                                     "127.0.0.1","127.0.0.1","127.0.0.1");//19-21
         static $port = 10000;
+
+        define('DB_HOST', 'localhost');
+        define('DB_NAME', 'bicycle-db');
+        define('DB_USER', 'sw707e14');
+        define('DB_PASS', 'saledes');
+        $db = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+        mysqli_set_charset($db, "utf8");
         
         public static function notifyStationBooking($station_id, $booking_id, $start_time, $password)
         {
             $message = self::makeJson("booking", $station_id, $booking_id, $start_time, $password);
 
             $sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-            $sock_data = socket_connect($sock, self::$station_ips[$station_id - 1], self::$port);
+            $sock_data = socket_connect($sock, self::getStationIP($station_id), self::$port);
            // $sock_data = socket_set_option($sock, SOL_SOCKET, SO_BROADCAST);
             $sock_data = socket_write($sock, $message);
             socket_close($sock);
@@ -26,7 +33,7 @@
             $message = self::makeJson("unbooking", $station_id, $booking_id, null, null);
             
             $sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-            $sock_data = socket_connect($sock, self::$station_ips[$station_id - 1], self::$port);
+            $sock_data = socket_connect($sock, self::getStationIP($station_id), self::$port);
            // $sock_data = socket_set_option($sock, SOL_SOCKET, SO_BROADCAST);
             $sock_data = socket_write($sock, $message);
             socket_close($sock);
@@ -45,6 +52,18 @@
             }
             
             return json_encode($to_add_class);
+        }
+
+        private static function getStationIP($station_id){
+            global $db;
+
+            $stmt = $db->prepare("SELECT ipaddress FROM station WHERE station_id = ?");
+            $stmt->bind_param("i",$station_id);
+            $stmt->execute();
+            $stmt->bind_result($station_ip);
+            $stmt->fetch();
+            $stmt->close();
+            return $station_ip;
         }
     }
 ?>
