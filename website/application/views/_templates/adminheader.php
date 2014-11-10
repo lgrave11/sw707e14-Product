@@ -30,16 +30,28 @@
 	<div id="navbar">
 		<table>
 			<tr>
-			<td>
-				<a href="/Admin/UsageHistory">Usage History</a>
-			</td>	
-			<td>
+            <?php if($navbarChosen == "GPS Tracking") {
+			echo '<td id="selectedNav">';
+            } else { echo '<td>'; }
+            ?>
 				<a href="/Admin/">GPS Tracking</a>
 			</td>
-            <td>
+            <?php if($navbarChosen == "Usage History") {
+			echo '<td id="selectedNav">';
+            } else { echo '<td>'; }
+            ?>
+				<a href="/Admin/UsageHistory">Usage History</a>
+			</td>	
+            <?php if($navbarChosen == "Map Routes") {
+			echo '<td id="selectedNav">';
+            } else { echo '<td>'; }
+            ?>
 				<a href="/Admin/MapRoutes">GPS Route History</a>
 			</td>
-            <td>
+            <?php if($navbarChosen == "Booking Routes") {
+			echo '<td id="selectedNav">';
+            } else { echo '<td>'; }
+            ?>
 				<a href="/Admin/BookingRoutes">GPS Booking History</a>
 			</td>
 			</tr>
