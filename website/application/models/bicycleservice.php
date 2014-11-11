@@ -196,8 +196,11 @@ class BicycleService implements iService
     {
         $valid = true;
 
-        if(!empty($bicycle->longitude) && !empty($bicycle->longitude))
+        if(!empty($bicycle->longitude) && !empty($bicycle->latitude))
         {
+            if(!is_numeric($bicycle->longitude) || !is_numeric($bicycle->latitude)){
+                $valid = false;
+            }
             if(!($bicycle->longitude >= 0.0 && $bicycle->longitude <= 90.0))
             {
                 $valid = false;
