@@ -1,0 +1,1 @@
+for %%x in (tests/*.php) do phpunit --bootstrap application/libs/autoloader.php tests/%%x >> fix.txt &&
