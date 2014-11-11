@@ -20,7 +20,7 @@ class BicycleService implements iService
      */
     public function create($bicycle)
     {
-        if(validate($bicycle))
+        if($this->validate($bicycle))
         {
             $stmt = $this->db->prepare("INSERT INTO bicycle(longitude, latitude) VALUES (?,?)");
             $stmt->bind_param("dd", $bicycle->longitude, $bicycle->latitude);
@@ -48,7 +48,7 @@ class BicycleService implements iService
         $stmt->bind_result($bicycle_id, $latitude, $longitude);
         $stmt->fetch();
         $stmt->close();
-        if(isset($bicycle_id))
+        if(is_numeric($bicycle_id))
         {
             return new Bicycle($bicycle_id,$latitude, $longitude);
         }
@@ -148,7 +148,7 @@ class BicycleService implements iService
      */
     public function update($bicycle)
     {
-        if(validate($bicycle))
+        if($this->validate($bicycle))
         {
             $stmt = $this->db->prepare("UPDATE bicycle SET longitude = ?, latitude = ? WHERE bicycle_id = ?");
             $stmt->bind_param("ddi",
@@ -174,10 +174,10 @@ class BicycleService implements iService
      */
     public function delete($bicycle)
     {
-        if(validate($bicycle))
+        if($this->validate($bicycle))
         {
             $stmt = $this->db->prepare("DELETE FROM bicycle WHERE bicycle_id = ?");
-            $stmt->bind_param("i",$bicycle->id);
+            $stmt->bind_param("i",$bicycle->bicycle_id);
             $stmt->execute();
             $stmt->close();
             return true;
