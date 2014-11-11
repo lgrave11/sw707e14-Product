@@ -32,14 +32,15 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$account = new Account("username", "password", "mymail@mydomain.com", "01020304", "mytoken", "myresettime", "user");
 		$accountservice = new accountservice($this->db);
 		$accountservice->create($account);
-		$booking = new booking(12345, 1415690764, 16, 456189, $account->username, 158);
+		$booking = new booking(12345, 1415690764, 16, 456189, $account->username, null);
 		$bookingservice = new bookingservice($this->db);
 		$bookingservice->create($booking);
 		
 		$testcreate = $bookingservice->create(13456);
 
 		//Act
-		$stmt = $this->db->prepare("SELECT booking_id, start_time, start_station, password, for_user, used_bicycle FROM booking WHERE booking_id = 12345");
+		$stmt = $this->db->prepare("SELECT booking_id, start_time, start_station, password, for_user, used_bicycle FROM booking WHERE booking_id = ?");
+        $stmt->bind_param("i", $booking->booking_id);
 		$stmt->execute();
 		$stmt->bind_result($id, $start_time, $start_station, $password, $for_user, $used_bicycle);
         $stmt->fetch();
@@ -47,20 +48,20 @@ class BookingTest extends PHPUnit_Framework_TestCase
 
 		$testbooking = new booking($id, $start_time, $start_station, $password, $for_user, $used_bicycle);
 
+
 		//Test create
 		$this->assertEquals($booking, $testbooking);
-		//$this->assertNull($testcreate);
+		$this->assertNull($testcreate);
 
-		//Clean up
 		$bookingservice->delete($booking);
-
+		echo "\nDone with Create Test";
 	}
 
 	public function testRead()
 	{
 		//Arange
 		$account = new Account("username", "password", "mymail@mydomain.com", "01020304", "mytoken", "myresettime", "user");
-		$booking = new booking(12345, 1415690764, 16, 456189, $account->username, 158);
+		$booking = new booking(12345, 1415690764, 16, 456189, $account->username, null);
 		$bookingservice = new bookingservice($this->db);
 		$bookingservice->create($booking);
 		$testread = $bookingservice->read(54679);
@@ -77,11 +78,14 @@ class BookingTest extends PHPUnit_Framework_TestCase
         //Test
 		$this->assertEquals($booking, $testbooking);
 		$this->assertNull($testread);
+
+		echo "\nDone with Read test";
+	}
+
+	public function testUpdate()
+	{
+
 	}
 	
-
-
-
 }
 
-?>

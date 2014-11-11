@@ -81,7 +81,7 @@ class BookingService implements iService
 
     public function delete($booking)
     {
-        deleteActiveBooking($booking->booking_id,$booking->for_user);
+        $this->deleteActiveBooking($booking->booking_id);
     }
 
     /**
@@ -187,22 +187,23 @@ class BookingService implements iService
         return $returnArray;
     }
 
-    public function deleteActiveBooking($booking_id, $username)
+    public function deleteActiveBooking($booking_id)
     {
+        
     	$stmt = $this->db->prepare ("SELECT start_station FROM booking where booking_id = ?");
     	$stmt->bind_param("i", $booking_id);
     	$stmt->execute();
     	$stmt->bind_result($station_id);
     	$stmt->fetch();
     	$stmt->close();
-
-        $stmt = $this->db->prepare("DELETE FROM booking WHERE booking_id = ? AND for_user = ?");
-        $stmt->bind_param("is", $booking_id, $username);
+        
+        $stmt = $this->db->prepare("DELETE FROM booking WHERE booking_id = ?");
+        $stmt->bind_param("is", $booking_id);
         $stmt->execute();
         $rowsDeleted = $stmt->affected_rows;
         $stmt->close();
-
-		WebsiteToStationNotifier::notifyStationUnbooking($station_id, $booking_id);
+        
+        WebsiteToStationNotifier::notifyStationUnbooking($station_id, $booking_id);
 
         return $rowsDeleted;
     }
