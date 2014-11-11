@@ -12,7 +12,7 @@ class DockService implements iService{
     }
 
     public function readHoldsBicycle($dock){
-        if(validate($dock))
+        if($this->validate($dock))
         {
             $stmt = $this->db->prepare("SELECT holds_bicycle FROM dock WHERE dock_id = ? AND station_id = ?");
             $stmt->bind_param("ii", $dock->dock_id, $dock->station_id);
@@ -68,7 +68,7 @@ class DockService implements iService{
     }
 
     public function create($dock){
-        if(validate($dock))
+        if($this->validate($dock))
         {
             $stmt = $this->db->prepare("INSERT INTO dock(station_id) VALUES (?)");
             $stmt->bind_param("i", $dock->station_id);
@@ -76,7 +76,7 @@ class DockService implements iService{
             $id = $this->db->insert_id;
             $stmt->close();
 
-            return new Dock($station_id, $id, null);
+            return new Dock($id, $dock->station_id, null);
         }
         else
         {
@@ -85,7 +85,7 @@ class DockService implements iService{
     }
 
     public function update($dock){
-        if(validate($dock))
+        if($this->validate($dock))
         {
             $stmt = $this->db->prepare("UPDATE dock set station_id = ?, holds_bicycle = ? WHERE dock_id = ?");
             $stmt->bind_param("iii", $dock->station_id, $dock->holds_bicycle, $dock->dock_id);
@@ -100,9 +100,9 @@ class DockService implements iService{
     }
 
     public function delete($dock){
-        if(validate($dock))
+        if($this->validate($dock))
         {
-            $stmt = $this->db->prepare("DELETE FROM dock WHERE dock_id = ?, station_id = ?");
+            $stmt = $this->db->prepare("DELETE FROM dock WHERE dock_id = ? AND station_id = ?");
             $stmt->bind_param("ii", $dock->dock_id, $dock->station_id);
             $stmt->execute();
             $stmt->close();
@@ -116,6 +116,7 @@ class DockService implements iService{
 
     public function validate($dock)
     {
+        $valid = true;
         // Check that the station exists
         $stationservice = new StationService($this->db);
         if(empty($dock->station_id))
@@ -130,7 +131,7 @@ class DockService implements iService{
                 $valid = false;
             }
         }
-        return true;
+        return $valid;
     }
 }
 ?>
