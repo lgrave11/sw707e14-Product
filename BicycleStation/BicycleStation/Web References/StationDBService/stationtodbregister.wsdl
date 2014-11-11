@@ -135,7 +135,7 @@
   </wsdl:binding>
   <wsdl:service name="StationToDB_Service">
     <wsdl:port name="StationToDB_ServicePort" binding="tns:StationToDB_ServiceBinding">
-      <soap:address location="http://localhost/interface/stationtodbregister.php" />
+      <soap:address location="http://172.25.23.67/interface/stationtodbregister.php" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

@@ -30,7 +30,16 @@ namespace BicycleStation
             {
                 // Set the TcpListener on port 10000.
                 Int32 port = 10000;
-                IPAddress localAddr = IPAddress.Parse("127.0.0.1");
+                IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+                IPAddress localAddr = null;
+                foreach(IPAddress ip in host.AddressList)
+                {
+                    if(ip.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        localAddr = ip;
+                    }
+                }
+                
 
                 // TcpListener server = new TcpListener(port);
                 server = new TcpListener(localAddr, port);
@@ -56,6 +65,11 @@ namespace BicycleStation
 
                     //Decode date and create networkdata object
                     NetworkData networkdata = Json.Decode(received, typeof(NetworkData));
+                    if(networkdata == null)
+                    {
+                        client.Close();
+                        continue;
+                    }
                     networkdata.performAction();
                     GUI.BeginInvoke(new InvokeDelegate(GUI.updateUI));
 

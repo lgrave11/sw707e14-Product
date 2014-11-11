@@ -43,8 +43,8 @@ CREATE TABLE account
 	email varchar(255) NOT NULL UNIQUE,
 	phone varchar(20) NOT NULL,
     token varchar(255),
-    reset_time bigint
-    
+    reset_time bigint,
+	role varchar(7) DEFAULT "user"
 );
 
 CREATE TABLE booking
@@ -538,8 +538,8 @@ INSERT INTO dock(station_id) VALUES(21);
 INSERT INTO dock(station_id) VALUES(21);
 
 
--- a single user;
-INSERT INTO account(username, password, email, phone) VALUES("sw707e14", "$2y$10$gnS5CuXtiCkmSZfqiSXO7OnrDBxazIbvCUzQXtVpNgWcyy8FdLxYK", "sw707e14@cs.aau.dk", "1345678");
+-- a single admin user;
+INSERT INTO account(username, password, email, phone, role) VALUES("sw707e14", "$2y$10$gnS5CuXtiCkmSZfqiSXO7OnrDBxazIbvCUzQXtVpNgWcyy8FdLxYK", "sw707e14@cs.aau.dk", "1345678", "admin");
 
 -- some bookings
 INSERT INTO booking(start_time, start_station,password,for_user) VALUES (1206887716, 5,665932,"sw707e14");

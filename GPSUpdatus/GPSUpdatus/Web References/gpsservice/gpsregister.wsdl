@@ -35,7 +35,7 @@
   </wsdl:binding>
   <wsdl:service name="GPS_Service">
     <wsdl:port name="GPS_ServicePort" binding="tns:GPS_ServiceBinding">
-      <soap:address location="http://localhost/interface/gpsregister.php" />
+      <soap:address location="http://172.25.23.67/interface/gpsregister.php" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
