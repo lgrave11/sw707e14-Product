@@ -106,13 +106,21 @@ class AccountService implements iService
     {
         if($this->validate($account))
         {
+            $flag = true;
+            if($this->read($account->username)->password == $account->password)
+            {
+                $flag = false;
+            }
+            $hashedPassword = $account->password;
+            if($flag)
+                $hashedPassword = password_hash($account->password, PASSWORD_DEFAULT);
             //Do the update
             $stmt = $this->db->prepare("UPDATE account SET password = ?, email = ?, phone = ?, token = ?, reset_time = ? WHERE username = ?");
-            $stmt->bind_param("ssssis", $account->password, $account->email, $account->phone, $account->token, $account->reset_time, $account->username);
+            $stmt->bind_param("ssssis", $hashedPassword, $account->email, $account->phone, $account->token, $account->reset_time, $account->username);
             $stmt->execute();
             $stmt->close();
 
-            return new Account($account->username, $account->password, $account->email, $account->phone, $account->token, $account->reset_time);
+            return new Account($account->username, $hashedPassword, $account->email, $account->phone, $account->token, $account->reset_time, $account->role);
         }
         else
         {
@@ -182,18 +190,26 @@ class AccountService implements iService
     public function validate($account)
     {
         $valid = true;
-
-        if (!empty($account->username)) {
+        if(empty($account->username))
+        {
+            $valid = false;
+        }
+        if (!empty($account->username) )
+        {
             if (!Tools::validateUsername($account->username))
+            {
                 $valid = false;
+            }
         }
         if (!empty($account->email)) {
-            if (!Tools::validateEmail($account->email))
+            if (!Tools::validateEmail($account->email)){
                 $valid = false;
+            }
         }
         if (!empty($account->phone)) {
-            if (!Tools::validatePhone($account->phone))
+            if (!Tools::validatePhone($account->phone)){
                 $valid = false;
+            }
         }
 
         return $valid;
