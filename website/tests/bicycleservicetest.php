@@ -160,6 +160,7 @@ class BicycleServiceTest extends PHPUnit_Framework_TestCase
 		$accountService->delete($account);
 		$bicycleService->delete($bicycle);
 
+
 	}
 }
 ?>
