@@ -35,6 +35,8 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$booking = new booking(12345, 1415690764, 16, 456189, $account->username, null);
 		$bookingservice = new bookingservice($this->db);
 		$bookingservice->create($booking);
+		$booking2 = new booking(null, 1415690764, 16, 456189, $account->username);
+		$booking3 = $bookingservice->create(clone $booking2);
 		
 		$testcreate = $bookingservice->create(13456);
 
@@ -45,6 +47,7 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$stmt->bind_result($id, $start_time, $start_station, $password, $for_user, $used_bicycle);
         $stmt->fetch();
         $stmt->close();
+        $booking2->booking_id = $booking3->booking_id;
 
 		$testbooking = new booking($id, $start_time, $start_station, $password, $for_user, $used_bicycle);
 
@@ -52,8 +55,11 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		//Test create
 		$this->assertEquals($booking, $testbooking);
 		$this->assertNull($testcreate);
+		$this->assertEquals($booking2, $booking3);
 
+		//Clean up
 		$bookingservice->delete($booking);
+		$accountservice->delete($account);
 		echo "\nDone with Create Test";
 	}
 
@@ -79,11 +85,18 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($booking, $testbooking);
 		$this->assertNull($testread);
 
+		//Cleanup
+		$bookingservice->delete($booking);
 		echo "\nDone with Read test";
 	}
 
 	public function testUpdate()
 	{
+		//Arange
+		$account = new Account("username", "password", "mymail@mydomain.com", "01020304", "mytoken", "myresettime", "user");
+		$booking = new booking(12345, 1415690764, 16, 456189, $account->username, null);
+		$bookingservice = new bookingservice($this->db);
+		$booking2 = $bookingservice->create($booking);
 
 	}
 	
