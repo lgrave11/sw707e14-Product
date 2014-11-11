@@ -26,7 +26,7 @@ namespace GPSUpdatus.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost/interface/gpsregister.php")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://172.25.23.67/interface/gpsregister.php")]
         public string GPSUpdatus_gpsservice_StationToDB_Service {
             get {
                 return ((string)(this["GPSUpdatus_gpsservice_StationToDB_Service"]));
