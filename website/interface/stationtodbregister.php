@@ -68,15 +68,17 @@
         
         if ($booking_id == 0)
             $booking_id = NULL;
-
-        $stmt = $db->prepare("INSERT INTO historyusagebicycle (bicycle_id, start_station, start_time, booking_id) VALUES (?, ?, UNIX_TIMESTAMP(), ?)");
-        $stmt->bind_param("iii", $bicycle_id, $station_id, $booking_id);
+        
+        $currentTime = time();
+        
+        $stmt = $db->prepare("INSERT INTO historyusagebicycle (bicycle_id, start_station, start_time, booking_id) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("iii", $bicycle_id, $station_id, $currentTime, $booking_id);
         $stmt->execute();
         $stmt->close();
         
         $stmt = $db->prepare("INSERT INTO historyusagestation (station_id, time, num_bicycles) 
-                              VALUES (?, UNIX_TIMESTAMP(), ? - 1)");
-        $stmt->bind_param("ii", $station_id, GetCurrentBicycleCount($station_id));
+                              VALUES (?, ?, ? - 1)");
+        $stmt->bind_param("ii", $station_id, $currentTime, GetCurrentBicycleCount($station_id));
         $stmt->execute();
         $stmt->close();
                                                             
@@ -116,14 +118,17 @@
         $stmt->execute();
         $stmt->close();
 
-        $stmt = $db->prepare("UPDATE historyusagebicycle SET end_station = ?, end_time = UNIX_TIMESTAMP() WHERE bicycle_id = ? AND end_station IS NULL");
-        $stmt->bind_param("ii", $station_id, $bicycle_id);
+
+        $currentTime = time();
+
+        $stmt = $db->prepare("UPDATE historyusagebicycle SET end_station = ?, end_time = ? WHERE bicycle_id = ? AND end_station IS NULL");
+        $stmt->bind_param("ii", $station_id, $currentTime, $bicycle_id);
         $stmt->execute();
         $stmt->close();
         
         $stmt = $db->prepare("INSERT INTO historyusagestation (station_id, time, num_bicycles) 
-                              VALUES (?, UNIX_TIMESTAMP(), ? + 1)");
-        $stmt->bind_param("ii", $station_id, GetCurrentBicycleCount($station_id));
+                              VALUES (?, ?, ? + 1)");
+        $stmt->bind_param("ii", $station_id, $currentTime, GetCurrentBicycleCount($station_id));
         $stmt->execute();
         $stmt->close();
         

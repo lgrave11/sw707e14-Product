@@ -39,7 +39,7 @@ class BookingService implements iService
 
     public function read($booking)
     {
-        if(validate($booking))
+        if($this->validate($booking))
         {
             $stmt = $this->db->prepare("SELECT booking_id, start_time, start_station, password, for_user, used_bicycle FROM booking WHERE booking_id = ?");
             $stmt->bind_param("i", $booking->booking_id);
@@ -58,7 +58,7 @@ class BookingService implements iService
 
     public function update($booking)
     {
-        if(validate($booking))
+        if($this->validate($booking))
         {
             $stmt = $this->db->prepare("UPDATE booking set start_time = ?, password = ?, for_user = ? WHERE booking_id = ?");
             $stmt->bind_param("sssi",
@@ -79,7 +79,7 @@ class BookingService implements iService
 
     public function delete($booking)
     {
-        deleteActiveBooking($booking->booking_id,$booking->for_user);
+        $this->deleteActiveBooking($booking->booking_id);
     }
 
     /**
@@ -88,8 +88,12 @@ class BookingService implements iService
      */
     public function validate($booking)
     {
-        $valid = true;
+        //checks if types match
+        if (!($booking instanceof booking)) {
+            return false;
+        }
 
+        $valid = true;
         // Check if password is valid.
         if (!empty($booking->password)) {
             if (!Tools::validateBookingPw($booking->password))
@@ -128,7 +132,7 @@ class BookingService implements iService
             $for_user = $accountservice->read($booking->for_user);
             if(empty($for_user))
             {
-                $valid = false;
+               $valid = false;
             }
         }
 
@@ -181,22 +185,23 @@ class BookingService implements iService
         return $returnArray;
     }
 
-    public function deleteActiveBooking($booking_id, $username)
+    public function deleteActiveBooking($booking_id)
     {
+        
     	$stmt = $this->db->prepare ("SELECT start_station FROM booking where booking_id = ?");
     	$stmt->bind_param("i", $booking_id);
     	$stmt->execute();
     	$stmt->bind_result($station_id);
     	$stmt->fetch();
     	$stmt->close();
-
-        $stmt = $this->db->prepare("DELETE FROM booking WHERE booking_id = ? AND for_user = ?");
-        $stmt->bind_param("is", $booking_id, $username);
+        
+        $stmt = $this->db->prepare("DELETE FROM booking WHERE booking_id = ?");
+        $stmt->bind_param("i", $booking_id);
         $stmt->execute();
         $rowsDeleted = $stmt->affected_rows;
         $stmt->close();
-
-		WebsiteToStationNotifier::notifyStationUnbooking($station_id, $booking_id);
+        
+        WebsiteToStationNotifier::notifyStationUnbooking($station_id, $booking_id);
 
         return $rowsDeleted;
     }
