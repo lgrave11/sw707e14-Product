@@ -3,7 +3,7 @@
         <table style="width:100%;">
             <tr>
                 <td><h2>Choose Perspective</h2></td>
-                <td id="selectlistlabel" style="width:300px;"><h2>Choose Bicycle</h2></td>
+                <td id="selectlistlabel" style="width:300px;"><h2></h2></td>
                 <td><h2>From Time</h2></td>
                 <td><h2>To Time</h2></td>
                 <td>&nbsp;</td>
@@ -11,12 +11,12 @@
             <tr>
                 <td>
                     <select id="usageperspective" onchange="UpdateSelectList()">
-                        <option>Bicycle</option>
+                        <option>Traffic</option>
                         <option>Station</option>
                     </select>
                 </td>
                 <td>
-                    <select name="StationBicycleList">
+                    <select name="StationBicycleList" style="display: none;">
                         <?php
                             foreach ($list as $item) {
                                 echo ViewHelper::GenerateHTMLSelectOption($item, array('value'=>$item));
