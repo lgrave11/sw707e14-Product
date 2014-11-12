@@ -118,6 +118,7 @@ class BicycleService implements iService
         return $returnArray;
     }
     
+    //THIS FUNCTION IS NOT TESTED!
     public function readBicyclePositionsWithBooking($bicycle_id, $booking_id)
     {
         $returnArray = array();

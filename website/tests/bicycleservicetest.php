@@ -113,8 +113,9 @@ class BicycleServiceTest extends PHPUnit_Framework_TestCase
 		$stmt->execute();
 		$stmt->close();
 		$bicycleService->delete($b);
-
 		$this->assertContainsOnlyInstancesOf('Bicycle',$array);
+        $allBicyclesMapped = array_map(function($x) {return json_encode($x); }, $array);
+        $this->assertContains(json_encode(new Bicycle($b->bicycle_id,null,null)), $allBicyclesMapped);
 	}
 
 	public function testReadAll(){
@@ -128,26 +129,26 @@ class BicycleServiceTest extends PHPUnit_Framework_TestCase
 		$bicycleService = new BicycleService($this->db);
 
 		$b = $bicycleService->create(new Bicycle(null, 50, 50));
-		$stmt = $this->db->prepare("INSERT INTO historylocationbicycle(bicycle_id,timeforlocation,latitude,longitude) VALUE (?,100,50,50)");
+		$stmt = $this->db->prepare("INSERT INTO historylocationbicycle(bicycle_id,latitude,longitude) VALUE (?,50,50)");
 		$stmt->bind_param("i",$b->bicycle_id);
 		$stmt->execute();
 		$stmt->close();
 
-		$array = $bicycleService->readBicyclePositions($b->bicycle_id,0,1000);
+		$fromTime = time() - 60;
+		$toTime = time() + 60;
+		$array = $bicycleService->readBicyclePositions($b->bicycle_id,$fromTime,$toTime);
 
+		
 		$stmt = $this->db->prepare("DELETE FROM historylocationbicycle WHERE bicycle_id = ?");
 		$stmt->bind_param("i",$b->bicycle_id);
 		$stmt->execute();
 		$stmt->close();
 		$bicycleService->delete($b);
 
-		$this->assertContainsOnlyInstancesOf('Bicycle',$array);
-
-		$array = $bicycleService->readBicyclePositions(-1,0,1000);
-		$this->assertEquals(0,count($array));
+		$this->assertContainsOnlyInstancesOf('stdClass',$array);
 	}
 
-	public function testReadBicyclePositionsWithBooking(){
+	public function testReadBicycleBookingPairs(){
 		$bicycleService = new BicycleService($this->db);
 		$bookingService = new BookingService($this->db);
 		$accountService = new AccountService($this->db);
@@ -156,11 +157,19 @@ class BicycleServiceTest extends PHPUnit_Framework_TestCase
 		$account = $accountService->create(new Account("TestUser", "TestPassword","Test@Email.com","99999999","myToken",10));
 		$booking = $bookingService->create(new Booking(null, 10, 10, 123456, $account->username));
 
+		$array = $bicycleService->readBycleBookingParis();
+
 		$bookingService->delete($booking);
 		$accountService->delete($account);
 		$bicycleService->delete($bicycle);
-
 		
+
+		$this->assertContainsOnlyInstancesOf('stdClass',$array);
+		$this->assertEquals(0,length($array));
+	}
+
+	public function testUpdate(){
+
 	}
 }
 ?>
