@@ -83,16 +83,20 @@ class StationServiceTest extends PHPUnit_Framework_TestCase
 		$stationService->delete($station);
 	}
 
+	//To be continued
 	public function testSearchStation()
 	{
 		$stationService = new StationService($this->db);
-		$station = new Station(10000, "test station name", "test address", 57.1, 9.2); //assuming the system does not reach a higher amount than 10000 stations
+		$station = new Station(10000, "fasjjosgdjiodsgjposerjoåipherjoiasfjaefjiojiokoate test station", "test address", 57.1, 9.2); //assuming the system does not reach a higher amount than 10000 stations
 		$stationService->create($station);
 
 		$this->AssertEquals(count($stationService->readAllStations()), count($stationService->searchStation()));
 		
-
+		$result = $stationService->searchStation("fasjjosgdjiodsgjposerjoåipherjoiasfjaefjiojioko");
+		$this->AssertEquals(1, count($result));
 		$stationService->delete($station);
+		$result = $stationService->searchStation("fasjjosgdjiodsgjposerjoåipherjoiasfjaefjiojioko");
+		$this->AssertEquals(0, count($result));
 	}
 
 
