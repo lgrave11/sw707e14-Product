@@ -83,7 +83,7 @@ class StationServiceTest extends PHPUnit_Framework_TestCase
 		$stationService->delete($station);
 	}
 
-	//To be continued
+	
 	public function testSearchStation()
 	{
 		$stationService = new StationService($this->db);
