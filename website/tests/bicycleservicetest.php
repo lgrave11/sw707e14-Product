@@ -156,20 +156,34 @@ class BicycleServiceTest extends PHPUnit_Framework_TestCase
 		$bicycle = $bicycleService->create(new Bicycle(null,50,50));
 		$account = $accountService->create(new Account("TestUser", "TestPassword","Test@Email.com","99999999","myToken",10));
 		$booking = $bookingService->create(new Booking(null, 10, 10, 123456, $account->username));
+		$stmt = $this->db->prepare("INSERT INTO historyusagebicycle(bicycle_id,booking_id,start_time) VALUES (?,?,0)");
+        $stmt->bind_param("ii", $bicycle->bicycle_id,$booking->booking_id);
+        $stmt->execute();
+        $id = $this->db->insert_id;
+        $stmt->close();
 
-		$array = $bicycleService->readBycleBookingParis();
+		$array = $bicycleService->readBicycleBookingPairs();
 
+		$stmt = $this->db->prepare("DELETE FROM historyusagebicycle WHERE id = ?");
+		$stmt->bind_param("i",$id);
+		$stmt->execute();
+		$stmt->close();
 		$bookingService->delete($booking);
 		$accountService->delete($account);
 		$bicycleService->delete($bicycle);
 		
-
 		$this->assertContainsOnlyInstancesOf('stdClass',$array);
-		$this->assertEquals(0,length($array));
 	}
 
 	public function testUpdate(){
+		$bicycleService = new BicycleService($this->db);
+		$bicycle = $bicycleService->create(new Bicycle(null,50,50));
 
+		$testbicycle = new Bicycle($bicycle->bicycle_id,70,70);
+		$newbicycle = $bicycleService->update($testbicycle);
+		$bicycleService->delete($bicycle);
+		$this->assertEquals(70,$newbicycle->latitude);
+		$this->assertEquals(70,$newbicycle->longitude);
 	}
 }
 ?>
