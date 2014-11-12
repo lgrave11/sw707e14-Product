@@ -35,10 +35,10 @@ class HistoryUsageBicycleService implements iService
         return $returnArray;
     }
     
-    public function readHistoryBetween($bicycle_id, $fromtime, $totime) {
+    public function readHistoryBetween($fromtime, $totime) {
         $returnArray = array();
-        $stmt = $this->db->prepare("SELECT * FROM historyusagebicycle WHERE bicycle_id = ? AND start_time >= ? AND end_time <= ?");
-        $stmt->bind_param("iii", $bicycle_id, $fromtime, $totime);
+        $stmt = $this->db->prepare("SELECT * FROM historyusagebicycle WHERE start_time >= ? AND end_time <= ?");
+        $stmt->bind_param("ii", $fromtime, $totime);
         $stmt->execute();
         $stmt->bind_result($id, $bicycle_id, $start_station, $start_time, $end_station, $end_time, $booking_id);
         

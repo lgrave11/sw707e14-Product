@@ -1,13 +1,17 @@
 
-$(function() { 
-    UpdateUsageContent(); 
-});
 
 
 function UpdateSelectList() {
     var type = $('#usageperspective option:selected').val();
-    $("#selectlistlabel h2").html("Choose " + type);
-    $("select[name='StationBicycleList']").load('/ajax/get'+capitaliseFirstLetter(type)+'Options');
+    if (type == "Traffic"){
+        $("#selectlistlabel h2").html("");
+        $("select[name='StationBicycleList']").hide();
+    } else {
+        $("#selectlistlabel h2").html("Choose " + type);
+        $("select[name='StationBicycleList']").show().load('/ajax/get'+capitaliseFirstLetter(type)+'Options');
+    }
+    
+    
 }
 
 function UpdateUsageContent() {
@@ -22,11 +26,14 @@ function UpdateUsageContent() {
     var totime = Date.parse(totimeRawSplit[1] + '/' + totimeRawSplit[0] + '/' + totimeRawSplit[2]) / 1000;
     
     $('#usagecontent').load('/ajax/get'+capitaliseFirstLetter(type)+'UsageContent/'+encodeURIComponent(id)+'/'+fromtime+'/'+totime, 
-                            function() { 
-                                clearTimeout(timer); 
+                            function(response, status, xhr) {
+                                clearTimeout(timer);
+                                //alert(status);
                                 $('#loading').hide(); 
                                 if (type == "Station") {
                                     AmCharts.handleLoad();
+                                } else if (type == "Traffic"){
+
                                 }
                             });
     
