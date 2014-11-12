@@ -103,7 +103,6 @@ class Ajax extends Controller {
 
     public function usageGraph($start_time, $end_time) {
         $navbarChosen = "";
-        $count = 0;
         $hubs = new HistoryUsageBicycleService($this->db);
         $hist = $hubs->readHistoryBetween($start_time, $end_time);
         $a = array_pad(array(), 21, array_pad(array(), 21, 0));
@@ -111,14 +110,11 @@ class Ajax extends Controller {
         foreach($hist as $h)
         {
             $a[$h->start_station-1][$h->end_station-1]++;
-            $count++;
         }
 
         for ($i = 0; $i < 21; $i++){
             for ($j = 0; $j < 21; $j++){
-                if ($count != 0){
-                    $a[$i][$j] = $a[$i][$j] / $count;
-                }
+                $a[$i][$j] = $a[$i][$j];
             }
         }
         require 'application/views/ajax/usagegraph.php';

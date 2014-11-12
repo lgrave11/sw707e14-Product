@@ -58,10 +58,10 @@ class BookingService implements iService
 
     public function update($booking)
     {
-        echo "\nvalidate";
+        
         if($this->validate($booking))
         {
-            echo "\nstarting update";
+            
             $stmt = $this->db->prepare("UPDATE booking set start_time = ?, password = ?, for_user = ? WHERE booking_id = ?");
             $stmt->bind_param("sssi",
                 $booking->start_time,
@@ -70,7 +70,7 @@ class BookingService implements iService
                 $booking->booking_id);
             $stmt->execute();
             $stmt->close();
-            echo "\nfinished update";
+            
             return $booking;
         }
         else

@@ -32,7 +32,7 @@ CREATE TABLE dock
 	station_id int,
 	holds_bicycle int,
 	PRIMARY KEY(dock_id, station_id),
-	FOREIGN KEY(station_id) REFERENCES station(station_id),
+	FOREIGN KEY(station_id) REFERENCES station(station_id) ON DELETE CASCADE,
 	FOREIGN KEY(holds_bicycle) REFERENCES bicycle(bicycle_id)
 );
 
