@@ -5,18 +5,15 @@ class AccountTest extends PHPUnit_Framework_TestCase
 	public function testFieldsAreAssigned()
 	{
 		//Arrange
-		$account = new Account("username", "password", "mymail@mydomain.com", "01020304", "mytoken", "myresettime", "user");
+		$station = new Station(1, "test station name", "test address", 57.1, 9.2);
 
 		//Act - nothing here
 
 		//Assert
-		$this->assertEquals($account->username, "username");
-		$this->assertEquals($account->password, "password");
-		$this->assertEquals($account->email, "mymail@mydomain.com");
-		$this->assertEquals($account->phone, "01020304");
-		$this->assertEquals($account->token, "mytoken");
-		$this->assertEquals($account->reset_time, "myresettime");
-		$this->assertEquals($account->role, "user");
-
+		$this->assertEquals(1, $station->station_id);
+		$this->assertEquals("test station name", $station->name);
+		$this->assertEquals("test address", $station->address);
+		$this->assertEquals(57.1, $station->latitude);
+		$this->assertEquals(9.2, $station->longitude);
 	}
 }
