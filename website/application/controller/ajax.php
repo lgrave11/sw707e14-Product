@@ -64,9 +64,9 @@ class Ajax extends Controller {
         }
     }
     
-    public function getBicycleUsageContent($id, $fromtime, $totime) {
+    public function getTrafficUsageContent($id, $fromtime, $totime) {
         Tools::requireAdmin();
-        
+        /*
         $historyusagebicycleservice = new HistoryUsageBicycleService($this->db);
         $stationservice = new StationService($this->db);
         $bicycleData = array();
@@ -87,18 +87,50 @@ class Ajax extends Controller {
 				$obj->end_time = date('d/m/Y H:i:s', $data->end_time);
 			}
             $bicycleData[] = $obj;
-        }
-        if (empty($bicycleData)) {
-            require 'application/views/ajax/nousagedata.php';
-        } else {
+        }*/
+        //if (empty($bicycleData)) {
+        //    require 'application/views/ajax/nousagedata.php';
+        //} else {
             require 'application/views/ajax/bicycleusage.php';
-        }
+        //}
     }
     
     public function getStationHistory($station_id) {
         Tools::requireAdmin();
         
 
-    }   
+    }
+
+    public function usageGraph($start_time, $end_time) {
+        $navbarChosen = "";
+        $count = 0;
+        $hubs = new HistoryUsageBicycleService($this->db);
+        $hist = $hubs->readHistoryBetween($start_time, $end_time);
+        $a = array_pad(array(), 21, array_pad(array(), 21, 0));
+
+        foreach($hist as $h)
+        {
+            $a[$h->start_station-1][$h->end_station-1]++;
+            $count++;
+        }
+
+        for ($i = 0; $i < 21; $i++){
+            for ($j = 0; $j < 21; $j++){
+                if ($count != 0){
+                    $a[$i][$j] = $a[$i][$j] / $count;
+                }
+            }
+        }
+        require 'application/views/ajax/usagegraph.php';
+    }
+
+    public function usageGraphNames() {
+        $colors = array('#FF0000', '#FF4900', '#FF9200', '#FFDB00', '#DBFF00', '#92FF00', '#49FF00', '#00FF00', '#00FF49', '#00FF92', '#00FFDB', '#00DBFF', '#0092FF', '#0049FF', '#0000FF', '#4900FF', '#9200FF', '#DB00FF', '#FF00DB', '#FF0092', '#FF0049');
+
+        $stationService = new StationService($this->db);
+        $stations = $stationService->readAllStations();
+
+        require 'application/views/ajax/usagegraphnames.php';
+    }
 }
 ?>

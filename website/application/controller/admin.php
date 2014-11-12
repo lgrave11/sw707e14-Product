@@ -151,7 +151,7 @@ class Admin extends Controller
         
         $list = array_map(function($b) { return $b->bicycle_id; }, $bicycleservice->readAll());
         
-        $jsFiles = ["admin.datetimepicker", "usagehistory"];
+        $jsFiles = ["admin.datetimepicker", "usagehistory", "d3.min"];
         require 'application/views/_templates/adminheader.php';
         require 'application/views/admin/usagehistory.php';
         require 'application/views/_templates/footer.php';
@@ -164,6 +164,5 @@ class Admin extends Controller
         require 'application/views/admin/graphtest.php';
         require 'application/views/_templates/footer.php';
     }
-
 }
 ?>

@@ -44,32 +44,7 @@ class DockServiceTest extends PHPUnit_Framework_TestCase
         $dockService->delete($d);
     }
     
-	public function testValidate(){
-		$dockService = new DockService($this->db);
-
-		//TEST NULL VALUES
-		$d = $dockService->validate(new Dock(null,null,null));
-		$this->assertEquals(false, $d);
-		$d = $dockService->validate(new Dock(null, 1,null));
-		$this->assertEquals(true, $d);
-		$d = $dockService->validate(new Dock(null, 1, 1));
-		$this->assertEquals(true, $d);
-        $d = $dockService->validate(new Dock(null, null, 1));
-		$this->assertEquals(false, $d);
-	}
-    
-    public function testDelete() 
-    {
-        $dockService = new DockService($this->db);
-        $d = $dockService->create(new Dock(null, 2, null));
-        $deleted = $dockService->delete($d);
-        $this->assertEquals(true, $deleted);
-        $d = $dockService->create(new Dock(null, 999, null));
-        $deleted = $dockService->delete($d);
-        $this->assertEquals(false, $deleted);
-    }
-
-	public function testCreate(){
+    public function testCreate(){
 		$dockService = new DockService($this->db);
 
 		//TEST IF DOCK IS CREATED WHEN VALIDATE FAILS
@@ -94,5 +69,30 @@ class DockServiceTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(3, $d->station_id);
         $dockService->delete($d);
     }
+    
+    public function testDelete() 
+    {
+        $dockService = new DockService($this->db);
+        $d = $dockService->create(new Dock(null, 2, null));
+        $deleted = $dockService->delete($d);
+        $this->assertEquals(true, $deleted);
+        $d = $dockService->create(new Dock(null, 999, null));
+        $deleted = $dockService->delete($d);
+        $this->assertEquals(false, $deleted);
+    }
+    
+	public function testValidate(){
+		$dockService = new DockService($this->db);
+
+		//TEST NULL VALUES
+		$d = $dockService->validate(new Dock(null,null,null));
+		$this->assertEquals(false, $d);
+		$d = $dockService->validate(new Dock(null, 1,null));
+		$this->assertEquals(true, $d);
+		$d = $dockService->validate(new Dock(null, 1, 1));
+		$this->assertEquals(true, $d);
+        $d = $dockService->validate(new Dock(null, null, 1));
+		$this->assertEquals(false, $d);
+	}
 }
 ?>
