@@ -60,7 +60,6 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$bookingservice->delete($booking);
 		$bookingservice->delete($booking3);
 		$accountservice->delete($account);
-		echo "\nDone with Create Test";
 	}
 
 	public function testRead()
@@ -90,7 +89,7 @@ class BookingTest extends PHPUnit_Framework_TestCase
 
 		//Cleanup
 		$bookingservice->delete($booking);
-		echo "\nDone with Read test";
+		
 	}
 
 	public function testUpdate()
@@ -127,6 +126,94 @@ class BookingTest extends PHPUnit_Framework_TestCase
         //Cleanup
         $accountservice->delete($account);
         $bookingservice->delete($booking2);
+
+	}
+
+	public function testDelete()
+	{
+		//Arange
+		$account = new Account("username", "password", "mymail@mydomain.com", "01020304", "mytoken", "myresettime", "user");
+		$accountservice = new AccountService($this->db);
+		$accountservice->create($account);
+		$booking = new Booking(null, 1415690764, 16, 456189, $account->username, null);
+		$bookingservice = new BookingService($this->db);
+		$booking = $bookingservice->create($booking);
+
+		$booking2 = $bookingservice->read($booking);
+		$bookingservice->delete($booking);
+		$booking3 = $bookingservice->read($booking);
+
+		//Test
+		$this->assertNotEquals($booking2,$booking3);
+		$this->assertNull($booking3->booking_id);
+		$this->assertNull($booking3->start_time);
+		$this->assertNull($booking3->start_station);
+		$this->assertNull($booking3->password);
+		$this->assertNull($booking3->for_user);
+		$this->assertNull($booking3->used_bicycle);
+
+		//Cleanup
+		$accountservice->delete($account);
+	}
+
+	public function testValidate()
+	{
+		//Arange
+		$account = new Account("username", "password", "mymail@mydomain.com", "01020304", "mytoken", "myresettime", "user");
+		$accountservice = new AccountService($this->db);
+		$accountservice->create($account);
+		$booking = new Booking(null, 1415690764, 16, 456189, $account->username, null);
+		$bookingservice = new BookingService($this->db);
+		$booking = $bookingservice->create($booking);
+
+		$test = $bookingservice->validate($booking);
+		//Instance data
+		$testInstance = $bookingservice->validate(12345);
+		$testInstance2 = $bookingservice->validate("12345");
+		
+		//Stationdata
+		$stationdata1 = new Booking(null, 141580764, 1032, 456189, $account->username, null);
+		$stationdata2 = new Booking(null, 141580764, null, 456189, $account->username, null);
+		$teststation1 = $bookingservice->validate($stationdata1);
+		$teststation2 = $bookingservice->validate($stationdata2);
+
+		//NumberofBicycles
+		$stationservice = new StationService($this->db);
+		$station = new Station(516, "TestStation", "Test 1337", 57.0134052, 9.988917);
+		$stationservice->create($station);
+		$bicycledata = new Booking(null, 1415690764, 516, 456189, $account->username, null);
+		$bicyletest = $bookingservice->validate($bicycledata);
+
+
+		//User
+		$userdata1 = new Booking(null, 141580764, 16, 456189, null, null);
+		$userdata2 = new Booking(null, 141580764, 16, 456189, "hshjfbks9652ugsfos9uifspghs", null);
+		$testUser1 = $bookingservice->validate($userdata1);
+		$testUser2 = $bookingservice->validate($userdata2);
+
+		//Time, more to come
+		$timedata1 = new Booking(null, null, 16, 456189, $account->username, null);
+
+
+		$testtime1 = $bookingservice->validate($timedata1);
+
+
+		//Test
+		$this->assertTrue($test);
+		$this->assertFalse($testInstance);
+		$this->assertFalse($testInstance2);
+		$this->assertFalse($teststation1);
+		$this->assertFalse($teststation2);
+		$this->assertFalse($bicyletest);
+		$this->assertFalse($testUser1);
+		$this->assertFalse($testUser2);
+		$this->assertFalse($testtime1);
+
+
+		//Cleanup
+		$accountservice->delete($account);
+		$bookingservice->delete($booking);
+		$stationservice->delete($station);
 
 	}
 	
