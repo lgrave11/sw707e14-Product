@@ -163,5 +163,110 @@ class Admin extends Controller
         require 'application/views/admin/graphtest.php';
         require 'application/views/_templates/footer.php';
     }
+    
+    public function addRemove() 
+    {
+        Tools::requireAdmin();
+        $jsFiles = [];
+        $navbarChosen = "Add/Remove";
+        $this->title = "Add/Remove";
+        $currentPage = substr($_SERVER["REQUEST_URI"], 1);
+        
+        $accountService = new AccountService($this->db);
+        $allAccounts = array_map(function($a) { return $a->username; }, $accountService->readAllAccounts());
+        $allAccounts = array_filter($allAccounts, function($username) { return $username != $_SESSION['login_user']; });
+        
+        require 'application/views/_templates/adminheader.php';
+        require 'application/views/admin/addRemove.php';
+        require 'application/views/_templates/footer.php';
+    }
+    
+    public function removeUserForm() 
+    {
+        Tools::requireAdmin();
+        $jsFiles = [];
+        $navbarChosen = "Add/Remove";
+        $this->title = "Add/Remove";
+        $currentPage = substr($_SERVER["REQUEST_URI"], 1);
+        header("Location: /Admin/AddRemove");
+        $accountService = new AccountService($this->db);
+        $allAccounts = array_map(function($a) { return $a->username; }, $accountService->readAllAccounts());
+        $allAccounts = array_filter($allAccounts, function($username) { return $username != $_SESSION['login_user']; });
+        
+        if(empty($_POST['users']) || !in_array($_POST['users'], $allAccounts) || $_POST['users'] == $_SESSION['login_user']) 
+        {
+            $this->error('User selected for removal is invalid or empty', 'addRemove');
+        }
+        
+        if(!($this->hasErrors('addRemove'))) 
+        {
+            $account = $accountService->read($_POST['users']);
+            $accountService->delete($account);
+        }
+        
+        header("Location: /Admin/AddRemove");
+    }
+    
+    public function addNewUserForm() 
+    {
+        Tools::requireAdmin();
+        $jsFiles = [];
+        $navbarChosen = "Add/Remove";
+        $this->title = "Add/Remove";
+        $currentPage = substr($_SERVER["REQUEST_URI"], 1);
+        
+        if(empty($_POST['username'])){
+            $this->error('Username field is empty', 'addRemove');
+        }
+        if(empty($_POST['password'])){
+            $this->error('Password field is empty', 'addRemove');
+        }
+        if(empty($_POST['passwordconfirm']))
+        {
+            $this->error('Confirm Password field is empty', 'addRemove');
+        }
+        if($_POST['password'] != $_POST['passwordconfirm'])
+        {
+            $this->error('Passwords are not equal', 'addRemove');
+        }
+        if(empty($_POST['email']))
+        {
+            $this->error('Email field is empty', 'addRemove');
+        }
+        if(empty($_POST['phone']))
+        {
+            $this->error('Phone field is empty', 'addRemove');
+        }
+        if(empty($_POST['role']) || ($_POST['role'] != "admin" && $_POST['role'] != "user")) 
+        {
+            $this->error('Role field is invalid or empty', 'addRemove');
+        }
+        if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
+        {
+            $this->error('Invalid email', 'addRemove');
+        }
+        if(!filter_var($_POST['phone'], FILTER_VALIDATE_INT))
+        {
+            $this->error('Invalid phone number', 'addRemove');   
+        }
+
+
+        if(!($this->hasErrors('addRemove')))
+        {
+            $accountservice = new AccountService($this->db);
+
+            if($accountservice->create(new Account($_POST['username'], $_POST['password'], $_POST['email'], $_POST['phone'], null, null, $_POST['role'])) == null)
+            {
+                $this->error('An error occurred creating a user.', 'addRemove');
+            }
+            else
+            {
+                $this->success('User ' . $_POST['username'] . ' has been created.', 'addRemove');
+                $_SESSION['login_user']= $_POST['username'];
+            }
+        }
+        
+        header("Location: /Admin/AddRemove");
+    }
 }
 ?>
