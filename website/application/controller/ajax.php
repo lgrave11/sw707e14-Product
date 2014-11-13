@@ -104,19 +104,16 @@ class Ajax extends Controller {
     public function usageGraph($start_time, $end_time) {
         $navbarChosen = "";
         $hubs = new HistoryUsageBicycleService($this->db);
+        $stationService = new StationService($this->db);
         $hist = $hubs->readHistoryBetween($start_time, $end_time);
-        $a = array_pad(array(), 21, array_pad(array(), 21, 0));
+        $stationMapping = $stationService->createStationMapping();
+        $a = array_pad(array(), count($stationMapping), array_pad(array(), count($stationMapping), 0));
 
         foreach($hist as $h)
         {
-            $a[$h->start_station-1][$h->end_station-1]++;
+            $a[$stationMapping[$h->start_station]][$stationMapping[$h->end_station]]++;
         }
 
-        for ($i = 0; $i < 21; $i++){
-            for ($j = 0; $j < 21; $j++){
-                $a[$i][$j] = $a[$i][$j];
-            }
-        }
         require 'application/views/ajax/usagegraph.php';
     }
 

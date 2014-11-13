@@ -99,6 +99,20 @@ class StationService implements iService
         return $returnArray;
     }
 
+    public function createStationMapping(){
+        $returnArray = array();
+        $i = 0;
+        $stmt = $this->db->prepare("SELECT station_id FROM station ORDER BY station_id");
+        $stmt->execute();
+        $stmt->bind_result($station_id);
+        while($stmt->fetch()){
+            $returnArray[$station_id] = $i;
+            $i++;
+        }
+        $stmt->close();
+        return $returnArray;
+    }
+
     public function searchStation($name = ""){
         $returnArray = array();
         $name = mysqli_real_escape_string($this->db, $name);
