@@ -177,6 +177,15 @@ class Admin extends Controller
         $allAccounts = array_map(function($a) { return $a->username; }, $accountService->readAllAccounts());
         $allAccounts = array_filter($allAccounts, function($username) { return $username != $_SESSION['login_user']; });
         
+        $bicycleService = new BicycleService($this->db);
+        $allBicycles = $bicycleService->readAllBicycles();
+        
+        $stationService = new StationService($this->db);
+        $allStations = $stationService->readAllStations();
+        
+        $dockService = new DockService($this->db);
+        $allDocks = $dockService->readAllDocksWithoutBicycleWithStationName();
+        
         require 'application/views/_templates/adminheader.php';
         require 'application/views/admin/addRemove.php';
         require 'application/views/_templates/footer.php';
@@ -189,7 +198,6 @@ class Admin extends Controller
         $navbarChosen = "Add/Remove";
         $this->title = "Add/Remove";
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
-        header("Location: /Admin/AddRemove");
         $accountService = new AccountService($this->db);
         $allAccounts = array_map(function($a) { return $a->username; }, $accountService->readAllAccounts());
         $allAccounts = array_filter($allAccounts, function($username) { return $username != $_SESSION['login_user']; });
@@ -202,7 +210,10 @@ class Admin extends Controller
         if(!($this->hasErrors('addRemove'))) 
         {
             $account = $accountService->read($_POST['users']);
-            $accountService->delete($account);
+            if($accountService->delete($account))
+                $this->success('Account ' . $account->username . ' has been removed', 'addRemove');
+            else
+                $this->error('An error occurred', 'addRemove');
         }
         
         header("Location: /Admin/AddRemove");
@@ -263,11 +274,116 @@ class Admin extends Controller
             else
             {
                 $this->success('User ' . $_POST['username'] . ' has been created.', 'addRemove');
-                $_SESSION['login_user']= $_POST['username'];
             }
         }
         
         header("Location: /Admin/AddRemove");
     }
+    
+    public function addBicycle() 
+    {
+        Tools::requireAdmin();
+        $jsFiles = [];
+        $navbarChosen = "Add/Remove";
+        $this->title = "Add/Remove";
+        $currentPage = substr($_SERVER["REQUEST_URI"], 1);
+        $bicycleService = new BicycleService($this->db);
+        
+        $newBicycle = $bicycleService->create(new Bicycle(null,null,null));
+        if(!empty($newBicycle))
+            $this->success('Bicycle ' . $newBicycle->bicycle_id . ' has been added', 'addRemove');
+        else
+            $this->error('An error occurred', 'addRemove');
+        
+        header("Location: /Admin/AddRemove");
+    }
+    
+    public function removeBicycle() 
+    {
+        Tools::requireAdmin();
+        $jsFiles = [];
+        $navbarChosen = "Add/Remove";
+        $this->title = "Add/Remove";
+        $currentPage = substr($_SERVER["REQUEST_URI"], 1);
+        $bicycleService = new BicycleService($this->db);
+        $bicycles = $bicycleService->readAllBicycles();
+        
+        if(empty($_POST['bicycles']) || !in_array($_POST['bicycles'], array_map(function($a) {return $a->bicycle_id; }, $bicycles))) 
+        {
+            $this->error('Bicycle selected for removal is invalid or empty', 'addRemove');
+        }
+        
+        if(!($this->hasErrors('addRemove'))) 
+        {
+            $bicycle = $bicycleService->read($_POST['bicycles']);
+            if($bicycleService->delete($bicycle))
+                $this->success('Bicycle ' . $bicycle->bicycle_id . ' has been removed', 'addRemove');
+            else
+                $this->error('An error occurred', 'addRemove');
+        }
+        
+        header("Location: /Admin/AddRemove");
+    }
+    
+    public function addDock() 
+    {
+        Tools::requireAdmin();
+        $jsFiles = [];
+        $navbarChosen = "Add/Remove";
+        $this->title = "Add/Remove";
+        $currentPage = substr($_SERVER["REQUEST_URI"], 1);
+        $dockService = new DockService($this->db);
+        $stationService = new StationService($this->db);
+        $allStations = $stationService->readAllStations();
+        
+        if(empty($_POST['docksStation']) || !in_array($_POST['docksStation'], array_map(function($a){return $a->station_id;}, $allStations)))
+            $this->error('Station selected for dock is invalid or empty','addRemove');
+                
+        if(!($this->hasErrors('addRemove'))) 
+        {
+            $newDock = $dockService->create(new Dock(null, $_POST['docksStation'],null));
+            if(!empty($newDock))
+                $this->success('Dock ' . $newDock->dock_id . ' has been added to station ' . $stationService->readStation($_POST['docksStation'])->name, 'addRemove');
+            else
+                $this->error('An error occurred', 'addRemove');
+        }
+        
+        
+        
+        header("Location: /Admin/AddRemove");
+    }
+    
+    public function removeDock() 
+    {
+        Tools::requireAdmin();
+        $jsFiles = [];
+        $navbarChosen = "Add/Remove";
+        $this->title = "Add/Remove";
+        $currentPage = substr($_SERVER["REQUEST_URI"], 1);
+
+        $dockService = new DockService($this->db);
+        $allDocks = $dockService->readAllDocksWithoutBicycleWithStationName();
+        
+        if(empty($_POST['docksRemove']) || !in_array($_POST['docksRemove'], array_map(function($a) {return $a->dock_id; }, $allDocks))) 
+        {
+            $this->error('Dock selected for removal is invalid or empty', 'addRemove');
+        }
+        
+        if(!($this->hasErrors('addRemove'))) 
+        {
+            $dock = $dockService->read($_POST['docksRemove']);
+            if($dockService->delete($dock))
+                $this->success('Dock ' . $dock->dock_id . ' has been removed', 'addRemove');
+            else
+                $this->error('An error occurred', 'addRemove');
+        }
+        
+        header("Location: /Admin/AddRemove");
+    }
+    
+    
+    
+    
+    
 }
 ?>

@@ -83,6 +83,18 @@ class BicycleService implements iService
         return $returnArray;
     }
     
+    public function readAllBicycles(){
+        $returnArray = array();
+        $stmt = $this->db->prepare("SELECT * FROM bicycle");
+        $stmt->execute();
+        $stmt->bind_result($bicycle_id, $latitude, $longitude);
+        while($stmt->fetch()){
+            $returnArray[] = new Bicycle($bicycle_id,$latitude, $longitude);
+        }
+        $stmt->close();
+        return $returnArray;
+    }
+    
     public function readBicyclePositions($bicycle_id, $from_time, $to_time) 
     {
         $returnArray = array();
