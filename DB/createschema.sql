@@ -16,7 +16,8 @@ CREATE TABLE station
    address varchar(100),
    latitude float NOT NULL,
    longitude float NOT NULL,
-   ipaddress varchar(15) NOT NULL
+   ipaddress varchar(15) NOT NULL,
+   deleted bool DEFAULT false NOT NULL
 );
 
 CREATE TABLE bicycle

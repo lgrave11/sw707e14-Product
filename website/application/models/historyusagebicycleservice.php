@@ -48,7 +48,7 @@ class HistoryUsageBicycleService implements iService
         
         $stmt->free_result();
         $stmt->close();
-        
+
         return $returnArray;
     }
     

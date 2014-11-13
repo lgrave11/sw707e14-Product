@@ -53,7 +53,7 @@ d3.csv("/ajax/usagegraphnames/", function(cities) {
 
     // Add a mouseover title.
     group.append("title").text(function(d, i) {
-      return cities[i].name + ": " + formatPercent(d.value) + " bicycles left this station";
+      return cities[i].name + ": " + formatPercent(d.value) + " bicycle(s) left this station";
 
     });
 

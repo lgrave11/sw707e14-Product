@@ -20,7 +20,7 @@ class StationService implements iService
     public function readStation($station_id)
     {
         $returnStation = null;
-        $stmt = $this->db->prepare("SELECT station_id, name, address, latitude, longitude, COUNT(*) FROM station WHERE station_id = ?");
+        $stmt = $this->db->prepare("SELECT station_id, name, address, latitude, longitude, COUNT(*) FROM station WHERE station_id = ? AND deleted = false");
         $stmt->bind_param("i", $station_id);
         $stmt->execute();
         $stmt->bind_result($station_id, $name, $address, $latitude, $longitude, $count);
@@ -33,9 +33,15 @@ class StationService implements iService
         return $returnStation;
     }
 
-    public function readAllStations(){
+    public function readAllStations($readDeleted = false){
     	$returnArray = array();
-    	$stmt = $this->db->prepare("SELECT station_id, name, address, latitude, longitude FROM station");
+        $stmt = null;
+        if ($readDeleted){
+            $stmt = $this->db->prepare("SELECT station_id, name, address, latitude, longitude FROM station");
+        } else {
+            $stmt = $this->db->prepare("SELECT station_id, name, address, latitude, longitude FROM station WHERE deleted = false");
+        }
+    	
     	$stmt->execute();
     	$stmt->bind_result($station_id, $name, $address, $latitude, $longitude);
     	while($stmt->fetch()){
@@ -88,7 +94,7 @@ class StationService implements iService
         }
         $stmt->close();
 
-        $stmt = $this->db->prepare("SELECT DISTINCT station_id FROM station WHERE station_id NOT IN (SELECT DISTINCT station_id FROM dock)");
+        $stmt = $this->db->prepare("SELECT DISTINCT station_id FROM station WHERE station_id NOT IN (SELECT DISTINCT station_id FROM dock) AND deleted = false");
         $stmt->execute();
         $stmt->bind_result($station_id);
         while($stmt->fetch())
@@ -99,10 +105,24 @@ class StationService implements iService
         return $returnArray;
     }
 
+    public function createStationMapping(){
+        $returnArray = array();
+        $i = 0;
+        $stmt = $this->db->prepare("SELECT station_id FROM station ORDER BY station_id");
+        $stmt->execute();
+        $stmt->bind_result($station_id);
+        while($stmt->fetch()){
+            $returnArray[$station_id] = $i;
+            $i++;
+        }
+        $stmt->close();
+        return $returnArray;
+    }
+
     public function searchStation($name = ""){
         $returnArray = array();
         $name = mysqli_real_escape_string($this->db, $name);
-        $stmt = $this->db->prepare("SELECT station_id, name FROM station WHERE name LIKE '%".$name."%' ORDER BY levenshtein('".$name."', name)");
+        $stmt = $this->db->prepare("SELECT station_id, name FROM station WHERE name LIKE '%".$name."%' ORDER BY levenshtein('".$name."', name) AND deleted = false");
         $stmt->execute();
         $stmt->bind_result($station_id, $name);
         while($stmt->fetch()){
@@ -129,10 +149,15 @@ class StationService implements iService
     }
 
     public function delete($station){
-        $stmt = $this->db->prepare("DELETE FROM station WHERE station_id = ?");
-        $stmt->bind_param("i", $station->station_id);
-        $stmt->execute();
-        $stmt->close();
+        if($this->validate($dock))
+        {
+            $stmt = $this->db->prepare("UPDATE station SET deleted = true WHERE station_id = ?");
+            $stmt->bind_param("i", $station->station_id);
+            $stmt->execute();
+            $stmt->close();
+            return true;
+        }
+        return false;
     }
 
     public function validate($station){

@@ -104,19 +104,16 @@ class Ajax extends Controller {
     public function usageGraph($start_time, $end_time) {
         $navbarChosen = "";
         $hubs = new HistoryUsageBicycleService($this->db);
+        $stationService = new StationService($this->db);
         $hist = $hubs->readHistoryBetween($start_time, $end_time);
-        $a = array_pad(array(), 21, array_pad(array(), 21, 0));
+        $stationMapping = $stationService->createStationMapping();
+        $a = array_pad(array(), count($stationMapping), array_pad(array(), count($stationMapping), 0));
 
         foreach($hist as $h)
         {
-            $a[$h->start_station-1][$h->end_station-1]++;
+            $a[$stationMapping[$h->start_station]][$stationMapping[$h->end_station]]++;
         }
 
-        for ($i = 0; $i < 21; $i++){
-            for ($j = 0; $j < 21; $j++){
-                $a[$i][$j] = $a[$i][$j];
-            }
-        }
         require 'application/views/ajax/usagegraph.php';
     }
 
@@ -124,7 +121,7 @@ class Ajax extends Controller {
         $colors = array('#FF0000', '#FF4900', '#FF9200', '#FFDB00', '#DBFF00', '#92FF00', '#49FF00', '#00FF00', '#00FF49', '#00FF92', '#00FFDB', '#00DBFF', '#0092FF', '#0049FF', '#0000FF', '#4900FF', '#9200FF', '#DB00FF', '#FF00DB', '#FF0092', '#FF0049');
 
         $stationService = new StationService($this->db);
-        $stations = $stationService->readAllStations();
+        $stations = $stationService->readAllStations(true);
 
         require 'application/views/ajax/usagegraphnames.php';
     }
