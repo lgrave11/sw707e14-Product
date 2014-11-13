@@ -1,13 +1,13 @@
 <div id="graph" style="display: inline-block;"></div>
-<div style="float: right; width: 270px; text-align: left; font-size:12px;">
+<div style="float: right; width: 365px; text-align: left; font-size:12px;">
     <h2 id="stationName"></h2>
-    <ul id="stationData" style="list-style-type: none; padding-left:0px; margin-right:5px;">
-    </ul>
+    <table id="stationData" style="border-spacing:0px; line-height:20px; margin-right:5px;">
+    </table>
 </div>
 <script>
 
-var width = 620,
-    height = 620,
+var width = 520,
+    height = 520,
     outerRadius = Math.min(width, height) / 2 - 10,
     innerRadius = outerRadius - 24;
 
@@ -107,17 +107,39 @@ d3.csv("/ajax/usagegraphnames/", function(cities) {
         $("#stationName").html(cities[i].name);
         $("#stationData").empty();
         data.forEach(function(entry) {
-            if (entry.source.index == i || entry.target.index == i) {
-                $("#stationData").append("<li style=\"margin-bottom: 10px;\">"+cities[entry.source.index].name
-          + " → " + cities[entry.target.index].name
-          + ": " + formatPercent(entry.source.value)
-          + "<br />" + cities[entry.target.index].name
-          + " → " + cities[entry.source.index].name
-          + ": " + formatPercent(entry.target.value)+"</li>");
+            if (entry.target.index == i) {
+                $("#stationData").append("<tr style=\"margin-bottom: 10px;\"><td style=\"width:330px;  border-bottom: 1px dotted gray;\">"+cities[entry.source.index].name
+                      + " → " + cities[entry.target.index].name
+                      + "</td> <td style=\"border-bottom: 1px dotted gray;\"><b>" + formatPercent(entry.source.value)
+                      +"</b></td></tr>");
+            }
+            if (entry.source.index == i) {
+                $("#stationData").append("<tr style=\"margin-bottom: 10px;\"><td style=\"width:330px;  border-bottom: 1px dotted gray;\">"
+                      + cities[entry.target.index].name
+                      + " → " + cities[entry.source.index].name
+                      + "</td> <td style=\"border-bottom: 1px dotted gray;\"><b>" + formatPercent(entry.target.value)+"</b></td></li>");
             }
         });
+        
+        $("#stationData").append("<tr style=\"margin-bottom: 10px;\"><td>&nbsp;</td><td>&nbsp;</td></tr>");
+        
+        data.forEach(function(entry) {
+            if (entry.target.index == i) {
+                $("#stationData").append("<tr style=\"margin-bottom: 10px; border-bottom: 1px solid gray;\"><td style=\"width:330px;  border-bottom: 1px dotted gray;\">"
+                      + cities[entry.target.index].name
+                      + " → " + cities[entry.source.index].name
+                      + "</td> <td style=\"border-bottom: 1px dotted gray;\"><b>" + formatPercent(entry.target.value) + "</b></td></tr>");
+            }
+            if (entry.source.index == i) {
+                $("#stationData").append("<tr style=\"margin-bottom: 10px; border-bottom: 1px solid gray;\"><td style=\"width:330px;  border-bottom: 1px dotted gray;\">"
+                      +cities[entry.source.index].name
+                      + " → " + cities[entry.target.index].name
+                      + "</td> <td style=\"border-bottom: 1px dotted gray;\"> <b>" + formatPercent(entry.source.value)+"</b></td></tr>");
+            }
+        });
+        
+        
     }
-    
   });
 });
 
