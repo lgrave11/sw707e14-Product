@@ -32,17 +32,33 @@ class AccountService implements iService
 
         if($this->validate($account))
         {
-            $stmt = $this->db->prepare("INSERT INTO account(username, password, email, phone, token, reset_time) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt = $this->db->prepare("INSERT INTO account(username, password, email, phone, token, reset_time, role) VALUES (?, ?, ?, ?, ?, ?, ?)");
             $hashedPassword = password_hash($account->password, PASSWORD_DEFAULT);
-            $stmt->bind_param("sssssi", $account->username, $hashedPassword, $account->email, $account->phone, $account->token, $account->reset_time);
+            $stmt->bind_param("sssssis", $account->username, $hashedPassword, $account->email, $account->phone, $account->token, $account->reset_time, $account->role);
             $stmt->execute();
             $stmt->close();
-            return new Account($account->username, $hashedPassword, $account->email, $account->phone, $account->token, $account->reset_time);
+            return new Account($account->username, $hashedPassword, $account->email, $account->phone, $account->token, $account->reset_time, $account->role);
         }
         else
         {
             return null;
         }
+    }
+    
+    /**
+     * Read all accounts.
+    */
+    public function readAllAccounts() 
+    {
+        $returnAccounts = array();
+        $stmt = $this->db->prepare("SELECT username, password, email, phone, token, reset_time, role FROM account");
+        $stmt->execute();
+        $stmt->bind_result($user, $password, $email, $phone, $token, $reset_time, $role);
+        while($stmt->fetch()){
+            $returnAccounts[] = new Account($user, $password, $email, $phone, $token, $reset_time, $role);
+        }
+        $stmt->close();
+        return $returnAccounts;
     }
 
     /**

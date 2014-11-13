@@ -1,7 +1,8 @@
 <div id="graph" style="display: inline-block;"></div>
-<div style="float: right; width: 250px; text-align: left;">
-    <div id="tostation"></div>
-    <div id="fromstation"></div>
+<div style="float: right; width: 270px; text-align: left; font-size:12px;">
+    <h2 id="stationName"></h2>
+    <ul id="stationData" style="list-style-type: none; padding-left:0px; margin-right:5px;">
+    </ul>
 </div>
 <script>
 
@@ -10,7 +11,7 @@ var width = 620,
     outerRadius = Math.min(width, height) / 2 - 10,
     innerRadius = outerRadius - 24;
 
-var formatPercent = d3.format(".1%");
+var formatPercent = function(val) { return Math.round(val); };//d3.format(".1%");
 
 var arc = d3.svg.arc()
     .innerRadius(innerRadius)
@@ -23,6 +24,8 @@ var layout = d3.layout.chord()
 
 var path = d3.svg.chord()
     .radius(innerRadius);
+    
+var data = [];
 
 var svg = d3.select("#graph").append("svg")
     .attr("width", width)
@@ -45,11 +48,12 @@ d3.csv("/ajax/usagegraphnames/", function(cities) {
         .data(layout.groups)
       .enter().append("g")
         .attr("class", "group")
-        .on("mouseover", mouseover);
+        .on("mouseover", mouseover)
+        .on("click", stationClick);
 
     // Add a mouseover title.
     group.append("title").text(function(d, i) {
-      return cities[i].name + ": " + formatPercent(d.value) + " of origins";
+      return cities[i].name + ": " + formatPercent(d.value) + " bicycles left this station";
 
     });
 
@@ -64,9 +68,9 @@ d3.csv("/ajax/usagegraphnames/", function(cities) {
         .attr("x", 6)
         .attr("dy", 15);
 
-    groupText.append("textPath")
-        .attr("xlink:href", function(d, i) { return "#group" + i; })
-        .text(function(d, i) { return cities[i].name; });
+    //groupText.append("textPath")
+    //    .attr("xlink:href", function(d, i) { return "#group" + i; })
+    //    .text(function(d, i) { return cities[i].name; });
 
     // Remove the labels that don't fit. :(
     groupText.filter(function(d, i) { return groupPath[0][i].getTotalLength() / 2 - 16 < this.getComputedTextLength(); })
@@ -82,7 +86,7 @@ d3.csv("/ajax/usagegraphnames/", function(cities) {
 
     // Add an elaborate mouseover title for each chord.
     chord.append("title").text(function(d) {
-        console.log(chord);
+      data.push(d);
       return cities[d.source.index].name
           + " → " + cities[d.target.index].name
           + ": " + formatPercent(d.source.value)
@@ -90,16 +94,30 @@ d3.csv("/ajax/usagegraphnames/", function(cities) {
           + " → " + cities[d.source.index].name
           + ": " + formatPercent(d.target.value);
     });
+    
 
     function mouseover(d, i) {
       chord.classed("fade", function(p) {
-        $("#tostation").text(chord.find("title", function(data){
-            console.log(data);
-        }));
         return p.source.index != i
             && p.target.index != i;
       });
     }
+    
+    function stationClick(d, i) {
+        $("#stationName").html(cities[i].name);
+        $("#stationData").empty();
+        data.forEach(function(entry) {
+            if (entry.source.index == i || entry.target.index == i) {
+                $("#stationData").append("<li style=\"margin-bottom: 10px;\">"+cities[entry.source.index].name
+          + " → " + cities[entry.target.index].name
+          + ": " + formatPercent(entry.source.value)
+          + "<br />" + cities[entry.target.index].name
+          + " → " + cities[entry.source.index].name
+          + ": " + formatPercent(entry.target.value)+"</li>");
+            }
+        });
+    }
+    
   });
 });
 
