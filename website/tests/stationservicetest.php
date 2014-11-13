@@ -56,10 +56,43 @@ class StationServiceTest extends PHPUnit_Framework_TestCase
 		$this->AssertEquals(count($resultbefore), count($resultafterdeletion));
 	}
 
-	//TODO later
-	public function testReadAllAvailableStations()
+	public function testReadAllAvailableBicycles()
 	{
+		//This is going to be a rough test
+		$stationService = new StationService($this->db);
 
+		$station = new Station(10000, "test station name", "test address", 57.1, 9.2); //assuming the system does not reach a higher amount than 10000 stations
+		$stationService->create($station);
+
+		//Give the station some docks
+		$dockService = new DockService($this->db);
+		
+		$dock1 = $dockService->create(new Dock(null, 10000, null));
+		$dock2 = $dockService->create(new Dock(null, 10000, null));
+
+		$result = $stationService->readAllAvailableBicycles();
+		$this->AssertEquals(0, $result[10000]);
+
+		//We need some test bicycles in the system
+		$bicycleService = new BicycleService($this->db);
+		$bicycle1 = $bicycleService->create(new Bicycle(null, null, null));
+		$bicycle2 = $bicycleService->create(new Bicycle(null, null, null));
+
+		$dock1->holds_bicycle = $bicycle1->bicycle_id;
+		$dockService->update($dock1);
+
+		$result = $stationService->readAllAvailableBicycles();
+		$this->AssertEquals(1, $result[10000]);
+
+		$dock2->holds_bicycle = $bicycle2->bicycle_id;
+		$dockService->update($dock2);
+
+		$result = $stationService->readAllAvailableBicycles();
+		$this->AssertEquals(2, $result[10000]);
+
+		$bicycleService->delete($bicycle1);
+		$bicycleService->delete($bicycle2);
+		$stationService->delete($station);
 	}
 
 	public function testReadAllValableDocks()
@@ -99,5 +132,84 @@ class StationServiceTest extends PHPUnit_Framework_TestCase
 		$this->AssertEquals(0, count($result));
 	}
 
+	public function testCreate()
+	{
+		$stationService = new StationService($this->db);
+		$station = new Station(10000, "fasjjosgdjiodsgjposerjoåipherjoiasfjaefjiojiokoate test station", "test address", 57.1, 9.2); //assuming the system does not reach a higher amount than 10000 stations
+		$stationService->create($station);
+		$result = $stationService->readStation($station->station_id);
+		$this->AssertNotEquals(null, $result);
+		$stationService->delete($station);
+	}
+
+	public function testUpdate()
+	{
+		$stationService = new StationService($this->db);
+		$station = new Station(10000, "fasjjosgdjiodsgjposerjoåipherjoiasfjaefjiojiokoate test station", "test address", 57.1, 9.2); //assuming the system does not reach a higher amount than 10000 stations
+		$stationService->create($station);
+
+		//Change the name
+		$station->name = "proper name";
+		$stationService->update($station);
+		$result = $stationService->readStation($station->station_id);
+		$this->AssertEquals("proper name", $result->name);
+
+		//Change the Address
+		$station->address = "new test address";
+		$stationService->update($station);
+		$result = $stationService->readStation($station->station_id);
+		$this->AssertEquals("new test address", $result->address);
+
+		//Change the longitude
+		$station->longitude = 57.2;
+		$stationService->update($station);
+		$result = $stationService->readStation($station->station_id);
+		$this->AssertTrue($result->longitude -  57.2 < 0.01 && $result->longitude - 57.2 > -0.01); // need to do it like this, due to floating point lacking precision
+
+		//Change the latitude
+		$station->latitude = 9.4;
+		$stationService->update($station);
+		$result = $stationService->readStation($station->station_id);
+		$this->AssertTrue($result->latitude -  9.4 < 0.01 && $result->latitude - 9.4 > -0.01);
+		$stationService->delete($station);
+	}
+
+	public function testDelete()
+	{
+		$stationService = new StationService($this->db);
+		$station = new Station(10000, "fasjjosgdjiodsgjposerjoåipherjoiasfjaefjiojiokoate test station", "test address", 57.1, 9.2); //assuming the system does not reach a higher amount than 10000 stations
+		$stationService->create($station);
+		$result = $stationService->readStation($station->station_id);
+		$stationService->delete($station);
+		$resultafter = $stationService->readStation($station->station_id);
+		$this->AssertNotEquals($result, $resultafter);
+	}
+
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
