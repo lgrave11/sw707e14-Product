@@ -9,7 +9,10 @@ html, body {
 
 body {
     font-size: 15px;
-    background-color: lightgray;
+    background-color: white;
+	background-image: url(/public/images/aabc_back.gif);
+	background-repeat: repeat-x;
+	height: 100vh;
 }
 
 input, textarea, select, button {
@@ -78,6 +81,7 @@ a:hover {
 #navbar table td:hover {
     background-color: #00407C;
     cursor: pointer;
+	box-shadow:0px 0px 0px 1px white inset;
 }
 
 
@@ -96,9 +100,15 @@ a:hover {
 }
 
 #container {
+	position:relative;
     width: 900px;
     margin: 30px auto;
     background-color: white;
+	border: 1px solid grey;
+	height: 95vh;
+	-webkit-box-shadow: 0px 8px 20px 0px rgba(50, 50, 50, 0.53);
+	-moz-box-shadow:    0px 8px 20px 0px rgba(50, 50, 50, 0.53);
+	box-shadow:         0px 8px 20px 0px rgba(50, 50, 50, 0.53);
 }
 
 #footer
@@ -110,6 +120,7 @@ a:hover {
     text-align:center;
     width: 900px;
     margin-top:10px;
+	position:absolute;
 }
 
 #footer a:link
@@ -129,6 +140,7 @@ a:hover {
 
 #navbar {
     margin-bottom: 20px;
+	border-bottom: 1px solid grey;
 }
 
 #navbar a
