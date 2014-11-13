@@ -22,7 +22,7 @@ class User extends Controller
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
         $bookingservice = new BookingService($this->db);
 
-        $bookings = $bookingservice->getBookings($_SESSION['login_user']);
+        $bookings = $bookingservice->getOldBookings($_SESSION['login_user']);
 
         $jsFiles = [];
         require 'application/views/_templates/header.php';
