@@ -104,8 +104,11 @@ a:hover {
     width: 900px;
     margin: 30px auto;
     background-color: white;
-	border: 2px solid grey;
+	border: 1px solid grey;
 	height: 95vh;
+	-webkit-box-shadow: 0px 8px 20px 0px rgba(50, 50, 50, 0.53);
+	-moz-box-shadow:    0px 8px 20px 0px rgba(50, 50, 50, 0.53);
+	box-shadow:         0px 8px 20px 0px rgba(50, 50, 50, 0.53);
 }
 
 #footer
@@ -137,7 +140,7 @@ a:hover {
 
 #navbar {
     margin-bottom: 20px;
-	border-bottom: 2px solid grey;
+	border-bottom: 1px solid grey;
 }
 
 #navbar a
