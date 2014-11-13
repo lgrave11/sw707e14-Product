@@ -216,6 +216,111 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$stationservice->delete($station);
 
 	}
+
+
+	public function testGetBookings()
+	{
+		//Arange
+		$account1 = new Account("username", "password", "mymail@mydomain.com", "01020304", "mytoken", "myresettime", "user");
+		$account2 = new Account("Bro", "Baus", "mailstuff@stuff.com", "98687687", "theToken","da restettime", "user");
+		$accountservice = new AccountService($this->db);
+		$accountservice->create($account1);
+		$accountservice->create($account2);
+		$booking1 = new Booking(null, 1415690764, 16, 456189, $account1->username, null);
+		$booking2 = new Booking(null, 1415734893, 1, 134796, $account2->username, null);
+		$booking3 = new Booking(null, 1415846952, 3, 268796, $account2->username, null);
+		$booking4 = new Booking(null, 1415691764, 2, 644934, $account2->username, null);
+		$bookingservice = new BookingService($this->db);
+		$booking1 = $bookingservice->create($booking1);
+		$booking2 = $bookingservice->create($booking2);
+		$booking3 = $bookingservice->create($booking3);
+		$stationservice = new StationService($this->db);
+		$station1 = $stationservice->readStation($booking1->start_station);
+		$station2 = $stationservice->readStation($booking2->start_station);
+		$station3 = $stationservice->readStation($booking3->start_station);
+		$station4 = $stationservice->readStation($booking4->start_station);
+
+		//Act
+		$result1 = $bookingservice->getBookings($account2->username);
+		$mappedresult1 = array_map(function($x) {return json_encode($x); }, $result1);
+
+		$booking4 = $bookingservice->create($booking4);
+		$result2 = $bookingservice->getBookings($account2->username);
+		$mappedresult2 = array_map(function($x) {return json_encode($x); }, $result2);
+
+
+		//Test
+		$this->assertContains(json_encode(new Booking(null, $booking2->start_time, $station2->name, null, null, null)), $mappedresult1);
+		$this->assertContains(json_encode(new Booking(null, $booking3->start_time, $station3->name, null, null, null)), $mappedresult1);
+		$this->assertCount(2, $mappedresult1);
+
+		$this->assertContains(json_encode(new Booking(null, $booking2->start_time, $station2->name, null, null, null)), $mappedresult2);
+		$this->assertContains(json_encode(new Booking(null, $booking3->start_time, $station3->name, null, null, null)), $mappedresult2);
+		$this->assertContains(json_encode(new Booking(null, $booking4->start_time, $station4->name, null, null, null)), $mappedresult2);
+		$this->assertCount(3, $mappedresult2);
+
+		//Cleanup
+		$accountservice->delete($account1);
+		$accountservice->delete($account2);
+		$bookingservice->delete($booking1);
+		$bookingservice->delete($booking2);
+		$bookingservice->delete($booking3);
+		$bookingservice->delete($booking4);
+
+	}
+
+	public function testGetActiveBooking()
+	{
+		//Arange
+		$account1 = new Account("username", "password", "mymail@mydomain.com", "01020304", "mytoken", "myresettime", "user");
+		$account2 = new Account("Bro", "Baus", "mailstuff@stuff.com", "98687687", "theToken","da restettime", "user");
+		$accountservice = new AccountService($this->db);
+		$accountservice->create($account1);
+		$accountservice->create($account2);
+		$booking1 = new Booking(null, 1415690764, 16, 456189, $account1->username, null);
+		$booking2 = new Booking(null, 1415734893, 1, 134796, $account2->username, null);
+		$booking3 = new Booking(null, 1415846952, 3, 268796, $account2->username, null);
+		$booking4 = new Booking(null, 1415691764, 2, 644934, $account2->username, null);
+		$bookingservice = new BookingService($this->db);
+		$booking1 = $bookingservice->create($booking1);
+		$booking2 = $bookingservice->create($booking2);
+		$booking3 = $bookingservice->create($booking3);
+		$stationservice = new StationService($this->db);
+		$station1 = $stationservice->readStation($booking1->start_station);
+		$station2 = $stationservice->readStation($booking2->start_station);
+		$station3 = $stationservice->readStation($booking3->start_station);
+		$station4 = $stationservice->readStation($booking4->start_station);
+
+		//Act
+		$result1 = $bookingservice->getActiveBookings($account2->username);
+		$mappedresult1 = array_map(function($x) {return json_encode($x); }, $result1);
+		$test1 = json_encode(array($booking2, $station2->name));
+		$test2 = json_encode(array($booking3, $station3->name));
+		
+		$booking4 = $bookingservice->create($booking4);
+		$result2 = $bookingservice->getActiveBookings($account2->username);
+		$mappedresult2 = array_map(function($x) {return json_encode($x); }, $result2);
+		$test3 = json_encode(array($booking4, $station4->name));
+
+		//Test
+		$this->assertContains($test1, $mappedresult1);
+		$this->assertContains($test2, $mappedresult1);
+		$this->assertCount(2, $mappedresult1);
+
+		$this->assertContains($test1, $mappedresult2);
+		$this->assertContains($test2, $mappedresult2);
+		$this->assertContains($test3, $mappedresult2);
+		$this->assertCount(3, $mappedresult2);
+
+		//Cleanup
+		$accountservice->delete($account1);
+		$accountservice->delete($account2);
+		$bookingservice->delete($booking1);
+		$bookingservice->delete($booking2);
+		$bookingservice->delete($booking3);
+		$bookingservice->delete($booking4);
+
+	}
 	
 }
 

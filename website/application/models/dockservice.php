@@ -27,6 +27,15 @@ class DockService implements iService{
             return null;
         }
     }
+    
+    public function read($id){
+        $stmt = $this->db->prepare("SELECT * FROM dock WHERE dock_id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->bind_result($dock_id, $station_id, $holds_bicycle);
+        $stmt->fetch();
+        return new Dock($dock_id, $station_id, $holds_bicycle);
+    }
 
     public function readAllDocksForStation($station_id){
         $returnArray = array();
@@ -62,6 +71,23 @@ class DockService implements iService{
         $stmt->bind_result($dock_id, $station_id, $holds_bicycle);
         while($stmt->fetch()){
             $returnArray[$dock_id] = new Dock($dock_id, $station_id, $holds_bicycle);
+        }
+        $stmt->close();
+        return $returnArray;
+    }
+    
+    public function readAllDocksWithoutBicycleWithStationName(){
+        $returnArray = array();
+        $stmt = $this->db->prepare("SELECT dock.dock_id, dock.station_id, dock.holds_bicycle, station.name FROM dock, station WHERE dock.holds_bicycle IS NULL AND station.station_id = dock.station_id");
+        $stmt->execute();
+        $stmt->bind_result($dock_id, $station_id, $holds_bicycle, $name);
+        while($stmt->fetch()){
+            $cls = new stdclass();
+            $cls->dock_id = $dock_id;
+            $cls->station_id = $station_id;
+            $cls->holds_bicycle = $holds_bicycle;
+            $cls->name = $name;
+            $returnArray[] = $cls;
         }
         $stmt->close();
         return $returnArray;

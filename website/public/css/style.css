@@ -312,3 +312,17 @@ path.chord {
 {
     margin:10px;
 }
+
+#admin-actions-left{
+    display:inline-block;
+    margin-right:0px;
+    
+    width:40%;
+}
+
+#admin-actions-right{
+    display:inline-block;
+    text-align:right;
+    margin-left:175px;
+    width:40%;
+}
