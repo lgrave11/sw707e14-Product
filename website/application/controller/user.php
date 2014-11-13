@@ -163,7 +163,7 @@ class User extends Controller
 
             $accountservice = new AccountService($this->db);
 
-            if($accountservice->create(new Account($_POST['username'], $_POST['password'], $_POST['email'], $_POST['phone'])) == null)
+            if($accountservice->create(new Account($_POST['username'], $_POST['password'], $_POST['email'], $_POST['phone'], $_POST['role'])) == null)
             {
                 $this->error('An error happened creating a user.', 'createuser');
                 header("Location: /User/CreateUser/");
