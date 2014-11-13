@@ -19,7 +19,7 @@
             </select>
 
             <div id="create-fields" >
-                 <input id="button" type="submit" name="submit" value="Create User"> 
+                 <input id="button" type="submit" name="addUserBtnSubmit" value="Create User"> 
             </div>
         </form>
 
@@ -38,7 +38,7 @@
             </select>
 
             <div id="create-fields" >
-                 <input id="button" type="submit" name="submit" value="Remove User"> 
+                 <input id="button" type="submit" name="removeUserBtnSubmit" value="Remove User"> 
             </div>
         </form>
 
@@ -50,14 +50,15 @@
         <form action="/Admin/AddBicycle/" method="post">
             <h2>Add a new Bicycle</h2>
             <div id="create-fields" >
-                 <input id="button" type="submit" name="submit" value="Create Bicycle"> 
+                 <input id="button" type="submit" name="addBicycleBtnSubmit" value="Create Bicycle"> 
             </div>
         </form>
     </div>
 
     <div id="removebicycle" class="admin-action">
         <form action="/Admin/RemoveBicycle/" method="post">
-            <h2>Remove a bicycle</h2>
+            <h2>Remove a Bicycle</h2>
+            <b>Select Bicycle<b></br>
             <select type="text" name="bicycles">
             <?php
             foreach($allBicycles as $b) 
@@ -68,7 +69,7 @@
             </select>
 
             <div id="create-fields" >
-                 <input id="button" type="submit" name="submit" value="Remove Bicycle"> 
+                 <input id="button" type="submit" name="removeBicycleBtnSubmit" value="Remove Bicycle"> 
             </div>
         </form>
 
@@ -77,7 +78,7 @@
     <div id="adddock" class="admin-action">
         <form action="/Admin/AddDock/" method="post">
             <h2>Add a new Dock</h2>
-            <b>Select station</b>
+            <b>Select Station</b></br>
             <select type="text" name="docksStation">
             <?php
             foreach($allStations as $s) 
@@ -87,7 +88,7 @@
             ?>
             </select>
             <div id="create-fields" >
-                 <input id="button" type="submit" name="submit" value="Create Dock"> 
+                 <input id="button" type="submit" name="addDockBtnSubmit" value="Create Dock"> 
             </div>
         </form>
     </div>
@@ -95,6 +96,7 @@
     <div id="removedock" class="admin-action">
         <form action="/Admin/RemoveDock/" method="post">
             <h2>Remove a Dock</h2>
+            <b>Select Dock <b></br>
             <select type="text" name="docksRemove">
             <?php
             foreach($allDocks as $d) 
@@ -105,9 +107,41 @@
             </select>
 
             <div id="create-fields" >
-                 <input id="button" type="submit" name="submit" value="Remove Dock"> 
+                 <input id="button" type="submit" name="removeDockBtnSubmit" value="Remove Dock"> 
             </div>
         </form>
 
     </div>
+    
+    <div id="addstation" class="admin-action">
+        <form action="/Admin/AddStation/" method="post">
+            <h2>Add a new Station</h2>
+            
+            
+            <div id="create-fields" >
+                 <input id="button" type="submit" name="addStationBtnSubmit" value="Create Station"> 
+            </div>
+        </form>
+    </div>
+    <div id="dialog-confirm"></div>
+    <div id="removestation" class="admin-action">
+        <form name="removeStationForm" action="/Admin/RemoveStation/" method="post">
+            <h2>Remove a Station</h2>
+            <b>Select Station</b></br>
+            <select type="text" name="stationRemove">
+            <?php
+            foreach($allStations as $s) 
+            {
+                echo ViewHelper::generateHTMLSelectOption($s->name, array('value'=>$s->station_id));
+            }
+            ?>
+            </select>
+
+            <div id="create-fields" >
+                 <input id="button" type="button" name="removeStationBtnSubmit" onclick="fnOpenNormalDialog();" value="Remove Station"> 
+            </div>
+        </form>
+
+    </div>
+    
 </div>

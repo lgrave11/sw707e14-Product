@@ -138,8 +138,6 @@ class Admin extends Controller
         $this->mapRoutes($allRoutes);
     }
     
-    
-    
     public function usageHistory() {
         Tools::requireAdmin();
         
@@ -168,7 +166,7 @@ class Admin extends Controller
     public function addRemove() 
     {
         Tools::requireAdmin();
-        $jsFiles = [];
+        $jsFiles = ["removeStation", "jquery-ui.min"];
         $navbarChosen = "Add/Remove";
         $this->title = "Add/Remove";
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
@@ -381,9 +379,43 @@ class Admin extends Controller
         header("Location: /Admin/AddRemove");
     }
     
+    public function addStation(){
     
+    }
     
-    
+    public function removeStation(){
+        Tools::requireAdmin();
+        $jsFiles = [];
+        $navbarChosen = "Add/Remove";
+        $this->title = "Add/Remove";
+        $currentPage = substr($_SERVER["REQUEST_URI"], 1);
+        $stationService = new StationService($this->db);
+        $stations = $stationService->readAllStations();
+        
+        $dockService = new DockService($this->db);
+        
+        if(empty($_POST['stationRemove']) || !in_array($_POST['stationRemove'], array_map(function($a) {return $a->station_id; }, $stations))) 
+        {
+            $this->error('Bicycle selected for removal is invalid or empty', 'addRemove');
+        }
+        
+        if(!($this->hasErrors('addRemove'))) 
+        {
+            $station = $stationService->readStation($_POST['stationRemove']);
+            if($stationService->delete($station)){
+                $docks = $dockService->readAllDocksForStation($station->station_id);
+                foreach($docks as $d)
+                {
+                    $dockService->delete($d);
+                }
+                $this->success('Station ' . $station->name . ' and ' . count($docks) . ' docks have been removed', 'addRemove');
+            }
+            else
+                $this->error('An error occurred', 'addRemove');
+        }
+        
+        header("Location: /Admin/AddRemove");
+    }
     
 }
 ?>

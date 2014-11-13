@@ -78,7 +78,7 @@ class DockService implements iService{
     
     public function readAllDocksWithoutBicycleWithStationName(){
         $returnArray = array();
-        $stmt = $this->db->prepare("SELECT dock.dock_id, dock.station_id, dock.holds_bicycle, station.name FROM dock, station WHERE dock.holds_bicycle IS NULL AND station.station_id = dock.station_id");
+        $stmt = $this->db->prepare("SELECT dock.dock_id, dock.station_id, dock.holds_bicycle, station.name FROM dock, station WHERE dock.holds_bicycle IS NULL AND station.station_id = dock.station_id AND station.deleted = false");
         $stmt->execute();
         $stmt->bind_result($dock_id, $station_id, $holds_bicycle, $name);
         while($stmt->fetch()){
