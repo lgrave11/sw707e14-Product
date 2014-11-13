@@ -106,7 +106,7 @@ class StationService implements iService
         $stmt->execute();
         $stmt->bind_result($station_id, $name);
         while($stmt->fetch()){
-            $returnArray[$station_id] = new Station($station_id, $name, NULL, NULL, NULL);
+            $returnArray[$station_id] = new Station($station_id, $name,null,null,null);
         }
         $stmt->close();
         return $returnArray;
@@ -125,7 +125,7 @@ class StationService implements iService
         $stmt->bind_param("ssddi", $station->name, $station->address, $station->longitude, $station->latitude, $station->station_id);
         $stmt->execute();
         $stmt->close();
-        return $dock;
+        return $station;
     }
 
     public function delete($station){
