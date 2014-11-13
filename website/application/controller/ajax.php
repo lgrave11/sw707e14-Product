@@ -121,7 +121,7 @@ class Ajax extends Controller {
         $colors = array('#FF0000', '#FF4900', '#FF9200', '#FFDB00', '#DBFF00', '#92FF00', '#49FF00', '#00FF00', '#00FF49', '#00FF92', '#00FFDB', '#00DBFF', '#0092FF', '#0049FF', '#0000FF', '#4900FF', '#9200FF', '#DB00FF', '#FF00DB', '#FF0092', '#FF0049');
 
         $stationService = new StationService($this->db);
-        $stations = $stationService->readAllStations();
+        $stations = $stationService->readAllStations(true);
 
         require 'application/views/ajax/usagegraphnames.php';
     }

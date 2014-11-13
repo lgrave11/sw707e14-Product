@@ -33,9 +33,15 @@ class StationService implements iService
         return $returnStation;
     }
 
-    public function readAllStations(){
+    public function readAllStations($readDeleted = false){
     	$returnArray = array();
-    	$stmt = $this->db->prepare("SELECT station_id, name, address, latitude, longitude FROM station WHERE deleted = false");
+        $stmt = null;
+        if ($readDeleted){
+            $stmt = $this->db->prepare("SELECT station_id, name, address, latitude, longitude FROM station");
+        } else {
+            $stmt = $this->db->prepare("SELECT station_id, name, address, latitude, longitude FROM station WHERE deleted = false");
+        }
+    	
     	$stmt->execute();
     	$stmt->bind_result($station_id, $name, $address, $latitude, $longitude);
     	while($stmt->fetch()){
