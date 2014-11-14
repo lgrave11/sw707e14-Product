@@ -105,13 +105,16 @@ a:hover {
     margin: 30px auto;
     background-color: white;
 	border: 1px solid grey;
-	min-height:95vh;
 	-webkit-box-shadow: 0px 8px 20px 0px rgba(50, 50, 50, 0.53);
 	-moz-box-shadow:    0px 8px 20px 0px rgba(50, 50, 50, 0.53);
 	box-shadow:         0px 8px 20px 0px rgba(50, 50, 50, 0.53);
 }
 
-#footer
+#sitecontent {
+    min-height:80vh;
+}
+
+footer
 {
     margin: auto;
     background-color: #00315F;
@@ -120,10 +123,10 @@ a:hover {
     text-align:center;
     width: 900px;
     margin-top:10px;
-	position:absolute;
+	/*position:absolute;*/
 }
 
-#footer a:link
+footer a:link
 {
     color:white;
     font-family: trebuchet MS;
@@ -133,7 +136,7 @@ a:hover {
 
 }
 
-#footer a:hover
+footer a:hover
 {
     text-decoration: underline;
 }

@@ -1,7 +1,7 @@
-<div id="footer">
-    <a href="mailto:sw707e14@cs.aau.dk?Subject=Aalborg%20Bycyklen">Kontakt</a>
-
 </div>
+<footer>
+    <a href="mailto:sw707e14@cs.aau.dk?Subject=Aalborg%20Bycyklen">Kontakt</a>
+</footer>
 </div>
 
 
