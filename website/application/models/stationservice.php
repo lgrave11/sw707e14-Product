@@ -158,7 +158,7 @@ class StationService implements iService
     }
 
     public function delete($station){
-        if($this->validate($dock))
+        if($this->validate($station))
         {
             $stmt = $this->db->prepare("UPDATE station SET deleted = true WHERE station_id = ?");
             $stmt->bind_param("i", $station->station_id);
