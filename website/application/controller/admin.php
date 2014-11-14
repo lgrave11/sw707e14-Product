@@ -29,6 +29,7 @@ class Admin extends Controller
 
     public function bookingRoutes($arr = array()) 
     {
+        Tools::requireAdmin();
         $navbarChosen = "Booking Routes";
         $this->title = "Booking Routes";
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
@@ -55,6 +56,7 @@ class Admin extends Controller
 
     public function bookingRoutesForm() 
     {
+        Tools::requireAdmin();
         $navbarChosen = "Booking Routes";
         $this->title = "Booking Routes";
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
@@ -84,6 +86,7 @@ class Admin extends Controller
 
     public function mapRoutes($arr = array()) 
     {
+        Tools::requireAdmin();
         $navbarChosen = "Map Routes";
         $this->title = "Map Routes";
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
@@ -101,6 +104,7 @@ class Admin extends Controller
     
     public function mapRoutesForm() 
     {
+        Tools::requireAdmin();
         $navbarChosen = "Map Routes";
         $this->title = "Map Routes";
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
@@ -156,6 +160,7 @@ class Admin extends Controller
     }
 
     public function graphTest() {
+        Tools::requireAdmin();
         $jsFiles = ["d3.min", "graphtest"];
 
         require 'application/views/_templates/adminheader.php';
