@@ -88,7 +88,7 @@ d3.csv("/ajax/usagegraphnames/", function(cities) {
 
     // Add an elaborate mouseover title for each chord.
     chord.append("title").text(function(d) {
-      data.push(d);
+      data.push([d, Math.max(d.source.value, d.target.value)]);
       return cities[d.source.index].name
           + " → " + cities[d.target.index].name
           + ": " + formatPercent(d.source.value)
@@ -97,6 +97,9 @@ d3.csv("/ajax/usagegraphnames/", function(cities) {
           + ": " + formatPercent(d.target.value);
     });
     
+    data.sort(function(a,b) { 
+        return b[1] - a[1];
+     });
 
     function mouseover(d, i) {
       chord.classed("fade", function(p) {
@@ -109,34 +112,36 @@ d3.csv("/ajax/usagegraphnames/", function(cities) {
         $("#stationName").html(cities[i].name);
         $("#stationData").empty();
         data.forEach(function(entry) {
-            if (entry.target.index == i) {
-                $("#stationData").append("<tr style=\"margin-bottom: 10px;\"><td style=\"width:330px;  border-bottom: 1px dotted gray;\">"+cities[entry.source.index].name
-                      + " → " + cities[entry.target.index].name
-                      + "</td> <td style=\"border-bottom: 1px dotted gray;\"><b>" + formatPercent(entry.source.value)
+            var obj = entry[0];
+            if (obj.source.value > 0.5 && obj.target.index == i) {
+                $("#stationData").append("<tr style=\"margin-bottom: 10px;\"><td style=\"width:330px;  border-bottom: 1px dotted gray;\">"+cities[obj.source.index].name
+                      + " → " + cities[obj.target.index].name
+                      + "</td> <td style=\"border-bottom: 1px dotted gray;\"><b>" + formatPercent(obj.source.value)
                       +"</b></td></tr>");
             }
-            if (entry.source.index == i) {
+            if (obj.target.value > 0.5 && obj.source.index == i) {
                 $("#stationData").append("<tr style=\"margin-bottom: 10px;\"><td style=\"width:330px;  border-bottom: 1px dotted gray;\">"
-                      + cities[entry.target.index].name
-                      + " → " + cities[entry.source.index].name
-                      + "</td> <td style=\"border-bottom: 1px dotted gray;\"><b>" + formatPercent(entry.target.value)+"</b></td></li>");
+                      + cities[obj.target.index].name
+                      + " → " + cities[obj.source.index].name
+                      + "</td> <td style=\"border-bottom: 1px dotted gray;\"><b>" + formatPercent(obj.target.value)+"</b></td></li>");
             }
         });
         
         $("#stationData").append("<tr style=\"margin-bottom: 10px;\"><td>&nbsp;</td><td>&nbsp;</td></tr>");
         
         data.forEach(function(entry) {
-            if (entry.target.index == i) {
+            var obj = entry[0];
+            if (obj.target.value > 0.5 && obj.target.index == i) {
                 $("#stationData").append("<tr style=\"margin-bottom: 10px; border-bottom: 1px solid gray;\"><td style=\"width:330px;  border-bottom: 1px dotted gray;\">"
-                      + cities[entry.target.index].name
-                      + " → " + cities[entry.source.index].name
-                      + "</td> <td style=\"border-bottom: 1px dotted gray;\"><b>" + formatPercent(entry.target.value) + "</b></td></tr>");
+                      + cities[obj.target.index].name
+                      + " → " + cities[obj.source.index].name
+                      + "</td> <td style=\"border-bottom: 1px dotted gray;\"><b>" + formatPercent(obj.target.value) + "</b></td></tr>");
             }
-            if (entry.source.index == i) {
+            if (obj.source.value > 0.5 && obj.source.index == i) {
                 $("#stationData").append("<tr style=\"margin-bottom: 10px; border-bottom: 1px solid gray;\"><td style=\"width:330px;  border-bottom: 1px dotted gray;\">"
-                      +cities[entry.source.index].name
-                      + " → " + cities[entry.target.index].name
-                      + "</td> <td style=\"border-bottom: 1px dotted gray;\"> <b>" + formatPercent(entry.source.value)+"</b></td></tr>");
+                      +cities[obj.source.index].name
+                      + " → " + cities[obj.target.index].name
+                      + "</td> <td style=\"border-bottom: 1px dotted gray;\"> <b>" + formatPercent(obj.source.value)+"</b></td></tr>");
             }
         });
         

@@ -302,7 +302,7 @@ footer a:hover
 }
 
 .group path {
-  fill-opacity: .5;
+  fill-opacity: 1;
 }
 
 path.chord {
