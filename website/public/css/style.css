@@ -302,7 +302,7 @@ footer a:hover
 }
 
 .group path {
-  fill-opacity: .5;
+  fill-opacity: 1;
 }
 
 path.chord {
@@ -331,4 +331,38 @@ path.chord {
     text-align:right;
     margin-left:175px;
     width:40%;
+}
+
+fieldset li {
+float: left;
+clear: left;
+width: 100%;
+padding-bottom: 0.25em;
+}
+
+label {
+float: left;
+width: 10em;
+margin-right: 1em;
+}
+
+fieldset {
+
+margin-left:15px;
+margin-bottom:10px;
+clear: left;
+width: 95%;
+padding: 5px;
+}
+
+fieldset #button {
+float: none;
+width: auto;
+margin-left: 17em;
+margin-bottom:5px;
+}
+
+fieldset ul 
+{
+    list-style-type:none;
 }
