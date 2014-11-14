@@ -380,7 +380,42 @@ class Admin extends Controller
     }
     
     public function addStation(){
-    
+        Tools::requireAdmin();
+        $jsFiles = [];
+        $navbarChosen = "Add/Remove";
+        $this->title = "Add/Remove";
+        $currentPage = substr($_SERVER["REQUEST_URI"], 1);
+        
+        if(empty($_POST['name'])){
+            $this->error('Name field is empty', 'addRemove');
+        }
+        if(empty($_POST['latitude'])){
+            $this->error('Latitude field is empty', 'addRemove');
+        }
+        if(empty($_POST['longitude']))
+        {
+            $this->error('Longitude field is empty', 'addRemove');
+        }
+        if(empty($_POST['ipaddress']))
+        {
+            $this->error('IP Address field is empty', 'addRemove');
+        }
+
+        if(!($this->hasErrors('addRemove')))
+        {
+            $stationService = new StationService($this->db);
+
+            if($stationService->create(new Station(null, $_POST['name'], null, $_POST['latitude'], $_POST['longitude'])) == null)
+            {
+                $this->error('An error occurred creating a station.', 'addRemove');
+            }
+            else
+            {
+                $this->success('Station ' . $_POST['name'] . ' has been created.', 'addRemove');
+            }
+        }
+        
+        header("Location: /Admin/AddRemove");
     }
     
     public function removeStation(){

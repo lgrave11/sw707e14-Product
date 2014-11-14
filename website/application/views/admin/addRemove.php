@@ -116,13 +116,17 @@
     <div id="addstation" class="admin-action">
         <form action="/Admin/AddStation/" method="post">
             <h2>Add a new Station</h2>
-            
-            
+            <b>Name</b><br><input type="text" name="name" size="50%"><br> 
+            <b>Latitude</b><br><input type="text" name="latitude" size="50%"><br> 
+            <b>Longitude</b><br><input type="text" name="longitude" size="50%"><br>
+            <b>IP Address</b><br><input type="text" name="ipaddress" size="50%"><br>
+
             <div id="create-fields" >
                  <input id="button" type="submit" name="addStationBtnSubmit" value="Create Station"> 
             </div>
         </form>
-    </div>
+    </div>    
+    
     <div id="dialog-confirm"></div>
     <div id="removestation" class="admin-action">
         <form name="removeStationForm" action="/Admin/RemoveStation/" method="post">
