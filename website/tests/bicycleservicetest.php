@@ -177,7 +177,7 @@ class BicycleServiceTest extends PHPUnit_Framework_TestCase
 
 	public function testUpdate(){
 		$bicycleService = new BicycleService($this->db);
-		$bicycle = $bicycleService->create(new Bicycle(null,50,50));
+		$bicycle = $bicycleService->create(new Bicycle(null,50,50));w
 
 		$testbicycle = new Bicycle($bicycle->bicycle_id,70,70);
 		$newbicycle = $bicycleService->update($testbicycle);
