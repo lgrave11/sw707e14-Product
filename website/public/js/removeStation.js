@@ -1,10 +1,3 @@
-function confirmSubmit() {
-  if (confirm("If you delete this station, all its docks are deleted and the bicycles are set free.")) {
-    document.removeStationForm.submit();
-  }
-  return false;
-}
-
 function fnOpenNormalDialog() {
     $("#dialog-confirm").html("If you delete this station, all its docks are deleted and the bicycles are set free.");
 

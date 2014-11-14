@@ -60,6 +60,15 @@ class StationService implements iService
             $bicycleArray[$station_id] = $countBicycles;
         }
         $stmt->close();
+        
+        $stmt = $this->db->prepare("SELECT DISTINCT station_id FROM station WHERE station_id NOT IN (SELECT DISTINCT station_id FROM dock) AND deleted = false");
+        $stmt->execute();
+        $stmt->bind_result($station_id);
+        while($stmt->fetch())
+        {
+            $bicycleArray[$station_id] = 0;
+        }
+        $stmt->close();
 
         $bookingArray = array();
         $hour_back = time() - 3600;
