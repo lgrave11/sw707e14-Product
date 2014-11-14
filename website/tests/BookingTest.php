@@ -372,6 +372,7 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$bookingservice->delete($booking2);
 		$bookingservice->delete($booking3);
 		$bookingservice->delete($booking4);
+		$BookingService->delete($booking5);
 
 	}
 
