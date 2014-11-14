@@ -211,10 +211,9 @@ class BookingTest extends PHPUnit_Framework_TestCase
 
 
 		//Cleanup
-		$accountservice->delete($account);
+		$stationservice->deleteForTest($station);
 		$bookingservice->delete($booking);
-		$stationservice->delete($station);
-
+		$accountservice->delete($account);
 	}
 
 
@@ -260,12 +259,12 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$this->assertCount(3, $mappedresult2);
 
 		//Cleanup
-		$accountservice->delete($account1);
-		$accountservice->delete($account2);
 		$bookingservice->delete($booking1);
 		$bookingservice->delete($booking2);
 		$bookingservice->delete($booking3);
 		$bookingservice->delete($booking4);
+		$accountservice->delete($account1);
+		$accountservice->delete($account2);
 
 	}
 
@@ -313,16 +312,16 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$this->assertCount(3, $mappedresult2);
 
 		//Cleanup
-		$accountservice->delete($account1);
-		$accountservice->delete($account2);
 		$bookingservice->delete($booking1);
 		$bookingservice->delete($booking2);
 		$bookingservice->delete($booking3);
 		$bookingservice->delete($booking4);
+		$accountservice->delete($account1);
+		$accountservice->delete($account2);
 
 	}
 
-		public function testGetOldBookings()
+	public function testGetOldBookings()
 	{
 		//Arange
 		$account1 = new Account("username", "password", "mymail@mydomain.com", "01020304", "mytoken", "myresettime", "user");
@@ -366,13 +365,13 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$this->assertCount(3, $mappedresult2);
 
 		//Cleanup
-		$accountservice->delete($account1);
-		$accountservice->delete($account2);
 		$bookingservice->delete($booking1);
 		$bookingservice->delete($booking2);
 		$bookingservice->delete($booking3);
 		$bookingservice->delete($booking4);
-
+		$bookingservice->delete($booking5);
+		$accountservice->delete($account1);
+		$accountservice->delete($account2);
 	}
 
 

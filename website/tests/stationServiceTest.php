@@ -34,7 +34,7 @@ class StationServiceTest extends PHPUnit_Framework_TestCase
 		$this->AssertEquals(57.1, $station->latitude);
 		$this->AssertEquals(9.2, $station->longitude);
 
-		$stationService->delete($station);
+		$stationService->deleteForTest($station);
 		$result = $stationService->readStation($station->station_id);
 		$this->AssertEquals(null, $result);
 	}
@@ -44,14 +44,14 @@ class StationServiceTest extends PHPUnit_Framework_TestCase
 		$stationService = new StationService($this->db);
 
 		$resultbefore = $stationService->readAllStations();
-		$station = new Station(10000, "test station name", "test address", 57.1, 9.2); //assuming the system does not reach a higher amount than 10000 stations
+		$station = new Station(10000, "test station name", "test address", 57.1, 9.2, "127.0.0.1"); //assuming the system does not reach a higher amount than 10000 stations
 
 		$stationService->create($station);
 		$resultafter = $stationService->readAllStations();
 
 		$this->AssertEquals(count($resultbefore), count($resultafter) - 1);
 
-		$stationService->delete($station);
+		$stationService->deleteForTest($station);
 		$resultafterdeletion = $stationService->readAllStations();
 		$this->AssertEquals(count($resultbefore), count($resultafterdeletion));
 	}
@@ -90,9 +90,10 @@ class StationServiceTest extends PHPUnit_Framework_TestCase
 		$result = $stationService->readAllAvailableBicycles();
 		$this->AssertEquals(2, $result[10000]);
 
+
+		$stationService->deleteForTest($station);
 		$bicycleService->delete($bicycle1);
 		$bicycleService->delete($bicycle2);
-		$stationService->delete($station);
 	}
 
 	public function testReadAllValableDocks()
@@ -113,7 +114,7 @@ class StationServiceTest extends PHPUnit_Framework_TestCase
 		$resultwithdocks = $stationService->readAllAvailableDocks();
 		$this->AssertEquals(2, $resultwithdocks[10000]);
 
-		$stationService->delete($station);
+		$stationService->deleteForTest($station);
 	}
 
 	
@@ -127,7 +128,7 @@ class StationServiceTest extends PHPUnit_Framework_TestCase
 		
 		$result = $stationService->searchStation("fasjjosgdjiodsgjposerjoåipherjoiasfjaefjiojioko");
 		$this->AssertEquals(1, count($result));
-		$stationService->delete($station);
+		$stationService->deleteForTest($station);
 		$result = $stationService->searchStation("fasjjosgdjiodsgjposerjoåipherjoiasfjaefjiojioko");
 		$this->AssertEquals(0, count($result));
 	}
@@ -139,7 +140,7 @@ class StationServiceTest extends PHPUnit_Framework_TestCase
 		$stationService->create($station);
 		$result = $stationService->readStation($station->station_id);
 		$this->AssertNotEquals(null, $result);
-		$stationService->delete($station);
+		$stationService->deleteForTest($station);
 	}
 
 	public function testUpdate()
@@ -171,7 +172,7 @@ class StationServiceTest extends PHPUnit_Framework_TestCase
 		$stationService->update($station);
 		$result = $stationService->readStation($station->station_id);
 		$this->AssertTrue($result->latitude -  9.4 < 0.01 && $result->latitude - 9.4 > -0.01);
-		$stationService->delete($station);
+		$stationService->deleteForTest($station);
 	}
 
 	public function testDelete()
@@ -183,6 +184,7 @@ class StationServiceTest extends PHPUnit_Framework_TestCase
 		$stationService->delete($station);
 		$resultafter = $stationService->readStation($station->station_id);
 		$this->AssertNotEquals($result, $resultafter);
+		$stationService->deleteForTest($station);
 	}
 
 

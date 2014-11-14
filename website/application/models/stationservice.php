@@ -131,7 +131,7 @@ class StationService implements iService
     public function searchStation($name = ""){
         $returnArray = array();
         $name = mysqli_real_escape_string($this->db, $name);
-        $stmt = $this->db->prepare("SELECT station_id, name FROM station WHERE name LIKE '%".$name."%' ORDER BY levenshtein('".$name."', name) AND deleted = false");
+        $stmt = $this->db->prepare("SELECT station_id, name FROM station WHERE deleted = false AND name LIKE '%".$name."%' ORDER BY levenshtein('".$name."', name) AND deleted = false");
         $stmt->execute();
         $stmt->bind_result($station_id, $name);
         while($stmt->fetch()){
@@ -158,9 +158,21 @@ class StationService implements iService
     }
 
     public function delete($station){
-        if($this->validate($dock))
+        if($this->validate($station))
         {
             $stmt = $this->db->prepare("UPDATE station SET deleted = true WHERE station_id = ?");
+            $stmt->bind_param("i", $station->station_id);
+            $stmt->execute();
+            $stmt->close();
+            return true;
+        }
+        return false;
+    }
+
+    public function deleteForTest($station){
+        if($this->validate($station))
+        {
+            $stmt = $this->db->prepare("DELETE FROM station WHERE station_id = ?");
             $stmt->bind_param("i", $station->station_id);
             $stmt->execute();
             $stmt->close();

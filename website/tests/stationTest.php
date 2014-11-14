@@ -1,5 +1,5 @@
 <?php
-class AccountTest extends PHPUnit_Framework_TestCase
+class StationTest extends PHPUnit_Framework_TestCase
 {
 	
 	public function testFieldsAreAssigned()

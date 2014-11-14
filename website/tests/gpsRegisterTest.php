@@ -20,7 +20,7 @@ class GPSRegisterTest extends PHPUnit_Framework_TestCase
         
         $stmt = $this->db->prepare("INSERT INTO historylocationbicycle(bicycle_id, latitude, longitude) VALUES (?,?,?)");
         $stmt->bind_param("idd", $bicycle_id, $latitude, $longitude);
-        $stmt->execute()
+        $stmt->execute();
         $stmt->close();
         return true;
     }
