@@ -214,7 +214,7 @@ class Admin extends Controller
         {
             $account = $accountService->read($_POST['users']);
             if($accountService->delete($account))
-                $this->success('Account ' . $account->username . ' has been removed', 'addRemove');
+                $this->success('User ' . $account->username . ' has been removed', 'addRemove');
             else
                 $this->error('An error occurred', 'addRemove');
         }
