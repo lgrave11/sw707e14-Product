@@ -65,4 +65,4 @@
 			</tr>
 		</table>
 	</div>
-<div id="content">
+<div id="sitecontent">
