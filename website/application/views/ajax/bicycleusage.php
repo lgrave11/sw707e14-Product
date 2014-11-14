@@ -1,9 +1,10 @@
-<div id="graph" style="display: inline-block;"></div>
-<div style="float: right; width: 365px; text-align: left; font-size:12px;">
+<div id="graph" style="float:left;"></div>
+<div style="float: left; width: 365px; text-align: left; font-size:12px;">
     <h2 id="stationName"></h2>
     <table id="stationData" style="border-spacing:0px; line-height:20px; margin-right:5px;">
     </table>
 </div>
+<div style="clear:both;"></div>
 <script>
 
 var width = 520,
@@ -27,6 +28,8 @@ var path = d3.svg.chord()
     
 var data = [];
 
+var matrix = <?php echo json_encode($a) ?>;
+
 var svg = d3.select("#graph").append("svg")
     .attr("width", width)
     .attr("height", height)
@@ -38,7 +41,6 @@ svg.append("circle")
     .attr("r", outerRadius);
 
 d3.csv("/ajax/usagegraphnames/", function(cities) {
-  d3.json("/ajax/usagegraph/<?php echo $fromtime; ?>/<?php echo $totime; ?>", function(matrix) {
 
     // Compute the chord layout.
     layout.matrix(matrix);
@@ -140,7 +142,6 @@ d3.csv("/ajax/usagegraphnames/", function(cities) {
         
         
     }
-  });
 });
 
 </script>
