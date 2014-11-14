@@ -322,7 +322,7 @@ class BookingTest extends PHPUnit_Framework_TestCase
 
 	}
 
-		public function testGetOldBookings()
+	public function testGetOldBookings()
 	{
 		//Arange
 		$account1 = new Account("username", "password", "mymail@mydomain.com", "01020304", "mytoken", "myresettime", "user");
@@ -372,7 +372,7 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$bookingservice->delete($booking2);
 		$bookingservice->delete($booking3);
 		$bookingservice->delete($booking4);
-		$BookingService->delete($booking5);
+		$bookingservice->delete($booking5);
 
 	}
 
