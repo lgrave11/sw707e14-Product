@@ -71,7 +71,7 @@ class Ajax extends Controller {
         $hubs = new HistoryUsageBicycleService($this->db);
         $stationService = new StationService($this->db);
         $hist = $hubs->readHistoryBetween($fromtime, $totime);
-        $stationMapping = $stationService->createStationMapping();
+        $stationMapping = $stationService->readStationMapping();
         $a = array_pad(array(), count($stationMapping), array_pad(array(), count($stationMapping), 0));
 
         foreach($hist as $h)

@@ -114,7 +114,7 @@ class StationService implements iService
         return $returnArray;
     }
 
-    public function createStationMapping(){
+    public function readStationMapping(){
         $returnArray = array();
         $i = 0;
         $stmt = $this->db->prepare("SELECT station_id FROM station ORDER BY station_id");
