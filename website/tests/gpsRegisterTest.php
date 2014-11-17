@@ -1,5 +1,6 @@
 <?php 
 require '../website/application/config/config.php';
+require '../website/interface/gpsregister.php';
 class GPSRegisterTest extends PHPUnit_Framework_TestCase 
 {   
     private $db = null;
@@ -10,25 +11,28 @@ class GPSRegisterTest extends PHPUnit_Framework_TestCase
         mysqli_set_charset($this->db, "utf8");
  	}
 
-    private function RegisterGPS($bicycle_id, $latitude, $longitude)
-    {
-        global $db;
-        $stmt = $this->db->prepare("UPDATE bicycle SET latitude = ?, longitude = ? WHERE bicycle_id = ?");
-        $stmt->bind_param("ddi", $latitude, $longitude, $bicycle_id);
-        $stmt->execute();
-        $stmt->close();
-        
-        $stmt = $this->db->prepare("INSERT INTO historylocationbicycle(bicycle_id, latitude, longitude) VALUES (?,?,?)");
-        $stmt->bind_param("idd", $bicycle_id, $latitude, $longitude);
-        $stmt->execute();
-        $stmt->close();
-        return true;
-    }
-
     public function testRegisterGPS() 
     {
-        $this->assertTrue($this->RegisterGPS(1, 57.0134052, 9.988917));
-        
+
+        $bicycleService = new BicycleService($this->db);
+
+        $id = 1;
+        $latitude = 57.0134052;
+        $longitude = 9.988917;
+        $time = time();
+        $prevTime = $time - 1;
+        $nextTime = $time + 1;
+
+        $this->assertTrue(RegisterGPS($id, $latitude, $longitude));
+        $bicycle = $bicycleService->read($id);
+
+        $this->assertEquals($id, $bicycle->bicycle_id);
+        $this->assertLessThan(0.00005, abs($latitude - $bicycle->latitude));
+        $this->assertLessThan(0.00005, abs($longitude- $bicycle->longitude));
+
+        $bicycleLocation = $bicycleService->readBicyclePositions($id, $prevTime, $nextTime);
+        $this->assertLessThan(0.00005, abs($latitude - $bicycleLocation[0]->latitude));
+        $this->assertLessThan(0.00005, abs($longitude- $bicycleLocation[0]->longitude));
     }
     
     
