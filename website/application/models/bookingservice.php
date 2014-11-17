@@ -42,7 +42,7 @@ class BookingService implements iService
         if(is_numeric($id))
         {
             $stmt = $this->db->prepare("SELECT booking_id, start_time, start_station, password, for_user, used_bicycle FROM booking WHERE booking_id = ?");
-            $stmt->bind_param("i", $id;
+            $stmt->bind_param("i", $id);
             $stmt->execute();
             $stmt->bind_result($booking_id, $start_time, $start_station, $password, $for_user, $used_bicycle);
             $stmt->fetch();
