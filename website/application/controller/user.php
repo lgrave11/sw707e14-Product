@@ -285,7 +285,7 @@ class User extends Controller
         $this->title = "Forgot your password?";
         $email = $_POST["email"];
         $accountservice = new AccountService($this->db);
-        $account = $accountservice->readFromEmail($_POST["email"]);
+        $account = $accountservice->readFromEmail($email);
         if($account != null) {
             $account->token = Tools::randomString(64);
             $account->reset_time = strtotime("+10 minutes");
@@ -302,6 +302,7 @@ class User extends Controller
 
     public function resetPassword($token, $email)
     {
+        $email = urldecode($email);
         $navbarChosen = "Login";
         $this->title = "Reset your password";
         $accountservice = new AccountService($this->db);
