@@ -1,6 +1,7 @@
 <?php
 class Ajax extends Controller {
     public function index(){
+        header("Location: /");
     }
 
     public function searchStation($query = ""){
