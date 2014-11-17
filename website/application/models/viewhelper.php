@@ -32,7 +32,7 @@ class ViewHelper
         ViewHelper::printSuccess($name);
     }
 
-    public static function printHour(){
+    public static function getHour(){
         $currentTime = time();
         if (date("i") >= 55)
         {
@@ -43,7 +43,7 @@ class ViewHelper
         return $hour;
     }
 
-    public static function printMinute(){
+    public static function getMinute(){
         if (date("i") >= 55)
         {
             $minute = "00";
@@ -53,7 +53,7 @@ class ViewHelper
         return str_pad($minute, 2, 0, STR_PAD_LEFT);
     }
 
-    public static function printDate(){
+    public static function getDate(){
         if (date("i") >= 55 && date("H") == 23){
             return date("d/m/Y", time() + 3600);
         } else {
@@ -61,7 +61,7 @@ class ViewHelper
         }
     }
     
-    public static function printDateTime() 
+    public static function getDateTime() 
     {
         if (date("i") >= 55 && date("H") == 23){
             return date("d/m/Y H:i", time() + 3600);
