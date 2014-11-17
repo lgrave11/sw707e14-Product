@@ -353,6 +353,7 @@ margin-bottom:10px;
 clear: left;
 width: 95%;
 padding: 5px;
+border: 1px solid #00315F;
 }
 
 fieldset #button {
@@ -365,4 +366,8 @@ margin-bottom:5px;
 fieldset ul 
 {
     list-style-type:none;
+}
+
+legend {
+	color: #00315F;
 }
