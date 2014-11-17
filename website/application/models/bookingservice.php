@@ -81,7 +81,7 @@ class BookingService implements iService
 
     public function delete($booking)
     {
-        $this->deleteActiveBooking($booking->booking_id);
+        return $this->deleteActiveBooking($booking->booking_id) > 0;
     }
 
     /**
