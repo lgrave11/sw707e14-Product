@@ -17,11 +17,11 @@ class StationService implements iService
      * @param $station_id
      * @return Station|null
      */
-    public function read($station_id)
+    public function read($id)
     {
         $returnStation = null;
         $stmt = $this->db->prepare("SELECT station_id, name, address, latitude, longitude, COUNT(*) FROM station WHERE station_id = ? AND deleted = false");
-        $stmt->bind_param("i", $station_id);
+        $stmt->bind_param("i", $id);
         $stmt->execute();
         $stmt->bind_result($station_id, $name, $address, $latitude, $longitude, $count);
         $stmt->fetch();
