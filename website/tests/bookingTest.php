@@ -71,7 +71,7 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$booking = new Booking(null, 1415690764, 16, 456189, $account->username, null);
 		$bookingservice = new BookingService($this->db);
 		$booking = $bookingservice->create($booking);
-		$testread = $bookingservice->read(54679);
+		$testread = $bookingservice->read("hej");
 
 		//Act
 		$stmt = $this->db->prepare("SELECT booking_id, start_time, start_station, password, for_user, used_bicycle FROM booking WHERE booking_id = ?");
@@ -81,7 +81,7 @@ class BookingTest extends PHPUnit_Framework_TestCase
         $stmt->fetch();
         $stmt->close();
 
-        $testbooking = $bookingservice->read($booking);
+        $testbooking = $bookingservice->read($booking->booking_id);
         $testbooking2 = new Booking($id, $start_time, $start_station, $password, $for_user, $used_bicycle);
         //Test
 		$this->assertEquals($testbooking2, $testbooking);
@@ -139,9 +139,9 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$bookingservice = new BookingService($this->db);
 		$booking = $bookingservice->create($booking);
 
-		$booking2 = $bookingservice->read($booking);
+		$booking2 = $bookingservice->read($booking->booking_id);
 		$bookingservice->delete($booking);
-		$booking3 = $bookingservice->read($booking);
+		$booking3 = $bookingservice->read($booking_booking_id);
 
 		//Test
 		$this->assertNotEquals($booking2,$booking3);

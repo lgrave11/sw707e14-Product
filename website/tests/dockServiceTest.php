@@ -10,17 +10,6 @@ class DockServiceTest extends PHPUnit_Framework_TestCase
         mysqli_set_charset($this->db, "utf8");
  	}
     
-    public function testReadHoldsBicycle() 
-    {
-        $dockService = new DockService($this->db);
-        $d = $dockService->create(new Dock(null, 2, null));
-        $d->holds_bicycle = 175;
-        $dockService->update($d);
-        $d2 = $dockService->readHoldsBicycle($d);
-        $this->assertEquals(175, $d2->holds_bicycle);       
-        $dockService->delete($d);
-    }
-    
     public function testReadAllDocksForStation() 
     {
         $dockService = new DockService($this->db);

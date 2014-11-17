@@ -10,23 +10,6 @@ class DockService implements iService{
             exit('Database connection could not be established.');
         }
     }
-
-    public function readHoldsBicycle($dock){
-        if($this->validate($dock))
-        {
-            $stmt = $this->db->prepare("SELECT holds_bicycle FROM dock WHERE dock_id = ? AND station_id = ?");
-            $stmt->bind_param("ii", $dock->dock_id, $dock->station_id);
-            $stmt->execute();
-            $stmt->bind_result($holds_bicycle);
-            $stmt->fetch();
-            $stmt->close();
-            return new Dock($dock->dock_id, $dock->station_id, $holds_bicycle);
-        }
-        else
-        {
-            return null;
-        }
-    }
     
     public function read($id){
         $stmt = $this->db->prepare("SELECT * FROM dock WHERE dock_id = ?");

@@ -37,18 +37,18 @@ class BookingService implements iService
         }
     }
 
-    public function read($booking)
+    public function read($id)
     {
-        if($this->validate($booking))
+        if(is_numeric($id))
         {
             $stmt = $this->db->prepare("SELECT booking_id, start_time, start_station, password, for_user, used_bicycle FROM booking WHERE booking_id = ?");
-            $stmt->bind_param("i", $booking->booking_id);
+            $stmt->bind_param("i", $id;
             $stmt->execute();
-            $stmt->bind_result($id, $start_time, $start_station, $password, $for_user, $used_bicycle);
+            $stmt->bind_result($booking_id, $start_time, $start_station, $password, $for_user, $used_bicycle);
             $stmt->fetch();
             $stmt->close();
 
-            return new Booking($id, $start_time, $start_station, $password, $for_user, $used_bicycle);
+            return new Booking($booking_id, $start_time, $start_station, $password, $for_user, $used_bicycle);
         }
         else
         {
