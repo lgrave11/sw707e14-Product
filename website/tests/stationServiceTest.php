@@ -21,13 +21,13 @@ class StationServiceTest extends PHPUnit_Framework_TestCase
 		$this->AssertEquals(true, $result);
 	}
 
-	public function testReadStation()
+	public function testRead()
 	{
 		$stationService = new StationService($this->db);
 		$station = new Station(10000, "test station name", "test address", 57.1, 9.2); //assuming the system does not reach a higher amount than 10000 stations
 
 		$stationService->create($station);
-		$result = $stationService->readStation($station->station_id);
+		$result = $stationService->read($station->station_id);
 		$this->AssertEquals(10000, $station->station_id);
 		$this->AssertEquals("test station name", $station->name);
 		$this->AssertEquals("test address", $station->address);
@@ -35,7 +35,7 @@ class StationServiceTest extends PHPUnit_Framework_TestCase
 		$this->AssertEquals(9.2, $station->longitude);
 
 		$stationService->deleteForTest($station);
-		$result = $stationService->readStation($station->station_id);
+		$result = $stationService->read($station->station_id);
 		$this->AssertEquals(null, $result);
 	}
 
@@ -138,7 +138,7 @@ class StationServiceTest extends PHPUnit_Framework_TestCase
 		$stationService = new StationService($this->db);
 		$station = new Station(10000, "fasjjosgdjiodsgjposerjoåipherjoiasfjaefjiojiokoate test station", "test address", 57.1, 9.2); //assuming the system does not reach a higher amount than 10000 stations
 		$stationService->create($station);
-		$result = $stationService->readStation($station->station_id);
+		$result = $stationService->read($station->station_id);
 		$this->AssertNotEquals(null, $result);
 		$stationService->deleteForTest($station);
 	}
@@ -152,25 +152,25 @@ class StationServiceTest extends PHPUnit_Framework_TestCase
 		//Change the name
 		$station->name = "proper name";
 		$stationService->update($station);
-		$result = $stationService->readStation($station->station_id);
+		$result = $stationService->read($station->station_id);
 		$this->AssertEquals("proper name", $result->name);
 
 		//Change the Address
 		$station->address = "new test address";
 		$stationService->update($station);
-		$result = $stationService->readStation($station->station_id);
+		$result = $stationService->read($station->station_id);
 		$this->AssertEquals("new test address", $result->address);
 
 		//Change the longitude
 		$station->longitude = 57.2;
 		$stationService->update($station);
-		$result = $stationService->readStation($station->station_id);
+		$result = $stationService->read($station->station_id);
 		$this->AssertTrue($result->longitude -  57.2 < 0.01 && $result->longitude - 57.2 > -0.01); // need to do it like this, due to floating point lacking precision
 
 		//Change the latitude
 		$station->latitude = 9.4;
 		$stationService->update($station);
-		$result = $stationService->readStation($station->station_id);
+		$result = $stationService->read($station->station_id);
 		$this->AssertTrue($result->latitude -  9.4 < 0.01 && $result->latitude - 9.4 > -0.01);
 		$stationService->deleteForTest($station);
 	}
@@ -180,9 +180,9 @@ class StationServiceTest extends PHPUnit_Framework_TestCase
 		$stationService = new StationService($this->db);
 		$station = new Station(10000, "fasjjosgdjiodsgjposerjoåipherjoiasfjaefjiojiokoate test station", "test address", 57.1, 9.2); //assuming the system does not reach a higher amount than 10000 stations
 		$stationService->create($station);
-		$result = $stationService->readStation($station->station_id);
+		$result = $stationService->read($station->station_id);
 		$stationService->delete($station);
-		$resultafter = $stationService->readStation($station->station_id);
+		$resultafter = $stationService->read($station->station_id);
 		$this->AssertNotEquals($result, $resultafter);
 		$stationService->deleteForTest($station);
 	}

@@ -81,10 +81,15 @@ class HistoryUsageBicycleService implements iService
     */
 
     public function delete($historyusagebicycle){
-        $stmt = $this->db->prepare("DELETE FROM historyusagebicycle WHERE id = ?");
-        $stmt->bind_param("i", $historyusagebicycle->id);
-        $stmt->execute();
-        $stmt->close();
+        if($this->validate($historyusagebicycle)){
+            $stmt = $this->db->prepare("DELETE FROM historyusagebicycle WHERE id = ?");
+            $stmt->bind_param("i", $historyusagebicycle->id);
+            $stmt->execute();
+            $stmt->close();
+            return true;
+        }
+        else
+            return false;
     }
 
     public function validate($historyusagebicycle){

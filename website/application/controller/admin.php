@@ -346,7 +346,7 @@ class Admin extends Controller
         {
             $newDock = $dockService->create(new Dock(null, $_POST['docksStation'],null));
             if(!empty($newDock))
-                $this->success('Dock ' . $newDock->dock_id . ' has been added to station ' . $stationService->readStation($_POST['docksStation'])->name, 'addRemove');
+                $this->success('Dock ' . $newDock->dock_id . ' has been added to station ' . $stationService->read($_POST['docksStation'])->name, 'addRemove');
             else
                 $this->error('An error occurred', 'addRemove');
         }
@@ -441,7 +441,7 @@ class Admin extends Controller
         
         if(!($this->hasErrors('addRemove'))) 
         {
-            $station = $stationService->readStation($_POST['stationRemove']);
+            $station = $stationService->read($_POST['stationRemove']);
             if($stationService->delete($station)){
                 $docks = $dockService->readAllDocksForStation($station->station_id);
                 foreach($docks as $d)

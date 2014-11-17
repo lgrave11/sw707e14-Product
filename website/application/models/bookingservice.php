@@ -110,7 +110,7 @@ class BookingService implements iService
         }
         else
         {
-            $start_station = $stationservice->readStation($booking->start_station);
+            $start_station = $stationservice->read($booking->start_station);
             if(empty($start_station))
             {
                 $valid = false;

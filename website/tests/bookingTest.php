@@ -234,10 +234,10 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$booking2 = $bookingservice->create($booking2);
 		$booking3 = $bookingservice->create($booking3);
 		$stationservice = new StationService($this->db);
-		$station1 = $stationservice->readStation($booking1->start_station);
-		$station2 = $stationservice->readStation($booking2->start_station);
-		$station3 = $stationservice->readStation($booking3->start_station);
-		$station4 = $stationservice->readStation($booking4->start_station);
+		$station1 = $stationservice->read($booking1->start_station);
+		$station2 = $stationservice->read($booking2->start_station);
+		$station3 = $stationservice->read($booking3->start_station);
+		$station4 = $stationservice->read($booking4->start_station);
 
 		//Act
 		$result1 = $bookingservice->getBookings($account2->username);
@@ -285,10 +285,10 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$booking2 = $bookingservice->create($booking2);
 		$booking3 = $bookingservice->create($booking3);
 		$stationservice = new StationService($this->db);
-		$station1 = $stationservice->readStation($booking1->start_station);
-		$station2 = $stationservice->readStation($booking2->start_station);
-		$station3 = $stationservice->readStation($booking3->start_station);
-		$station4 = $stationservice->readStation($booking4->start_station);
+		$station1 = $stationservice->read($booking1->start_station);
+		$station2 = $stationservice->read($booking2->start_station);
+		$station3 = $stationservice->read($booking3->start_station);
+		$station4 = $stationservice->read($booking4->start_station);
 
 		//Act
 		$result1 = $bookingservice->getActiveBookings($account2->username);
@@ -340,10 +340,10 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$booking3 = $bookingservice->create($booking3);
 		$booking5 = $bookingservice->create($booking5);
 		$stationservice = new StationService($this->db);
-		$station1 = $stationservice->readStation($booking1->start_station);
-		$station2 = $stationservice->readStation($booking2->start_station);
-		$station3 = $stationservice->readStation($booking3->start_station);
-		$station4 = $stationservice->readStation($booking4->start_station);
+		$station1 = $stationservice->read($booking1->start_station);
+		$station2 = $stationservice->read($booking2->start_station);
+		$station3 = $stationservice->read($booking3->start_station);
+		$station4 = $stationservice->read($booking4->start_station);
 
 		//Act
 		$result1 = $bookingservice->getOldBookings($account2->username);

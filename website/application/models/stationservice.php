@@ -17,7 +17,7 @@ class StationService implements iService
      * @param $station_id
      * @return Station|null
      */
-    public function readStation($station_id)
+    public function read($station_id)
     {
         $returnStation = null;
         $stmt = $this->db->prepare("SELECT station_id, name, address, latitude, longitude, COUNT(*) FROM station WHERE station_id = ? AND deleted = false");

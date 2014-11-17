@@ -32,20 +32,6 @@ class DockService implements iService{
         $stmt->close();
         return $returnArray;
     }
-    
-    /* Later usage maybe
-    public function readAllAvailableDocksForStation($station_id, $holds_bicycle){
-        $returnArray = array();
-        $stmt = $this->db->prepare("SELECT * FROM dock WHERE station_id = ? AND holds_bicycle = ?");
-        $stmt->bind_param("ii", $station_id, $holds);
-        $stmt->execute();
-        $stmt->bind_result($station_id, $dock_id, $holds_bicycle);
-        while($stmt->fetch()){
-            $returnArray[$dock_id] = new Dock($station_id, $dock_id, $holds_bicycle);
-        }
-        $stmt->close();
-        return $returnArray;
-    }*/
 
     public function readAllDocks(){
         $returnArray = array();
@@ -134,7 +120,7 @@ class DockService implements iService{
         }
         else
         {
-            $station = $stationservice->readStation($dock->station_id);
+            $station = $stationservice->read($dock->station_id);
             if(empty($station))
             {
                 $valid = false;
