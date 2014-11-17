@@ -26,7 +26,7 @@
                 "valueField": "num_bicycles",
                 "type": "line",
                 "bullet": "round",
-                "balloonText": "[[category]]<br /><b><span style='font-size:14px;'>Bicycles: [[value]] [[station_id]]</span></b>"
+                "balloonText": "[[category]]<br /><b><span style='font-size:14px;'>Bicycles: [[value]]</span></b>"
             }],
             "categoryAxis": {
                 "labelsEnabled": false

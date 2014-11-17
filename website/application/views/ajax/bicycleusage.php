@@ -133,29 +133,30 @@ d3.csv("/ajax/usagegraphnames/", function(cities) {
         var flag = false;
         data.forEach(function(entry) {
             var obj = entry[0];
-            
-
-            // Flyt dem her ind i de to if nedenfor.
-            if (obj.source.index == obj.target.index && flag){
-              
-              console.log("Spring over");
-              //return;
-            }
-
-            if (obj.source.index == obj.target.index){
-              console.log("De er ens");
-              flag = true;
-            }
-
-            console.log("Source: " + obj.source.index + " - Target: " + obj.target.index);
-            
+       
             if (obj.target.value > 0.5 && obj.target.index == i) {
+                if (obj.source.index == obj.target.index && flag){
+                  return;
+                }
+
+                if (obj.source.index == obj.target.index){
+                  flag = true;
+                }
+
                 $("#stationData").append("<tr style=\"margin-bottom: 10px; border-bottom: 1px solid gray;\"><td style=\"width:330px;  border-bottom: 1px dotted gray;\">"
                       + cities[obj.target.index].name
                       + " → " + cities[obj.source.index].name
                       + "</td> <td style=\"border-bottom: 1px dotted gray;\"><b>" + formatPercent(obj.target.value) + "</b></td></tr>");
             }
             if (obj.source.value > 0.5 && obj.source.index == i) {
+                if (obj.source.index == obj.target.index && flag){
+                  return;
+                }
+
+                if (obj.source.index == obj.target.index){
+                  flag = true;
+                }
+
                 $("#stationData").append("<tr style=\"margin-bottom: 10px; border-bottom: 1px solid gray;\"><td style=\"width:330px;  border-bottom: 1px dotted gray;\">"
                       +cities[obj.source.index].name
                       + " → " + cities[obj.target.index].name
