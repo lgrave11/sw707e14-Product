@@ -14,7 +14,7 @@
         {
             if($action == "addDock" || $action == "removeDock") 
             {
-                $message = self::makeJson($action, $station_id, $dock_id);
+                $message = self::makeJsonDock($action, $station_id, $dock_id);
                 $sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
                 $ip = self::getStationIP($station_id);
                 
