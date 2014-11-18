@@ -16,6 +16,8 @@ namespace BicycleStation
         public int start_station { get; set; }
         public int password { get; set; }
         public int start_time { get; set; }
+        public int dock_id { get; set; }
+        public int station_id { get; set; }
 
         DatabaseConnection DB = new DatabaseConnection();
 
@@ -51,6 +53,25 @@ namespace BicycleStation
                 }
 
                 DB.booking.Remove(toRemove);
+                DB.SaveChanges();
+            }
+            else if (action == "addDock") 
+            {
+                dock d = new dock()
+                {
+                    station_id = this.station_id
+                };
+
+                DB.dock.Add(d);
+                DB.SaveChanges();
+            }
+            else if (action == "removeDock")
+            {
+                dock toRemove = (from d in DB.dock
+                                 where d.station_id == station_id
+                                 select d).Single();
+
+                DB.dock.Remove(toRemove);
                 DB.SaveChanges();
             }
             else
