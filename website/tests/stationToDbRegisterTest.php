@@ -55,9 +55,9 @@ class StationToDbRegisterTest extends PHPUnit_Framework_TestCase
 
         $historyUsage = $histroyUsageBicycleService->readHistoryBetween($time - 1, $time + 1);
 
-        //$this->assertEquals($historyUsage[0]->bicycle_id, $bicycle_id);
-        //$this->assertEquals($historyUsage[0]->start_station, $station_id);
-        //$this->assertEquals($historyUsage[0]->booking_id, $booking->booking_id);
+        $this->assertEquals($historyUsage[0]->bicycle_id, $bicycle_id);
+        $this->assertEquals($historyUsage[0]->start_station, $station_id);
+        $this->assertEquals($historyUsage[0]->booking_id, $booking->booking_id);
 
         // 
         $this->assertTrue(BicycleTaken($station_id, $bicycle_id));
