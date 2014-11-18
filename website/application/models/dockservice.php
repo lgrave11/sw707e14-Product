@@ -71,6 +71,7 @@ class DockService implements iService{
             $id = $this->db->insert_id;
             $stmt->close();
 
+            WebsiteToStationNotifier::notifyStationDockChanged("addDock", $dock->station_id, $id);
             return new Dock($id, $dock->station_id, null);
         }
         else
@@ -82,8 +83,9 @@ class DockService implements iService{
     public function update($dock){
         if($this->validate($dock))
         {
-            $stmt = $this->db->prepare("UPDATE dock set station_id = ?, holds_bicycle = ? WHERE dock_id = ?");
-            $stmt->bind_param("iii", $dock->station_id, $dock->holds_bicycle, $dock->dock_id);
+            // Cannot change the station id for a dock, add a new dock instead.
+            $stmt = $this->db->prepare("UPDATE dock SET holds_bicycle = ? WHERE dock_id = ?");
+            $stmt->bind_param("ii", $dock->holds_bicycle, $dock->dock_id);
             $stmt->execute();
             $stmt->close();
             return $dock;
@@ -101,6 +103,7 @@ class DockService implements iService{
             $stmt->bind_param("ii", $dock->dock_id, $dock->station_id);
             $stmt->execute();
             $stmt->close();
+            WebsiteToStationNotifier::notifyStationDockChanged("removeDock", $dock->station_id, $dock->dock_id);
             return true;
         }
         else

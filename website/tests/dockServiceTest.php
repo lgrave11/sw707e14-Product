@@ -52,10 +52,8 @@ class DockServiceTest extends PHPUnit_Framework_TestCase
         $dockService = new DockService($this->db);
         $d = $dockService->create(new Dock(null, 2, null));
         $d->holds_bicycle = 175;
-        $d->station_id = 3;
         $d = $dockService->update($d);
         $this->assertEquals(175, $d->holds_bicycle);
-        $this->assertEquals(3, $d->station_id);
         $dockService->delete($d);
     }
     

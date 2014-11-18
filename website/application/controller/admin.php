@@ -351,8 +351,6 @@ class Admin extends Controller
                 $this->error('An error occurred', 'addRemove');
         }
         
-        
-        
         header("Location: /Admin/AddRemove");
     }
     
@@ -434,6 +432,8 @@ class Admin extends Controller
         
         $dockService = new DockService($this->db);
         
+        $bookingService = new BookingService($this->db);
+        
         if(empty($_POST['stationRemove']) || !in_array($_POST['stationRemove'], array_map(function($a) {return $a->station_id; }, $stations))) 
         {
             $this->error('Bicycle selected for removal is invalid or empty', 'addRemove');
@@ -447,6 +447,11 @@ class Admin extends Controller
                 foreach($docks as $d)
                 {
                     $dockService->delete($d);
+                }
+                $bookings = $bookingService->getActiveBookingsForStation($station->station_id);
+                foreach($bookings as $b) 
+                {
+                    $bookingService->deleteActiveBooking($b);
                 }
                 $this->success('Station ' . $station->name . ' and ' . count($docks) . ' docks have been removed', 'addRemove');
             }

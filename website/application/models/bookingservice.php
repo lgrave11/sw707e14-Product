@@ -187,6 +187,24 @@ class BookingService implements iService
 
         return $returnArray;
     }
+    
+    public function getActiveBookingsForStation($station_id) 
+    {
+        $returnArray = array();
+        $stmt = $this->db->prepare("SELECT booking_id, start_time, start_station, password, for_user, name, used_bicycle FROM booking, station
+        WHERE start_station = ? AND password IS NOT NULL
+        ORDER BY start_time ASC");
+        $stmt->bind_param("s", $station_id);
+        $stmt->execute();
+        $stmt->bind_result($booking_id, $start_time, $start_station, $password, $for_user, $station_name, $used_bicycle);
+        while($stmt->fetch()){
+            $returnArray[$booking_id] = array(new Booking($booking_id, $start_time, $start_station, $password, $for_user, $used_bicycle), $station_name);
+            
+        }
+        $stmt->close();
+        
+        return $returnArray;
+    }
 
     public function getActiveBookings($username)
     {
