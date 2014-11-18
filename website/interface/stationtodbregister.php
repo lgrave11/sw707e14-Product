@@ -122,13 +122,13 @@
         $currentTime = time();
 
         $stmt = $db->prepare("UPDATE historyusagebicycle SET end_station = ?, end_time = ? WHERE bicycle_id = ? AND end_station IS NULL");
-        $stmt->bind_param("ii", $station_id, $currentTime, $bicycle_id);
+        $stmt->bind_param("iii", $station_id, $currentTime, $bicycle_id);
         $stmt->execute();
         $stmt->close();
         
         $stmt = $db->prepare("INSERT INTO historyusagestation (station_id, time, num_bicycles) 
                               VALUES (?, ?, ? + 1)");
-        $stmt->bind_param("ii", $station_id, $currentTime, GetCurrentBicycleCount($station_id));
+        $stmt->bind_param("iii", $station_id, $currentTime, GetCurrentBicycleCount($station_id));
         $stmt->execute();
         $stmt->close();
         

@@ -68,8 +68,9 @@ namespace BicycleStation
             else if (action == "removeDock")
             {
                 dock toRemove = (from d in DB.dock
-                                 where d.station_id == station_id
-                                 select d).Single();
+                                 where d.dock_id == dock_id
+                                 orderby d.dock_id
+                                 select d).ToList().Last();
 
                 DB.dock.Remove(toRemove);
                 DB.SaveChanges();
