@@ -43,7 +43,7 @@
         $stmt->bind_param("iii", $bicycle_id, $booking_id, $station_id);
         $stmt->execute();
         $stmt->close();
-        
+
         return true;
     }
         
@@ -61,7 +61,6 @@
     function BicycleTaken($station_id, $bicycle_id, $booking_id = NULL)
     {   
         global $db;
-        //echo $db;
         $stmt = $db->prepare("UPDATE dock SET holds_bicycle = NULL WHERE station_id = ? AND holds_bicycle = ?");
         $stmt->bind_param("ii", $station_id, $bicycle_id);
         $stmt->execute();
@@ -71,7 +70,7 @@
             $booking_id = NULL;
         
         $currentTime = time();
-        /*
+        
         $stmt = $db->prepare("INSERT INTO historyusagebicycle (bicycle_id, start_station, start_time, booking_id) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("iiii", $bicycle_id, $station_id, $currentTime, $booking_id);
         $stmt->execute();
@@ -82,7 +81,7 @@
         $stmt->bind_param("iii", $station_id, $currentTime, GetCurrentBicycleCount($station_id));
         $stmt->execute();
         $stmt->close();
-              */                       
+                                   
         return true;
     }
     
