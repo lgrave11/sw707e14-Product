@@ -55,6 +55,13 @@
             } else { echo '<td>'; } ?>
 				<a href="/About/">About</a>
 			</td>
+            <?php 
+                if (Tools::isAdmin()){
+                    echo '<td>';
+                    echo '<a href="/Admin/">Admin</a>';
+                    echo '</td>';
+                }
+            ?>
             <?php if ($navbarChosen == "Login"){
 			echo '<td id="selectedNav">';
             } else { echo '<td>'; } ?>

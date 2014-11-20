@@ -7,6 +7,14 @@ class Tools {
             return false;
         }
     }
+    
+    public static function  isAdmin(){
+        if (isset($_SESSION['admin_user'])){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     public static function requireLogin(){
         if(!isset($_SESSION['login_user'])){

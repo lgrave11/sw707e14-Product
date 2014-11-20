@@ -61,7 +61,9 @@
             ?>
 				<a href="/Admin/AddRemove">Add/Remove</a>
 			</td>
-            
+            <td>
+                <a href="/">Home</a>
+            </td>
 			</tr>
 		</table>
 	</div>
