@@ -84,7 +84,7 @@ class Admin extends Controller
     }
 
 
-    public function mapRoutes($arr = array()) 
+    public function RouteHistory($arr = array()) 
     {
         Tools::requireAdmin();
         $navbarChosen = "Map Routes";

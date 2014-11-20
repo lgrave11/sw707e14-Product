@@ -46,7 +46,7 @@
 			echo '<td id="selectedNav">';
             } else { echo '<td>'; }
             ?>
-				<a href="/Admin/MapRoutes">Route History</a>
+				<a href="/Admin/RouteHistory">Route History</a>
 			</td>
             <?php if($navbarChosen == "Booking Routes") {
 			echo '<td id="selectedNav">';
