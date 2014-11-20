@@ -129,8 +129,8 @@ class BicycleServiceTest extends PHPUnit_Framework_TestCase
 		$bicycleService = new BicycleService($this->db);
 
 		$b = $bicycleService->create(new Bicycle(null, 50, 50));
-		$stmt = $this->db->prepare("INSERT INTO historylocationbicycle(bicycle_id,latitude,longitude) VALUE (?,50,50)");
-		$stmt->bind_param("i",$b->bicycle_id);
+		$stmt = $this->db->prepare("INSERT INTO historylocationbicycle(bicycle_id,timeforlocation,latitude,longitude) VALUE (?,?,50,50)");
+		$stmt->bind_param("ii",$b->bicycle_id, time());
 		$stmt->execute();
 		$stmt->close();
 

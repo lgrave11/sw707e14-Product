@@ -64,7 +64,7 @@ CREATE TABLE booking
 CREATE TABLE historylocationbicycle
 (
 	bicycle_id int,
-	timeforlocation timestamp,
+	timeforlocation bigint,
 	latitude float NOT NULL,
 	longitude float NOT NULL,
 	PRIMARY KEY(bicycle_id,timeforlocation),
@@ -555,8 +555,8 @@ INSERT INTO booking(start_time, start_station,password,for_user) VALUES (1478425
 INSERT INTO booking(start_time, start_station,password,for_user) VALUES (1543419251, 5,233578,"sw707e14");
 INSERT INTO booking(start_time, start_station,password,for_user) VALUES (1594571207, 5,113475,"sw707e14");
 
-INSERT INTO historyusagebicycle(bicycle_id, start_station, start_time, end_station, end_time, booking_id) VALUES (140, 21, 1386586923, 13, 1386590523, 10);
-INSERT INTO historyusagebicycle(bicycle_id, start_station, start_time, end_station, end_time, booking_id) VALUES (96, 11, 213930760, 16, 213934360, 10);
+INSERT INTO historyusagebicycle(bicycle_id, start_station, start_time, end_station, end_time, booking_id) VALUES (140, 21, 1386586923, 13, 1386590523, 11);
+INSERT INTO historyusagebicycle(bicycle_id, start_station, start_time, end_station, end_time, booking_id) VALUES (96, 11, 213930760, 16, 213934360, 12);
 INSERT INTO historyusagebicycle(bicycle_id, start_station, start_time, end_station, end_time, booking_id) VALUES (10, 8, 1147210051, 9, 1147213651, 10);
 INSERT INTO historyusagebicycle(bicycle_id, start_station, start_time, end_station, end_time, booking_id) VALUES (39, 13, 1060319794, 4, 1060323394, 10);
 INSERT INTO historyusagebicycle(bicycle_id, start_station, start_time, end_station, end_time, booking_id) VALUES (138, 2, 1003749569, 14, 1003753169, 10);

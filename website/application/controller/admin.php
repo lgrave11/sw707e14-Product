@@ -67,13 +67,13 @@ class Admin extends Controller
         }
         $bicycleService = new bicycleService($this->db);
         $bicyclesBookings = $bicycleService->readBicycleBookingPairs();
-        //var_dump($bicyclesBookings);
         $positions = array();
         foreach($bicyclesBookings as $bb) 
         {
-            if($bb->bicycle_id == $_POST['bicycle_id'])
+            if($bb->bicycle_id == $_POST['bicycle_id']) 
+            {
                 $positions[$bb->booking_id] = $bicycleService->readBicyclePositionsWithBooking($bb->bicycle_id, $bb->booking_id);
-
+            }
         }
         $allRoutes = array();
         foreach ($positions as $key => $value) {

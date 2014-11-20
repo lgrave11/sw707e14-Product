@@ -117,7 +117,7 @@ class BicycleService implements iService
         $returnArray = array();
         $stmt = $this->db->prepare("SELECT DISTINCT bicycle_id, booking_id
                                     FROM historyusagebicycle
-                                    WHERE booking_id IS NOT NULL AND booking_id != 0");
+                                    WHERE booking_id IS NOT NULL AND booking_id != 0 AND bicycle_id IN (SELECT DISTINCT bicycle_id FROM historylocationbicycle)");
         $stmt->execute();
         $stmt->bind_result($bicycle_id, $booking_id);
         while($stmt->fetch()){
@@ -139,8 +139,9 @@ class BicycleService implements iService
                                     WHERE historyusagebicycle.booking_id IS NOT NULL AND historyusagebicycle.end_time IS NOT NULL AND
                                           historylocationbicycle.bicycle_id = ? AND historylocationbicycle.bicycle_id = historyusagebicycle.bicycle_id AND
                                           historyusagebicycle.booking_id = ? AND
-                                          historylocationbicycle.timeforlocation BETWEEN FROM_UNIXTIME(historyusagebicycle.start_time) AND FROM_UNIXTIME(historyusagebicycle.end_time)
+                                          historylocationbicycle.timeforlocation BETWEEN historyusagebicycle.start_time AND historyusagebicycle.end_time
                                     ORDER BY historylocationbicycle.timeforlocation ASC");
+                       
         $stmt->bind_param("ii", $bicycle_id, $booking_id);
         $stmt->execute();
         $stmt->bind_result($latitude, $longitude);
