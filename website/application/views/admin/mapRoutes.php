@@ -14,7 +14,7 @@
 	ViewHelper::printError('mapRoutes');
 	ViewHelper::printSuccess('mapRoutes');
 ?>
-<form action="/Admin/MapRoutesForm/" method="post">
+<form action="/Admin/RoutesHistoryForm/" method="post">
 	<h2>Bicycles</h2>
 	<select size=<?php echo (count($list) > 5 ? 5 : count($list)); ?> style='height: 100%;' name="bicycles[]" multiple id="mapRoutesSelect">
         <?php

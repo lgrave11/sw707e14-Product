@@ -42,7 +42,7 @@
             ?>
 				<a href="/Admin/UsageHistory">Usage History</a>
 			</td>	
-            <?php if($navbarChosen == "Map Routes") {
+            <?php if($navbarChosen == "Route History") {
 			echo '<td id="selectedNav">';
             } else { echo '<td>'; }
             ?>

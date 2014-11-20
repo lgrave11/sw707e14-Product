@@ -87,8 +87,8 @@ class Admin extends Controller
     public function RouteHistory($arr = array()) 
     {
         Tools::requireAdmin();
-        $navbarChosen = "Map Routes";
-        $this->title = "Map Routes";
+        $navbarChosen = "Route History";
+        $this->title = "Route History";
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
 
         $bicycleService = new bicycleService($this->db);
@@ -102,15 +102,13 @@ class Admin extends Controller
         require 'application/views/_templates/footer.php';
     }
     
-    public function mapRoutesForm() 
+    public function routesHistoryForm() 
     {
         Tools::requireAdmin();
-        $navbarChosen = "Map Routes";
-        $this->title = "Map Routes";
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
         if (empty($_POST['bicycles']) || empty($_POST['fromdate']) || empty($_POST['todate'])){
             $this->error("Please fill in all fields", "mapRoutes");
-            header("Location: /Admin/MapRoutes");
+            header("Location: /Admin/RouteHistory");
             exit();
         }
         
@@ -118,13 +116,13 @@ class Admin extends Controller
         $todateSplit = preg_split("/[\s:\/]+/", $_POST['todate']);
         if (count($fromdateSplit) != 5 || !is_numeric($fromdateSplit[3]) || !is_numeric($fromdateSplit[4])){
             $this->error("Please fill in correct information", "mapRoutes");
-            header("Location: /Admin/MapRoutes");
+            header("Location: /Admin/RouteHistory");
             exit();
         }
         
         if (count($todateSplit) != 5 | !is_numeric($todateSplit[3]) || !is_numeric($todateSplit[4])){
             $this->error("Please fill in correct information", "mapRoutes");
-            header("Location: /Admin/MapRoutes");
+            header("Location: /Admin/RouteHistory");
             exit();
         }
         
@@ -139,7 +137,7 @@ class Admin extends Controller
             $allRoutes[$b]["coordinates"] = $bicycleService->readBicyclePositions($b, $fromtime, $totime);
             $allRoutes[$b]["color"] = ViewHelper::generateRandomColor($b, count($_POST['bicycles']));
         }
-        $this->mapRoutes($allRoutes);
+        $this->RouteHistory($allRoutes);
     }
     
     public function usageHistory() {
