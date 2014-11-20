@@ -98,7 +98,7 @@ class BicycleService implements iService
     public function readBicyclePositions($bicycle_id, $from_time, $to_time) 
     {
         $returnArray = array();
-        $stmt = $this->db->prepare("SELECT latitude, longitude FROM historylocationbicycle WHERE bicycle_id = ? AND (timeforlocation BETWEEN FROM_UNIXTIME(?) AND FROM_UNIXTIME(?)) ORDER BY timeforlocation ASC");
+        $stmt = $this->db->prepare("SELECT latitude, longitude FROM historylocationbicycle WHERE bicycle_id = ? AND (timeforlocation BETWEEN ? AND ?) ORDER BY timeforlocation ASC");
         $stmt->bind_param("iii", $bicycle_id, $from_time, $to_time);
         $stmt->execute();
         $stmt->bind_result($latitude, $longitude);
@@ -137,7 +137,8 @@ class BicycleService implements iService
         $stmt = $this->db->prepare("SELECT historylocationbicycle.latitude, historylocationbicycle.longitude 
                                     FROM historylocationbicycle JOIN historyusagebicycle ON historylocationbicycle.bicycle_id = historyusagebicycle.bicycle_id
                                     WHERE historyusagebicycle.booking_id IS NOT NULL AND historyusagebicycle.end_time IS NOT NULL AND
-                                          historylocationbicycle.bicycle_id = ? AND historyusagebicycle.booking_id = ? AND
+                                          historylocationbicycle.bicycle_id = ? AND 
+                                          historyusagebicycle.booking_id = ? AND
                                           historylocationbicycle.timeforlocation BETWEEN historyusagebicycle.start_time AND historyusagebicycle.end_time
                                     ORDER BY historylocationbicycle.timeforlocation ASC");             
         $stmt->bind_param("ii", $bicycle_id, $booking_id);
