@@ -130,18 +130,16 @@ class BicycleService implements iService
         return $returnArray;
     }
     
-    //THIS FUNCTION IS NOT TESTED!
+    //THIS FUNCTION IS NOT TESTED! and mysql is terrible and whoever wrote it should feel bad
     public function readBicyclePositionsWithBooking($bicycle_id, $booking_id)
     {
         $returnArray = array();
         $stmt = $this->db->prepare("SELECT historylocationbicycle.latitude, historylocationbicycle.longitude 
-                                    FROM historylocationbicycle, historyusagebicycle
+                                    FROM historylocationbicycle JOIN historyusagebicycle ON historylocationbicycle.bicycle_id = historyusagebicycle.bicycle_id
                                     WHERE historyusagebicycle.booking_id IS NOT NULL AND historyusagebicycle.end_time IS NOT NULL AND
-                                          historylocationbicycle.bicycle_id = ? AND historylocationbicycle.bicycle_id = historyusagebicycle.bicycle_id AND
-                                          historyusagebicycle.booking_id = ? AND
+                                          historylocationbicycle.bicycle_id = ? AND historyusagebicycle.booking_id = ? AND
                                           historylocationbicycle.timeforlocation BETWEEN historyusagebicycle.start_time AND historyusagebicycle.end_time
-                                    ORDER BY historylocationbicycle.timeforlocation ASC");
-                       
+                                    ORDER BY historylocationbicycle.timeforlocation ASC");             
         $stmt->bind_param("ii", $bicycle_id, $booking_id);
         $stmt->execute();
         $stmt->bind_result($latitude, $longitude);
