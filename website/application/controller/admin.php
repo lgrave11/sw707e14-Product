@@ -102,7 +102,7 @@ class Admin extends Controller
         require 'application/views/_templates/footer.php';
     }
     
-    public function routesHistoryForm() 
+    public function routeHistoryForm() 
     {
         Tools::requireAdmin();
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
