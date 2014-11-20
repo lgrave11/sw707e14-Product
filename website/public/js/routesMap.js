@@ -58,8 +58,8 @@ function initialize() {
         var br =  $("<br>").appendTo(legend);
         
         var iwcontent = '<div id="content">' +
-                                   '<h2 id="firstHeading" class="firstHeading" style="margin-bottom:-10px; white-space: nowrap; line-height:1.35;overflow:hidden;">Cykel ' + key + '</h2>' + 
-                        '<div id="bodyContent"><p style="white-space: nowrap; line-height:1.35;overflow:hidden;">Choosen Bicycle: ' + key +
+                                   '<h2 id="firstHeading" class="firstHeading" style="margin-bottom:-10px; white-space: nowrap; line-height:1.35;overflow:hidden;">Bicycle ' + key + '</h2>' + 
+                        '<div id="bodyContent"><p style="white-space: nowrap; line-height:1.35;overflow:hidden;">Chosen Bicycle: ' + key +
                         '<br>Route Length: ' + Math.round(google.maps.geometry.spherical.computeLength(routePath.getPath().getArray())) / 1000 + 'km </p></div></div>';
         var infowindow = new google.maps.InfoWindow({content: iwcontent});
         console.log(routePath[0]);
