@@ -46,13 +46,13 @@
 			echo '<td id="selectedNav">';
             } else { echo '<td>'; }
             ?>
-				<a href="/Admin/MapRoutes">GPS Route History</a>
+				<a href="/Admin/MapRoutes">Route History</a>
 			</td>
             <?php if($navbarChosen == "Booking Routes") {
 			echo '<td id="selectedNav">';
             } else { echo '<td>'; }
             ?>
-				<a href="/Admin/BookingRoutes">GPS Booking History</a>
+				<a href="/Admin/BookingRoutes">Booking Routes</a>
 			</td>
             
             <?php if($navbarChosen == "Add/Remove") {
