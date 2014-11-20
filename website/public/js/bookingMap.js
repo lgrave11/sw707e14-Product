@@ -52,7 +52,7 @@ function initialize() {
         polylines.push(routePath);
         
         var div = $("<div id='path"+key+"Legend' style='width: 15px;height: 15px;background-color:"+color+";border: 1px black solid;float:left;margin-right:5px;margin-bottom:5px;'></div>").appendTo(legend);
-        var div2 = $("<div style='float:right;margin-right:5px;'>"+key.split(" ")[0]+"</div>").appendTo(legend);
+        var div2 = $("<div style='float:right;margin-right:5px;'>Booking "+key.split(" ")[0]+"</div>").appendTo(legend);
         var br =  $("<br>").appendTo(legend);
         
         var iwcontent = '<div id="content">' +
