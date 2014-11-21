@@ -1,5 +1,5 @@
 <?php
-require '../website/application/config/config.php';
+require_once '../website/application/config/config.php';
 class AccountServiceTest extends PHPUnit_Framework_TestCase
 {
 
