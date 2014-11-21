@@ -1,5 +1,4 @@
 <?php 
-require '../website/application/config/config.php';
 require '../website/interface/gpsregister.php';
 class GPSRegisterTest extends PHPUnit_Framework_TestCase 
 {   

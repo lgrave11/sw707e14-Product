@@ -7,7 +7,6 @@ class AccountServiceTest extends PHPUnit_Framework_TestCase
 	function __construct(){
 		parent::__construct();
 		$this->db = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME) or die("fejl");
-		print_r($this->db);
         mysqli_set_charset($this->db, "utf8");
 
 	}

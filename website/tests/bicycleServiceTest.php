@@ -6,11 +6,7 @@ class BicycleServiceTest extends PHPUnit_Framework_TestCase
 
  	function __construct(){
   		parent::__construct();
-  		
-  		echo DB_HOST;
-  		echo DB_USER;
-  		echo DB_PASS;
-  		echo DB_NAME;
+
   		$this->db = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
         mysqli_set_charset($this->db, "utf8");
@@ -130,14 +126,14 @@ class BicycleServiceTest extends PHPUnit_Framework_TestCase
 
 		$b = $bicycleService->create(new Bicycle(null, 50, 50));
 		$stmt = $this->db->prepare("INSERT INTO historylocationbicycle(bicycle_id,timeforlocation,latitude,longitude) VALUE (?,?,50,50)");
-		$stmt->bind_param("ii",$b->bicycle_id, time());
+        $t = time();
+		$stmt->bind_param("ii",$b->bicycle_id, $t);
 		$stmt->execute();
 		$stmt->close();
 
-		$fromTime = time() - 60;
-		$toTime = time() + 60;
+		$fromTime = $t - 60;
+		$toTime = $t + 60;
 		$array = $bicycleService->readBicyclePositions($b->bicycle_id,$fromTime,$toTime);
-
 		
 		$stmt = $this->db->prepare("DELETE FROM historylocationbicycle WHERE bicycle_id = ?");
 		$stmt->bind_param("i",$b->bicycle_id);
