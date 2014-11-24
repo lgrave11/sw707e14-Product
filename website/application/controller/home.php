@@ -28,8 +28,7 @@ class Home extends Controller
 
         }
 
-        // load views. within the views we can echo out $songs and $amount_of_songs easily
-        $jsFiles = ["frontpage", "googleapi"];
+        $jsFiles = ["frontpage", "googleapi", "unbookDialog", "jquery-ui"];
         require 'application/views/_templates/header.php';
         require 'application/views/home/index.php';
         require 'application/views/_templates/footer.php';

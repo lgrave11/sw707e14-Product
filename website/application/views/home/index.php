@@ -45,6 +45,7 @@
 				</div>
 			</form>
 		</div>
+        <div id="dialog-confirm"></div>
             <?php
             if(Tools::isLoggedIn())
             {
@@ -54,7 +55,7 @@
                 {
                     echo '<h2>'.date("d-m-Y H:i", $booking[0]->start_time).'</h2>
                     <p class="active-booking">'.$booking[1].' <br>Kodeord: '.$booking[0]->password.'
-                        <button class="centerblock button" onclick="document.location=\'/Home/Unbook/'.$booking[0]->booking_id.'\'" style="margin-top: 5px; margin-bottom: 5px;">Unbook</button>
+                        <button class="centerblock button" onclick="fnUnbookDialog('.$booking[0]->booking_id.');" style="margin-top: 5px; margin-bottom: 5px;">Unbook</button>
                     </p>';
                 }
                 echo '</div>';
