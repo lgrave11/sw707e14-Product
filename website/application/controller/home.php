@@ -50,19 +50,47 @@ class Home extends Controller
 
         $bookingService = new BookingService($this->db);
 
-        if (empty($_POST['station']) || empty($_POST['date']) || empty($_POST['hour']) || empty($_POST['minute'])){
-            $this->error("Please fill in all fields", "booking");
+        if (empty($_POST['station']) || !is_numeric($_POST['station'])) 
+        {
+            $this->error("The station field is invalid", "booking");
+            header("Location: /");
+            exit();
+        }
+        
+        if (empty($_POST['date'])) 
+        {
+            
+            $this->error("The date field is invalid", "booking");
+            header("Location: /");
+            exit();
+        }
+        else 
+        {
+            $dateSplit = explode("/", $_POST['date']);
+            if(count($dateSplit) != 3) 
+            {
+                $this->error("The date field is invalid", "booking");
+                header("Location: /");
+                exit();
+            }
+            
+        }
+        
+        if (empty($_POST['hour']) || !is_numeric($_POST['hour'])) 
+        {
+            $this->error("The hour field is invalid", "booking");
+            header("Location: /");
+            exit();
+        }
+        
+        if (empty($_POST['minute']) || !is_numeric($_POST['minute'])) 
+        {
+            $this->error("The minute field is invalid", "booking");
             header("Location: /");
             exit();
         }
 
-        $dateSplit = explode("/", $_POST['date']);
-
-        if (!is_numeric($_POST['hour']) || !is_numeric($_POST['minute']) || !is_numeric($_POST['station']) || count($dateSplit) != 3){
-            $this->error("Please fill in correct information", "booking");
-            header("Location: /");
-            exit();
-        }
+        
 
         $time = mktime($_POST['hour'], $_POST['minute'], 0, $dateSplit[1], $dateSplit[0], $dateSplit[2]);
 
