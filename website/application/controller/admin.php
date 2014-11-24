@@ -169,7 +169,7 @@ class Admin extends Controller
     public function addRemove() 
     {
         Tools::requireAdmin();
-        $jsFiles = ["removeStation", "jquery-ui.min"];
+        $jsFiles = ["removeStation", "jquery-ui"];
         $navbarChosen = "Add/Remove";
         $this->title = "Add/Remove";
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
