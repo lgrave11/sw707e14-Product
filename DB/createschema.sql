@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS historylocationbicycle CASCADE;
 DROP TABLE IF EXISTS historyusagestation CASCADE;
-DROP TABLE IF EXISTS historyusagebicycle;
+DROP TABLE IF EXISTS historyusagebicycle CASCADE;
 DROP TABLE IF EXISTS books CASCADE;
 DROP TABLE IF EXISTS dock CASCADE;
 DROP TABLE IF EXISTS booking CASCADE;
@@ -24,7 +24,8 @@ CREATE TABLE bicycle
 (
 	bicycle_id int AUTO_INCREMENT PRIMARY KEY,
 	latitude float,
-	longitude float
+	longitude float,
+    deleted bool DEFAULT false NOT NULL
 );
 
 CREATE TABLE dock
@@ -34,7 +35,7 @@ CREATE TABLE dock
 	holds_bicycle int,
 	PRIMARY KEY(dock_id, station_id),
 	FOREIGN KEY(station_id) REFERENCES station(station_id) ON DELETE CASCADE,
-	FOREIGN KEY(holds_bicycle) REFERENCES bicycle(bicycle_id)
+	FOREIGN KEY(holds_bicycle) REFERENCES bicycle(bicycle_id) ON DELETE SET NULL
 );
 
 CREATE TABLE account
@@ -54,11 +55,11 @@ CREATE TABLE booking
 	start_time bigint NOT NULL,
 	start_station int NOT NULL,
 	password int(6),
-	for_user varchar(50) NOT NULL,
+	for_user varchar(50),
 	used_bicycle int NULL,
-	FOREIGN KEY(start_station) REFERENCES station(station_id),
-	FOREIGN KEY(for_user) REFERENCES account(username),
-	FOREIGN KEY(used_bicycle) REFERENCES bicycle(bicycle_id)
+	FOREIGN KEY(start_station) REFERENCES station(station_id) ON DELETE CASCADE,
+	FOREIGN KEY(for_user) REFERENCES account(username) ON DELETE SET NULL,
+	FOREIGN KEY(used_bicycle) REFERENCES bicycle(bicycle_id) ON DELETE CASCADE
 );
 
 CREATE TABLE historylocationbicycle
@@ -68,7 +69,7 @@ CREATE TABLE historylocationbicycle
 	latitude float NOT NULL,
 	longitude float NOT NULL,
 	PRIMARY KEY(bicycle_id,timeforlocation),
-	FOREIGN KEY(bicycle_id) REFERENCES bicycle(bicycle_id)
+	FOREIGN KEY(bicycle_id) REFERENCES bicycle(bicycle_id) ON DELETE CASCADE
 );
 
 CREATE TABLE historyusagebicycle 
@@ -80,7 +81,7 @@ CREATE TABLE historyusagebicycle
   end_station int DEFAULT NULL,
   end_time bigint NULL DEFAULT NULL,
   booking_id int DEFAULT NULL,
-  FOREIGN KEY (bicycle_id) REFERENCES bicycle(bicycle_id)
+  FOREIGN KEY (bicycle_id) REFERENCES bicycle(bicycle_id) ON DELETE CASCADE
 );
 
 CREATE TABLE historyusagestation
@@ -89,7 +90,7 @@ CREATE TABLE historyusagestation
     station_id int NOT NULL,
     time bigint NOT NULL,
     num_bicycles INT NOT NULL,
-    FOREIGN KEY (station_id) REFERENCES station(station_id)
+    FOREIGN KEY (station_id) REFERENCES station(station_id) ON DELETE CASCADE
 );
 
 INSERT INTO station(name, latitude, longitude, ipaddress) VALUES ("Banegården - Busterminal", 57.041998, 9.917633, "127.0.0.1");--  1;
