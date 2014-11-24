@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +13,6 @@ namespace BicycleStation
         //Time thread sleeps after every iteration
         public const int SLEEPTIME = 1000;
 
-        public static Queue<Action> ActionQueue = new Queue<Action>();
+        public static ConcurrentQueue<Action> ActionQueue = new ConcurrentQueue<Action>();
     }
 }
