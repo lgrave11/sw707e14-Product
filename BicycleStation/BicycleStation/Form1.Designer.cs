@@ -42,6 +42,8 @@
             this.TimeLbl = new System.Windows.Forms.Label();
             this.UnlockMoreBtn = new System.Windows.Forms.Button();
             this.TakeAtDockLbl = new System.Windows.Forms.Label();
+            this.returnIDlbl = new System.Windows.Forms.Label();
+            this.idTB = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.ReturnBicycleBtn = new System.Windows.Forms.Button();
             this.TakeBicycleBtn = new System.Windows.Forms.Button();
@@ -55,8 +57,6 @@
             this.DockIdUpDown = new System.Windows.Forms.NumericUpDown();
             this.StationNameDropDown = new System.Windows.Forms.ComboBox();
             this.lockTimer = new System.Windows.Forms.Timer(this.components);
-            this.idTB = new System.Windows.Forms.TextBox();
-            this.returnIDlbl = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -138,7 +138,7 @@
             this.KeyLbl.AutoSize = true;
             this.KeyLbl.Font = new System.Drawing.Font("Arial", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.KeyLbl.ForeColor = System.Drawing.Color.White;
-            this.KeyLbl.Location = new System.Drawing.Point(169, 255);
+            this.KeyLbl.Location = new System.Drawing.Point(175, 255);
             this.KeyLbl.Name = "KeyLbl";
             this.KeyLbl.Size = new System.Drawing.Size(256, 40);
             this.KeyLbl.TabIndex = 12;
@@ -250,6 +250,22 @@
             this.TakeAtDockLbl.Size = new System.Drawing.Size(447, 40);
             this.TakeAtDockLbl.TabIndex = 8;
             this.TakeAtDockLbl.Text = "Take your bicycle at dock 10";
+            // 
+            // returnIDlbl
+            // 
+            this.returnIDlbl.AutoSize = true;
+            this.returnIDlbl.Location = new System.Drawing.Point(152, 480);
+            this.returnIDlbl.Name = "returnIDlbl";
+            this.returnIDlbl.Size = new System.Drawing.Size(16, 13);
+            this.returnIDlbl.TabIndex = 13;
+            this.returnIDlbl.Text = "Id";
+            // 
+            // idTB
+            // 
+            this.idTB.Location = new System.Drawing.Point(183, 477);
+            this.idTB.Name = "idTB";
+            this.idTB.Size = new System.Drawing.Size(44, 20);
+            this.idTB.TabIndex = 12;
             // 
             // label1
             // 
@@ -381,22 +397,6 @@
             // 
             this.lockTimer.Interval = 1000;
             this.lockTimer.Tick += new System.EventHandler(this.lockTimer_Tick);
-            // 
-            // idTB
-            // 
-            this.idTB.Location = new System.Drawing.Point(183, 477);
-            this.idTB.Name = "idTB";
-            this.idTB.Size = new System.Drawing.Size(44, 20);
-            this.idTB.TabIndex = 12;
-            // 
-            // returnIDlbl
-            // 
-            this.returnIDlbl.AutoSize = true;
-            this.returnIDlbl.Location = new System.Drawing.Point(152, 480);
-            this.returnIDlbl.Name = "returnIDlbl";
-            this.returnIDlbl.Size = new System.Drawing.Size(16, 13);
-            this.returnIDlbl.TabIndex = 13;
-            this.returnIDlbl.Text = "Id";
             // 
             // Form1
             // 

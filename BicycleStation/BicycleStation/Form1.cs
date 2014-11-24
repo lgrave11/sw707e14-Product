@@ -16,7 +16,7 @@ namespace BicycleStation
     public partial class Form1 : Form
     {
         //Timer duration
-        const int MAXTIME = 120;
+        const int MAXTIME = 10;
 
         //Time before a booking the bike can be unlocked
         const int TIMEBEFORE = 3600;
@@ -190,6 +190,7 @@ namespace BicycleStation
             {
                 //Outputs available dock to user
                 TakeAtDockLbl.Text = "Take your bicycle at dock " + (availableDock + 1);
+                TakeAtDockLbl.Location = new Point((TakeItPanel.Size.Width / 2) - (TakeAtDockLbl.Size.Width / 2), TakeAtDockLbl.Location.Y);
                 //Unlocks available dock
                 docks[availableDock].is_locked = false;
                 DB.SaveChanges();
