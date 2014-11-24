@@ -28,7 +28,7 @@
                     <input id="admin_fromdatepicker" type="text" readonly name="fromdate" value="<?php echo ViewHelper::getDateTime(); ?>" style="width: 100px; text-align: center;" />
                 </td>
                 <td>
-                    <input id="admin_todatepicker" type="text" readonly name="todate" value="<?php echo ViewHelper::get+DateTime(); ?>" style="width: 100px; text-align: center;" />
+                    <input id="admin_todatepicker" type="text" readonly name="todate" value="<?php echo ViewHelper::getDateTime(); ?>" style="width: 100px; text-align: center;" />
                 </td>
                 <td>
                     <input type="button" onclick="UpdateUsageContent()" value="Get History" />
