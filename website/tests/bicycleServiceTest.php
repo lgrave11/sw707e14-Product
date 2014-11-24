@@ -74,7 +74,7 @@ class BicycleServiceTest extends PHPUnit_Framework_TestCase
 
 		//TEST WHEN BICYCLE IS RETURNED
 		$b = $bicycleService->create(new Bicycle(null,50,50));
-		$bicycleService->delete($b);
+		$bicycleService->testDelete($b);
 		$this->assertGreaterThan(0, $b->bicycle_id);
 		$this->assertEquals(50,$b->latitude);
 		$this->assertEquals(50,$b->longitude);
@@ -85,7 +85,7 @@ class BicycleServiceTest extends PHPUnit_Framework_TestCase
 
 		$created = $bicycleService->create(new Bicycle(null, 50, 50));
 		$b = $bicycleService->read($created->bicycle_id);
-		$bicycleService->delete($created);
+		$bicycleService->testDelete($created);
 		$this->assertEquals($created->bicycle_id,$b->bicycle_id);
 		$this->assertEquals($created->latitude, $b->latitude);
 		$this->assertEquals($created->longitude, $b->longitude);
@@ -108,7 +108,7 @@ class BicycleServiceTest extends PHPUnit_Framework_TestCase
 		$stmt->bind_param("i",$b->bicycle_id);
 		$stmt->execute();
 		$stmt->close();
-		$bicycleService->delete($b);
+		$bicycleService->testDelete($b);
 		$this->assertContainsOnlyInstancesOf('Bicycle',$array);
         $allBicyclesMapped = array_map(function($x) {return json_encode($x); }, $array);
         $this->assertContains(json_encode(new Bicycle($b->bicycle_id,null,null)), $allBicyclesMapped);
@@ -139,7 +139,7 @@ class BicycleServiceTest extends PHPUnit_Framework_TestCase
 		$stmt->bind_param("i",$b->bicycle_id);
 		$stmt->execute();
 		$stmt->close();
-		$bicycleService->delete($b);
+		$bicycleService->testDelete($b);
 
 		$this->assertContainsOnlyInstancesOf('stdClass',$array);
 	}
@@ -166,7 +166,7 @@ class BicycleServiceTest extends PHPUnit_Framework_TestCase
 		$stmt->close();
 		$bookingService->delete($booking);
 		$accountService->delete($account);
-		$bicycleService->delete($bicycle);
+		$bicycleService->testDelete($bicycle);
 		
 		$this->assertContainsOnlyInstancesOf('stdClass',$array);
 	}
@@ -177,9 +177,10 @@ class BicycleServiceTest extends PHPUnit_Framework_TestCase
 
 		$testbicycle = new Bicycle($bicycle->bicycle_id,70,70);
 		$newbicycle = $bicycleService->update($testbicycle);
-		$bicycleService->delete($bicycle);
+		$bicycleService->testDelete($bicycle);
 		$this->assertEquals(70,$newbicycle->latitude);
 		$this->assertEquals(70,$newbicycle->longitude);
 	}
+    
 }
 ?>

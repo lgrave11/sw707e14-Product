@@ -153,10 +153,15 @@ class AccountService implements iService
     {
         if($this->validate($account))
         {
-            $stmt = $this->db->prepare("DELETE FROM account WHERE username = ?");
+            $stmt = $this->db->prepare("UPDATE booking SET for_user = NULL WHERE for_user = ?");
             $stmt->bind_param("s", $account->username);
             $stmt->execute();
             $stmt->close();
+            
+            $stmt = $this->db->prepare("DELETE FROM account WHERE username = ?");
+            $stmt->bind_param("s", $account->username);
+            $stmt->execute();
+            $stmt->close();            
             return true;
         }
         else
