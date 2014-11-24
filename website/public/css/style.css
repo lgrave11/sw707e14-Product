@@ -252,11 +252,15 @@ footer a:hover
     display:block;
 }
 
+.bookings-header 
+{
+    margin-top:15px;
+}
+
 .bookings
 {
     border:1px solid gray;
-    margin-top:15px;
-    height:335px;
+    height:350px;
     overflow-x:hidden;
     overflow-y:scroll;
 }

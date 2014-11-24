@@ -48,8 +48,8 @@
             <?php
             if(Tools::isLoggedIn())
             {
+                echo '<h1 class="bookings-header centerblock">Active Bookings</h1>';
                 echo '<div class="bookings centerblock">';
-                echo '<h1>Active Bookings</h1>';
                 foreach($activeBookings as $booking)
                 {
                     echo '<h2>'.date("d-m-Y H:i", $booking[0]->start_time).'</h2>
