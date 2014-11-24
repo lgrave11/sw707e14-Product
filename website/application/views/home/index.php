@@ -8,10 +8,12 @@
 <div id="mapinfo">
 		<div class="centerblock">
 			<h1>Book</h1>
+            <div id="messages">
 			<?php
 	        	ViewHelper::printError('booking');
 	        	ViewHelper::printSuccess('booking');
 	        ?>
+            </div>
 			<form action="/Home/Book/" method="post">
 				<h2>Station</h2>
 				<input type="text" id="searchstation" name="searchstation" class="searchbox" placeholder="Search Station" oninput="SearchStation();MouseOverSearch();" onfocus="ShowSearch();MouseOverSearch();" onmouseover="ShowSearch();MouseOverSearch();" onmouseout="MouseLeaveSearch()" autocomplete="off" /><br />

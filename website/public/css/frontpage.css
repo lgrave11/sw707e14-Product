@@ -62,6 +62,11 @@
     height:25px;
 }
 
+#messages 
+{
+    height:15px;    
+}
+
 #sidebox {
     height:50%;
 }
