@@ -52,13 +52,13 @@
 			echo '<td id="selectedNav">';
             } else { echo '<td>'; }
             ?>
-				<a href="/Admin/BookingRoutes">Booking Routes</a>
+			<!-- <a href="/Admin/BookingRoutes">Booking Routes</a>
 			</td>
             
             <?php if($navbarChosen == "Add/Remove") {
 			echo '<td id="selectedNav">';
             } else { echo '<td>'; }
-            ?>
+            ?> -->
 				<a href="/Admin/AddRemove">Add/Remove</a>
 			</td>
             <td>
