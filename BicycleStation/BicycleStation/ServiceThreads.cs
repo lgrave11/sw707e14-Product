@@ -16,7 +16,9 @@ namespace BicycleStation
             {
                 if (GlobalVariable.ActionQueue.Count() > 0)
                 {
-                    Action current = GlobalVariable.ActionQueue.Dequeue();
+                    Action current = null;
+                    while (!GlobalVariable.ActionQueue.TryDequeue(out current)) { Thread.Sleep(GlobalVariable.SLEEPTIME); }
+                    
                     current.Invoke();
                 }
                 else
