@@ -22,7 +22,13 @@ class GPSRegisterTest extends PHPUnit_Framework_TestCase
         $prevTime = $time - 1;
         $nextTime = $time + 1;
 
+        $oldhistory = $bicycleService->readBicyclePositions($id, 0, time());
         $this->assertTrue(RegisterGPS($id, $latitude, $longitude));
+
+        $newhistory = $bicycleService->readBicyclePositions($id, 0, time());
+        $this->assertEquals(count($oldhistory), count($newhistory) -1);
+
+
         $bicycle = $bicycleService->read($id);
 
         $this->assertEquals($id, $bicycle->bicycle_id);
