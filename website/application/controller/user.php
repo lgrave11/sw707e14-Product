@@ -37,8 +37,10 @@ class User extends Controller
             unset($_SESSION['login_user']);
             session_destroy();
         }
-
-
+        session_start();
+        session_regenerate_id(true);
+        $this->success('You are now logged out', 'home');
+        
         header("Location: /");
         exit();
     }
