@@ -42,7 +42,7 @@ class BicycleService implements iService
      */
     public function read($id)
     {
-        $stmt = $this->db->prepare("SELECT bicycle_id, latitude, longitude FROM bicycle WHERE bicycle_id=?");
+        $stmt = $this->db->prepare("SELECT bicycle_id, latitude, longitude FROM bicycle WHERE bicycle_id = ? AND deleted = false");
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $stmt->bind_result($bicycle_id, $latitude, $longitude);
@@ -73,7 +73,7 @@ class BicycleService implements iService
 
     public function readAll(){
         $returnArray = array();
-        $stmt = $this->db->prepare("SELECT * FROM bicycle WHERE latitude IS NOT NULL AND longitude IS NOT NULL");
+        $stmt = $this->db->prepare("SELECT bicycle_id, latitude, longitude FROM bicycle WHERE latitude IS NOT NULL AND longitude IS NOT NULL AND deleted = false");
         $stmt->execute();
         $stmt->bind_result($bicycle_id, $latitude, $longitude);
         while($stmt->fetch()){
@@ -85,7 +85,7 @@ class BicycleService implements iService
     
     public function readAllBicycles(){
         $returnArray = array();
-        $stmt = $this->db->prepare("SELECT * FROM bicycle");
+        $stmt = $this->db->prepare("SELECT bicycle_id, latitude, longitude FROM bicycle WHERE deleted = false");
         $stmt->execute();
         $stmt->bind_result($bicycle_id, $latitude, $longitude);
         while($stmt->fetch()){
@@ -181,11 +181,38 @@ class BicycleService implements iService
     }
 
     /**
-     * Deletes bicycle based on the id
+     * Sets a delete flag to true for a bicycle
      * @param $bicycle Bicycle
      * @return bool Whether or not the bicycle was deleted from the database.
      */
     public function delete($bicycle)
+    {
+        if($this->validate($bicycle))
+        {        
+            $stmt = $this->db->prepare("UPDATE dock SET holds_bicycle = NULL WHERE holds_bicycle = ?");
+            $stmt->bind_param("i",$bicycle->bicycle_id);
+            $stmt->execute();
+            $stmt->close();
+            
+            $stmt = $this->db->prepare("UPDATE bicycle SET deleted = true WHERE bicycle_id = ?");
+            $stmt->bind_param("i",$bicycle->bicycle_id);
+            $stmt->execute();
+            $stmt->close();
+            
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    /**
+     * Actually delete a bicycle
+     * @param $bicycle Bicycle
+     * @return bool Whether or not the bicycle was deleted from the database.
+     */
+    public function testDelete($bicycle) 
     {
         if($this->validate($bicycle))
         {

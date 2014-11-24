@@ -254,7 +254,9 @@ footer a:hover
 
 .bookings
 {
-    height:350px;
+    border:1px solid gray;
+    margin-top:15px;
+    height:335px;
     overflow-x:hidden;
     overflow-y:scroll;
 }

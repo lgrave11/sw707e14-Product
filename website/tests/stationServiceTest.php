@@ -92,8 +92,8 @@ class StationServiceTest extends PHPUnit_Framework_TestCase
 
 
 		$stationService->deleteForTest($station);
-		$bicycleService->delete($bicycle1);
-		$bicycleService->delete($bicycle2);
+		$bicycleService->testDelete($bicycle1);
+		$bicycleService->testDelete($bicycle2);
 	}
 
 	public function testReadAllValableDocks()
