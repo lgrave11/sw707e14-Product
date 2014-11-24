@@ -4,6 +4,7 @@ var map;
 var geocoder;
 var infowindow = [];
 var address = [];
+var openedInfoWindow;
 
 var bicycleimage = {
     url: '/public/images/bicycleMarker.png',
@@ -83,9 +84,12 @@ function updateMarkers() {
         url: "/Ajax/GetBicyclePositions",
     }).success(function() {
     	if(mark.length >= j || mark.length == 0)
-        var j = $.parseJSON(result.responseText);
+            var j = $.parseJSON(result.responseText);
         for(i = 0; i < j.length; i++) {
             getAddress(j[i]["latitude"],j[i]["longitude"], j[i]["bicycle_id"], CreateMarker);
+        }
+        if(openedInfoWindow != null){
+            infowindow[openedInfoWindow[0]].open(map,mark[openedInfoWindow[1]]);
         }
         setTimeout(function() {updateMarkers();}, 10000);
     });
@@ -116,6 +120,7 @@ function infoHelper(marker, info, maper){
     return function(){
             closeAllInfoWindows();
             info.open(maper,marker);
+            openedInfoWindow = [mark.indexOf(marker), infowindow.indexOf(info)];
             google.maps.event.addListener(info, 'closeclick',function(){
                 stopAllBouncing();
             })};
