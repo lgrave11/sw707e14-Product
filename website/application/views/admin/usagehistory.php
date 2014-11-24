@@ -31,7 +31,7 @@
                     <input id="admin_todatepicker" type="text" readonly name="todate" value="<?php echo ViewHelper::getDateTime(); ?>" style="width: 100px; text-align: center;" />
                 </td>
                 <td>
-                    <input type="button" onclick="UpdateUsageContent()" value="Get History" />
+                    <input class="button" type="button" onclick="UpdateUsageContent()" value="Get History" />
                 </td>
             </tr>
         </table>

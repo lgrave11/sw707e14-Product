@@ -9,7 +9,7 @@
 			 <div id="login-fields" >
 				 <a href="/User/ForgotPassword">Forgotten your password?</a>
 				 <a href="/User/CreateUser/">Create new user</a>
-				 <input id="button" type="submit" name="submit" value="Log-In"> 
+				 <input class="button" id="button" type="submit" name="submit" value="Log-In"> 
 			</div>
 		 </form> 	
  </div>
