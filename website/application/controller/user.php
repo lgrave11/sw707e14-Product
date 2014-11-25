@@ -174,7 +174,7 @@ class User extends Controller
             else
             {
                 $this->success('User ' . $_POST['username'] . ' has been created.', 'home');
-                $_SESSION['login_user']= $_POST['username'];
+                $_SESSION['login_user'] = $_POST['username'];
                 header("Location: /");
                 exit();
             }
@@ -350,7 +350,14 @@ class User extends Controller
                 $account->token = null;
                 $account->reset_time = null;
                 $accountservice->update($account);
-                $this->error('There was an error in the token or your link has expired.', 'resetpassword');
+                if(time() < $account->reset_time) 
+                {
+                    $this->error('Your reset link has expired, please try again', 'resetpassword');
+                }
+                else 
+                {
+                    $this->error('There was an error with your token', 'resetpassword');
+                }
                 header('Location: /User/ForgotPassword/');
                 exit();
             }

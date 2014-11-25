@@ -106,22 +106,33 @@ class Admin extends Controller
     {
         Tools::requireAdmin();
         $currentPage = substr($_SERVER["REQUEST_URI"], 1);
-        if (empty($_POST['bicycles']) || empty($_POST['fromdate']) || empty($_POST['todate'])){
-            $this->error("Please fill in all fields", "mapRoutes");
+        if (empty($_POST['bicycles'])){
+            $this->error("Please fill in the bicycle field", "mapRoutes");
+            header("Location: /Admin/RouteHistory");
+            exit();
+        }
+        if (empty($_POST['fromdate'])){
+            $this->error("Please fill in from date field", "mapRoutes");
+            header("Location: /Admin/RouteHistory");
+            exit();
+        }
+        if (empty($_POST['todate'])){
+            $this->error("Please fill in to date field", "mapRoutes");
             header("Location: /Admin/RouteHistory");
             exit();
         }
         
+        
         $fromdateSplit = preg_split("/[\s:\/]+/", $_POST['fromdate']);
         $todateSplit = preg_split("/[\s:\/]+/", $_POST['todate']);
         if (count($fromdateSplit) != 5 || !is_numeric($fromdateSplit[3]) || !is_numeric($fromdateSplit[4])){
-            $this->error("Please fill in correct information", "mapRoutes");
+            $this->error("There was an error in your from date field", "mapRoutes");
             header("Location: /Admin/RouteHistory");
             exit();
         }
         
         if (count($todateSplit) != 5 | !is_numeric($todateSplit[3]) || !is_numeric($todateSplit[4])){
-            $this->error("Please fill in correct information", "mapRoutes");
+            $this->error("There was an error in your to date field", "mapRoutes");
             header("Location: /Admin/RouteHistory");
             exit();
         }
@@ -203,9 +214,13 @@ class Admin extends Controller
         $allAccounts = array_map(function($a) { return $a->username; }, $accountService->readAllAccounts());
         $allAccounts = array_filter($allAccounts, function($username) { return $username != $_SESSION['login_user']; });
         
-        if(empty($_POST['users']) || !in_array($_POST['users'], $allAccounts) || $_POST['users'] == $_SESSION['login_user']) 
+        if(empty($_POST['users'])) 
         {
-            $this->error('User selected for removal is invalid or empty', 'addRemove');
+            $this->error('User selected for removal is empty', 'addRemove');
+        }
+        if(!in_array($_POST['users'], $allAccounts) || $_POST['users'] == $_SESSION['login_user']) 
+        {
+            $this->error('User selected for removal is invalid', 'addRemove');
         }
         
         if(!($this->hasErrors('addRemove'))) 
@@ -214,7 +229,7 @@ class Admin extends Controller
             if($accountService->delete($account))
                 $this->success('User ' . $account->username . ' has been removed', 'addRemove');
             else
-                $this->error('An error occurred', 'addRemove');
+                $this->error('An error occurred when removing the account', 'addRemove');
         }
         
         header("Location: /Admin/AddRemove");
@@ -294,7 +309,7 @@ class Admin extends Controller
         if(!empty($newBicycle))
             $this->success('Bicycle ' . $newBicycle->bicycle_id . ' has been added', 'addRemove');
         else
-            $this->error('An error occurred', 'addRemove');
+            $this->error('An error occurred when adding a bicycle', 'addRemove');
         
         header("Location: /Admin/AddRemove");
     }
@@ -309,9 +324,13 @@ class Admin extends Controller
         $bicycleService = new BicycleService($this->db);
         $bicycles = $bicycleService->readAllBicycles();
         
-        if(empty($_POST['bicycles']) || !in_array($_POST['bicycles'], array_map(function($a) {return $a->bicycle_id; }, $bicycles))) 
+        if(empty($_POST['bicycles'])) 
         {
-            $this->error('Bicycle selected for removal is invalid or empty', 'addRemove');
+            $this->error('Bicycle selected for removal is empty', 'addRemove');
+        }
+        if(!in_array($_POST['bicycles'], array_map(function($a) {return $a->bicycle_id; }, $bicycles))) 
+        {
+            $this->error('Bicycle selected for removal is invalid ', 'addRemove');
         }
         
         if(!($this->hasErrors('addRemove'))) 
@@ -320,7 +339,7 @@ class Admin extends Controller
             if($bicycleService->delete($bicycle))
                 $this->success('Bicycle ' . $bicycle->bicycle_id . ' has been removed', 'addRemove');
             else
-                $this->error('An error occurred', 'addRemove');
+                $this->error('An error occurred when removing a bicycle', 'addRemove');
         }
         
         header("Location: /Admin/AddRemove");
@@ -337,8 +356,11 @@ class Admin extends Controller
         $stationService = new StationService($this->db);
         $allStations = $stationService->readAllStations();
         
-        if(empty($_POST['docksStation']) || !in_array($_POST['docksStation'], array_map(function($a){return $a->station_id;}, $allStations)))
-            $this->error('Station selected for dock is invalid or empty','addRemove');
+        if(empty($_POST['docksStation']))
+            $this->error('Station selected for dock is empty','addRemove');
+                
+        if(!in_array($_POST['docksStation'], array_map(function($a){return $a->station_id;}, $allStations)))
+            $this->error('Station selected for dock is empty','addRemove');
                 
         if(!($this->hasErrors('addRemove'))) 
         {
@@ -346,7 +368,7 @@ class Admin extends Controller
             if(!empty($newDock))
                 $this->success('Dock ' . $newDock->dock_id . ' has been added to station ' . $stationService->read($_POST['docksStation'])->name, 'addRemove');
             else
-                $this->error('An error occurred', 'addRemove');
+                $this->error('An error occurred when adding a dock', 'addRemove');
         }
         
         header("Location: /Admin/AddRemove");
@@ -363,9 +385,13 @@ class Admin extends Controller
         $dockService = new DockService($this->db);
         $allDocks = $dockService->readAllDocksWithoutBicycleWithStationName();
         
-        if(empty($_POST['docksRemove']) || !in_array($_POST['docksRemove'], array_map(function($a) {return $a->dock_id; }, $allDocks))) 
+        if(!in_array($_POST['docksRemove'], array_map(function($a) {return $a->dock_id; }, $allDocks))) 
         {
-            $this->error('Dock selected for removal is invalid or empty', 'addRemove');
+            $this->error('Dock selected for removal is invalid', 'addRemove');
+        }
+        if(empty($_POST['docksRemove'])) 
+        {
+            $this->error('Dock selected for removal is empty', 'addRemove');
         }
         
         if(!($this->hasErrors('addRemove'))) 
@@ -374,7 +400,7 @@ class Admin extends Controller
             if($dockService->delete($dock))
                 $this->success('Dock ' . $dock->dock_id . ' has been removed', 'addRemove');
             else
-                $this->error('An error occurred', 'addRemove');
+                $this->error('An error occurred when removing a dock', 'addRemove');
         }
         
         header("Location: /Admin/AddRemove");
@@ -432,9 +458,13 @@ class Admin extends Controller
         
         $bookingService = new BookingService($this->db);
         
-        if(empty($_POST['stationRemove']) || !in_array($_POST['stationRemove'], array_map(function($a) {return $a->station_id; }, $stations))) 
+        if(empty($_POST['stationRemove'])) 
         {
-            $this->error('Bicycle selected for removal is invalid or empty', 'addRemove');
+            $this->error('Bicycle selected for removal is empty', 'addRemove');
+        }
+        if(!in_array($_POST['stationRemove'], array_map(function($a) {return $a->station_id; }, $stations))) 
+        {
+            $this->error('Bicycle selected for removal is invalid', 'addRemove');
         }
         
         if(!($this->hasErrors('addRemove'))) 
@@ -454,12 +484,13 @@ class Admin extends Controller
                 $this->success('Station ' . $station->name . ' and ' . count($docks) . ' docks have been removed', 'addRemove');
             }
             else
-                $this->error('An error occurred', 'addRemove');
+                $this->error('An error occurred when removing a station', 'addRemove');
         }
         
         header("Location: /Admin/AddRemove");
     }
     
+    // Just a proof of concept.
     public function cluster() 
     {
         $jsFiles = [];
