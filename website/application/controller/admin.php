@@ -460,5 +460,33 @@ class Admin extends Controller
         header("Location: /Admin/AddRemove");
     }
     
+    public function cluster() 
+    {
+        $jsFiles = [];
+        $navbarChosen = "Add/Remove";
+        $this->title = "Add/Remove";
+        $positions = array();
+        $bicycleService = new BicycleService($this->db);
+        $positions4 = $bicycleService->readBicyclePositions(4, 1416837800-100, 1416837800+100);
+        $positions5 = $bicycleService->readBicyclePositions(5, 1416837800-100, 1416837800+100);
+        $positions6 = $bicycleService->readBicyclePositions(6, 1416837800-100, 1416837800+100);
+        foreach($positions4 as $p) 
+        {
+            $positions[] = $p;
+        }
+        foreach($positions5 as $p) 
+        {
+            $positions[] = $p;
+        }
+        foreach($positions6 as $p) 
+        {
+            $positions[] = $p;
+        }
+        
+        require 'application/views/_templates/adminheader.php';
+        require 'application/views/admin/admincluster.php';
+        require 'application/views/_templates/footer.php';
+    }
+    
 }
 ?>
