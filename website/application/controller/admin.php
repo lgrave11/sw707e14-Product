@@ -345,7 +345,7 @@ class Admin extends Controller
         header("Location: /Admin/AddRemove");
     }
     
-    public function addDock() 
+    /*public function addDock() 
     {
         Tools::requireAdmin();
         $jsFiles = [];
@@ -404,7 +404,7 @@ class Admin extends Controller
         }
         
         header("Location: /Admin/AddRemove");
-    }
+    }*/
     
     public function addStation(){
         Tools::requireAdmin();
