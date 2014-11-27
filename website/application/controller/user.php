@@ -86,6 +86,7 @@ class User extends Controller
                         
                         
                         if ($target=="") {
+                            $this->success("You are now logged in as " . $_POST['username'], "home");
                             header("Location: /");
                             exit();
                         }
