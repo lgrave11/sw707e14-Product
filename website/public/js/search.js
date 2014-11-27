@@ -37,7 +37,8 @@ function SelectStationFromList(station){
 	    //may want to use $.trim in here
 	    mouseoversearch = false;
 	    $("#searchresult").hide();
-	    $("#searchstation").val('');
+	    $("#searchresult").html("");
+	    $("#searchstation").val("");
 	    return $(this).text() == station;
 	}).prop('selected', true);
 	UpdateMarker();

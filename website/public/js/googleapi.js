@@ -103,6 +103,8 @@ function closeAllInfoWindows() {
 function closeAllAndBounce(marker) {
     closeAllInfoWindows();
     toggleBounce(marker);
+    var index = mark.indexOf(marker);
+    infowindow[index].open(map, marker);
 }
 
 function helperSelectStation(func, name){
