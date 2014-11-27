@@ -85,7 +85,7 @@
 	              ViewHelper::printMessages('accountinfo'); ?>
 	    </div>
 		<div>
-			<input type="button" class="button" value="View History" onclick="navigateTo('/User/ViewHistory')" /> <br/>
+			<input type="button" style="font-size:20px;" class="button" value="View History" onclick="navigateTo('/User/ViewHistory')" /> <br/>
 		</div>
 	</center>
 </div>
