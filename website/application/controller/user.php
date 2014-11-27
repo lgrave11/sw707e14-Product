@@ -248,7 +248,7 @@ class User extends Controller
             $this->error('Empty email', 'accountinfo');
         }
 
-        if($accountservice->emailExists($_POST['email']))
+        if($accountservice->emailExists($_POST['email']) && $_POST['email'] != $account->email)
         {
             $this->error('Email already exists.', 'accountinfo');
         }

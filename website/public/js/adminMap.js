@@ -37,6 +37,8 @@ function initialize() {
 	var div = $("<div style='width: 10px;height: 10px;background-image: url(/public/images/bicycleMarker.png);float:left;margin-right:5px;margin-bottom:5px;'></div>" + 
 				"<div style='float:right;margin-right:5px;'>Bicycle</div>").appendTo(legend);
 
+
+
     updateMarkers();
     
     
@@ -45,68 +47,38 @@ function initialize() {
     });
 }
 
-function getAddress(lat, lng, bicycleId, callback) 
-{
-    return geocoder.geocode({"latLng":new google.maps.LatLng(lat, lng)}, function(results, status){
-                if (status == google.maps.GeocoderStatus.OK) {
-                    callback(lat, lng, bicycleId, results[0].formatted_address);
-                }
-                else{
-                    callback(lat,lng,bicycleId, "");
-                }
-            });
-}
-
-function CreateMarker(lat, lng, bicycleId, address){
-    var info = new google.maps.InfoWindow(
-                { content: '<div id="content">' +
-                    '<h2 id="firstHeading" class="firstHeading" style="margin-bottom:-10px; white-space: nowrap; line-height:1.35;overflow:hidden;">ID: ' + bicycleId + '</h2>' + 
-                    '<div id="bodyContent"><p style="white-space: nowrap; line-height:1.35;overflow:hidden;">Latitude: ' + lat +
-                    '<br>Longitude: ' + lng + 
-                    '<br>' + address + '</p></div></div>',
-                });
-    marker = new google.maps.Marker(
-            { 
-                map:map, 
-                draggable:false, 
-                position: new google.maps.LatLng(lat, lng), 
-                icon: bicycleimage }
-        );
-    mark.push(marker);
-    infowindow.push(info);
-    google.maps.event.addListener(marker, 'click', infoHelper(marker,info,map));
-}
-
 function updateMarkers() {
-    setAllMap(null);
-    infowindow = [];
     var result = $.ajax({
         url: "/Ajax/GetBicyclePositions",
     }).success(function() {
-    	if(mark.length >= j || mark.length == 0)
-            var j = $.parseJSON(result.responseText);
+        var j = $.parseJSON(result.responseText);
+
+        if(mark.length != j.length){
+            for(i = 0; i < j.length; i++) {
+                infowindow.push(new google.maps.InfoWindow(
+                    { content: '<div id="content">' +
+                        '<h2 id="firstHeading" class="firstHeading" style="margin-bottom:-10px; white-space: nowrap; line-height:1.35;overflow:hidden;">ID: ' + j[i]["bicycle_id"] + '</h2>' + 
+                        '<div id="bodyContent"><p style="white-space: nowrap; line-height:1.35;overflow:hidden;">Latitude: ' + j[i]["latitude"] +
+                        '<br>Longitude: ' + j[i]["longitude"],
+                    })
+                );
+
+                mark.push(new google.maps.Marker(
+                    { 
+                        map:map, 
+                        draggable:false, 
+                        position: new google.maps.LatLng(j[i]["latitude"],j[i]["longitude"]), 
+                        icon: bicycleimage 
+                    }));
+                google.maps.event.addListener(mark[i], 'click', infoHelper(mark[i],infowindow[i],map));
+            }
+        }
+
         for(i = 0; i < j.length; i++) {
-            getAddress(j[i]["latitude"],j[i]["longitude"], j[i]["bicycle_id"], CreateMarker);
+            mark[i].setPosition(new google.maps.LatLng(j[i]["latitude"],j[i]["longitude"]));
         }
-        if(openedInfoWindow != null){
-            infowindow[openedInfoWindow[0]].open(map,mark[openedInfoWindow[1]]);
-        }
-        setTimeout(function() {updateMarkers();}, 10000);
+        setTimeout(function() {updateMarkers();}, 1);
     });
-}
-
-// Sets the map on all markers in the array.
-function setAllMap(map) {
-  for (var i = 0; i < mark.length; i++) {
-    mark[i].setMap(map);
-  }
-  mark = [];
-}
-
-function stopAllBouncing(){
-    for(i = 0; i < mark.length; i++){
-        mark[i].setAnimation(null);
-    }
 }
 
 function closeAllInfoWindows() {
@@ -120,34 +92,7 @@ function infoHelper(marker, info, maper){
     return function(){
             closeAllInfoWindows();
             info.open(maper,marker);
-            openedInfoWindow = [mark.indexOf(marker), infowindow.indexOf(info)];
-            google.maps.event.addListener(info, 'closeclick',function(){
-                stopAllBouncing();
-            })};
-}
-
-function closeAllAndBounce(marker) {
-    closeAllInfoWindows();
-    toggleBounce(marker);
-}
-
-function helperSelectStation(func, name){
-    return function(){func(name)};
-}
-
-function helperBounce(i, func)
-{
-    return function(){func(i)};
-}
-
-function toggleBounce(marker) {
-    stopAllBouncing();
-
-    if (marker.getAnimation() != null) {
-        marker.setAnimation(null);
-    } else {
-        marker.setAnimation(google.maps.Animation.BOUNCE);
-    }
+        }
 }
 
 window.onload = initialize;
