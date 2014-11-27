@@ -72,7 +72,7 @@
     <input class="button" id="button" type="submit" name="removeBicycleBtnSubmit" value="Submit"> 
     </fieldset>
 </form></div>
-
+<!--
 <div><form action="/Admin/AddDock/" method="post">
     <fieldset>
     <legend><b>Add dock</b></legend>
@@ -112,7 +112,7 @@
     </ul>
     <input class="button" id="button" type="submit" name="removeDockBtnSubmit" value="Submit"> 
     </fieldset>
-</form></div>
+</form></div>-->
 
 
 <div><form action="/Admin/AddStation/" method="post">
