@@ -27,7 +27,10 @@ class BookingService implements iService
             $booking->booking_id = $stmt->insert_id;
             $stmt->close();
 
-            WebsiteToStationNotifier::notifyStationBooking($booking->start_station, $booking->booking_id, $booking->start_time, $booking->password);
+            if(!WebsiteToStationNotifier::notifyStationBooking($booking->start_station, $booking->booking_id, $booking->start_time, $booking->password)){
+            	$this->delete($booking);
+            	return null;
+            }
 
             return $booking;
         }
@@ -233,16 +236,16 @@ class BookingService implements iService
     	$stmt->bind_result($station_id);
     	$stmt->fetch();
     	$stmt->close();
-        
-        $stmt = $this->db->prepare("DELETE FROM booking WHERE booking_id = ?");
-        $stmt->bind_param("i", $booking_id);
-        $stmt->execute();
-        $rowsDeleted = $stmt->affected_rows;
-        $stmt->close();
-        
-        WebsiteToStationNotifier::notifyStationUnbooking($station_id, $booking_id);
+        if(WebsiteToStationNotifier::notifyStationUnbooking($station_id, $booking_id)){
+	        $stmt = $this->db->prepare("DELETE FROM booking WHERE booking_id = ?");
+	        $stmt->bind_param("i", $booking_id);
+	        $stmt->execute();
+	        $rowsDeleted = $stmt->affected_rows;
+	        $stmt->close();
+	        return $rowsDeleted;
+        }
      
-        return $rowsDeleted;
+        return 0;
     }
 }
 ?>

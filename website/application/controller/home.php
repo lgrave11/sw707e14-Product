@@ -39,7 +39,12 @@ class Home extends Controller
         Tools::requireLogin();
         $bookingService = new BookingService($this->db);
 
-        $bookingService->deleteActiveBooking($booking_id, $_SESSION["login_user"]);
+        if($bookingService->deleteActiveBooking($booking_id, $_SESSION["login_user"])){
+            $this->success("This booking has been deleted", "booking");
+        }
+        else{
+            $this->error("The station is offline, please try unbooking again","booking");
+        }
         header("Location: /");
         exit();
     }
@@ -101,7 +106,7 @@ class Home extends Controller
                 $this->success("A bicycle has been booked", "booking");
             }
             else{
-                $this->error("The station is offline, but will be registered once the station gets online","booking");
+                $this->error("The station is offline, please try booking again","booking");
             }
         } else {
             $this->error("The booking could not be validated", "booking");

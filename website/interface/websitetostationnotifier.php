@@ -67,7 +67,7 @@
             error_reporting(0);
             $errno;
             $errstr;
-            return fsockopen($ip, $port, $errno, $errstr, 30);
+            return fsockopen($ip, $port, $errno, $errstr, 5);
         }
         
         private static function makeJsonDock($action, $station_id, $dock_id) 
