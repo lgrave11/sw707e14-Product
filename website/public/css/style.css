@@ -12,6 +12,7 @@ body {
     background-color: white;
 	background-image: url(/public/images/aabc_back.gif);
 	background-repeat: repeat-x;
+    background-position-x: -33px;
 	
 }
 
