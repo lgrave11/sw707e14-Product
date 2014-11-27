@@ -240,29 +240,8 @@ class BookingService implements iService
         $rowsDeleted = $stmt->affected_rows;
         $stmt->close();
         
-        require_once('Thread.php');
-        // test to see if threading is available
-        if( !Thread::isAvailable())
-        {
-            die('Threads not supported');
-        }
-
-        //function to be ran on seperate thread
-        function parallel()
-        {
-            $result = true;
-            while($result)
-            {
-                $result = WebsiteToStationNotifier::notifyStationUnbooking($station_id, $booking_id);
-                echo "shiit" . PHP_EOL;
-            }
-        }
-        $thread = new Thread('parallel');
-        $thread->start();
-        //WebsiteToStationNotifier::notifyStationUnbooking($station_id, $booking_id);
-        while($thread->isAlive()){
-            sleep(1);
-        }
+        WebsiteToStationNotifier::notifyStationUnbooking($station_id, $booking_id);
+     
         return $rowsDeleted;
     }
 }
