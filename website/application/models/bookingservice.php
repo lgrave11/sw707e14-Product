@@ -241,7 +241,7 @@ class BookingService implements iService
         $stmt->close();
         
         WebsiteToStationNotifier::notifyStationUnbooking($station_id, $booking_id);
-
+     
         return $rowsDeleted;
     }
 }
