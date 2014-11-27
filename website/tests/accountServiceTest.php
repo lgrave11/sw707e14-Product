@@ -115,7 +115,7 @@ class AccountServiceTest extends PHPUnit_Framework_TestCase
 		$account->password = "newpassword";
 		$AccountService->update($account);
 		$result = $AccountService->read($account->username);
-		$this->assertEquals(true, password_verify("newpassword", $result->password));
+		$this->assertEquals("newpassword", $result->password);
 
 		//email
 		$account->email = "newmail@gmail.com";
