@@ -218,6 +218,56 @@
         $stmt->close();
         return $returnarray;
     }
+    
+    $server->register('SyncDockStatus',
+        array('bicycleIds' => 'xsd:string',
+              'numFree' => 'xsd:int',
+              'station_id' => 'xsd:int'),
+        array('return' => 'xsd:boolean'),
+        $SERVICE_NAMESPACE,
+        $SERVICE_NAMESPACE . '#soapaction',
+        'rpc',
+        'literal',
+        'Synchronise the status of all docks and bicycles'
+    );
+    function SyncDockStatus($bicycleIds, $numFree, $station_id) {
+        global $db;
+        
+        /* prepare JSON */
+        $bicycles = json_decode($bicycleIds);
+        
+        $db->autocommit(FALSE);
+        
+        $stmt = $db->prepare("DELETE FROM dock WHERE station_id = ?");
+        $stmt->bind_param("i", $station_id);
+        if (!$stmt->execute()) {
+            $db->rollback();
+            return false;
+        }
+        
+        $stmt->prepare("INSERT INTO dock (station_id, holds_bicycle) VALUES (?,?)");
+        $stmt->bind_param("ii", $station_id, $id);
+        foreach ($bicycles as $id) {
+            if (!$stmt->execute()) {
+                $db->rollback();
+                return false;
+            }
+        }
+        
+        $stmt->prepare("INSERT INTO dock (station_id, holds_bicycle) VALUES (?,NULL)");
+        $stmt->bind_param("i", $station_id);
+        for ($i = 0; $i < $numFree; $i++) {
+            if (!$stmt->execute()) {
+                $db->rollback();
+                return false;
+            }
+        }
+        
+        $stmt->close();
+        
+        $db->commit();
+        return true;
+    }
 
     //This processes the request and returns a result.
     ob_clean();
