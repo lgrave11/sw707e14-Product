@@ -12,6 +12,7 @@ body {
     background-color: white;
 	background-image: url(/public/images/aabc_back.gif);
 	background-repeat: repeat-x;
+    background-position-x: -33px;
 	
 }
 
@@ -260,7 +261,7 @@ footer a:hover
 .bookings
 {
     border:1px solid gray;
-    height:330px;
+    height:322px;
     overflow-x:hidden;
     overflow-y:scroll;
 }

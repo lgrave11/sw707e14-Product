@@ -131,7 +131,7 @@ class StationService implements iService
     public function searchStation($name = ""){
         $returnArray = array();
         $name = mysqli_real_escape_string($this->db, $name);
-        $stmt = $this->db->prepare("SELECT station_id, name FROM station WHERE deleted = false AND name LIKE '%".$name."%' ORDER BY levenshtein('".$name."', name) AND deleted = false");
+        $stmt = $this->db->prepare("SELECT station_id, name FROM station WHERE deleted = false AND name LIKE '%".$name."%' ORDER BY levenshtein('".$name."', name)");
         $stmt->execute();
         $stmt->bind_result($station_id, $name);
         while($stmt->fetch()){

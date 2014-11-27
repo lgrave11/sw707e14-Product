@@ -101,8 +101,7 @@
     
     $server->register('BicycleReturnedToDockAtStation',
         array('bicycle_id' => 'xsd:int',
-              'station_id' => 'xsd:int',
-              'dock_id'    => 'xsd:int'),
+              'station_id' => 'xsd:int'),
         array('return' => 'xsd:boolean'),
         $SERVICE_NAMESPACE,
         $SERVICE_NAMESPACE . '#soapaction',
@@ -110,11 +109,19 @@
         'literal',
         'Registers that a given bicycle has arrived at a given dock at a given station'
     );
-    function BicycleReturnedToDockAtStation($bicycle_id, $station_id, $dock_id)
+    function BicycleReturnedToDockAtStation($bicycle_id, $station_id)
     {
         global $db;
-        $stmt = $db->prepare("UPDATE dock SET holds_bicycle = ? WHERE station_id = ? AND dock_id = ?");
-        $stmt->bind_param("iii", $bicycle_id, $station_id, $dock_id);
+
+        $stmt = $db->prepare("SELECT dock_id FROM dock WHERE station_id = ? AND holds_bicycle IS NULL LIMIT 1");
+        $stmt->bind_param("i", $station_id);
+        $stmt->execute();
+        $stmt->bind_result($dock_id);
+        $stmt->fetch();
+        $stmt->close();
+
+        $stmt = $db->prepare("UPDATE dock SET holds_bicycle = ? WHERE dock_id = ?");
+        $stmt->bind_param("ii", $bicycle_id, $dock_id);
         $stmt->execute();
         $stmt->close();
 
@@ -217,6 +224,54 @@
         }
         $stmt->close();
         return $returnarray;
+    }
+    
+    $server->register('SyncDockStatus',
+        array('bicycleIds' => 'xsd:string',
+              'numFree' => 'xsd:int',
+              'station_id' => 'xsd:int'),
+        array('return' => 'xsd:boolean'),
+        $SERVICE_NAMESPACE,
+        $SERVICE_NAMESPACE . '#soapaction',
+        'rpc',
+        'literal',
+        'Synchronise the status of all docks and bicycles'
+    );
+    function SyncDockStatus($bicycleIds, $numFree, $station_id) {
+        global $db;
+        
+        /* prepare JSON */
+        $bicycles = json_decode($bicycleIds);
+        
+        $db->begin_transaction();
+        $stmt = $db->prepare("DELETE FROM dock WHERE station_id = ?");
+        $stmt->bind_param("i", $station_id);
+        if (!$stmt->execute()) {
+            $db->rollback();
+            return false;
+        }
+        
+        $stmt->prepare("INSERT INTO dock (station_id, holds_bicycle) VALUES (?,?)");
+        $stmt->bind_param("ii", $station_id, $id);
+        foreach ($bicycles as $id) {
+            if (!$stmt->execute()) {
+                $db->rollback();
+                return false;
+            }
+        }
+        
+        $stmt->prepare("INSERT INTO dock (station_id, holds_bicycle) VALUES (?,NULL)");
+        $stmt->bind_param("i", $station_id);
+        for ($i = 0; $i < $numFree; $i++) {
+            if (!$stmt->execute()) {
+                $db->rollback();
+                return false;
+            }
+        }
+        
+        $stmt->close();
+        $db->commit();
+        return true;
     }
 
     //This processes the request and returns a result.

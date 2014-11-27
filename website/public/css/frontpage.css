@@ -35,7 +35,7 @@
 #searchresult {
 	background-color: #EEEEEE;
 	position: absolute;
-	top: 63px;
+	top: 98px;
 	left: 4px;
 	width: 240px;
 	border: 1px solid #00315F;
@@ -64,7 +64,7 @@
 
 #messages 
 {
-    height:15px;    
+    height:35px;    
 }
 
 #sidebox {

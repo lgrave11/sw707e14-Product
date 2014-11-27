@@ -27,7 +27,10 @@ class BookingService implements iService
             $booking->booking_id = $stmt->insert_id;
             $stmt->close();
 
-            WebsiteToStationNotifier::notifyStationBooking($booking->start_station, $booking->booking_id, $booking->start_time, $booking->password);
+            if(!WebsiteToStationNotifier::notifyStationBooking($booking->start_station, $booking->booking_id, $booking->start_time, $booking->password)){
+            	$this->delete($booking, true);
+            	return null;
+            }
 
             return $booking;
         }
@@ -79,9 +82,9 @@ class BookingService implements iService
         }
     }
 
-    public function delete($booking)
+    public function delete($booking, $deleteLocallyOnly = false)
     {
-        return $this->deleteActiveBooking($booking->booking_id) > 0;
+        return $this->deleteActiveBooking($booking->booking_id, $deleteLocallyOnly) > 0;
     }
 
     /**
@@ -224,7 +227,7 @@ class BookingService implements iService
         return $returnArray;
     }
 
-    public function deleteActiveBooking($booking_id)
+    public function deleteActiveBooking($booking_id, $deleteLocallyOnly = false)
     {
         
     	$stmt = $this->db->prepare ("SELECT start_station FROM booking where booking_id = ?");
@@ -233,16 +236,16 @@ class BookingService implements iService
     	$stmt->bind_result($station_id);
     	$stmt->fetch();
     	$stmt->close();
-        
-        $stmt = $this->db->prepare("DELETE FROM booking WHERE booking_id = ?");
-        $stmt->bind_param("i", $booking_id);
-        $stmt->execute();
-        $rowsDeleted = $stmt->affected_rows;
-        $stmt->close();
-        
-        WebsiteToStationNotifier::notifyStationUnbooking($station_id, $booking_id);
+        if(WebsiteToStationNotifier::notifyStationUnbooking($station_id, $booking_id) || $deleteLocallyOnly){
+	        $stmt = $this->db->prepare("DELETE FROM booking WHERE booking_id = ?");
+	        $stmt->bind_param("i", $booking_id);
+	        $stmt->execute();
+	        $rowsDeleted = $stmt->affected_rows;
+	        $stmt->close();
+	        return $rowsDeleted;
+        }
      
-        return $rowsDeleted;
+        return 0;
     }
 }
 ?>
