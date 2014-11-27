@@ -39,7 +39,7 @@ class Home extends Controller
         Tools::requireLogin();
         $bookingService = new BookingService($this->db);
 
-        if($bookingService->deleteActiveBooking($booking_id, $_SESSION["login_user"])){
+        if($bookingService->deleteActiveBooking($booking_id)){
             $this->success("This booking has been deleted", "booking");
         }
         else{
