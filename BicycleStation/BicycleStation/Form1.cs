@@ -44,23 +44,17 @@ namespace BicycleStation
             StationNameDropDown.Items.AddRange(stations);
             StationNameDropDown.SelectedItem = stations[0];
 
-            //Creates a Tcp Listener to run in a different threat
-            //Listener listens for messages from the DB connection interface
-            MyTcpListener myTcpListener = new MyTcpListener(this);
-            Thread tcpListener = new Thread(new ThreadStart(myTcpListener.Listen));
-            tcpListener.Start();
-
-            //Creates lockManager thread
-            //Locs or unlocks docks based on time of bookings
-            LockManager lockManager = new LockManager(this);
-            Thread manager = new Thread(new ThreadStart(lockManager.manage));
-            manager.Start();
-
             //Creates service thread
             //Reports data changes to global database
             Thread reporter = new Thread(new ThreadStart(ServiceThreads.reportActions));
             reporter.Start();
-         
+
+            foreach (station s in DB.station.Select(x => x).ToList())
+            {
+                int[] bicycles = DB.dock.Where(x => x.station_id == s.station_id && x.holds_bicycle > 0).Select(x => x.holds_bicycle).ToArray();
+                int numFree = DB.dock.Where(x => x.station_id == s.station_id && x.holds_bicycle == 0).Count();
+                GlobalVariable.ActionQueue.Enqueue(() => ServiceThreads.syncDockStatus(bicycles, numFree, s.station_id));
+            }
         }
 
         //Timer for booking unlock window, invisible to users
@@ -316,7 +310,7 @@ namespace BicycleStation
         //Sends message to DB interface that a bicycle has been returned to a dock
         private void bicycleReturn(dock Dock)
         {
-            GlobalVariable.ActionQueue.Enqueue(() => ServiceThreads.bicycleReturnedReport(Dock.holds_bicycle, Dock.station_id, Dock.dock_id));
+            GlobalVariable.ActionQueue.Enqueue(() => ServiceThreads.bicycleReturnedReport(Dock.holds_bicycle, Dock.station_id));
         }
 
 
@@ -411,7 +405,6 @@ namespace BicycleStation
                                    where s.name == stationName
                                    select d).ToList();
             DockIdUpDown.Maximum = getDocks.Count();
-            
             int locked = 0;
             int unlocked = 0;
             foreach (dock d in getDocks)
@@ -436,6 +429,57 @@ namespace BicycleStation
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             GlobalVariable.running = false;
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            DatabaseConnection DB = new DatabaseConnection();
+            dock d = new dock();
+            string stationName = StationNameDropDown.SelectedItem.ToString();
+            int stationId = DB.station.Where(x => x.name == stationName).Select(x => x.station_id).FirstOrDefault();
+            d.is_locked = false;
+            d.station_id = stationId;
+            d.holds_bicycle = 0;
+            DB.dock.Add(d);
+            DB.SaveChanges();
+            
+            int[] bicycleIds = DB.dock.Where(x => x.station_id == stationId && x.holds_bicycle > 0).Select(x => x.holds_bicycle).ToArray();
+            int numFree = DB.dock.Where(x => x.station_id == stationId && x.holds_bicycle == 0).Count();
+            DB.Dispose();
+
+            GlobalVariable.ActionQueue.Enqueue(() => ServiceThreads.syncDockStatus(bicycleIds, numFree, stationId));
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            DatabaseConnection DB = new DatabaseConnection();
+            string stationName = StationNameDropDown.SelectedItem.ToString();
+            int stationId = DB.station.Where(x => x.name == stationName).Select(x => x.station_id).FirstOrDefault();
+            dock d = DB.dock.Where(x => x.station_id == stationId).OrderBy(x => x.dock_id).Skip((int)(DockIdUpDown.Value - 1)).FirstOrDefault();
+            DB.dock.Remove(d);
+            DB.SaveChanges();
+
+            int[] bicycleIds = DB.dock.Where(x => x.station_id == stationId && x.holds_bicycle > 0).Select(x => x.holds_bicycle).ToArray();
+            int numFree = DB.dock.Where(x => x.station_id == stationId && x.holds_bicycle == 0).Count();
+            DB.Dispose();
+            
+            GlobalVariable.ActionQueue.Enqueue(() => ServiceThreads.syncDockStatus(bicycleIds, numFree, stationId));
+        }
+
+        /* We cannot run GUI updates in these threads before it has finished loading (shown) */
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            //Creates a Tcp Listener to run in a different threat
+            //Listener listens for messages from the DB connection interface
+            MyTcpListener myTcpListener = new MyTcpListener(this);
+            Thread tcpListener = new Thread(new ThreadStart(myTcpListener.Listen));
+            tcpListener.Start();
+
+            //Creates lockManager thread
+            //Locs or unlocks docks based on time of bookings
+            LockManager lockManager = new LockManager(this);
+            Thread manager = new Thread(new ThreadStart(lockManager.manage));
+            manager.Start();
         }
 
     }

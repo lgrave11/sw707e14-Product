@@ -41,7 +41,6 @@
   <wsdl:message name="BicycleReturnedToDockAtStationRequest">
     <wsdl:part name="bicycle_id" type="xsd:int" />
     <wsdl:part name="station_id" type="xsd:int" />
-    <wsdl:part name="dock_id" type="xsd:int" />
   </wsdl:message>
   <wsdl:message name="BicycleReturnedToDockAtStationResponse">
     <wsdl:part name="return" type="xsd:boolean" />
@@ -57,6 +56,14 @@
   </wsdl:message>
   <wsdl:message name="GetAllBookingsForStationResponse">
     <wsdl:part name="return" type="tns:BookingObjectArray" />
+  </wsdl:message>
+  <wsdl:message name="SyncDockStatusRequest">
+    <wsdl:part name="bicycleIds" type="xsd:string" />
+    <wsdl:part name="numFree" type="xsd:int" />
+    <wsdl:part name="station_id" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="SyncDockStatusResponse">
+    <wsdl:part name="return" type="xsd:boolean" />
   </wsdl:message>
   <wsdl:portType name="StationToDB_ServicePortType">
     <wsdl:operation name="BicycleWithBookingUnlocked">
@@ -83,6 +90,11 @@
       <documentation>Get all bookings for station</documentation>
       <wsdl:input message="tns:GetAllBookingsForStationRequest" />
       <wsdl:output message="tns:GetAllBookingsForStationResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="SyncDockStatus">
+      <documentation>Synchronise the status of all docks and bicycles</documentation>
+      <wsdl:input message="tns:SyncDockStatusRequest" />
+      <wsdl:output message="tns:SyncDockStatusResponse" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="StationToDB_ServiceBinding" type="tns:StationToDB_ServicePortType">
@@ -130,6 +142,15 @@
       </wsdl:input>
       <wsdl:output>
         <soap:body use="encoded" namespace="urn:StationToDB_Service" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SyncDockStatus">
+      <soap:operation soapAction="urn:StationToDB_Service#soapaction" style="rpc" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="urn:StationToDB_Service" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="urn:StationToDB_Service" />
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
