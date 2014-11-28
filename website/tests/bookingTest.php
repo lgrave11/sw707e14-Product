@@ -28,14 +28,15 @@ class BookingTest extends PHPUnit_Framework_TestCase
 
 	public function testCreate()
 	{
+		$thetime = time() + 100;
 		//Arange
 		$account = new Account("username", "password", "mymail@mydomain.com", "01020304", "mytoken", "myresettime", "user");
 		$accountservice = new AccountService($this->db);
 		$accountservice->create($account);
-		$booking = new Booking(null, 1415690764, 16, 456189, $account->username, null);
+		$booking = new Booking(null, $thetime, 16, 456189, $account->username, null);
 		$bookingservice = new BookingService($this->db);
 		$booking = $bookingservice->create($booking);
-		$booking2 = new Booking(null, 1415690764, 16, 456189, $account->username);
+		$booking2 = new Booking(null, $thetime, 16, 456189, $account->username);
 		$booking3 = $bookingservice->create(clone $booking2);
 		
 		$testcreate = $bookingservice->create(13456);
@@ -70,7 +71,7 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$accountservice->create($account);
 		$booking = new Booking(null, 1415690764, 16, 456189, $account->username, null);
 		$bookingservice = new BookingService($this->db);
-		$booking = $bookingservice->create($booking);
+		$booking = $bookingservice->testcreate($booking);
 		$testread = $bookingservice->read("hej");
 
 		//Act
@@ -88,7 +89,7 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$this->assertNull($testread);
 
 		//Cleanup
-		$bookingservice->delete($booking);
+		$bookingservice->delete($booking, true);
 		
 	}
 
@@ -125,7 +126,7 @@ class BookingTest extends PHPUnit_Framework_TestCase
 
         //Cleanup
         $accountservice->delete($account);
-        $bookingservice->delete($booking2);
+        $bookingservice->delete($booking2, true);
 
 	}
 
@@ -137,10 +138,10 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$accountservice->create($account);
 		$booking = new Booking(null, 1415690764, 16, 456189, $account->username, null);
 		$bookingservice = new BookingService($this->db);
-		$booking = $bookingservice->create($booking);
+		$booking = $bookingservice->testcreate($booking);
 
 		$booking2 = $bookingservice->read($booking->booking_id);
-		$bookingservice->delete($booking);
+		$bookingservice->delete($booking, true);
 		$booking3 = $bookingservice->read($booking_booking_id);
 
 		//Test
@@ -164,7 +165,7 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$accountservice->create($account);
 		$booking = new Booking(null, 1415690764, 16, 456189, $account->username, null);
 		$bookingservice = new BookingService($this->db);
-		$booking = $bookingservice->create($booking);
+		$booking = $bookingservice->testcreate($booking);
 
 		$test = $bookingservice->validate($booking);
 		//Instance data
@@ -212,7 +213,7 @@ class BookingTest extends PHPUnit_Framework_TestCase
 
 		//Cleanup
 		$stationservice->deleteForTest($station);
-		$bookingservice->delete($booking);
+		$bookingservice->delete($booking, true);
 		$accountservice->delete($account);
 	}
 
@@ -230,9 +231,9 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$booking3 = new Booking(null, 1415846952, 3, 268796, $account2->username, null);
 		$booking4 = new Booking(null, 1415691764, 2, 644934, $account2->username, null);
 		$bookingservice = new BookingService($this->db);
-		$booking1 = $bookingservice->create($booking1);
-		$booking2 = $bookingservice->create($booking2);
-		$booking3 = $bookingservice->create($booking3);
+		$booking1 = $bookingservice->testcreate($booking1);
+		$booking2 = $bookingservice->testcreate($booking2);
+		$booking3 = $bookingservice->testcreate($booking3);
 		$stationservice = new StationService($this->db);
 		$station1 = $stationservice->read($booking1->start_station);
 		$station2 = $stationservice->read($booking2->start_station);
@@ -243,7 +244,7 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$result1 = $bookingservice->getBookings($account2->username);
 		$mappedresult1 = array_map(function($x) {return json_encode($x); }, $result1);
 
-		$booking4 = $bookingservice->create($booking4);
+		$booking4 = $bookingservice->testcreate($booking4);
 		$result2 = $bookingservice->getBookings($account2->username);
 		$mappedresult2 = array_map(function($x) {return json_encode($x); }, $result2);
 
@@ -259,10 +260,10 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$this->assertCount(3, $mappedresult2);
 
 		//Cleanup
-		$bookingservice->delete($booking1);
-		$bookingservice->delete($booking2);
-		$bookingservice->delete($booking3);
-		$bookingservice->delete($booking4);
+		$bookingservice->delete($booking1, true);
+		$bookingservice->delete($booking2, true);
+		$bookingservice->delete($booking3, true);
+		$bookingservice->delete($booking4, true);
 		$accountservice->delete($account1);
 		$accountservice->delete($account2);
 
@@ -281,9 +282,9 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$booking3 = new Booking(null, 1415846952, 3, 268796, $account2->username, null);
 		$booking4 = new Booking(null, 1415691764, 2, 644934, $account2->username, null);
 		$bookingservice = new BookingService($this->db);
-		$booking1 = $bookingservice->create($booking1);
-		$booking2 = $bookingservice->create($booking2);
-		$booking3 = $bookingservice->create($booking3);
+		$booking1 = $bookingservice->testcreate($booking1);
+		$booking2 = $bookingservice->testcreate($booking2);
+		$booking3 = $bookingservice->testcreate($booking3);
 		$stationservice = new StationService($this->db);
 		$station1 = $stationservice->read($booking1->start_station);
 		$station2 = $stationservice->read($booking2->start_station);
@@ -296,7 +297,7 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$test1 = json_encode(array($booking2, $station2->name));
 		$test2 = json_encode(array($booking3, $station3->name));
 		
-		$booking4 = $bookingservice->create($booking4);
+		$booking4 = $bookingservice->testcreate($booking4);
 		$result2 = $bookingservice->getActiveBookings($account2->username);
 		$mappedresult2 = array_map(function($x) {return json_encode($x); }, $result2);
 		$test3 = json_encode(array($booking4, $station4->name));
@@ -312,10 +313,10 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$this->assertCount(3, $mappedresult2);
 
 		//Cleanup
-		$bookingservice->delete($booking1);
-		$bookingservice->delete($booking2);
-		$bookingservice->delete($booking3);
-		$bookingservice->delete($booking4);
+		$bookingservice->delete($booking1, true);
+		$bookingservice->delete($booking2, true);
+		$bookingservice->delete($booking3, true);
+		$bookingservice->delete($booking4, true);
 		$accountservice->delete($account1);
 		$accountservice->delete($account2);
 
@@ -329,16 +330,17 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$accountservice = new AccountService($this->db);
 		$accountservice->create($account1);
 		$accountservice->create($account2);
+		$futuretime = time() + 100;
 		$booking1 = new Booking(null, 1, 16, 456189, $account1->username, null); //1 2 3 and 4 are all small unix times :)
 		$booking2 = new Booking(null, 2, 1, 134796, $account2->username, null);
 		$booking3 = new Booking(null, 3, 3, 268796, $account2->username, null);
 		$booking4 = new Booking(null, 4, 2, 644934, $account2->username, null);
-		$booking5 = new Booking(null, 9999999999, 2, 644934, $account2->username, null);
+		$booking5 = new Booking(null, $futuretime, 2, 644934, $account2->username, null);
 		$bookingservice = new BookingService($this->db);
-		$booking1 = $bookingservice->create($booking1);
-		$booking2 = $bookingservice->create($booking2);
-		$booking3 = $bookingservice->create($booking3);
-		$booking5 = $bookingservice->create($booking5);
+		$booking1 = $bookingservice->testcreate($booking1);
+		$booking2 = $bookingservice->testcreate($booking2);
+		$booking3 = $bookingservice->testcreate($booking3);
+		$booking5 = $bookingservice->testcreate($booking5);
 		$stationservice = new StationService($this->db);
 		$station1 = $stationservice->read($booking1->start_station);
 		$station2 = $stationservice->read($booking2->start_station);
@@ -349,7 +351,7 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$result1 = $bookingservice->getOldBookings($account2->username);
 		$mappedresult1 = array_map(function($x) {return json_encode($x); }, $result1);
 
-		$booking4 = $bookingservice->create($booking4);
+		$booking4 = $bookingservice->testcreate($booking4);
 		$result2 = $bookingservice->getOldBookings($account2->username);
 		$mappedresult2 = array_map(function($x) {return json_encode($x); }, $result2);
 
@@ -365,11 +367,11 @@ class BookingTest extends PHPUnit_Framework_TestCase
 		$this->assertCount(3, $mappedresult2);
 
 		//Cleanup
-		$bookingservice->delete($booking1);
-		$bookingservice->delete($booking2);
-		$bookingservice->delete($booking3);
-		$bookingservice->delete($booking4);
-		$bookingservice->delete($booking5);
+		$bookingservice->delete($booking1, true);
+		$bookingservice->delete($booking2, true);
+		$bookingservice->delete($booking3, true);
+		$bookingservice->delete($booking4, true);
+		$bookingservice->delete($booking5, true);
 		$accountservice->delete($account1);
 		$accountservice->delete($account2);
 	}
