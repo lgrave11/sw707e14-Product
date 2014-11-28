@@ -1,5 +1,7 @@
 <?php 
+ob_start();
 require_once '../website/interface/gpsregister.php';
+ob_end_clean();
 class GPSRegisterTest extends PHPUnit_Framework_TestCase 
 {   
     private $db = null;

@@ -23,60 +23,67 @@ namespace BicycleStation
 
         public void performAction()
         {
-            if (action == "booking")
+            try
             {
-                booking b = new booking()
-                {
-                    booking_id = booking_id,
-                    password = password,
-                    start_station = start_station,
-                    start_time = start_time
-                };
 
-                DB.booking.Add(b);
-                DB.SaveChanges();
-            }
-            else if (action == "unbooking")
-            {
-                booking toRemove = (from b in DB.booking
-                                   where b.booking_id == booking_id
-                                   select b).Single();
 
-                //Current time in Unix format
-                Int32 currentTime = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-                if (!(toRemove.start_time < currentTime + TIMEBEFORE))
+                if (action == "booking")
                 {
-                    dock toUnlock = (from d in DB.dock
-                                     where d.is_locked && d.station_id == toRemove.start_station
-                                     select d).First();
-                    toUnlock.is_locked = false;
+                    booking b = new booking()
+                    {
+                        booking_id = booking_id,
+                        password = password,
+                        start_station = start_station,
+                        start_time = start_time
+                    };
+
+                    DB.booking.Add(b);
+                    DB.SaveChanges();
                 }
-
-                DB.booking.Remove(toRemove);
-                DB.SaveChanges();
-            }
-            else if (action == "addDock") 
-            {
-                dock d = new dock()
+                else if (action == "unbooking")
                 {
-                    station_id = this.station_id
-                };
+                    booking toRemove = (from b in DB.booking
+                                        where b.booking_id == booking_id
+                                        select b).Single();
 
-                DB.dock.Add(d);
-                DB.SaveChanges();
-            }
-            else if (action == "removeDock")
-            {
-                dock toRemove = (from d in DB.dock
-                                 where d.dock_id == dock_id
-                                 orderby d.dock_id
-                                 select d).ToList().Last();
+                    //Current time in Unix format
+                    Int32 currentTime = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+                    if (!(toRemove.start_time < currentTime + TIMEBEFORE))
+                    {
+                        dock toUnlock = (from d in DB.dock
+                                         where d.is_locked && d.station_id == toRemove.start_station
+                                         select d).First();
+                        toUnlock.is_locked = false;
+                    }
 
-                DB.dock.Remove(toRemove);
-                DB.SaveChanges();
+                    DB.booking.Remove(toRemove);
+                    DB.SaveChanges();
+                }
+                else if (action == "addDock")
+                {
+                    dock d = new dock()
+                    {
+                        station_id = this.station_id
+                    };
+
+                    DB.dock.Add(d);
+                    DB.SaveChanges();
+                }
+                else if (action == "removeDock")
+                {
+                    dock toRemove = (from d in DB.dock
+                                     where d.dock_id == dock_id
+                                     orderby d.dock_id
+                                     select d).ToList().Last();
+
+                    DB.dock.Remove(toRemove);
+                    DB.SaveChanges();
+                }
+                else
+                    return;
             }
-            else
-                return;
+            catch(Exception e)
+            { }
         }
     }
 }

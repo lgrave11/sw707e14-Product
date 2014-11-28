@@ -1,6 +1,8 @@
 <?php 
 //require '../website/application/config/config.php';
+ob_start();
 require '../website/interface/stationtodbregister.php';
+ob_end_clean();
 class StationToDbRegisterTest extends PHPUnit_Framework_TestCase 
 {   
     private $db = null;

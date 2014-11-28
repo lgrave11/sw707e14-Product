@@ -236,7 +236,9 @@ class BookingService implements iService
     	$stmt->bind_result($station_id);
     	$stmt->fetch();
     	$stmt->close();
-        if(WebsiteToStationNotifier::notifyStationUnbooking($station_id, $booking_id) || $deleteLocallyOnly){
+        if($station_id == null || $booking_id == null)
+            return 0;
+        if( $deleteLocallyOnly || WebsiteToStationNotifier::notifyStationUnbooking($station_id, $booking_id)){
 	        $stmt = $this->db->prepare("DELETE FROM booking WHERE booking_id = ?");
 	        $stmt->bind_param("i", $booking_id);
 	        $stmt->execute();
@@ -246,6 +248,30 @@ class BookingService implements iService
         }
      
         return 0;
+    }
+
+    public function testcreate($booking)
+    {
+        if($this->validate($booking))
+        {
+            $stmt = $this->db->prepare("INSERT INTO booking(start_time, start_station, password, for_user) VALUES (?,?,?,?)");
+            $stmt->bind_param("iiss",
+                $booking->start_time,
+                $booking->start_station,
+                $booking->password,
+                $booking->for_user);
+
+            $stmt->execute();
+            $booking->booking_id = $stmt->insert_id;
+            $stmt->close();
+            
+
+            return $booking;
+        }
+        else
+        {
+            return null;
+        }
     }
 }
 ?>
