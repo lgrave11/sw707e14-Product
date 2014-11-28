@@ -1,4 +1,5 @@
 <div id="chart" style="height: 400px; width: 880px;"></div>
+<div style="0 auto;"><p style="text-align: center;font-size:14px;"><b>Time</b></p></div>
 
 <script type="text/javascript" src="/public/js/amcharts.js"></script>
 <script type="text/javascript" src="/public/js/serial.js"></script>
