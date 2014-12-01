@@ -493,6 +493,7 @@ class Admin extends Controller
     // Just a proof of concept.
     public function cluster() 
     {
+        Tools::requireAdmin();
         $jsFiles = [];
         $navbarChosen = "Add/Remove";
         $this->title = "Add/Remove";
@@ -517,6 +518,43 @@ class Admin extends Controller
         require 'application/views/_templates/adminheader.php';
         require 'application/views/admin/admincluster.php';
         require 'application/views/_templates/footer.php';
+    }
+    
+    public function overview() 
+    {
+        Tools::requireAdmin();
+        $jsFiles = ["overview"];
+        $navbarChosen = "Station Overview";
+        $this->title = "Station Overview";
+        $dockService = new DockService($this->db);
+        $stationService = new StationService($this->db);
+        $allStations = $stationService->readAllStations();
+        $allDocks = array();
+        
+        $allStationInformation = array();
+        
+        $availableBicyclesAtStations = $stationService->readAllAvailableBicycles();
+        $availableDocksAtStations = $stationService->readAllAvailableDocks();
+        foreach($allStations as $s) 
+        {
+           
+            $station = new stdClass();
+            $station->station_id = $s->station_id;
+            $station->name = $s->name;
+            $station->latitude = $s->latitude;
+            $station->longitude = $s->longitude;
+            $station->allDocks =  $dockService->readAllDocksForStation($s->station_id);
+            $station->allDocksCount = count($station->allDocks);
+            $station->availableBicycles = $availableBicyclesAtStations[$s->station_id];
+            $station->availableDocks = $availableDocksAtStations[$s->station_id];
+            $station->lockedBicycles = $station->allDocksCount - $station->availableBicycles - $station->availableDocks;
+            $allStationInformation[$s->station_id] = $station;
+        }
+        
+        require 'application/views/_templates/adminheader.php';
+        require 'application/views/admin/overviewstations.php';
+        require 'application/views/_templates/footer.php';
+        
     }
     
 }

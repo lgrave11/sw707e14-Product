@@ -53,14 +53,22 @@
             } else { echo '<td>'; }
             ?>
 			<!-- <a href="/Admin/BookingRoutes">Booking Routes</a>
-			</td>
+			</td> -->
             
             <?php if($navbarChosen == "Add/Remove") {
 			echo '<td id="selectedNav">';
             } else { echo '<td>'; }
-            ?> -->
+            ?>
 				<a href="/Admin/AddRemove">Add/Remove</a>
 			</td>
+            
+            <?php if($navbarChosen == "Station Overview") {
+			echo '<td id="selectedNav">';
+            } else { echo '<td>'; }
+            ?>
+				<a href="/Admin/Overview">Station Overview</a>
+			</td>
+            
             <td>
                 <a href="/">Home</a>
             </td>

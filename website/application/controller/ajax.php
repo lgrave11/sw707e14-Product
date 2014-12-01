@@ -26,6 +26,12 @@ class Ajax extends Controller {
     	echo json_encode($stations);
     }
     
+    public function getStationStatus($station_id)
+    {
+        Tools::requireAdmin();
+        echo WebsiteToStationNotifier::checkStationStatus($station_id) ? "Online" : "Offline";
+    }
+    
     public function getStationOptions() {
         $stationservice = new StationService($this->db);
         $stations = $stationservice->readAllStations();

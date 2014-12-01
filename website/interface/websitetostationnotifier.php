@@ -62,6 +62,18 @@
 
             return false;
         }
+        
+        // Returns true if online, false if offline.
+        public static function checkStationStatus($station_id){
+            $sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+            $ip = self::getStationIP($station_id);
+
+            if(self::checkIpOnline($ip, self::$port)){
+                return true;
+            }
+
+            return false;
+        }
 
         private static function checkIpOnline($ip, $port){
             error_reporting(0);
