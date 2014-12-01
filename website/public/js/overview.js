@@ -1,13 +1,23 @@
+requests = [];
+
+function abortRequests() 
+{
+    requests.forEach(function(x) {
+        x.abort();
+    });
+}
+
 $(document).ready(function() {
     ids.forEach(function(x) {
         updateStationStatus(x)
     });
-    
+    $("a").click(abortRequests);
 });
 
 function updateStationStatus(station_id) {
     var result = $.ajax({
         url: "/Ajax/GetStationStatus/" + station_id,
+        
     }).success(function() {
         console.log(result.responseText);
         if(result.responseText == "Online") 
@@ -22,4 +32,6 @@ function updateStationStatus(station_id) {
         }
         
     });
+    requests.push(result);
+    
 }
