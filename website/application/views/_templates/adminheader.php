@@ -48,11 +48,11 @@
             ?>
 				<a href="/Admin/RouteHistory">Route History</a>
 			</td>
-            <?php if($navbarChosen == "Booking Routes") {
+            <!-- <?php if($navbarChosen == "Booking Routes") {
 			echo '<td id="selectedNav">';
             } else { echo '<td>'; }
             ?>
-			<!-- <a href="/Admin/BookingRoutes">Booking Routes</a>
+			<a href="/Admin/BookingRoutes">Booking Routes</a>
 			</td> -->
             
             <?php if($navbarChosen == "Add/Remove") {
