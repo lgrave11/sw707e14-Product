@@ -29,9 +29,9 @@
             
         }
         
-        public static function notifyStationBooking($station_id, $booking_id, $start_time, $password)
+        public static function notifyStationBooking($station_id, $booking_id, $start_time, $password, $timemade)
         {
-            $message = self::makeJson("booking", $station_id, $booking_id, $start_time, $password);
+            $message = self::makeJson("booking", $station_id, $booking_id, $start_time, $password, $timemade);
             $sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
             $ip = self::getStationIP($station_id);
 
@@ -48,7 +48,7 @@
     
         public static function notifyStationUnbooking($station_id, $booking_id)
         {
-            $message = self::makeJson("unbooking", $station_id, $booking_id, null, null);  
+            $message = self::makeJson("unbooking", $station_id, $booking_id);  
             $sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
             $ip = self::getStationIP($station_id);
 
@@ -92,7 +92,7 @@
             return json_encode($to_add_class);
         }
 
-        private static function makeJson($action, $station_id, $booking_id, $start_time, $password)
+        private static function makeJson($action, $station_id, $booking_id, $start_time = null, $password = null, $timemade = null)
         {
             $to_add_class = new stdclass();
             $to_add_class->action = $action;
@@ -102,6 +102,7 @@
             {
             	$to_add_class->start_time = $start_time;
             	$to_add_class->password = $password;
+                $to_add_class->timemade = $timemade;
             }
             
             return json_encode($to_add_class);

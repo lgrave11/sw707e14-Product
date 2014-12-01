@@ -7,7 +7,8 @@ CREATE TABLE IF NOT EXISTS `booking` (
   `booking_id` int(11) PRIMARY KEY,
   `start_time` bigint(20) NOT NULL,
   `password` int(6) NOT NULL,
-  `start_station` int(11) NOT NULL
+  `start_station` int(11) NOT NULL,
+  `timemade` int(20) NOT NULL
 );
 
 

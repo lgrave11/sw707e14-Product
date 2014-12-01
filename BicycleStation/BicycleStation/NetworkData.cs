@@ -16,6 +16,7 @@ namespace BicycleStation
         public int start_station { get; set; }
         public int password { get; set; }
         public int start_time { get; set; }
+        public int timemade { get; set; }
         public int dock_id { get; set; }
         public int station_id { get; set; }
 
@@ -34,7 +35,8 @@ namespace BicycleStation
                         booking_id = booking_id,
                         password = password,
                         start_station = start_station,
-                        start_time = start_time
+                        start_time = start_time,
+                        timemade = timemade
                     };
 
                     DB.booking.Add(b);

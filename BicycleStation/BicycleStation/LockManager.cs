@@ -45,7 +45,7 @@ namespace BicycleStation
                 //Bookings that start in less than an hour
                 List<booking> bookings = (from b in DB.booking
                                           where b.start_time < currentTime + TIMEBEFORE
-                                          select b).ToList();
+                                          select b).OrderBy(x => x.start_time).ThenBy(x => x.timemade).ToList();
                 List<booking> notUnlocked = new List<booking>();
 
                 foreach (booking b in bookings)
@@ -56,9 +56,8 @@ namespace BicycleStation
                 foreach (booking b in notUnlocked)
                     bookings.Remove(b);
 
-
                 //Bookings used this iteration are stored to avoid locking docks for them at each iteration
-                prevousBookings = bookings;
+                prevousBookings = bookings.ToList();
 
                 //Updates UI in main thread
                 GUI.BeginInvoke(new InvokeDelegate(GUI.updateUI));
@@ -83,7 +82,7 @@ namespace BicycleStation
                           where d.station_id == bookingStation && d.is_locked == false && d.holds_bicycle > 0
                           select d).First();
             }
-            catch (Exception) { }
+            catch (Exception) { return returnval; }
 
             if (toLock != null)
             {

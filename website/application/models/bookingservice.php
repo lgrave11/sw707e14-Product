@@ -16,18 +16,20 @@ class BookingService implements iService
     {
         if($this->validate($booking))
         {
-            $stmt = $this->db->prepare("INSERT INTO booking(start_time, start_station, password, for_user) VALUES (?,?,?,?)");
-            $stmt->bind_param("iiss",
+            $timemade = time();
+            $stmt = $this->db->prepare("INSERT INTO booking(start_time, start_station, password, for_user, timemade) VALUES (?,?,?,?,?)");
+            $stmt->bind_param("iissi",
                 $booking->start_time,
                 $booking->start_station,
                 $booking->password,
-                $booking->for_user);
+                $booking->for_user,
+                $timemade);
 
             $stmt->execute();
             $booking->booking_id = $stmt->insert_id;
             $stmt->close();
 
-            if(!WebsiteToStationNotifier::notifyStationBooking($booking->start_station, $booking->booking_id, $booking->start_time, $booking->password)){
+            if(!WebsiteToStationNotifier::notifyStationBooking($booking->start_station, $booking->booking_id, $booking->start_time, $booking->password, $timemade)){
             	$this->delete($booking, true);
             	return null;
             }

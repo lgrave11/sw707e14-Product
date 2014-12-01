@@ -57,6 +57,7 @@ CREATE TABLE booking
 	password int(6),
 	for_user varchar(50),
 	used_bicycle int NULL,
+    timemade bigint NOT NULL,
 	FOREIGN KEY(start_station) REFERENCES station(station_id) ON DELETE CASCADE,
 	FOREIGN KEY(for_user) REFERENCES account(username) ON DELETE SET NULL,
 	FOREIGN KEY(used_bicycle) REFERENCES bicycle(bicycle_id) ON DELETE CASCADE

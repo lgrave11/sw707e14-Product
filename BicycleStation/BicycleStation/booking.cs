@@ -18,5 +18,6 @@ namespace BicycleStation
         public long start_time { get; set; }
         public int password { get; set; }
         public int start_station { get; set; }
+        public int timemade { get; set; }
     }
 }
