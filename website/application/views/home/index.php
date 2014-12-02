@@ -4,8 +4,8 @@
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 <script src="/public/js/googleapi.js"></script>
 <div id="map-container">
-<div id="map-canvas"></div>
-<div id="mapinfo">
+	<div id="map-canvas"></div>
+	<div id="mapinfo">
 		<div class="centerblock">
 			<h1>Book</h1>
             <div id="messages">

@@ -7,7 +7,7 @@
   height: 600px;
   width: 600px;
   margin: 0px 10px 10px 10px;
-  float: left;
+  float: right;
 }
 
 #map-canvasFullSize {
@@ -17,9 +17,9 @@
 }
 
 #mapinfo {
-    float: right;
+    float: left;
     width: 250px;
-    margin-right: 10px;
+    margin-left: 10px;
     position: relative;
 }
 
