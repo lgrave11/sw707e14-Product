@@ -17,7 +17,7 @@ function initialize() {
         zoomControlOptions: {
             style: google.maps.ZoomControlStyle.LARGE,
             position: google.maps.ControlPosition.RIGHT_TOP,
-        },
+        }
     };
 
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
