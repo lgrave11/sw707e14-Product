@@ -17,6 +17,7 @@ foreach($allStationInformation as $station){
     echo '<fieldset><legend><b>' . $station->name . '</b></legend>';
     echo '<ul>';
     echo '<li> Status: <strong style="color:gray;" class="status" id="station' . $station->station_id . '">Not Checked</strong></li>';
+    echo '<li> Station ID: ' . $station->station_id . '</li>';
     echo '<li> Latitude: ' . $station->latitude . '</li>';
     echo '<li> Longitude: ' . $station->longitude . '</li>';
     echo '<li> Total Docks: ' . $station->allDocksCount . '</li>';
