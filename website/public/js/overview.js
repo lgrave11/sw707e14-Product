@@ -7,12 +7,13 @@ function abortRequests()
     });
 }
 
-$(document).ready(function() {
+function updateAllStationStatus() 
+{
     ids.forEach(function(x) {
         updateStationStatus(x)
     });
     $("a").click(abortRequests);
-});
+}
 
 function updateStationStatus(station_id) {
     var result = $.ajax({

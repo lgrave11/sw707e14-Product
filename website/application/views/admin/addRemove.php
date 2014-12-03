@@ -22,7 +22,7 @@
                 </select>
             </li>
         </ul>
-        <input class="button" id="button" type="submit" name="addUserBtnSubmit" value="Submit">
+        <input class="button" id="button" type="submit" name="addUserBtnSubmit" value="Add">
     </fieldset>
 </form></div>
 
@@ -42,14 +42,14 @@
         </select>
     </li>
     </ul>
-    <input class="button" id="button" type="submit" name="removeUserBtnSubmit" value="Submit"> 
+    <input class="button" id="button" type="submit" name="removeUserBtnSubmit" value="Remove"> 
     </fieldset>
 </form></div>
 
 <div><form action="/Admin/AddBicycle/" method="post">
     <fieldset>
     <legend><b>Add bicycle</b></legend>
-    <input class="button" id="button" type="submit" name="addBicycleBtnSubmit" value="Submit"> 
+    <input class="button" id="button" type="submit" name="addBicycleBtnSubmit" value="Add"> 
     </fieldset>
 </form></div>
 
@@ -69,7 +69,7 @@
     </select>
     </li>
     </ul>
-    <input class="button" id="button" type="submit" name="removeBicycleBtnSubmit" value="Submit"> 
+    <input class="button" id="button" type="submit" name="removeBicycleBtnSubmit" value="Remove"> 
     </fieldset>
 </form></div>
 <!--
@@ -89,7 +89,7 @@
     </select>
     </li>
     </ul>
-    <input class="button" id="button" type="submit" name="addDockBtnSubmit" value="Submit"> 
+    <input class="button" id="button" type="submit" name="addDockBtnSubmit" value="Add"> 
     </fieldset>
 </form></div>
 
@@ -110,7 +110,7 @@
     </select>
     </li>
     </ul>
-    <input class="button" id="button" type="submit" name="removeDockBtnSubmit" value="Submit"> 
+    <input class="button" id="button" type="submit" name="removeDockBtnSubmit" value="Remove"> 
     </fieldset>
 </form></div>-->
 
@@ -124,7 +124,7 @@
     <li><label for="addStationLongitude">Longitude: </label><input type="text" name="longitude" id="addStationLongitude"></li>
     <li><label for="addStationIpAdress">IP address: </label><input type="text" name="ipaddress" id="addStationIpAdress"></li>
     </ul>
-    <input class="button" id="button" type="submit" name="addStationBtnSubmit" value="Submit"> 
+    <input class="button" id="button" type="submit" name="addStationBtnSubmit" value="Add"> 
     </fieldset>
 </form></div>
 
@@ -145,7 +145,7 @@
     </select>
     </li>
     </ul>
-    <input class="button" id="button" type="button" name="removeStationBtnSubmit" onclick="fnOpenNormalDialog();" value="Submit"> 
+    <input class="button" id="button" type="button" name="removeStationBtnSubmit" onclick="fnOpenNormalDialog();" value="Remove"> 
     </fieldset>
 </form></div>
 </div>
