@@ -97,14 +97,14 @@ class BicycleServiceTest extends PHPUnit_Framework_TestCase
 	public function testReadAllBicyclesWithRoute(){
 		$bicycleService = new BicycleService($this->db);
 		$b = $bicycleService->create(new Bicycle(null, 50, 50));
-		$stmt = $this->db->prepare("INSERT INTO historylocationbicycle(bicycle_id,timeforlocation,latitude,longitude) VALUE (?,100,50,50)");
+		$stmt = $this->db->prepare("INSERT INTO historyusagelocation(bicycle_id,timeforlocation,latitude,longitude) VALUE (?,100,50,50)");
 		$stmt->bind_param("i",$b->bicycle_id);
 		$stmt->execute();
 		$stmt->close();
 
 		$array = $bicycleService->readAllBicyclesWithRoute();
 
-		$stmt = $this->db->prepare("DELETE FROM historylocationbicycle WHERE bicycle_id = ?");
+		$stmt = $this->db->prepare("DELETE FROM historyusagelocation WHERE bicycle_id = ?");
 		$stmt->bind_param("i",$b->bicycle_id);
 		$stmt->execute();
 		$stmt->close();
@@ -125,7 +125,7 @@ class BicycleServiceTest extends PHPUnit_Framework_TestCase
 		$bicycleService = new BicycleService($this->db);
 
 		$b = $bicycleService->create(new Bicycle(null, 50, 50));
-		$stmt = $this->db->prepare("INSERT INTO historylocationbicycle(bicycle_id,timeforlocation,latitude,longitude) VALUE (?,?,50,50)");
+		$stmt = $this->db->prepare("INSERT INTO historyusagelocation(bicycle_id,timeforlocation,latitude,longitude) VALUE (?,?,50,50)");
         $t = time();
 		$stmt->bind_param("ii",$b->bicycle_id, $t);
 		$stmt->execute();
@@ -135,7 +135,7 @@ class BicycleServiceTest extends PHPUnit_Framework_TestCase
 		$toTime = $t + 60;
 		$array = $bicycleService->readBicyclePositions($b->bicycle_id,$fromTime,$toTime);
 		
-		$stmt = $this->db->prepare("DELETE FROM historylocationbicycle WHERE bicycle_id = ?");
+		$stmt = $this->db->prepare("DELETE FROM historyusagelocation WHERE bicycle_id = ?");
 		$stmt->bind_param("i",$b->bicycle_id);
 		$stmt->execute();
 		$stmt->close();
