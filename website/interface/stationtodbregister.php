@@ -64,7 +64,12 @@
         $stmt = $db->prepare("UPDATE dock SET holds_bicycle = NULL WHERE station_id = ? AND holds_bicycle = ?");
         $stmt->bind_param("ii", $station_id, $bicycle_id);
         $stmt->execute();
+        $affected_rows = $stmt->affected_rows;
         $stmt->close();
+
+        if($affected_rows == 0){
+            return false;
+        }
         
         if ($booking_id == 0)
             $booking_id = NULL;
@@ -87,15 +92,14 @@
     
     function GetCurrentBicycleCount($station_id) {
         global $db;
-        
         $stmt = $db->prepare("SELECT num_bicycles FROM historyusagestation WHERE station_id = ? ORDER BY id DESC LIMIT 1");
         $stmt->bind_param("i", $station_id);
         $stmt->execute();
         $stmt->bind_result($numBicycles);
         $stmt->fetch();
         $stmt->close();
-        
         return $numBicycles;
+        
     }
     
     

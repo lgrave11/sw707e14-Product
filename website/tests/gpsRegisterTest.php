@@ -14,7 +14,9 @@ class GPSRegisterTest extends PHPUnit_Framework_TestCase
 
     public function testRegisterGPS() 
     {
-
+        global $db;
+        $db = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+        mysqli_set_charset($db, "utf8");
         $bicycleService = new BicycleService($this->db);
 
         $id = 1;
