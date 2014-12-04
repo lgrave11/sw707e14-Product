@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS historylocationbicycle CASCADE;
+DROP TABLE IF EXISTS historyusagelocation CASCADE;
 DROP TABLE IF EXISTS historyusagestation CASCADE;
 DROP TABLE IF EXISTS historyusagebicycle CASCADE;
 DROP TABLE IF EXISTS books CASCADE;
@@ -63,7 +63,7 @@ CREATE TABLE booking
 	FOREIGN KEY(used_bicycle) REFERENCES bicycle(bicycle_id) ON DELETE CASCADE
 );
 
-CREATE TABLE historylocationbicycle
+CREATE TABLE historyusagelocation
 (
 	bicycle_id int,
 	timeforlocation bigint,

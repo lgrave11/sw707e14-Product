@@ -61,7 +61,7 @@ class BicycleService implements iService
     // All bicycles should have a longitude and latitude after they have been used the first time.
     public function readAllBicyclesWithRoute(){
         $returnArray = array();
-        $stmt = $this->db->prepare("SELECT DISTINCT bicycle_id FROM historylocationbicycle");
+        $stmt = $this->db->prepare("SELECT DISTINCT bicycle_id FROM historyusagelocation");
         $stmt->execute();
         $stmt->bind_result($bicycle_id);
         while($stmt->fetch()){
@@ -98,7 +98,7 @@ class BicycleService implements iService
     public function readBicyclePositions($bicycle_id, $from_time, $to_time) 
     {
         $returnArray = array();
-        $stmt = $this->db->prepare("SELECT latitude, longitude FROM historylocationbicycle WHERE bicycle_id = ? AND (timeforlocation BETWEEN ? AND ?) ORDER BY timeforlocation ASC");
+        $stmt = $this->db->prepare("SELECT latitude, longitude FROM historyusagelocation WHERE bicycle_id = ? AND (timeforlocation BETWEEN ? AND ?) ORDER BY timeforlocation ASC");
         $stmt->bind_param("iii", $bicycle_id, $from_time, $to_time);
         $stmt->execute();
         $stmt->bind_result($latitude, $longitude);
@@ -117,7 +117,7 @@ class BicycleService implements iService
         $returnArray = array();
         $stmt = $this->db->prepare("SELECT DISTINCT bicycle_id, booking_id
                                     FROM historyusagebicycle
-                                    WHERE booking_id IS NOT NULL AND booking_id != 0 AND bicycle_id IN (SELECT DISTINCT bicycle_id FROM historylocationbicycle)");
+                                    WHERE booking_id IS NOT NULL AND booking_id != 0 AND bicycle_id IN (SELECT DISTINCT bicycle_id FROM historyusagelocation)");
         $stmt->execute();
         $stmt->bind_result($bicycle_id, $booking_id);
         while($stmt->fetch()){
@@ -134,13 +134,13 @@ class BicycleService implements iService
     public function readBicyclePositionsWithBooking($bicycle_id, $booking_id)
     {
         $returnArray = array();
-        $stmt = $this->db->prepare("SELECT historylocationbicycle.latitude, historylocationbicycle.longitude 
-                                    FROM historylocationbicycle JOIN historyusagebicycle ON historylocationbicycle.bicycle_id = historyusagebicycle.bicycle_id
+        $stmt = $this->db->prepare("SELECT historyusagelocation.latitude, historyusagelocation.longitude 
+                                    FROM historyusagelocation JOIN historyusagebicycle ON historyusagelocation.bicycle_id = historyusagebicycle.bicycle_id
                                     WHERE historyusagebicycle.booking_id IS NOT NULL AND historyusagebicycle.end_time IS NOT NULL AND
-                                          historylocationbicycle.bicycle_id = ? AND 
+                                          historyusagelocation.bicycle_id = ? AND 
                                           historyusagebicycle.booking_id = ? AND
-                                          historylocationbicycle.timeforlocation BETWEEN historyusagebicycle.start_time AND historyusagebicycle.end_time
-                                    ORDER BY historylocationbicycle.timeforlocation ASC");             
+                                          historyusagelocation.timeforlocation BETWEEN historyusagebicycle.start_time AND historyusagebicycle.end_time
+                                    ORDER BY historyusagelocation.timeforlocation ASC");             
         $stmt->bind_param("ii", $bicycle_id, $booking_id);
         $stmt->execute();
         $stmt->bind_result($latitude, $longitude);

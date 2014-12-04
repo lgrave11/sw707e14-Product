@@ -14,30 +14,32 @@
 	ViewHelper::printError('mapRoutes');
 	ViewHelper::printSuccess('mapRoutes');
 ?>
-<form action="/Admin/RouteHistoryForm/" method="post">
-	<h2>Bicycles</h2>
-	<select size=<?php echo (count($list) > 5 ? 5 : count($list)); ?> style='height: 100%;' name="bicycles[]" multiple id="mapRoutesSelect">
-        <?php
-            foreach($list as $l) 
-            {
-                echo ViewHelper::generateHTMLSelectOption($l);
-            }
-            
-        ?>
-    </select><br />
-	<br />
-	<?php require 'application/views/admin/timeintervalpicker.php'; ?>
+<div class="formcontainer">
+    <form action="/Admin/RouteHistoryForm/" method="post">
+        <h2>Bicycles</h2>
+        <select size=<?php echo (count($list) > 5 ? 5 : count($list)); ?> style='height: 100%;' name="bicycles[]" multiple id="mapRoutesSelect">
+            <?php
+                foreach($list as $l) 
+                {
+                    echo ViewHelper::generateHTMLSelectOption($l);
+                }
+                
+            ?>
+        </select><br />
+        <br />
+        <?php require 'application/views/admin/timeintervalpicker.php'; ?>
 
-	<div class="centerblock"><br />
-	<?php
-		if (Tools::isLoggedIn()){
-			echo '<input type="submit" value="Show Route" class="button" />';
-		} else {
-			echo '<a href="/User/Login/">Login</a>';
-		}
-	?>
-	</div>
-</form>
+        <div class="centerblock"><br />
+        <?php
+            if (Tools::isLoggedIn()){
+                echo '<input type="submit" value="Show Route" class="button" />';
+            } else {
+                echo '<a href="/User/Login/">Login</a>';
+            }
+        ?>
+        </div>
+    </form>
+</div>
 
 </div>
 <div id="map-legend"></div>
