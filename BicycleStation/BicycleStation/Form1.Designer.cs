@@ -31,17 +31,25 @@
             this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.EnterPwPanel = new System.Windows.Forms.Panel();
-            this.UnlockBtn = new System.Windows.Forms.Button();
-            this.KeyLbl = new System.Windows.Forms.Label();
             this.UnlockedNumberLbl = new System.Windows.Forms.Label();
             this.LockednumberLbl = new System.Windows.Forms.Label();
             this.UnlockedLbl = new System.Windows.Forms.Label();
             this.LockedLbl = new System.Windows.Forms.Label();
+            this.IncorrectPWpan = new System.Windows.Forms.Panel();
+            this.IncorrectPWreturnBtn = new System.Windows.Forms.Button();
+            this.IncorrectPWinput = new System.Windows.Forms.TextBox();
+            this.IncorrectPWbtn = new System.Windows.Forms.Button();
+            this.IncorrectPWlabel = new System.Windows.Forms.Label();
+            this.pwPan = new System.Windows.Forms.Panel();
+            this.UnlockBtn = new System.Windows.Forms.Button();
+            this.KeyLbl = new System.Windows.Forms.Label();
             this.passwordTB = new System.Windows.Forms.TextBox();
             this.TakeItPanel = new System.Windows.Forms.Panel();
             this.TimeLbl = new System.Windows.Forms.Label();
             this.UnlockMoreBtn = new System.Windows.Forms.Button();
             this.TakeAtDockLbl = new System.Windows.Forms.Label();
+            this.btnRemove = new System.Windows.Forms.Button();
+            this.btnAdd = new System.Windows.Forms.Button();
             this.returnIDlbl = new System.Windows.Forms.Label();
             this.idTB = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -57,13 +65,14 @@
             this.DockIdUpDown = new System.Windows.Forms.NumericUpDown();
             this.StationNameDropDown = new System.Windows.Forms.ComboBox();
             this.lockTimer = new System.Windows.Forms.Timer(this.components);
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.btnRemove = new System.Windows.Forms.Button();
+            this.incorrectPwLbl2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.EnterPwPanel.SuspendLayout();
+            this.IncorrectPWpan.SuspendLayout();
+            this.pwPan.SuspendLayout();
             this.TakeItPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DockStateBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DockIdUpDown)).BeginInit();
@@ -109,44 +118,18 @@
             // 
             // EnterPwPanel
             // 
-            this.EnterPwPanel.Controls.Add(this.UnlockBtn);
-            this.EnterPwPanel.Controls.Add(this.KeyLbl);
             this.EnterPwPanel.Controls.Add(this.UnlockedNumberLbl);
             this.EnterPwPanel.Controls.Add(this.LockednumberLbl);
             this.EnterPwPanel.Controls.Add(this.UnlockedLbl);
             this.EnterPwPanel.Controls.Add(this.LockedLbl);
-            this.EnterPwPanel.Controls.Add(this.passwordTB);
+            this.EnterPwPanel.Controls.Add(this.pwPan);
+            this.EnterPwPanel.Controls.Add(this.IncorrectPWpan);
             this.EnterPwPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.EnterPwPanel.Location = new System.Drawing.Point(0, 0);
             this.EnterPwPanel.Margin = new System.Windows.Forms.Padding(0);
             this.EnterPwPanel.Name = "EnterPwPanel";
             this.EnterPwPanel.Size = new System.Drawing.Size(607, 534);
             this.EnterPwPanel.TabIndex = 11;
-            // 
-            // UnlockBtn
-            // 
-            this.UnlockBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(124)))));
-            this.UnlockBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.UnlockBtn.Font = new System.Drawing.Font("Arial", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.UnlockBtn.ForeColor = System.Drawing.Color.White;
-            this.UnlockBtn.Location = new System.Drawing.Point(213, 396);
-            this.UnlockBtn.Name = "UnlockBtn";
-            this.UnlockBtn.Size = new System.Drawing.Size(184, 66);
-            this.UnlockBtn.TabIndex = 13;
-            this.UnlockBtn.Text = "Unlock";
-            this.UnlockBtn.UseVisualStyleBackColor = false;
-            this.UnlockBtn.Click += new System.EventHandler(this.UnlockBtn_Click);
-            // 
-            // KeyLbl
-            // 
-            this.KeyLbl.AutoSize = true;
-            this.KeyLbl.Font = new System.Drawing.Font("Arial", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.KeyLbl.ForeColor = System.Drawing.Color.White;
-            this.KeyLbl.Location = new System.Drawing.Point(175, 255);
-            this.KeyLbl.Name = "KeyLbl";
-            this.KeyLbl.Size = new System.Drawing.Size(256, 40);
-            this.KeyLbl.TabIndex = 12;
-            this.KeyLbl.Text = "Enter password";
             // 
             // UnlockedNumberLbl
             // 
@@ -193,13 +176,111 @@
             this.LockedLbl.TabIndex = 8;
             this.LockedLbl.Text = "Locked bicycles";
             // 
+            // IncorrectPWpan
+            // 
+            this.IncorrectPWpan.Controls.Add(this.incorrectPwLbl2);
+            this.IncorrectPWpan.Controls.Add(this.IncorrectPWreturnBtn);
+            this.IncorrectPWpan.Controls.Add(this.IncorrectPWinput);
+            this.IncorrectPWpan.Controls.Add(this.IncorrectPWbtn);
+            this.IncorrectPWpan.Controls.Add(this.IncorrectPWlabel);
+            this.IncorrectPWpan.ForeColor = System.Drawing.SystemColors.Control;
+            this.IncorrectPWpan.Location = new System.Drawing.Point(53, 219);
+            this.IncorrectPWpan.Name = "IncorrectPWpan";
+            this.IncorrectPWpan.Size = new System.Drawing.Size(495, 273);
+            this.IncorrectPWpan.TabIndex = 14;
+            // 
+            // IncorrectPWreturnBtn
+            // 
+            this.IncorrectPWreturnBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.IncorrectPWreturnBtn.Font = new System.Drawing.Font("Arial Narrow", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.IncorrectPWreturnBtn.Location = new System.Drawing.Point(340, 192);
+            this.IncorrectPWreturnBtn.Name = "IncorrectPWreturnBtn";
+            this.IncorrectPWreturnBtn.Size = new System.Drawing.Size(123, 54);
+            this.IncorrectPWreturnBtn.TabIndex = 3;
+            this.IncorrectPWreturnBtn.Text = "Return";
+            this.IncorrectPWreturnBtn.UseVisualStyleBackColor = true;
+            this.IncorrectPWreturnBtn.Click += new System.EventHandler(this.IncorrectPWreturnBtn_Click);
+            // 
+            // IncorrectPWinput
+            // 
+            this.IncorrectPWinput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(124)))));
+            this.IncorrectPWinput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.IncorrectPWinput.Font = new System.Drawing.Font("Arial Narrow", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.IncorrectPWinput.ForeColor = System.Drawing.SystemColors.Control;
+            this.IncorrectPWinput.Location = new System.Drawing.Point(145, 106);
+            this.IncorrectPWinput.MaxLength = 6;
+            this.IncorrectPWinput.Name = "IncorrectPWinput";
+            this.IncorrectPWinput.Size = new System.Drawing.Size(193, 48);
+            this.IncorrectPWinput.TabIndex = 2;
+            this.IncorrectPWinput.Text = "Password";
+            this.IncorrectPWinput.TextChanged += new System.EventHandler(this.IncorrectPWinput_TextChanged);
+            // 
+            // IncorrectPWbtn
+            // 
+            this.IncorrectPWbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.IncorrectPWbtn.Font = new System.Drawing.Font("Arial Narrow", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.IncorrectPWbtn.ForeColor = System.Drawing.SystemColors.Control;
+            this.IncorrectPWbtn.Location = new System.Drawing.Point(26, 192);
+            this.IncorrectPWbtn.Name = "IncorrectPWbtn";
+            this.IncorrectPWbtn.Size = new System.Drawing.Size(293, 54);
+            this.IncorrectPWbtn.TabIndex = 1;
+            this.IncorrectPWbtn.Text = "Try Again";
+            this.IncorrectPWbtn.UseVisualStyleBackColor = true;
+            this.IncorrectPWbtn.Click += new System.EventHandler(this.IncorrectPWbtn_Click);
+            // 
+            // IncorrectPWlabel
+            // 
+            this.IncorrectPWlabel.AutoSize = true;
+            this.IncorrectPWlabel.Font = new System.Drawing.Font("Arial Narrow", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.IncorrectPWlabel.ForeColor = System.Drawing.SystemColors.Control;
+            this.IncorrectPWlabel.Location = new System.Drawing.Point(110, 14);
+            this.IncorrectPWlabel.Name = "IncorrectPWlabel";
+            this.IncorrectPWlabel.Size = new System.Drawing.Size(277, 43);
+            this.IncorrectPWlabel.TabIndex = 0;
+            this.IncorrectPWlabel.Text = "Incorrect Password";
+            // 
+            // pwPan
+            // 
+            this.pwPan.Controls.Add(this.UnlockBtn);
+            this.pwPan.Controls.Add(this.KeyLbl);
+            this.pwPan.Controls.Add(this.passwordTB);
+            this.pwPan.Location = new System.Drawing.Point(53, 219);
+            this.pwPan.Name = "pwPan";
+            this.pwPan.Size = new System.Drawing.Size(495, 273);
+            this.pwPan.TabIndex = 15;
+            // 
+            // UnlockBtn
+            // 
+            this.UnlockBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(124)))));
+            this.UnlockBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.UnlockBtn.Font = new System.Drawing.Font("Arial", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UnlockBtn.ForeColor = System.Drawing.Color.White;
+            this.UnlockBtn.Location = new System.Drawing.Point(160, 180);
+            this.UnlockBtn.Name = "UnlockBtn";
+            this.UnlockBtn.Size = new System.Drawing.Size(184, 66);
+            this.UnlockBtn.TabIndex = 13;
+            this.UnlockBtn.Text = "Unlock";
+            this.UnlockBtn.UseVisualStyleBackColor = false;
+            this.UnlockBtn.Click += new System.EventHandler(this.UnlockBtn_Click);
+            // 
+            // KeyLbl
+            // 
+            this.KeyLbl.AutoSize = true;
+            this.KeyLbl.Font = new System.Drawing.Font("Arial", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.KeyLbl.ForeColor = System.Drawing.Color.White;
+            this.KeyLbl.Location = new System.Drawing.Point(125, 27);
+            this.KeyLbl.Name = "KeyLbl";
+            this.KeyLbl.Size = new System.Drawing.Size(256, 40);
+            this.KeyLbl.TabIndex = 12;
+            this.KeyLbl.Text = "Enter password";
+            // 
             // passwordTB
             // 
             this.passwordTB.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(124)))));
             this.passwordTB.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.passwordTB.Font = new System.Drawing.Font("Arial", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.passwordTB.ForeColor = System.Drawing.Color.White;
-            this.passwordTB.Location = new System.Drawing.Point(213, 314);
+            this.passwordTB.Location = new System.Drawing.Point(160, 103);
             this.passwordTB.MaxLength = 6;
             this.passwordTB.Name = "passwordTB";
             this.passwordTB.Size = new System.Drawing.Size(184, 48);
@@ -254,6 +335,28 @@
             this.TakeAtDockLbl.Size = new System.Drawing.Size(447, 40);
             this.TakeAtDockLbl.TabIndex = 8;
             this.TakeAtDockLbl.Text = "Take your bicycle at dock 10";
+            // 
+            // btnRemove
+            // 
+            this.btnRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRemove.Location = new System.Drawing.Point(133, 477);
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(94, 45);
+            this.btnRemove.TabIndex = 15;
+            this.btnRemove.Text = "Remove";
+            this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+            // 
+            // btnAdd
+            // 
+            this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAdd.Location = new System.Drawing.Point(17, 477);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(94, 45);
+            this.btnAdd.TabIndex = 14;
+            this.btnAdd.Text = "Add";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // returnIDlbl
             // 
@@ -347,7 +450,7 @@
             this.DockStateBar.Location = new System.Drawing.Point(17, 174);
             this.DockStateBar.Maximum = 2;
             this.DockStateBar.Name = "DockStateBar";
-            this.DockStateBar.Size = new System.Drawing.Size(220, 42);
+            this.DockStateBar.Size = new System.Drawing.Size(220, 45);
             this.DockStateBar.TabIndex = 4;
             // 
             // DockNumberLbl
@@ -402,27 +505,15 @@
             this.lockTimer.Interval = 1000;
             this.lockTimer.Tick += new System.EventHandler(this.lockTimer_Tick);
             // 
-            // btnAdd
+            // incorrectPwLbl2
             // 
-            this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAdd.Location = new System.Drawing.Point(17, 477);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(94, 45);
-            this.btnAdd.TabIndex = 14;
-            this.btnAdd.Text = "Add";
-            this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
-            // 
-            // btnRemove
-            // 
-            this.btnRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemove.Location = new System.Drawing.Point(133, 477);
-            this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(94, 45);
-            this.btnRemove.TabIndex = 15;
-            this.btnRemove.Text = "Remove";
-            this.btnRemove.UseVisualStyleBackColor = true;
-            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+            this.incorrectPwLbl2.AutoSize = true;
+            this.incorrectPwLbl2.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.incorrectPwLbl2.Location = new System.Drawing.Point(174, 57);
+            this.incorrectPwLbl2.Name = "incorrectPwLbl2";
+            this.incorrectPwLbl2.Size = new System.Drawing.Size(120, 23);
+            this.incorrectPwLbl2.TabIndex = 4;
+            this.incorrectPwLbl2.Text = "Please try again";
             // 
             // Form1
             // 
@@ -445,6 +536,10 @@
             this.splitContainer1.ResumeLayout(false);
             this.EnterPwPanel.ResumeLayout(false);
             this.EnterPwPanel.PerformLayout();
+            this.IncorrectPWpan.ResumeLayout(false);
+            this.IncorrectPWpan.PerformLayout();
+            this.pwPan.ResumeLayout(false);
+            this.pwPan.PerformLayout();
             this.TakeItPanel.ResumeLayout(false);
             this.TakeItPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DockStateBar)).EndInit();
@@ -485,6 +580,13 @@
         private System.Windows.Forms.TextBox idTB;
         private System.Windows.Forms.Button btnRemove;
         private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.Panel IncorrectPWpan;
+        private System.Windows.Forms.Button IncorrectPWreturnBtn;
+        private System.Windows.Forms.TextBox IncorrectPWinput;
+        private System.Windows.Forms.Button IncorrectPWbtn;
+        private System.Windows.Forms.Label IncorrectPWlabel;
+        private System.Windows.Forms.Panel pwPan;
+        private System.Windows.Forms.Label incorrectPwLbl2;
 
     }
 }
