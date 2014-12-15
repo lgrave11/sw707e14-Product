@@ -16,6 +16,8 @@ class StationToDbRegisterTest extends PHPUnit_Framework_TestCase
     public function testBicycleWithBookingUnlocked() 
     {
         global $db;
+        $db = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+        mysqli_set_charset($db, "utf8");
         $bookingService = new BookingService($this->db);
         $bicycle_id = 1;
         $station_id = 1;
@@ -38,50 +40,149 @@ class StationToDbRegisterTest extends PHPUnit_Framework_TestCase
     	global $db;
     	$db = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
     	mysqli_set_charset($db, "utf8");
-        $dockService = new DockService($this->db);
-        $historyUsageBicycleService = new HistoryUsageBicycleService($this->db);
+        
+        $bicycleService = new BicycleService($this->db);
+        $bicycle = $bicycleService->create(new Bicycle(null,1,1));
+        $result1 = BicycleTaken(-1, $bicycle->bicycle_id);
+
+        BicycleReturnedToDockAtStation($bicycle->bicycle_id, 1);
+
+        $oldcount = GetCurrentBicycleCount(1);
+
+        $result2 = BicycleTaken(1, $bicycle->bicycle_id);
+        $newcount = GetCurrentBicycleCount(1);
+
+        $stmt = $db->prepare("SELECT count(*) FROM historyusagebicycle WHERE bicycle_id = ? AND start_station = 1");
+        $stmt->bind_param("i", $bicycle->bicycle_id);
+        $stmt->execute();
+        $stmt->bind_result($numusagebicycle);
+        $stmt->fetch();
+        $stmt->close();
+
+        $bicycleService->testDelete($bicycle);
+        $this->assertFalse($result1); 
+        $this->assertTrue($result2);
+        $this->assertEquals($oldcount - 1, $newcount);
+
+        $this->assertEquals(1, $numusagebicycle);
+
+    }
+
+
+
+    public function testGetCurrentBicycleCount()
+    {
+       
+        global $db;
+        $db = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+        mysqli_set_charset($db, "utf8");
+     
+        $oldnum = GetCurrentBicycleCount(1);
+        $bicycleService = new BicycleService($this->db);
+        $bicycle = $bicycleService->create(new Bicycle(null,1,1));
+
+        BicycleReturnedToDockAtStation($bicycle->bicycle_id, 1);
+        $newnum = GetCurrentBicycleCount(1);
+        BicycleTaken(1, $bicycle->bicycle_id);
+        $bicycleService->testDelete($bicycle);
+
+        $this->assertEquals($oldnum + 1, $newnum);
+
+    }
+
+    public function testBicycleReturnedToDockAtStation(){
+        global $db;
+        $db = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+        mysqli_set_charset($db, "utf8");
+     
+        
+        $bicycleService = new BicycleService($this->db);
+        $bicycle = $bicycleService->create(new Bicycle(null,1,1));
+        BicycleReturnedToDockAtStation($bicycle->bicycle_id, 1);
+        BicycleTaken(1, $bicycle->bicycle_id);
+        //old results
+        $oldnum = GetCurrentBicycleCount(1);
+
+        $stmt = $db->prepare("SELECT end_station FROM historyusagebicycle WHERE bicycle_id = ? AND start_station = 1");
+        $stmt->bind_param("i", $bicycle->bicycle_id);
+        $stmt->execute();
+        $stmt->bind_result($oldendstation);
+        $stmt->fetch();
+        $stmt->close();
+
+        //action
+        BicycleReturnedToDockAtStation($bicycle->bicycle_id, 1);
+
+
+        //new results
+        $newnum = GetCurrentBicycleCount(1);
+        $stmt = $db->prepare("SELECT end_station FROM historyusagebicycle WHERE bicycle_id = ? AND start_station = 1");
+        $stmt->bind_param("i", $bicycle->bicycle_id);
+        $stmt->execute();
+        $stmt->bind_result($newendstation);
+        $stmt->fetch();
+        $stmt->close();
+
+        $stmt = $db->prepare("SELECT dock_id FROM dock WHERE holds_bicycle = ?");
+        $stmt->bind_param("i", $bicycle->bicycle_id);
+        $stmt->execute();
+        $stmt->bind_result($dockid);
+        $stmt->fetch();
+        $stmt->close();
+
+
+        //cleanup
+        $bicycleService->testDelete($bicycle);
+
+
+        //assserts
+        $this->assertEquals($oldnum + 1, $newnum);
+        $this->assertEquals(null, $oldendstation);
+        $this->assertNotEquals(null, $newendstation);
+        $this->assertNotEquals(null, $dockid);
+    }
+
+    public function testgetBookingWithId()
+    {
+        global $db;
+        $db = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+        mysqli_set_charset($db, "utf8");
+
+
         $bookingService = new BookingService($this->db);
-
-        $station_id = 1;
-        $bicycle_id = 100;
-        $dock_id = 10;
         $time = time();
-
-        $dock = new Dock($dock_id, $station_id, $bicycle_id);
-        $dockService->update($dock);
-
-        $booking = new Booking(0, $time, $station_id, "123456", "sw707e14");
+        $booking = new Booking(0, $time, 1, "123456", "sw707e14");
         $booking = $bookingService->create($booking);
 
-        $stmt = $db->prepare("SELECT COUNT(*) FROM historyusagebicycle WHERE bicycle_id = ? AND start_station = ? AND start_time BETWEEN ? AND ?");
-        $prevtime = $time - 2;
-        $nexttime = $time + 2;
-        $stmt->bind_param("iiii", $bicycle_id, $station_id, $prevtime, $nexttime);
-        $stmt->execute();
-        $stmt->bind_result($oldcount);
-        $stmt->fetch();
-        $stmt->close();
+        $result = getBookingWithId($booking->booking_id);
 
-        $this->assertTrue(BicycleTaken($station_id, $bicycle_id, $booking->booking_id));
-        
-        $dockRead = $dockService->read($dock_id);
+        $bookingService->delete($booking, true);
 
-        $this->assertEquals(NULL, $dockRead->holds_bicycle);
+        $array = array('booking_id' => $booking->booking_id, 'start_time' => $booking->start_time, 'start_station' => $booking->start_station, 'password' => $booking->password, 'for_user' => $booking->for_user);
 
-        $stmt = $db->prepare("SELECT COUNT(*) FROM historyusagebicycle WHERE bicycle_id = ? AND start_station = ? AND start_time BETWEEN ? AND ?");
-        $prevtime = $time - 2;
-        $nexttime = $time + 2;
-        $stmt->bind_param("iiii", $bicycle_id, $station_id, $prevtime, $nexttime);
-        $stmt->execute();
-        $stmt->bind_result($newcount);
-        $stmt->fetch();
-        $stmt->close();
+        $this->assertEquals($array, $result);
+
+    }
+
+    public function testGetAllBookingsForStation()
+    {
+        global $db;
+        $db = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+        mysqli_set_charset($db, "utf8");
+
+        $oldcount = count(GetAllBookingsForStation(1));
+
+        $bookingService = new BookingService($this->db);
+        $time = time();
+        $booking = new Booking(0, $time, 1, "123456", "sw707e14");
+        $booking = $bookingService->create($booking);
+
+        $newcount = count(GetAllBookingsForStation(1));
+
+        $bookingService->delete($booking, true);
 
         $this->assertEquals($oldcount + 1, $newcount);
 
-        // 
-        $this->assertTrue(BicycleTaken($station_id, $bicycle_id));
-        $dockRead = $dockService->read($dock_id);
     }
 }
 ?>
