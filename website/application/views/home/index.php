@@ -14,7 +14,7 @@
 	        	ViewHelper::printSuccess('booking');
 	        ?>
             </div>
-			<form action="/Home/Book/" method="post">
+			<form id="bookform" action="/Home/Book/" method="post">
 				<h2>Station</h2>
 				<input type="text" id="searchstation" name="searchstation" class="searchbox" placeholder="Search Station" oninput="SearchStation();MouseOverSearch();" onfocus="ShowSearch();MouseOverSearch();" onmouseover="ShowSearch();MouseOverSearch();" onmouseout="MouseLeaveSearch()" autocomplete="off" /><br />
 				<div id="searchresult" onmouseover="MouseOverSearch()" onmouseout="MouseLeaveSearch()"></div>
