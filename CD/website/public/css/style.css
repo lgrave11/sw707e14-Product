@@ -1,0 +1,396 @@
+/* Demo CSS */
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: arial, verdana, sans-serif;
+    font-size: 12px;
+}
+
+body {
+    font-size: 15px;
+    background-color: white;
+	background-image: url(/public/images/aabc_back.gif);
+	background-repeat: repeat-x;
+    background-position-x: -33px;
+	
+}
+
+input, textarea, select, button {
+    font-family: arial, verdana, sans-serif; 
+    font-size: 12px;
+    border: 1px solid #00315F;
+    border-radius: 5px;
+    background-color: #EEEEEE;
+    color: #00315F;
+}
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #657E96;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #657E96;
+   opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #657E96;
+   opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+   color:    #657E96;
+}
+
+input.button, button.button {
+	background-color: #00315F;
+	color: #EEEEEE;
+}
+
+h1 {
+    font-size: 18px;
+    color: #00315F;
+    font-weight: bold;
+    margin: 5px 0px 0px 0px;
+}
+
+h2 {
+    font-size: 15px;
+    color: #00315F;
+    font-weight: bold;
+    margin: 5px 0px 0px 0px;
+}
+
+a:link, a:visited {
+    font-family: arial, verdana, sans-serif;
+    font-size: 15px;
+    color: #000000;
+    text-decoration: underline;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+#navbar table {
+    font-size: 13px;
+    width: 100%;
+    color: white;
+    font-weight: bold;
+    font-family: trebuchet MS;
+    border-collapse: collapse;
+}
+
+#navbar table td:hover {
+    background-color: #00407C;
+    cursor: pointer;
+	box-shadow:0px 0px 0px 1px white inset;
+}
+
+
+#navbar td {
+    background-color: #00315F;
+    height: 30px;
+    width: 100px;
+    vertical-align: middle;
+    display: table-cell;
+    text-align: center;
+}
+
+#selectedNav 
+{
+    background-color: #00407C !important;
+}
+
+#container {
+	position:relative;
+    width: 900px;
+    margin: 30px auto;
+    background-color: white;
+	border: 1px solid grey;
+	-webkit-box-shadow: 0px 8px 20px 0px rgba(50, 50, 50, 0.53);
+	-moz-box-shadow:    0px 8px 20px 0px rgba(50, 50, 50, 0.53);
+	box-shadow:         0px 8px 20px 0px rgba(50, 50, 50, 0.53);
+}
+
+#sitecontent {
+    min-height:600px;
+}
+
+footer
+{
+    margin: auto;
+    background-color: #00315F;
+    color:white;
+    bottom:0;
+    text-align:center;
+    width: 900px;
+    margin-top:10px;
+	/*position:absolute;*/
+}
+
+footer a:link
+{
+    color:white;
+    font-family: trebuchet MS;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
+
+}
+
+footer a:hover
+{
+    text-decoration: underline;
+}
+
+#navbar {
+    margin-bottom: 20px;
+	border-bottom: 1px solid grey;
+}
+
+#navbar a
+{
+    display: block; 
+    height: 100%; 
+    width: 100%; 
+    line-height: 30px; 
+    color: white; 
+    text-decoration: none;
+}
+
+#frontpicture {
+    width: 400px;
+}
+
+#about div {
+    margin-right: 25px;
+    margin-left:  25px;
+}
+
+#abouttext {
+    float:left;
+    width: 400px;
+}
+
+#sign-in
+{
+    text-align: center;
+    width: 450px;
+    margin: auto;
+}
+
+#form-login
+{
+    margin:auto;
+}
+
+.padding-field
+{
+	padding-left: 5px;
+}
+
+#login-fields
+{
+    text-align: center;
+    margin: auto;
+}
+
+#form-create
+{
+    margin:auto;
+}
+#create-fields
+{
+    text-align: center;
+    margin: auto;
+}
+.error
+{
+    color:#B20000;
+    margin:auto;
+    text-align: center;
+}
+
+.success
+{
+    color:#006600;
+    margin:auto;
+    text-align: center;
+}
+
+#changepass {
+    width: 50%;
+    float: left;
+}
+
+#changeother{
+    width: 50%;
+    float: right;
+}
+
+#historytable{
+    margin-right: 25%;
+    margin-left: 25%;
+    width: 50%;
+    border:1px solid black;
+    border-collapse: collapse;
+}
+
+#historytable th{
+    width: 50%;
+    text-align: center;
+    border-bottom: 1px solid black;
+    padding-bottom: 10px;
+}
+
+#historytable td{
+    border-bottom: 1px solid black;
+
+}
+
+.centerblock {
+    margin: auto;
+    text-align: center;
+    display:block;
+}
+
+.bookings-header 
+{
+    margin-top:15px;
+}
+
+.bookings
+{
+    border:1px solid gray;
+    height:322px;
+    overflow-x:hidden;
+    overflow-y:scroll;
+}
+
+
+#forgot-password
+{
+    text-align: center;
+    width: 450px;
+    margin: auto;
+}
+
+#form-forgot-password
+{
+    margin:auto;
+}
+
+#loading {
+    position:relative;
+    left:50%;
+    margin-left:-21px;
+    display:none;
+}
+
+#mapRoutesSelect 
+{
+	height:300px;
+	margin:5px;
+	padding:5px;
+}
+
+#map-legend
+{
+    display:none;
+    background:white;
+    padding: 5px;
+    border-style: solid;
+    border-width: 1px;
+    border-color:black;
+}
+
+#circle circle {
+  fill: none;
+  pointer-events: all;
+}
+
+.group path {
+  fill-opacity: 1;
+}
+
+path.chord {
+  stroke: #000;
+  stroke-width: .25px;
+}
+
+#circle:hover path.fade {
+  display: none;
+}
+
+.admin-action 
+{
+    margin:10px;
+}
+
+#admin-actions-left{
+    display:inline-block;
+    margin-right:0px;
+    
+    width:40%;
+}
+
+#admin-actions-right{
+    display:inline-block;
+    text-align:right;
+    margin-left:175px;
+    width:40%;
+}
+
+fieldset li {
+float: left;
+clear: left;
+width: 100%;
+padding-bottom: 0.25em;
+}
+
+label {
+float: left;
+width: 10em;
+margin-right: 1em;
+}
+
+fieldset {
+
+margin-left:15px;
+margin-bottom:10px;
+clear: left;
+width: 95%;
+padding: 5px;
+border: 1px solid #00315F;
+}
+
+.overviewStations fieldset {
+
+margin-left:15px;
+margin-bottom:10px;
+clear: left;
+display:inline-block;
+width: 29%;
+padding: 5px;
+border: 1px solid #00315F;
+}
+
+fieldset #button {
+float: none;
+width: auto;
+margin-left: 17em;
+margin-bottom:5px;
+}
+
+fieldset ul 
+{
+    list-style-type:none;
+}
+
+legend {
+	color: #00315F;
+}
+
+.formcontainer 
+{
+    margin:10px;
+}
