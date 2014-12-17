@@ -22,10 +22,10 @@ namespace GPSUpdatus
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
             InitializeComponent();
-            AddRoute("LasseHjem.txt", "Lasse er for tyk til at cykle hjem");
-            AddRoute("ErikTilUni.txt", "Eriks rejse til uni");
-            AddRoute("WindeTilLars.txt", "Winde rejser hen til Lars");
-            AddRoute("DennisTilErik.txt", "Dennis rejser hen og bliver syg ved Erik");
+            AddRoute("LasseHjem.txt", "Cassiopeia to Herningvej");
+            AddRoute("ErikTilUni.txt", "Kastetvej to Cassiopeia");
+            AddRoute("WindeTilLars.txt", "Vendsysselgade to Myrdalsstræde");
+            AddRoute("DennisTilErik.txt", "Scoresbysundvej to Kastetvej");
         }
 
         public void AddRoute(string filepath, string name)
