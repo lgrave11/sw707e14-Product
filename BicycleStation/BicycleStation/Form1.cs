@@ -110,7 +110,9 @@ namespace BicycleStation
                 CheckPassword();
             }
             catch (FormatException){
-                MessageBox.Show("Incorrect Password, error");
+                IncorrectPWinput.Text = "Password";
+                pwPan.SendToBack();
+                IncorrectPWpan.BringToFront();
             }
         }
 
@@ -150,12 +152,16 @@ namespace BicycleStation
                 }
                 else
                 {
-                    MessageBox.Show("Booking not yet available");
+                    IncorrectPWinput.Text = "Password";
+                    pwPan.SendToBack();
+                    IncorrectPWpan.BringToFront();
                 }
             }
             else
             {
-                MessageBox.Show("Incorrect Password");
+                IncorrectPWinput.Text = "Password";
+                pwPan.SendToBack();
+                IncorrectPWpan.BringToFront();
             }
         }
 
@@ -480,6 +486,38 @@ namespace BicycleStation
             LockManager lockManager = new LockManager(this);
             Thread manager = new Thread(new ThreadStart(lockManager.manage));
             manager.Start();
+        }
+
+        private void IncorrectPWbtn_Click(object sender, EventArgs e)
+        {
+            IncorrectPWpan.SendToBack();
+            pwPan.BringToFront();
+            passwordTB.Text = IncorrectPWlabel.Text;
+            IncorrectPWinput.Text = "Password";
+            try
+            {
+                CheckPassword();
+            }
+            catch (FormatException)
+            {
+                IncorrectPWinput.Text = "Password";
+                pwPan.SendToBack();
+                IncorrectPWpan.BringToFront();
+            }
+        }
+
+        private void IncorrectPWreturnBtn_Click(object sender, EventArgs e)
+        {
+            IncorrectPWpan.SendToBack();
+            IncorrectPWinput.Text = "Password";
+            pwPan.BringToFront();
+            passwordTB.Text = "Password";
+        }
+
+        private void IncorrectPWinput_TextChanged(object sender, EventArgs e)
+        {
+            if (IncorrectPWinput.Text == "Password")
+                IncorrectPWinput.Clear();
         }
 
     }
